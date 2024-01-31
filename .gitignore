@@ -1,0 +1,4 @@
+Birb3D
+*.o
+.cache
+build/
