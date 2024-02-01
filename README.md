@@ -13,6 +13,11 @@ cmake ..
 make -j$(nproc)
 ```
 
+You can build and run tests by running the following command in the build directory
+```sh
+make -j$(nproc) test
+```
+
 ## Installation
 To install Birb3D to /usr/local/bin, run the following command
 ```sh

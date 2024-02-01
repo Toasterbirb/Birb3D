@@ -12,7 +12,15 @@ if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
 endif(CCACHE_FOUND)
 
-include_directories(./include ./vendor)
-add_executable(${PROJECT_NAME} ./src/main.cpp)
+include_directories(./engine/include ./vendor)
+# add_executable(${PROJECT_NAME} ./src/main.cpp)
+# install(TARGETS ${PROJECT_NAME})
 
-install(TARGETS ${PROJECT_NAME})
+# Build the engine library
+add_subdirectory(engine)
+
+# Build demos
+add_subdirectory(demos)
+
+# Build tests
+add_subdirectory(tests)
