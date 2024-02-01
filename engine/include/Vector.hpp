@@ -8,9 +8,9 @@ namespace birb
 	{
 		T x, y;
 
-		vec2() : x(0), y(0) {};
-		vec2(T x, T y) : x(x), y(y) {};
-		vec2(T values[2]) : x(values[0]), y(values[1]) {};
+		constexpr vec2() : x(0), y(0) {};
+		constexpr vec2(T x, T y) : x(x), y(y) {};
+		constexpr vec2(T values[2]) : x(values[0]), y(values[1]) {};
 	};
 
 	// 3D point
@@ -19,8 +19,8 @@ namespace birb
 	{
 		T x, y, z;
 
-		vec3() : x(0), y(0), z(0) {};
-		vec3(T x, T y, T z) : x(x), y(y), z(z) {};
-		vec3(T values[3]) : x(values[0]), y(values[1]), z(values[2]) {};
+		constexpr vec3() : x(0), y(0), z(0) {};
+		constexpr vec3(T x, T y, T z) : x(x), y(y), z(z) {};
+		constexpr vec3(T values[3]) : x(values[0]), y(values[1]), z(values[2]) {};
 	};
 }
