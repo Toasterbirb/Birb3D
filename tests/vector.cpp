@@ -95,9 +95,11 @@ TEST_CASE("Vector comparisons")
 	birb::vec2<int> vec2_b(63, -42);
 	CHECK(vec2_a == vec2_a);
 	CHECK_FALSE(vec2_a == vec2_b);
+	CHECK(vec2_a != vec2_b);
 
 	birb::vec3<int> vec3_a(4, 12, 32);
 	birb::vec3<int> vec3_b(12, 65, 32);
 	CHECK(vec3_a == vec3_a);
 	CHECK_FALSE(vec3_a == vec3_b);
+	CHECK(vec3_a != vec3_b);
 }

@@ -16,6 +16,12 @@ namespace birb
 		{
 			return (this->x == other.x && this->y == other.y);
 		}
+
+		constexpr bool operator!=(const vec2& other) const
+		{
+			return (this->x != other.x || this->y != other.y);
+		}
+
 	};
 
 	// 3D point
@@ -31,6 +37,11 @@ namespace birb
 		constexpr bool operator==(const vec3 other) const
 		{
 			return (this->x == other.x && this->y == other.y && this->z == other.z);
+		}
+
+		constexpr bool operator!=(const vec3& other) const
+		{
+			return (this->x != other.x || this->y != other.y || this->z != other.z);
 		}
 	};
 }
