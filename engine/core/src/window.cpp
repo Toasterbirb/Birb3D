@@ -1,12 +1,15 @@
 #include "Window.hpp"
 
 #include <GL/gl.h>
-#include <cassert>
-#include <string>
 #include <GLFW/glfw3.h>
+#include <cassert>
+#include <queue>
+#include <string>
 
 namespace birb
 {
+	static std::queue<input> input_queue;
+
 	window::window(const std::string& title, const vec2<unsigned int> dimensions)
 	:dimensions(dimensions)
 	{
@@ -32,6 +35,9 @@ namespace birb
 		// Make the window's context current
 		glfwMakeContextCurrent(this->glfw_window);
 
+		// Assign the key callback function
+		glfwSetKeyCallback(this->glfw_window, key_callback);
+
 		birb::log("window created successfully!");
 	}
 
@@ -46,7 +52,12 @@ namespace birb
 
 	bool window::should_close() const
 	{
-		return glfwWindowShouldClose(this->glfw_window);
+		return glfwWindowShouldClose(this->glfw_window) || force_should_quit;
+	}
+
+	void window::quit()
+	{
+		this->force_should_quit = true;
 	}
 
 	void window::clear()
@@ -62,5 +73,30 @@ namespace birb
 	void window::poll()
 	{
 		glfwPollEvents();
+	}
+
+	bool window::inputs_available() const
+	{
+		return !input_queue.empty();
+	}
+
+	input window::next_input()
+	{
+		input top_input = input_queue.front();
+		input_queue.pop();
+		return top_input;
+	}
+
+
+	void window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	{
+		input new_input {
+			.scancode	= scancode,
+			.mods		= mods,
+			.key		= static_cast<input::keycode>(key),
+			.state		= static_cast<input::action>(action),
+		};
+
+		input_queue.push(new_input);
 	}
 }

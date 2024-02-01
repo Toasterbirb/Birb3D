@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Input.hpp"
 #include "Vector.hpp"
 
 #include <string>
@@ -26,8 +27,22 @@ namespace birb
 		// Poll for and process events
 		void poll();
 
+		// Check if there are inputs in the queue ready to be processed
+		bool inputs_available() const;
+
+		// Force the should_close() function to return true
+		// This won't close the window immediately
+		void quit();
+
+		// Get the next input in the queue and pop it
+		input next_input();
+
 	private:
 		GLFWwindow* glfw_window;
 		vec2<unsigned int> dimensions;
+		bool force_should_quit = false;
+
+		// GLFW input callback function
+		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 	};
 }
