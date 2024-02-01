@@ -88,7 +88,7 @@ namespace birb
 	}
 
 
-	void window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	void window::key_callback(__attribute_maybe_unused__ GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		input new_input {
 			.scancode	= scancode,
