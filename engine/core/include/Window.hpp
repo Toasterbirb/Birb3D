@@ -7,12 +7,12 @@
 
 namespace birb
 {
-	class Window
+	class window
 	{
 	public:
 		// Create a new window
-		Window(const std::string& title, const vec2<unsigned int> dimensions);
-		~Window();
+		window(const std::string& title, const vec2<unsigned int> dimensions);
+		~window();
 
 		// Check if the window should be still kept open
 		bool should_close() const;

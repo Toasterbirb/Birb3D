@@ -7,7 +7,7 @@
 
 namespace birb
 {
-	Window::Window(const std::string& title, const vec2<unsigned int> dimensions)
+	window::window(const std::string& title, const vec2<unsigned int> dimensions)
 	:dimensions(dimensions)
 	{
 		assert(!title.empty() && "Empty window title");
@@ -32,10 +32,10 @@ namespace birb
 		// Make the window's context current
 		glfwMakeContextCurrent(this->glfw_window);
 
-		birb::log("Window created successfully!");
+		birb::log("window created successfully!");
 	}
 
-	Window::~Window()
+	window::~window()
 	{
 		birb::log("Destroying the window");
 		glfwDestroyWindow(this->glfw_window);
@@ -44,22 +44,22 @@ namespace birb
 		glfwTerminate();
 	}
 
-	bool Window::should_close() const
+	bool window::should_close() const
 	{
 		return glfwWindowShouldClose(this->glfw_window);
 	}
 
-	void Window::clear()
+	void window::clear()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 	}
 
-	void Window::flip()
+	void window::flip()
 	{
 		glfwSwapBuffers(this->glfw_window);
 	}
 
-	void Window::poll()
+	void window::poll()
 	{
 		glfwPollEvents();
 	}
