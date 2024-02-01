@@ -10,6 +10,7 @@ namespace birb
 	Window::Window(const std::string& title, const vec2<int> dimensions)
 	:dimensions(dimensions)
 	{
+		assert(!title.empty() && "Empty window title");
 		assert(dimensions.x > 0 && "Invalid window width");
 		assert(dimensions.y > 0 && "Invalid window height");
 
