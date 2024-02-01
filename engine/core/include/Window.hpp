@@ -11,7 +11,7 @@ namespace birb
 	{
 	public:
 		// Create a new window
-		Window(const std::string& title, const vec2<int> dimensions);
+		Window(const std::string& title, const vec2<unsigned int> dimensions);
 		~Window();
 
 		// Check if the window should be still kept open
@@ -28,6 +28,6 @@ namespace birb
 
 	private:
 		GLFWwindow* glfw_window;
-		vec2<int> dimensions;
+		vec2<unsigned int> dimensions;
 	};
 }

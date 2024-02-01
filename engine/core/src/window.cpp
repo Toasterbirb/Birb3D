@@ -7,12 +7,10 @@
 
 namespace birb
 {
-	Window::Window(const std::string& title, const vec2<int> dimensions)
+	Window::Window(const std::string& title, const vec2<unsigned int> dimensions)
 	:dimensions(dimensions)
 	{
 		assert(!title.empty() && "Empty window title");
-		assert(dimensions.x > 0 && "Invalid window width");
-		assert(dimensions.y > 0 && "Invalid window height");
 
 		birb::log("Spawning a new window: " + title + " [" + std::to_string(dimensions.x) + ", " + std::to_string(dimensions.y) + "]");
 

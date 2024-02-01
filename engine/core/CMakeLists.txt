@@ -1,0 +1,12 @@
+add_library(birb
+	./src/window.cpp
+)
+
+target_precompile_headers(birb PUBLIC
+	./include/Logger.hpp
+	./include/Vector.hpp
+)
+
+find_package(OpenGL REQUIRED)
+
+target_link_libraries(birb glfw OpenGL)
