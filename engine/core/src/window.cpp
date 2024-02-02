@@ -15,7 +15,7 @@ namespace birb
 	{
 		assert(!title.empty() && "Empty window title");
 
-		birb::log("Spawning a new window: " + title + " [" + std::to_string(dimensions.x) + ", " + std::to_string(dimensions.y) + "]");
+		birb::log("Spawning a new window: " + title + " " + dimensions.to_string());
 
 		// Initialize the glfw library
 		birb::log("Initializing GLFW");
