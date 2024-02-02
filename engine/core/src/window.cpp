@@ -82,6 +82,8 @@ namespace birb
 
 	input window::next_input()
 	{
+		assert(!input_queue.empty() && "Tried to read inputs when there were none. Remember to check inputs_available() before calling this function.");
+
 		input top_input = input_queue.front();
 		input_queue.pop();
 		return top_input;
