@@ -38,6 +38,9 @@ namespace birb
 		// Assign the key callback function
 		glfwSetKeyCallback(this->glfw_window, key_callback);
 
+		// Disable vsync
+		glfwSwapInterval(0);
+
 		birb::log("window created successfully!");
 	}
 
