@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Input.hpp"
+#include "PerformanceWidget.hpp"
 #include "Vector.hpp"
 
 #include <string>
@@ -40,10 +41,23 @@ namespace birb
 		// Clear the input queue
 		void forget_inputs();
 
+		// Initialize ImGui
+		void init_imgui();
+
 	private:
 		GLFWwindow* glfw_window;
 		vec2<unsigned int> dimensions;
 		bool force_should_quit = false;
+
+		// This is set to true when init_imgui() has been called
+		bool imgui_initialized = false;
+
+		// Start a new ImGui frame
+		void new_imgui_frame();
+
+		performance_widget perf_widget;
+		bool perf_widget_visible = false;
+		void toggle_performance_widget();
 
 		// GLFW input callback function
 		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);

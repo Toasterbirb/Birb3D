@@ -11,6 +11,9 @@ Most of these should be simple to install with a Linux package manager. If you a
 - [GLFW](https://www.glfw.org/)
 - OpenGL
 
+Vendored dependencies that are included as submodules:
+- [ImGui](https://github.com/ocornut/imgui/tree/docking)
+
 ### How to compile
 Build the project with cmake by running the following commands
 ```sh
