@@ -103,3 +103,52 @@ TEST_CASE("Vector comparisons")
 	CHECK_FALSE(vec3_a == vec3_b);
 	CHECK(vec3_a != vec3_b);
 }
+
+TEST_CASE("Vector conversions")
+{
+	SUBCASE("Int to int")
+	{
+		birb::vec2<int> vec2(12, 453);
+		CHECK(vec2 == vec2.to_int());
+
+		birb::vec3<int> vec3(12, 453, 23);
+		CHECK(vec3 == vec3.to_int());
+	}
+
+	SUBCASE("Float to float")
+	{
+		birb::vec2<float> vec2(12.0f, 453.024f);
+		CHECK(vec2 == vec2.to_float());
+
+		birb::vec3<float> vec3(12.39f, 453.032f, 23.02f);
+		CHECK(vec3 == vec3.to_float());
+	}
+
+	SUBCASE("Int to float")
+	{
+		birb::vec2<int> vec2_a(4, 1);
+		birb::vec2<float> vec2_b = vec2_a.to_float();
+		CHECK(vec2_b.x == 4.0f);
+		CHECK(vec2_b.y == 1.0f);
+
+		birb::vec3<int> vec3_a(1, 2, 3);
+		birb::vec3<float> vec3_b = vec3_a.to_float();
+		CHECK(vec3_b.x == 1.0f);
+		CHECK(vec3_b.y == 2.0f);
+		CHECK(vec3_b.z == 3.0f);
+	}
+
+	SUBCASE("Float to int")
+	{
+		birb::vec2<float> vec2_a(4.0f, 1.5f);
+		birb::vec2<int> vec2_b = vec2_a.to_int();
+		CHECK(vec2_b.x == 4);
+		CHECK(vec2_b.y == 1);
+
+		birb::vec3<float> vec3_a(1.0f, 2.0f, 3.0f);
+		birb::vec3<int> vec3_b = vec3_a.to_int();
+		CHECK(vec3_b.x == 1);
+		CHECK(vec3_b.y == 2);
+		CHECK(vec3_b.z == 3);
+	}
+}
