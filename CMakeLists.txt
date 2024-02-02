@@ -40,6 +40,11 @@ add_library(imgui
 	${IMGUI_PATH}/backends/imgui_impl_glfw.cpp
 	${IMGUI_PATH}/misc/cpp/imgui_stdlib.cpp)
 
+# Build glad
+set(GLAD_PATH "${CMAKE_SOURCE_DIR}/vendor/glad")
+include_directories(${GLAD_PATH}/include)
+add_library(glad ${GLAD_PATH}/src/gl.c)
+
 
 # Build the engine library
 add_subdirectory(engine)

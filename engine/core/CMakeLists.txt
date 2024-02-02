@@ -10,4 +10,4 @@ target_precompile_headers(birb PUBLIC
 
 find_package(OpenGL REQUIRED)
 
-target_link_libraries(birb glfw OpenGL imgui)
+target_link_libraries(birb glfw glad imgui)

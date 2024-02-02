@@ -1,6 +1,6 @@
 #include "Window.hpp"
 
-#include <GL/gl.h>
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <cassert>
 #include <queue>
@@ -44,6 +44,9 @@ namespace birb
 
 		// Assign the key callback function
 		glfwSetKeyCallback(this->glfw_window, key_callback);
+
+		// Assign the error callback function
+		glfwSetErrorCallback(error_callback);
 
 		// Disable vsync
 		glfwSwapInterval(0);
@@ -196,5 +199,10 @@ namespace birb
 				input_queue.push(new_input);
 				break;
 		}
+	}
+
+	void window::error_callback(int error, const char* description)
+	{
+		birb::log_error("GLFW error [" + std::to_string(error) + "]: " + std::string(description));
 	}
 }

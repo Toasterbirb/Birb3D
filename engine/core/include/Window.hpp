@@ -1,4 +1,5 @@
 #pragma once
+#define GLFW_INCLUDE_NONE
 
 #include "Input.hpp"
 #include "PerformanceWidget.hpp"
@@ -61,5 +62,8 @@ namespace birb
 
 		// GLFW input callback function
 		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
+		// GLFW error callback function
+		static void error_callback(int error, const char* description);
 	};
 }
