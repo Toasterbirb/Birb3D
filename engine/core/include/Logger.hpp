@@ -24,9 +24,9 @@ namespace birb
 	}
 
 	// Print a fatal error and crash
-	static void log_fatal(const std::string& text)
+	static void log_fatal(const std::string& text, const int exit_code = 1)
 	{
 		std::cout << "\033[31mFATAL ERROR: " << text << "\033[0m\n";
-		exit(1);
+		exit(exit_code);
 	}
 }
