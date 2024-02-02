@@ -13,6 +13,6 @@ namespace birb
 		 * 2. Round to integer
 		 * 3. Divide the value with 10 ^ decimal points to get the desired rounded decimal value
 		 * */
-		return std::round(value * std::pow(10, decimal_points)) / std::pow(10, decimal_points);
+		return std::round(value * std::pow(10, decimal_points)) / static_cast<double>(std::pow(10, decimal_points));
 	}
 }
