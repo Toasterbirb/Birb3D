@@ -166,3 +166,86 @@ TEST_CASE("Vector magnitude")
 	CHECK(birb::round(vec_c.magnitude(), 2) == 5.39);
 	CHECK(birb::round(vec_d.magnitude(), 2) == 3.61);
 }
+
+TEST_CASE("Vector normalize")
+{
+	birb::vec3<float> vec_a(2.0f, 3.0f, 4.0f);
+	birb::vec2<float> vec_b(2.0f, 3.0f);
+
+	CHECK(birb::round(vec_a.normalized().x, 2) == 0.37);
+	CHECK(birb::round(vec_a.normalized().y, 2) == 0.56);
+	CHECK(birb::round(vec_a.normalized().z, 2) == 0.74);
+
+	CHECK(birb::round(vec_b.normalized().x, 2) == 0.55);
+	CHECK(birb::round(vec_b.normalized().y, 2) == 0.83);
+}
+
+TEST_CASE("vec2 operator overloads")
+{
+	birb::vec2<int> vec_a(4, 2);
+	birb::vec2<int> vec_b(2, 3);
+	birb::vec2<int> vec_c(4, 3);
+	birb::vec2<int> vec_d(2, 2);
+
+	CHECK(vec_a + vec_b == birb::vec2<int>(6, 5));
+	CHECK(vec_a - vec_b == birb::vec2<int>(2, -1));
+	CHECK(vec_a * vec_b == birb::vec2<int>(8, 6));
+	CHECK(vec_a / vec_b == birb::vec2<int>(2, 0));
+
+	CHECK(vec_d * 2  == birb::vec2<int>(4, 4));
+	CHECK(vec_d / 2.0f  == birb::vec2<int>(1, 1));
+
+	CHECK(vec_a == vec_a);
+	CHECK(vec_a != vec_b);
+	CHECK(vec_a != vec_c);
+
+	birb::vec2<int> vec_e(1, 2);
+	birb::vec2<int> vec_f(2, 1);
+
+	vec_e += vec_f;
+	CHECK(vec_e == birb::vec2<int>(3, 3));
+
+	vec_e -= vec_f;
+	CHECK(vec_e == birb::vec2<int>(1, 2));
+
+	vec_e *= vec_f;
+	CHECK(vec_e == birb::vec2<int>(2, 2));
+
+	vec_e /= vec_f;
+	CHECK(vec_e == birb::vec2<int>(1, 2));
+}
+
+TEST_CASE("vec3 operator overloads")
+{
+	birb::vec3<int> vec_a(4, 6, 5);
+	birb::vec3<int> vec_b(2, 3, 2);
+	birb::vec3<int> vec_c(4, 7, 5);
+	birb::vec3<int> vec_d(2, 2, 2);
+
+	CHECK(vec_a + vec_b == birb::vec3<int>(6, 9, 7));
+	CHECK(vec_a - vec_b == birb::vec3<int>(2, 3, 3));
+	CHECK(vec_a * vec_b == birb::vec3<int>(8, 18, 10));
+	CHECK(vec_a / vec_b == birb::vec3<int>(2, 2, 2));
+
+	CHECK(vec_d * 2  == birb::vec3<int>(4, 4, 4));
+	CHECK(vec_d / 2  == birb::vec3<int>(1, 1, 1));
+
+	CHECK(vec_a == vec_a);
+	CHECK(vec_a != vec_b);
+	CHECK(vec_a != vec_c);
+
+	birb::vec3<int> vec_e(1, 2, 1);
+	birb::vec3<int> vec_f(2, 1, 2);
+
+	vec_e += vec_f;
+	CHECK(vec_e == birb::vec3<int>(3, 3, 3));
+
+	vec_e -= vec_f;
+	CHECK(vec_e == birb::vec3<int>(1, 2, 1));
+
+	vec_e *= vec_f;
+	CHECK(vec_e == birb::vec3<int>(2, 2, 2));
+
+	vec_e /= vec_f;
+	CHECK(vec_e == birb::vec3<int>(1, 2, 1));
+}

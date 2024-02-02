@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <string>
+#include <iostream>
 
 namespace birb
 {
@@ -14,6 +15,12 @@ namespace birb
 		constexpr vec2() : x(0), y(0) {};
 		constexpr vec2(T x, T y) : x(x), y(y) {};
 		constexpr vec2(T values[2]) : x(values[0]), y(values[1]) {};
+
+		/// Returns the normalization of the vector
+        constexpr vec2<T> normalized() const
+		{
+			return *this / magnitude();
+		}
 
 		// Returns the magnitude of the vector
         constexpr float magnitude() const
@@ -32,16 +39,16 @@ namespace birb
 		// No rounding is done and floating point values will get floored
 		constexpr vec2<int> to_int() const
 		{
-			return vec2<int>(this->x, this->y);
+			return vec2<int>(x, y);
 		}
 
 		// Convert from any type to float
 		constexpr vec2<float> to_float() const
 		{
-			return vec2<float>(this->x, this->y);
+			return vec2<float>(x, y);
 		}
 
-		constexpr bool operator==(const vec2 other) const
+		constexpr bool operator==(const vec2& other) const
 		{
 			return (this->x == other.x && this->y == other.y);
 		}
@@ -51,6 +58,93 @@ namespace birb
 			return (this->x != other.x || this->y != other.y);
 		}
 
+        constexpr vec2<T> operator+(const vec2<T>& other) const
+        {
+			return vec2<T>(x + other.x, y + other.y);
+        }
+
+        constexpr vec2<T>& operator+=(const vec2<T>& other)
+        {
+			x += other.x;
+			y += other.y;
+			return *this;
+        }
+
+        constexpr vec2<T> operator-(const vec2<T>& other) const
+        {
+			return vec2<T>(x - other.x, y - other.y);
+        }
+
+        constexpr vec2<T>& operator-=(const vec2<T>& other)
+        {
+			x -= other.x;
+			y -= other.y;
+			return *this;
+        }
+
+        constexpr vec2<T> operator*(const vec2<T>& other) const
+        {
+			return vec2<T>(x * other.x, y * other.y);
+        }
+
+        constexpr vec2<T>& operator*=(const vec2<T>& other)
+        {
+			x *= other.x;
+			y *= other.y;
+			return *this;
+        }
+
+        constexpr vec2<T> operator*(T other) const
+        {
+			return vec2<T>(x * other, y * other);
+        }
+
+        constexpr vec2<T> operator/(const vec2<T>& other) const
+        {
+			return vec2<T>(x / other.x, y / other.y);
+        }
+
+        constexpr vec2<T>& operator/=(const vec2<T>& other)
+        {
+			x /= other.x;
+			y /= other.y;
+			return *this;
+        }
+
+        constexpr vec2<T> operator/(T other) const
+        {
+			return vec2<T>(x / other, y / other);
+        }
+
+		static constexpr birb::vec2<T> one()
+		{
+			return birb::vec2<T>(1,1);
+		}
+
+        static constexpr birb::vec2<T> zero()
+		{
+			return birb::vec2<T>(0,0);
+		}
+
+        static constexpr birb::vec2<T> up()
+		{
+			return birb::vec2<T>(0,1);
+		}
+
+        static constexpr birb::vec2<T> down()
+		{
+			return birb::vec2<T>(0,-1);
+		}
+
+        static constexpr birb::vec2<T> left()
+		{
+			return birb::vec2<T>(-1,0);
+		}
+
+        static constexpr birb::vec2<T> right()
+		{
+			return birb::vec2<T>(1,0);
+		}
 	};
 
 	// 3D point
@@ -62,6 +156,12 @@ namespace birb
 		constexpr vec3() : x(0), y(0), z(0) {};
 		constexpr vec3(T x, T y, T z) : x(x), y(y), z(z) {};
 		constexpr vec3(T values[3]) : x(values[0]), y(values[1]), z(values[2]) {};
+
+		/// Returns the normalization of the vector
+        constexpr vec3<T> normalized() const
+		{
+			return *this / magnitude();
+		}
 
 		/// Returns the magnitude of the vector
         constexpr float magnitude() const
@@ -80,13 +180,13 @@ namespace birb
 		// No rounding is done and floating point values will get floored
 		constexpr vec3<int> to_int() const
 		{
-			return vec3<int>(this->x, this->y, this->z);
+			return vec3<int>(x, y, z);
 		}
 
 		// Convert from any type to float
 		constexpr vec3<float> to_float() const
 		{
-			return vec3<float>(this->x, this->y, this->z);
+			return vec3<float>(x, y, z);
 		}
 
 		constexpr bool operator==(const vec3 other) const
@@ -98,5 +198,121 @@ namespace birb
 		{
 			return (this->x != other.x || this->y != other.y || this->z != other.z);
 		}
+
+        constexpr vec3<T> operator+(const vec3<T>& other) const
+        {
+			return vec3<T>(x + other.x, y + other.y, z + other.z);
+        }
+
+        constexpr vec3<T>& operator+=(const vec3<T>& other)
+        {
+			x += other.x;
+			y += other.y;
+			z += other.z;
+			return *this;
+        }
+
+        constexpr vec3<T> operator-(const vec3<T>& other) const
+        {
+			return vec3<T>(x - other.x, y - other.y, z - other.z);
+        }
+
+        constexpr vec3<T>& operator-=(const vec3<T>& other)
+        {
+			x -= other.x;
+			y -= other.y;
+			z -= other.z;
+			return *this;
+        }
+
+        constexpr vec3<T> operator*(const vec3<T>& other) const
+        {
+			return vec3<T>(x * other.x, y * other.y, z * other.z);
+        }
+
+        constexpr vec3<T>& operator*=(const vec3<T>& other)
+        {
+			x *= other.x;
+			y *= other.y;
+			z *= other.z;
+			return *this;
+        }
+
+        constexpr vec3<T> operator*(T other) const
+        {
+			return vec3<T>(x * other, y * other, z * other);
+        }
+
+        constexpr vec3<T> operator/(const vec3<T>& other) const
+        {
+			return vec3<T>(x / other.x, y / other.y, z / other.z);
+        }
+
+        constexpr vec3<T>& operator/=(const vec3<T>& other)
+        {
+			x /= other.x;
+			y /= other.y;
+			z /= other.z;
+			return *this;
+        }
+
+        constexpr vec3<T> operator/(T other) const
+        {
+			return vec3<T>(x / other, y / other, z / other);
+        }
+
+		static constexpr birb::vec3<T> one()
+		{
+			return birb::vec3<T>(1,1,1);
+		}
+
+        static constexpr birb::vec3<T> zero()
+		{
+			return birb::vec3<T>(0,0,0);
+		}
+
+        static constexpr birb::vec3<T> forward()
+		{
+			return birb::vec3<T>(0,0,1);
+		}
+
+        static constexpr birb::vec3<T> back()
+		{
+			return birb::vec3<T>(0,0,-1);
+		}
+
+        static constexpr birb::vec3<T> up()
+		{
+			return birb::vec3<T>(0,1,0);
+		}
+
+        static constexpr birb::vec3<T> down()
+		{
+			return birb::vec3<T>(0,-1,0);
+		}
+
+        static constexpr birb::vec3<T> left()
+		{
+			return birb::vec3<T>(-1,0,0);
+		}
+
+        static constexpr birb::vec3<T> right()
+		{
+			return birb::vec3<T>(1,0,0);
+		}
 	};
+
+	template<typename T>
+	std::ostream &operator<<(std::ostream &stream, const vec2<T> &other)
+    {
+        stream << "[" << other.x << ", " << other.y << "]";
+        return stream;
+    }
+
+	template<typename T>
+	std::ostream &operator<<(std::ostream &stream, const vec3<T> &other)
+    {
+        stream << "[" << other.x << ", " << other.y << ", " << other.z << "]";
+        return stream;
+    }
 }
