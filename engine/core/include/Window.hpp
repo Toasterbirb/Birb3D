@@ -37,6 +37,9 @@ namespace birb
 		// Get the next input in the queue and pop it
 		input next_input();
 
+		// Clear the input queue
+		void forget_inputs();
+
 	private:
 		GLFWwindow* glfw_window;
 		vec2<unsigned int> dimensions;

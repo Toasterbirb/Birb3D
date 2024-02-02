@@ -89,6 +89,12 @@ namespace birb
 		return top_input;
 	}
 
+	void window::forget_inputs()
+	{
+		std::queue<input> empty_queue;
+		std::swap(input_queue, empty_queue);
+	}
+
 
 	void window::key_callback(__attribute_maybe_unused__ GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
