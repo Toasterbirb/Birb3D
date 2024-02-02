@@ -1,3 +1,4 @@
+#include "Math.hpp"
 #include "Vector.hpp"
 
 #include <doctest/doctest.h>
@@ -151,4 +152,17 @@ TEST_CASE("Vector conversions")
 		CHECK(vec3_b.y == 2);
 		CHECK(vec3_b.z == 3);
 	}
+}
+
+TEST_CASE("Vector magnitude")
+{
+	birb::vec2<int> vec_a(2, 3);
+	birb::vec3<int> vec_b(2, 3, 4);
+	birb::vec3<float> vec_c(2.0f, 3.0f, 4.0f);
+	birb::vec2<float> vec_d(2.0f, 3.0f);
+
+	CHECK(birb::round(vec_a.magnitude(), 2) == 3.61);
+	CHECK(birb::round(vec_b.magnitude(), 2) == 5.39);
+	CHECK(birb::round(vec_c.magnitude(), 2) == 5.39);
+	CHECK(birb::round(vec_d.magnitude(), 2) == 3.61);
 }

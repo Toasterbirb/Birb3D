@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <string>
 
 namespace birb
@@ -13,6 +14,12 @@ namespace birb
 		constexpr vec2() : x(0), y(0) {};
 		constexpr vec2(T x, T y) : x(x), y(y) {};
 		constexpr vec2(T values[2]) : x(values[0]), y(values[1]) {};
+
+		// Returns the magnitude of the vector
+        constexpr float magnitude() const
+		{
+			return std::sqrt((x * x) + (y * y));
+		}
 
 		// Returns the vec3 in the following string form: "[x, y]"
 		std::string to_string() const
@@ -55,6 +62,12 @@ namespace birb
 		constexpr vec3() : x(0), y(0), z(0) {};
 		constexpr vec3(T x, T y, T z) : x(x), y(y), z(z) {};
 		constexpr vec3(T values[3]) : x(values[0]), y(values[1]), z(values[2]) {};
+
+		/// Returns the magnitude of the vector
+        constexpr float magnitude() const
+		{
+			return std::sqrt((x * x) + (y * y) + (z * z));
+		}
 
 		// Returns the vec3 in the following string form: "[x, y, z]"
 		std::string to_string() const
