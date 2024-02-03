@@ -8,19 +8,28 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include <sys/cdefs.h>
 
 namespace birb
 {
+	// How many windows have been created so far. This should NEVER be more than 1
+	static unsigned short window_count = 0;
+
 	// Input queue for the game/application
 	static std::queue<input> input_queue;
 
 	// Input queue for engine reserved key inputs
 	static std::queue<input> engine_input_queue;
 
-	window::window(const std::string& title, const vec2<unsigned int> dimensions)
+	window::window(const std::string& title, const vec2<int> dimensions)
 	:dimensions(dimensions)
 	{
+		assert(window_count == 0 && "There can only be one window at any given time");
 		assert(!title.empty() && "Empty window title");
+		assert(dimensions.x > 0 && "Invalid window width");
+		assert(dimensions.y > 0 && "Invalid window height");
+
+		window_count++;
 
 		birb::log("Spawning a new window: " + title + " " + dimensions.to_string());
 
@@ -29,6 +38,10 @@ namespace birb
 		if (!glfwInit())
 			birb::log_fatal("Can't initialize GLFW");
 
+		// Set some hints
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 		// Create the window
 		birb::log("Creating the window");
@@ -48,8 +61,18 @@ namespace birb
 		// Assign the error callback function
 		glfwSetErrorCallback(error_callback);
 
+		// Assign the window resized callback function
+		glfwSetWindowSizeCallback(this->glfw_window, window_size_callback);
+
 		// Disable vsync
 		glfwSwapInterval(0);
+
+		// Setup glad
+		gladLoadGL((GLADloadfunc)glfwGetProcAddress);
+		glViewport(0, 0, this->dimensions.x, this->dimensions.y);
+
+		// Set static variables
+		window::window_size_changed = false;
 
 		birb::log("window created successfully!");
 	}
@@ -106,6 +129,14 @@ namespace birb
 	void window::poll()
 	{
 		glfwPollEvents();
+
+		// Update window dimensions and viewport size if needed
+		if (window::window_size_changed)
+		{
+			window::window_size_changed = false;
+			glfwGetWindowSize(glfw_window, &dimensions.x, &dimensions.y);
+			glViewport(0, 0, dimensions.x, dimensions.y);
+		}
 
 		// Process engine inputs
 		while (!engine_input_queue.empty())
@@ -204,5 +235,10 @@ namespace birb
 	void window::error_callback(int error, const char* description)
 	{
 		birb::log_error("GLFW error [" + std::to_string(error) + "]: " + std::string(description));
+	}
+
+	void window::window_size_callback(__attribute_maybe_unused__ GLFWwindow* window, __attribute_maybe_unused__ int width, __attribute_maybe_unused__ int height)
+	{
+		window::window_size_changed = true;
 	}
 }

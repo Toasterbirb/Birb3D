@@ -34,3 +34,9 @@ To install Birb3D to /usr/local/bin, run the following command
 make install
 ```
 You can customize the installation *PREFIX* and *DESTDIR* variables normally with cmake and make.
+
+## Credits / Resources
+- [OpenGL Course - Create 3D and 2D Graphics With C++](https://www.youtube.com/watch?v=45MIykWJ-C4&t=1716)
+- [GLFW documentation](https://www.glfw.org/documentation.html)
+- [Vulkan Game Engine Series by Travis Vroman](https://www.youtube.com/watch?v=teg23SJlyl8)
+- StackOverflow

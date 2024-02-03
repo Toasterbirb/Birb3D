@@ -12,7 +12,7 @@ if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
 endif(CCACHE_FOUND)
 
-include_directories(./engine/core/include)
+include_directories(./engine/core/include ./engine/rendering/include)
 # add_executable(${PROJECT_NAME} ./src/main.cpp)
 # install(TARGETS ${PROJECT_NAME})
 
@@ -21,7 +21,7 @@ include_directories(./engine/core/include)
 add_compile_options(-pedantic -Wall -Wextra -Wcast-align
 	-Wdisabled-optimization -Wformat=2
 	-Winit-self -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs
-	-Wnoexcept -Woverloaded-virtual -Wstrict-null-sentinel -Werror -Wno-unused)
+	-Werror -Wno-unused)
 
 # Build ImGui
 set(IMGUI_PATH "${CMAKE_SOURCE_DIR}/vendor/imgui")
