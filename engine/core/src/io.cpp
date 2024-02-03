@@ -19,11 +19,16 @@ namespace birb
 				birb::log_fatal("Can't open a file at " + path);
 
 			std::string file_contents;
-			while (file.good())
-				file_contents.push_back(file.get());
 
-			// Fix the null terminator
-			file_contents.erase(file_contents.size() - 1, 1);
+			// Figure out the file size and resize the result string to fit it
+			file.seekg(0, std::ios::end);
+			file_contents.resize(file.tellg());
+
+			// Go back to the start of the file
+			file.seekg(0, std::ios::beg);
+
+			// Read everything at once
+			file.read(&file_contents[0], file_contents.size());
 
 			return file_contents;
 		}
