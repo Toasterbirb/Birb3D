@@ -1,10 +1,13 @@
 #include "Logger.hpp"
+#include "Timestep.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
 
 int main(void)
 {
 	birb::window window("Empty window", birb::vec2<int>(960, 540));
+
+	birb::timestep timestep;
 
 	while (!window.should_close())
 	{
@@ -19,9 +22,15 @@ int main(void)
 			}
 		}
 
+
 		window.clear();
 		window.flip();
+
+		birb::log("FPS: " + std::to_string(timestep.fps()));
+
 		window.poll();
+
+		timestep.step();
 	}
 	return 0;
 }

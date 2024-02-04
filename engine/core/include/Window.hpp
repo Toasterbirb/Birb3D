@@ -3,10 +3,10 @@
 
 #include "Input.hpp"
 #include "PerformanceWidget.hpp"
+#include "Timestep.hpp"
 #include "Vector.hpp"
 
 #include <string>
-#include <map>
 #include <GLFW/glfw3.h>
 
 namespace birb
@@ -45,6 +45,9 @@ namespace birb
 
 		// Initialize ImGui
 		void init_imgui();
+
+		// Returns the refreshrate of the primary monitor
+		int monitor_refreshrate() const;
 
 	private:
 		GLFWwindow* glfw_window;

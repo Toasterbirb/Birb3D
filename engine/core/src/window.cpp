@@ -205,6 +205,12 @@ namespace birb
 		new_imgui_frame();
 	}
 
+	int window::monitor_refreshrate() const
+	{
+		const GLFWvidmode* vid_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		return vid_mode->refreshRate;
+	}
+
 
 	void window::new_imgui_frame()
 	{
