@@ -6,9 +6,8 @@ namespace birb
 {
 	// 2D rectangle with a 2D position, width and height
 	template<class T>
-	class rect
+	struct rect
 	{
-	public:
 		T x, y, w, h;
 
 		constexpr rect() : x(0), y(0), w(0), h(0) {}
@@ -39,9 +38,6 @@ namespace birb
 		{
 			return (this->x != other.x || this->y != other.y || this->w != other.w || this->h != other.h);
 		}
-
-	private:
-
 	};
 
 	template<typename T>
