@@ -48,6 +48,12 @@ TEST_CASE("Color constructor")
 		CHECK(birb::round(color.g, 2) == birb::round(0.2f, 2));
 		CHECK(birb::round(color.b, 2) == birb::round(0.2f, 2));
 		CHECK(birb::round(color.a, 2) == birb::round(1.0f, 2));
+
+		birb::color color2(0x51a56a);
+		CHECK(birb::round(color2.r, 2) == birb::round(0.32f, 2));
+		CHECK(birb::round(color2.g, 2) == birb::round(0.65f, 2));
+		CHECK(birb::round(color2.b, 2) == birb::round(0.42f, 2));
+		CHECK(birb::round(color2.a, 2) == birb::round(1.0f, 2));
 	}
 }
 

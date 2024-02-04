@@ -26,7 +26,7 @@ namespace birb
 			constexpr float reverse_division = 1 / 255.0f;
 			this->r = ((hex & 0xff0000) >> 16) * reverse_division;
 			this->g = ((hex & 0xff00) >> 8) * reverse_division;
-			this->b = ((hex & 0xff) >> 0) * reverse_division;
+			this->b = (hex & 0xff) * reverse_division;
 		}
 
 		// Returns the color in the following string form: "[r, g, b, a]"
