@@ -31,6 +31,17 @@ namespace birb
 			this->b = ((hex & 0xff) >> 0) * reverse_division;
 		}
 
+		// Returns the color in the following string form: "[r, g, b, a]"
+		std::string to_string() const
+		{
+			return "[" +
+				std::to_string(r) + ", " +
+				std::to_string(g) + ", " +
+				std::to_string(b) + ", " +
+				std::to_string(a) +
+				"]";
+		}
+
 		constexpr bool operator==(const color& other) const
 		{
 			return 	(this->r == other.r
@@ -47,4 +58,11 @@ namespace birb
 					|| this->a != other.a);
 		}
 	};
+
+	template<typename T>
+	std::ostream &operator<<(std::ostream &stream, const color &other)
+    {
+        stream << "[" << other.r << ", " << other.g << ", " << other.b << ", " << other.a << "]";
+        return stream;
+    }
 }
