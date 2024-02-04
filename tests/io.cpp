@@ -1,5 +1,6 @@
 #include <doctest/doctest.h>
 #include <filesystem>
+#include <future>
 #include <string>
 
 #include "IO.hpp"
@@ -16,7 +17,11 @@ TEST_CASE("File reading and writing")
 	birb::io::write_file(path, text);
 
 	// Try to read the text from the file
-	//std::string result = birb::io::read_file(path);
+	std::string result = birb::io::read_file(path);
 
-	//CHECK(result == text);
+	// Try to read the text from the file asynchronously
+	std::future<std::string> result_future = birb::io::read_file_async(path);
+
+	CHECK(result == text);
+	CHECK(result_future.get() == text);
 }

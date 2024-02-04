@@ -1,5 +1,6 @@
 #pragma once
 
+#include <future>
 #include <string>
 
 namespace birb
@@ -11,6 +12,9 @@ namespace birb
 		// If the file can't be opened for reading,
 		// things will crash and burn
 		std::string read_file(const std::string& path);
+
+		// Read from a file asynchronously
+		std::future<std::string> read_file_async(const std::string& path);
 
 		// Write to a text file
 		//

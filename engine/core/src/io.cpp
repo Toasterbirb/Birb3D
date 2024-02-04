@@ -3,6 +3,7 @@
 
 #include <cassert>
 #include <fstream>
+#include <future>
 #include <string>
 
 namespace birb
@@ -31,6 +32,11 @@ namespace birb
 			file.read(&file_contents[0], file_contents.size());
 
 			return file_contents;
+		}
+
+		std::future<std::string> read_file_async(const std::string &path)
+		{
+			return std::async(std::launch::async, read_file, path);
 		}
 
 		bool write_file(const std::string& path, const std::string& text)
