@@ -2,10 +2,11 @@ find_package(doctest REQUIRED)
 
 add_executable(birb_test
 	./doctest.cpp
+	./io.cpp
 	./logger.cpp
 	./math.cpp
+	./rect.cpp
 	./vector.cpp
-	./io.cpp
 )
 
 target_link_libraries(birb_test birb)
