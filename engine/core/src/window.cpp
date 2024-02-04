@@ -147,7 +147,10 @@ namespace birb
 				switch(engine_input_queue.front().key)
 				{
 					case (input::keycode::F1):
-						this->perf_widget_visible = !this->perf_widget_visible;
+						if (this->imgui_initialized)
+							this->perf_widget_visible = !this->perf_widget_visible;
+						else
+							birb::log_warn("Can't open the performance widget since ImGui wasn't initialized");
 						break;
 
 					default:
