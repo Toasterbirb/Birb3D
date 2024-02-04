@@ -6,6 +6,7 @@ set(CORE core/src)
 set(CORE_INC core/include)
 target_sources(birb PRIVATE
 	${CORE}/io.cpp
+	${CORE}/timestep.cpp
 	${CORE}/performance_widget.cpp
 	${CORE}/window.cpp)
 
@@ -13,7 +14,11 @@ target_sources(birb PRIVATE
 # Rendering
 set(RENDER rendering/src)
 target_sources(birb PRIVATE
-	${RENDER}/renderer.cpp)
+	${RENDER}/renderer.cpp
+	${RENDER}/shader.cpp
+	${RENDER}/vbo.cpp
+	${RENDER}/ebo.cpp
+	${RENDER}/vao.cpp)
 
 target_link_libraries(birb glfw glad imgui)
 

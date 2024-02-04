@@ -3,19 +3,17 @@
 #include <vector>
 #include <glad/gl.h>
 
-const char* vertex_shader_src = "";
-
-const char* fragment_shader_src = R"~~(#version 330 core
-out vec4 FragColor;
-void main()
-{
-FragColor = vec4(0.8f, 0.3f, 0.02f, 1.0f);
-})~~";
+#include "Shader.hpp"
+#include "VAO.hpp"
+#include "VBO.hpp"
+#include "EBO.hpp"
 
 int main(void)
 {
 	birb::window window("Triangle", birb::vec2<int>(800, 800));
 	birb::renderer renderer;
+
+	window.init_imgui();
 
 	std::vector<float> verts =
 	{
@@ -36,60 +34,36 @@ int main(void)
 
 	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
 
-	// Compile shaders
-	unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertex_shader, 1, &vertex_shader_src, NULL);
-	glCompileShader(vertex_shader);
+	birb::shader shader_program("default_vert.glsl", "default_frag.glsl");
 
-	unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragment_shader, 1, &fragment_shader_src, NULL);
-	glCompileShader(fragment_shader);
+	birb::vao vao1;
+	vao1.bind();
 
-	unsigned int shader_program = glCreateProgram();
-	glAttachShader(shader_program, vertex_shader);
-	glAttachShader(shader_program, fragment_shader);
-	glLinkProgram(shader_program);
+	birb::vbo vbo1(verts);
+	birb::ebo ebo1(indices);
 
-	// Delete the shaders since they are now in the program
-	glDeleteShader(vertex_shader);
-	glDeleteShader(fragment_shader);
-
-	unsigned int VAO, VBO, EBO;
-
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
-
-	glBindVertexArray(VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, verts.size() * sizeof(float), verts.data(), GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	vao1.link_vbo(vbo1, 0);
+	vao1.unbind();
+	vbo1.unbind();
+	ebo1.unbind();
 
 	while (!window.should_close())
 	{
 		window.clear();
 
-		glUseProgram(shader_program);
-		glBindVertexArray(VAO);
+		shader_program.activate();
+		vao1.bind();
+
 		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
 
 		window.flip();
 		window.poll();
 	}
 
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
-	glDeleteProgram(shader_program);
+	vao1.unload();
+	vbo1.unload();
+	ebo1.unload();
+	shader_program.unload();
 
 	return 0;
 }
