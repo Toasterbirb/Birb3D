@@ -55,5 +55,10 @@ namespace birb
 			file.close();
 			return true;
 		}
+
+		std::future<bool> write_file_async(const std::string &path, const std::string& text)
+		{
+			return std::async(std::launch::async, write_file, path, text);
+		}
 	}
 }

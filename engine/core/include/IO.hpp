@@ -20,5 +20,10 @@ namespace birb
 		//
 		// Returns false if the file couldn't be opened for writing
 		bool write_file(const std::string& path, const std::string& text);
+
+		// Write to a text file asynchronously
+		//
+		// Returns false if the file couldn't be opened for writing
+		std::future<bool> write_file_async(const std::string& path, const std::string& text);
 	};
 }
