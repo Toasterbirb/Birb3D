@@ -5,21 +5,55 @@ namespace birb
 	class timestep
 	{
 	public:
+		/**
+		 * @brief Construct a timestep with target FPS set to the
+		 * refreshrate of the primary monitor
+		 */
 		timestep();
+
+		/**
+		 * @brief Construct a timestep with a custom target FPS
+		 *
+		 * @param target_fps The amount of frames per second that the game tries to maintain
+		 */
 		timestep(double target_fps);
 
-		// Call this at the end of the gameloop to sleep
-		// and keep up the target framerate. This also refreshes deltatime
+		/**
+		 * @brief End a gameloop iteration and start a new one
+		 *
+		 * Call this function at the end of the gameloop. If the frametime duration
+		 * the loop iteration was below the target frametime (frames per second)
+		 * this function will stall the gameloop to maintain a stable framerate.
+		 *
+		 * @note This function also maintains the time reference for deltatime
+		 * so forgetting to call this properly can make deltatime inaccurate
+		 */
 		void step();
 
-		// Time in seconds since the end of last frame
+		/**
+		 * @return Time in seconds since the end of last frame
+		 */
 		double deltatime() const;
 
-		// Get the current FPS. To get the most accurate value,
-		// call this function after swapping buffers (calling flip())
+		/**
+		 * @brief Get the current FPS
+		 *
+		 * The framerate will be calculated from the frametime, so due to
+		 * floating point accuracy, the end result may not be fully accurate
+		 * at higher framerates.
+		 *
+		 * @note To get the most accurate value, call this function after
+		 * swapping buffers (calling flip())
+		 *
+		 * @return Amount of frames rendered per second at the time of calling
+		 */
 		double fps() const;
 
-		// Change the target FPS during runtime
+		/**
+		 * @brief Set a new target framerate during runtime
+		 *
+		 * @param target_fps New target framerate as frames per second
+		 */
 		void set_target_fps(double target_fps);
 
 	private:

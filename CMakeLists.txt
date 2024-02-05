@@ -54,3 +54,16 @@ add_subdirectory(demos)
 
 # Build tests
 add_subdirectory(tests)
+
+# Build documentation
+find_package(Doxygen)
+set(DOXYGEN_HTML_EXTRA_STYLESHEET "${PROJECT_SOURCE_DIR}/vendor/doxygen-awesome-css/doxygen-awesome.css")
+set(DOXYGEN_DISABLE_INDEX NO)
+set(DOXYGEN_GENERATE_TREEVIEW YES)
+set(DOXYGEN_FULL_SIDEBAR NO)
+set(DOXYGEN_HTML_COLORSTYLE LIGHT)
+set(DOXYGEN_CALL_GRAPH YES)
+set(DOXYGEN_CALLER_GRAPH YES)
+set(DOXYGEN_EXTRACT_PRIVATE YES)
+doxygen_add_docs(docs "${PROJECT_SOURCE_DIR}/engine" COMMENT "Generate
+documentation from code comments")

@@ -4,7 +4,14 @@
 
 namespace birb
 {
-	// Round a value down to a given accuracy
+	/**
+	 * @brief Round a value down to a given accuracy
+	 *
+	 * @tparam T type
+	 * @param value Value to be rounded
+	 * @param decimal_points How many decimal points of accuracy should the value be rounded to
+	 * @return Rounded value
+	 */
 	template<typename T>
 	constexpr double round(T value, int decimal_points)
 	{

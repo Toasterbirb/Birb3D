@@ -3,7 +3,6 @@
 
 #include "Input.hpp"
 #include "PerformanceWidget.hpp"
-#include "Timestep.hpp"
 #include "Vector.hpp"
 
 #include <string>
@@ -14,50 +13,111 @@ namespace birb
 	class window
 	{
 	public:
-		// Create a new window
+		/**
+		 * @brief Create a new window and initialize graphics related things
+		 *
+		 * @param title Window title
+		 * @param dimensions Size of the window
+		 */
 		window(const std::string& title, const vec2<int> dimensions);
+
 		~window();
 
-		// Check if the window should be still kept open
+		/**
+		 * @brief Check if the window should be still kept open
+		 *
+		 * @return True if the window has received a quit event etc.
+		 */
 		bool should_close() const;
 
-		// Clear the window buffer
+		/**
+		 * @brief Clear the window back buffer
+		 *
+		 * Call this function before starting to render new stuff. Otherwise
+		 * the previous frame will be "burnt in" and the next frame will be
+		 * the combination of the new and previous frames
+		 */
 		void clear();
 
-		// Swap front and back buffers
+		/**
+		 * @brief Swap the front and back buffers
+		 *
+		 * Call this function when you are done rendering everything and want
+		 * to present the new frame
+		 */
 		void flip();
 
-		// Poll for and process events
+		/**
+		 * @brief Poll for and process events
+		 *
+		 * Any keyboard inputs that have happened between the previous call this this
+		 * function and now will be stored into a queue. These inputs can be retrieved
+		 * with next_input()
+		 */
 		void poll();
 
-		// Check if there are inputs in the queue ready to be processed
+		/**
+		 * @brief Check if there are inputs in the queue ready to be processed
+		 *
+		 * @return True if there are inputs in the queue, false if the queue is empty
+		 */
 		bool inputs_available() const;
 
-		// Force the should_close() function to return true
-		// This won't close the window immediately
+		/**
+		 * @brief Force the \c should_close() function to return true
+		 *
+		 * @note This won't close the window immediately
+		 */
 		void quit();
 
-		// Get the next input in the queue and pop it
+		/**
+		 * @brief Get the next keyboard input in the queue and pop it from the input queue
+		 *
+		 * @return \ref birb::input that contains information about the first keyboard input in the queue
+		 */
 		input next_input();
 
 		// Clear the input queue
+		/**
+		 * @brief Clear the keyboard input queue
+		 *
+		 * This is useful in situations where you haven't had the chance to handle
+		 * keyboard inputs for some time. If you don't forget the old inputs in this case,
+		 * you'd have to handle all of the accumulated inputs all at once and those inputs
+		 * may or may not be even relevant at that point anymore.
+		 */
 		void forget_inputs();
 
-		// Initialize ImGui
+		/**
+		 * @brief Initialize the ImGui library
+		 *
+		 * This needs to be called before using anything ImGui related
+		 */
 		void init_imgui();
 
-		// Returns the refreshrate of the primary monitor
+		/**
+		 * @return The refreshrate of the primary monitor
+		 */
 		int monitor_refreshrate() const;
 
 	private:
 		GLFWwindow* glfw_window;
+
+		/**
+		 * @brief Current size of the window
+		 *
+		 * @note This variable shouldn't be modified manually during runtime.
+		 * It will be kept up-to-date in the poll() function with the help
+		 * of window_size_callback()
+		 */
 		vec2<int> dimensions;
+
+		/**
+		 * @brief Override for the should_close() function. Can be set to true with quit()
+		 */
 		bool force_should_quit = false;
 
-		// This is set to true when init_imgui() has been called
 		bool imgui_initialized = false;
-
-		// Start a new ImGui frame
 		void new_imgui_frame();
 
 		performance_widget perf_widget;
@@ -67,13 +127,19 @@ namespace birb
 		// Static variables for callback functions
 		static inline bool window_size_changed;
 
-		// GLFW input callback function
+		/**
+		 * @brief GLFW input callback function
+		 */
 		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
-		// GLFW error callback function
+		/**
+		 * @brief GLFW error callback function
+		 */
 		static void error_callback(int error, const char* description);
 
-		// GLFW window resize callback function
+		/**
+		 * @brief GLFW window resize callback function
+		 */
 		static void window_size_callback(GLFWwindow* window, int width, int height);
 	};
 }

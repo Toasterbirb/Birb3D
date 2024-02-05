@@ -4,12 +4,53 @@ namespace birb
 {
 	struct color
 	{
-		float r, g, b, a;
+		float r; ///< red
+		float g; ///< green
+		float b; ///< blue
+		float a; ///< alpha
 
+		/**
+		 * @brief Construct a color with all values set to zero
+		 */
 		constexpr color() : r(0), g(0), b(0), a(0) {}
+
+		/**
+		 * @brief Construct a color from floating point values
+		 *
+		 * All of the parameters given should be between 0.0f and 1.0f.
+		 * Any values beyond those limits will result in undefined behavior.
+		 *
+		 * @param r red
+		 * @param g green
+		 * @param b blue
+		 * @param a alpha
+		 */
 		constexpr color(float r, float g, float b, float a = 1.0f) : r(r), g(g), b(b), a(a) {}
+
+		/**
+		 * @brief Construct a color from floating point values
+		 *
+		 * All of the parameters given should be between 0.0 and 1.0.
+		 * Any values beyond those limits will result in undefined behavior.
+		 *
+		 * @param r red
+		 * @param g green
+		 * @param b blue
+		 * @param a alpha
+		 */
 		constexpr color(double r, double g, double b, double a = 1.0) : r(r), g(g), b(b), a(a) {}
 
+		/**
+		 * @brief Construct a color from integer values
+		 *
+		 * All of the parameters given should be between 0 and 255.
+		 * Any values beyond those limits will result in undefined behavior.
+		 *
+		 * @param r red
+		 * @param g green
+		 * @param b blue
+		 * @param a alpha
+		 */
 		constexpr color(int r, int g, int b, int a = 255)
 		{
 			constexpr float reverse_division = 1 / 255.0f;
@@ -19,7 +60,13 @@ namespace birb
 			this->a = a * reverse_division;
 		}
 
-		// Construct a color from a hex value
+		/**
+		 * @brief Construct a color from a hex value
+		 *
+		 * @note The amount of alpha will always be set to 1.0
+		 *
+		 * @param hex Hex encoded RGB value (i.e. 0xFF00FF)
+		 */
 		constexpr color(int hex)
 		:a(1.0f)
 		{
@@ -29,7 +76,9 @@ namespace birb
 			this->b = (hex & 0xff) * reverse_division;
 		}
 
-		// Returns the color in the following string form: "[r, g, b, a]"
+		/**
+		 * @return Color in the following string form: "[r, g, b, a]"
+		 */
 		std::string to_string() const
 		{
 			return "[" +
