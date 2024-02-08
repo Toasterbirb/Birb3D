@@ -5,25 +5,42 @@
 
 namespace birb
 {
-	// Print debug level information
+	/**
+	 * @brief Print debug level information
+	 *
+	 * @param text Text to print
+	 */
 	static void log(const std::string& text)
 	{
 		std::cout << "[L] " << text << "\n";
 	}
 
-	// Print a yellow warning message
+	/**
+	 * @brief Print a yellow warning message
+	 *
+	 * @param text Warning text to print
+	 */
 	static void log_warn(const std::string& text)
 	{
 		std::cout << "\033[33m[W] " << text << "\033[0m\n";
 	}
 
-	// Print a red error message
+	/**
+	 * @brief Print a red error message
+	 *
+	 * @param text Error text to print
+	 */
 	static void log_error(const std::string& text)
 	{
 		std::cerr << "\033[31m[E] " << text << "\033[0m\n";
 	}
 
-	// Print a fatal error and crash
+	/**
+	 * @brief Print a fatal error and crash the program
+	 *
+	 * @param text Error text to print
+	 * @param exit_code Exit code that will be used when quitting the program
+	 */
 	static void log_fatal(const std::string& text, const int exit_code = 1)
 	{
 		std::cerr << "\033[31mFATAL ERROR: " << text << "\033[0m\n";
