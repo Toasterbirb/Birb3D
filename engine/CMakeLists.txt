@@ -8,6 +8,7 @@ target_sources(birb PRIVATE
 	${CORE}/io.cpp
 	${CORE}/timestep.cpp
 	${CORE}/performance_widget.cpp
+	${CORE}/random.cpp
 	${CORE}/window.cpp)
 
 

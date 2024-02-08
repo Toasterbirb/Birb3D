@@ -7,6 +7,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+option(WINDOWS "Disable Linux specific things")
+
+if (WINDOWS)
+	add_definitions(-DBIRB_PLATFORM_WINDOWS)
+else()
+	add_definitions(-DBIRB_PLATFORM_LINUX)
+endif()
+
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)

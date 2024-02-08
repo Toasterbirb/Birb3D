@@ -6,6 +6,7 @@ add_executable(birb_test
 	./io.cpp
 	./logger.cpp
 	./math.cpp
+	./random.cpp
 	./rect.cpp
 	./vector.cpp
 )
