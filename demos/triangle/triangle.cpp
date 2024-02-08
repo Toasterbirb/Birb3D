@@ -15,14 +15,15 @@ int main(void)
 
 	window.init_imgui();
 
+	// Format: coordinates, colors
 	std::vector<float> verts =
 	{
-		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,	// Lower left corner
-		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,		// Lower right corner
-		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,	// Upper corner
-		-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,	// Inner left
-		0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,	// Inner right
-		0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f,		// Inner down
+		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,	0.3f, 0.3f, 0.9f, // Lower left corner
+		0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f,		0.4f, 0.1f, 0.5f, // Lower right corner
+		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f,	0.3f, 0.5f, 2.7f, // Upper corner
+		-0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,	0.2f, 0.2f, 0.3f, // Inner left
+		0.5f / 2, 0.5f * float(sqrt(3)) / 6, 0.0f,	0.0f, 0.3f, 0.7f, // Inner right
+		0.0f, -0.5f * float(sqrt(3)) / 3, 0.0f,		0.9f, 0.1f, 0.7f, // Inner down
 	};
 
 	std::vector<unsigned int> indices =
@@ -42,16 +43,20 @@ int main(void)
 	birb::vbo vbo1(verts);
 	birb::ebo ebo1(indices);
 
-	vao1.link_vbo(vbo1, 0);
+	vao1.link_vbo(vbo1, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
+	vao1.link_vbo(vbo1, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
 	vao1.unbind();
 	vbo1.unbind();
 	ebo1.unbind();
+
+	unsigned int uni_id = glGetUniformLocation(shader_program.id, "scale");
 
 	while (!window.should_close())
 	{
 		window.clear();
 
 		shader_program.activate();
+		glUniform1f(uni_id, 0.5f);
 		vao1.bind();
 
 		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);

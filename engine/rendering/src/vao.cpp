@@ -1,5 +1,7 @@
 #include "VAO.hpp"
 
+#include <glad/gl.h>
+
 namespace birb
 {
 	vao::vao()
@@ -7,11 +9,11 @@ namespace birb
 		glGenVertexArrays(1, &id);
 	}
 
-	void vao::link_vbo(birb::vbo vbo, unsigned int layout)
+	void vao::link_vbo(birb::vbo vbo, unsigned int layout, unsigned int num_components, GLenum type, size_t stride, void* offset)
 	{
 		vbo.bind();
 
-		glVertexAttribPointer(layout, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glVertexAttribPointer(layout, num_components, type, GL_FALSE, stride, offset);
 		glEnableVertexAttribArray(layout);
 
 		vbo.unbind();

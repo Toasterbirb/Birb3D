@@ -19,6 +19,6 @@ namespace birb
 		void unload();
 
 	private:
-
+		void compile_errors(unsigned int shader, const std::string& type);
 	};
 }
