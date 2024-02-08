@@ -9,10 +9,10 @@ TLDR: Another never ending hobbyist game engine project
 ### Dependencies
 Most of these should be simple to install with a Linux package manager. If you are compiling this on Windows, you are on your own
 - [GLFW](https://www.glfw.org/)
-- OpenGL
 
-Vendored dependencies that are included as submodules:
+Vendored dependencies that are included as submodules or directly in the repository:
 - [ImGui](https://github.com/ocornut/imgui/tree/docking)
+- [GLAD](https://github.com/Dav1dde/glad)
 
 ### How to compile
 Build the project with cmake by running the following commands
