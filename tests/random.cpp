@@ -7,19 +7,19 @@
 TEST_CASE("RNG without seed")
 {
 	// Test two runs in a row to check if repeated calls
-	// to the constructor is time sensitive
+	// to the constructor are time sensitive
 
 	birb::random rng;
 	std::cout << "Random values: ";
 	for (int i = 0; i < 20; ++i)
-		std::cout << rng.next() % 10 << " ";
+		std::cout << rng.next() % 255 << " ";
 	std::cout << "\n";
 
 
 	birb::random rng2;
 	std::cout << "Random values: ";
 	for (int i = 0; i < 20; ++i)
-		std::cout << rng2.next() % 10 << " ";
+		std::cout << rng2.next() % 255 << " ";
 	std::cout << "\n";
 }
 
@@ -29,7 +29,7 @@ TEST_CASE("RNG with seed")
 
 	std::cout << "Random values with seed: ";
 	for (int i = 0; i < 20; ++i)
-		std::cout << rng.next() % 10 << " ";
+		std::cout << rng.next() % 255 << " ";
 
 	std::cout << "\n";
 }
