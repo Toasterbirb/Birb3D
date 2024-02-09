@@ -2,24 +2,14 @@ find_package(glfw3 REQUIRED)
 add_library(birb)
 
 # Engine core
-set(CORE core/src)
 set(CORE_INC core/include)
-target_sources(birb PRIVATE
-	${CORE}/io.cpp
-	${CORE}/timestep.cpp
-	${CORE}/performance_widget.cpp
-	${CORE}/random.cpp
-	${CORE}/window.cpp)
+file(GLOB CORE_SRC core/src/*.cpp)
+target_sources(birb PRIVATE ${CORE_SRC})
 
 
 # Rendering
-set(RENDER rendering/src)
-target_sources(birb PRIVATE
-	${RENDER}/renderer.cpp
-	${RENDER}/shader.cpp
-	${RENDER}/vbo.cpp
-	${RENDER}/ebo.cpp
-	${RENDER}/vao.cpp)
+file(GLOB RENDER_SRC rendering/src/*.cpp)
+target_sources(birb PRIVATE ${RENDER_SRC})
 
 target_link_libraries(birb glfw glad imgui)
 

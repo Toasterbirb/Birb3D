@@ -1,15 +1,7 @@
 find_package(doctest REQUIRED)
 
-add_executable(birb_test
-	./doctest.cpp
-	./color.cpp
-	./io.cpp
-	./logger.cpp
-	./math.cpp
-	./random.cpp
-	./rect.cpp
-	./vector.cpp
-)
+file(GLOB TEST_SRC *.cpp)
+add_executable(birb_test ${TEST_SRC})
 
 target_link_libraries(birb_test birb)
 
