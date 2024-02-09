@@ -11,14 +11,14 @@ TEST_CASE("RNG without seed")
 
 	birb::random rng;
 	std::cout << "Random values: ";
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 10; ++i)
 		std::cout << rng.next() % 255 << " ";
 	std::cout << "\n";
 
 
 	birb::random rng2;
 	std::cout << "Random values: ";
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 10; ++i)
 		std::cout << rng2.next() % 255 << " ";
 	std::cout << "\n";
 }
@@ -28,7 +28,7 @@ TEST_CASE("RNG with seed")
 	birb::random rng(42);
 
 	std::cout << "Random values with seed: ";
-	for (int i = 0; i < 20; ++i)
+	for (int i = 0; i < 10; ++i)
 		std::cout << rng.next() % 255 << " ";
 
 	std::cout << "\n";
@@ -40,7 +40,7 @@ TEST_CASE("Random in range (seeded)")
 	{
 		birb::random rng(42);
 		std::cout << "Random values between 0 and 10: ";
-		for (int i = 0; i < 20; ++i)
+		for (int i = 0; i < 10; ++i)
 			std::cout << rng.range(0, 10) << " ";
 
 		std::cout << "\n";
@@ -50,7 +50,7 @@ TEST_CASE("Random in range (seeded)")
 	{
 		birb::random rng(42);
 		std::cout << "Random values between 0.0f and 10.0f: ";
-		for (int i = 0; i < 10; ++i)
+		for (int i = 0; i < 8; ++i)
 			std::cout << std::setprecision(3) << rng.range_float(0.0f, 10.0f) << " ";
 
 		std::cout << "\n";
