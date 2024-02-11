@@ -24,13 +24,6 @@ include_directories(./engine/core/include ./engine/rendering/include)
 # add_executable(${PROJECT_NAME} ./src/main.cpp)
 # install(TARGETS ${PROJECT_NAME})
 
-# Build with all kinds of warnings enabled because programmers usually don't
-# know what they are doing
-add_compile_options(-pedantic -Wall -Wextra -Wcast-align
-	-Wdisabled-optimization -Wformat=2
-	-Winit-self -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs
-	-Werror -Wno-unused)
-
 # Build ImGui
 set(IMGUI_PATH "${CMAKE_SOURCE_DIR}/vendor/imgui")
 include_directories(
@@ -53,6 +46,12 @@ set(GLAD_PATH "${CMAKE_SOURCE_DIR}/vendor/glad")
 include_directories(${GLAD_PATH}/include)
 add_library(glad ${GLAD_PATH}/src/gl.c)
 
+# Build with all kinds of warnings enabled because programmers usually don't
+# know what they are doing
+add_compile_options(-pedantic -Wall -Wextra -Wcast-align
+	-Wdisabled-optimization -Wformat=2
+	-Winit-self -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs
+	-Werror -Wno-unused)
 
 # Build the engine library
 add_subdirectory(engine)
