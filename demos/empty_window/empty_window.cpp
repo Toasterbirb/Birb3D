@@ -22,12 +22,10 @@ int main(void)
 			}
 		}
 
+		birb::log("FPS: " + std::to_string(timestep.fps()));
 
 		window.clear();
 		window.flip();
-
-		birb::log("FPS: " + std::to_string(timestep.fps()));
-
 		window.poll();
 
 		timestep.step();

@@ -8,7 +8,7 @@ namespace birb
 {
 	timestep::timestep()
 	{
-		this->frame_end = glfwGetTime();
+		frame_end = glfwGetTime();
 
 		// By default the target fps is set to the refreshrate
 		// of the primary monitor
@@ -18,19 +18,28 @@ namespace birb
 
 	timestep::timestep(double target_fps)
 	{
-		this->frame_end = glfwGetTime();
+		frame_end = glfwGetTime();
 		set_target_fps(target_fps);
 	}
 
 	void timestep::step()
 	{
-		double frame_duration = deltatime() * 0.001;
-		this->frame_end = glfwGetTime();
+		double current_time = glfwGetTime();
+
+		_deltatime = current_time - frame_end;
+		frame_end = current_time;
 
 		// Delay to keep up the target framerate
-		double delay_time = target_frametime - frame_duration;
+		double delay_time = target_frametime - (_deltatime * 0.001);
+
 		if (delay_time > 0)
 		{
+			// Add a little bit of headroom to avoid going below the target FPS
+			// This calculation uses the frametime to try to keep it accurate when
+			// the FPS increases. A static multiplier doesn't scale too well
+			// but this solution probably isn't the best one either
+			delay_time *= 1 - target_frametime;
+
 			std::chrono::duration<double> delay_duration(delay_time);
 			std::this_thread::sleep_for(delay_duration);
 		}
@@ -38,7 +47,7 @@ namespace birb
 
 	double timestep::deltatime() const
 	{
-		return glfwGetTime() - this->frame_end;
+		return _deltatime;
 	}
 
 	double timestep::fps() const
@@ -51,6 +60,6 @@ namespace birb
 		this->target_fps = target_fps;
 
 		// Convert the target fps to frametime in milliseconds
-		this->target_frametime = 1.0f / target_fps;
+		target_frametime = 1.0 / target_fps;
 	}
 }

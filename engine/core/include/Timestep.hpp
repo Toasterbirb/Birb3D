@@ -31,7 +31,7 @@ namespace birb
 		void step();
 
 		/**
-		 * @return Time in seconds since the end of last frame
+		 * @return The duration of the previous frame
 		 */
 		double deltatime() const;
 
@@ -41,9 +41,6 @@ namespace birb
 		 * The framerate will be calculated from the frametime, so due to
 		 * floating point accuracy, the end result may not be fully accurate
 		 * at higher framerates.
-		 *
-		 * @note To get the most accurate value, call this function after
-		 * swapping buffers (calling flip())
 		 *
 		 * @return Amount of frames rendered per second at the time of calling
 		 */
@@ -64,5 +61,7 @@ namespace birb
 
 		// Target frametime (milliseconds per frame)
 		double target_frametime;
+
+		double _deltatime;
 	};
 }
