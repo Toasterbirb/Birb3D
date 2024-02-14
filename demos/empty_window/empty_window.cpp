@@ -22,7 +22,7 @@ int main(void)
 			}
 		}
 
-		birb::log("FPS: " + std::to_string(timestep.fps()));
+		birb::log("Cursor position: " + window.cursor_pos().to_string());
 
 		window.clear();
 		window.flip();

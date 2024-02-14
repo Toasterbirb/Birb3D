@@ -1,5 +1,6 @@
 #include "Window.hpp"
 
+#include <algorithm>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <cassert>
@@ -184,6 +185,19 @@ namespace birb
 	{
 		std::queue<input> empty_queue;
 		std::swap(input_queue, empty_queue);
+	}
+
+	vec2<double> window::cursor_pos()
+	{
+		vec2<double> pos;
+
+		glfwGetCursorPos(glfw_window, &pos.x, &pos.y);
+
+		// Clamp mouse coords to window size
+		pos.x = std::clamp(pos.x, 0.0, static_cast<double>(dimensions.x));
+		pos.y = std::clamp(pos.y, 0.0, static_cast<double>(dimensions.y));
+
+		return pos;
 	}
 
 	void window::init_imgui()

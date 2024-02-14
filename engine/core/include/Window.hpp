@@ -88,6 +88,11 @@ namespace birb
 		void forget_inputs();
 
 		/**
+		 * @brief Get the current mouse cursor position
+		 */
+		vec2<double> cursor_pos();
+
+		/**
 		 * @brief Initialize the ImGui library
 		 *
 		 * This needs to be called before using anything ImGui related
