@@ -115,12 +115,12 @@ namespace birb
 		 * stuff before swapping the buffers */
 		if (this->imgui_initialized)
 		{
-			ImGui::Render();
-			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
 			// Draw the performance widget
 			if (this->perf_widget_visible)
 				this->perf_widget.draw();
+
+			ImGui::Render();
+			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
 
 		glfwSwapBuffers(this->glfw_window);
