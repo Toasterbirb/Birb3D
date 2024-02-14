@@ -21,8 +21,9 @@ if(CCACHE_FOUND)
 endif(CCACHE_FOUND)
 
 include_directories(./engine/core/include ./engine/rendering/include)
-# add_executable(${PROJECT_NAME} ./src/main.cpp)
-# install(TARGETS ${PROJECT_NAME})
+
+# Include stb libraries
+include_directories(./vendor/stb)
 
 # Build ImGui
 set(IMGUI_PATH "${CMAKE_SOURCE_DIR}/vendor/imgui")
