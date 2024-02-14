@@ -77,7 +77,6 @@ namespace birb
 		 */
 		input next_input();
 
-		// Clear the input queue
 		/**
 		 * @brief Clear the keyboard input queue
 		 *
