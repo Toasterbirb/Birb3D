@@ -14,6 +14,18 @@ namespace birb
 		// Keycodes mapped to the GLFW keycodes
 		enum class keycode
 		{
+			MOUSE_1 = 0,
+			MOUSE_2 = 1,
+			MOUSE_3 = 2,
+			MOUSE_4 = 3,
+			MOUSE_5 = 4,
+			MOUSE_6 = 5,
+			MOUSE_7 = 6,
+			MOUSE_8 = 7,
+			MOUSE_LAST = 7,
+			MOUSE_LEFT = 0,
+			MOUSE_RIGHT = 1,
+			MOUSE_MIDDLE = 2,
 			SPACE =   32,
 			APOSTROPHE =   39, /* ' */
 			COMMA =   44, /* , */
@@ -140,5 +152,6 @@ namespace birb
 		int scancode, mods;
 		keycode key;
 		action state;
+		vec2<double> pos;
 	};
 }

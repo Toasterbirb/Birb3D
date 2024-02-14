@@ -137,6 +137,11 @@ namespace birb
 		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 		/**
+		 * @brief GLFW mouse input callback function
+		 */
+		static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+
+		/**
 		 * @brief GLFW error callback function
 		 */
 		static void error_callback(int error, const char* description);

@@ -20,9 +20,10 @@ int main(void)
 				birb::log("Quitting...");
 				window.quit();
 			}
-		}
 
-		birb::log("Cursor position: " + window.cursor_pos().to_string());
+			if (cur_input.key == birb::input::keycode::MOUSE_LEFT && cur_input.state == birb::input::action::KEY_DOWN)
+				birb::log("Mouse click at " + cur_input.pos.to_string());
+		}
 
 		window.clear();
 		window.flip();

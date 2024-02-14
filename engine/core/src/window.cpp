@@ -59,6 +59,9 @@ namespace birb
 		// Assign the key callback function
 		glfwSetKeyCallback(this->glfw_window, key_callback);
 
+		// Assign the mouse callback function
+		glfwSetMouseButtonCallback(glfw_window, mouse_button_callback);
+
 		// Assign the error callback function
 		glfwSetErrorCallback(error_callback);
 
@@ -240,6 +243,7 @@ namespace birb
 			.mods		= mods,
 			.key		= static_cast<input::keycode>(key),
 			.state		= static_cast<input::action>(action),
+			.pos		= {-1, -1},
 		};
 
 		// Handle reserved keybindings
@@ -253,6 +257,22 @@ namespace birb
 				input_queue.push(new_input);
 				break;
 		}
+	}
+
+	void window::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+	{
+		input new_input {
+			.scancode	= 0,
+			.mods		= mods,
+			.key		= static_cast<input::keycode>(button),
+			.state		= static_cast<input::action>(action),
+			.pos		= vec2<double>(0,0),
+		};
+
+		// Get the current mouse position
+		glfwGetCursorPos(window, &new_input.pos.x, &new_input.pos.y);
+
+		input_queue.push(new_input);
 	}
 
 	void window::error_callback(int error, const char* description)
