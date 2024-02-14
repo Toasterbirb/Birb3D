@@ -11,8 +11,9 @@ Most of these should be simple to install with a Linux package manager. If you a
 - [GLFW](https://www.glfw.org/)
 
 Vendored dependencies that are included as submodules or directly in the repository:
-- [ImGui](https://github.com/ocornut/imgui/tree/docking)
 - [GLAD](https://github.com/Dav1dde/glad)
+- [ImGui](https://github.com/ocornut/imgui/tree/docking)
+- [stb](https://github.com/nothings/stb)
 
 ### How to compile
 Build the project with cmake by running the following commands
