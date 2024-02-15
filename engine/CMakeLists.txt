@@ -21,4 +21,29 @@ target_precompile_headers(birb PUBLIC
 	PRIVATE
 		<glad/gl.h>
 		<GLFW/glfw3.h>
+		<algorithm>
+		<array>
+		<cassert>
+		<chrono>
+		<cmath>
+		<cstddef>
+		<cstdint>
+		<cstdio>
+		<ctime>
+		<fstream>
+		<future>
+		<imgui.h>
+		<imgui_impl_glfw.h>
+		<imgui_impl_opengl3.h>
+		<iostream>
+		<numeric>
+		<queue>
+		<random>
+		<stb_image.h>
+		<string>
+		<sys/cdefs.h>
+		<sys/resource.h>
+		<thread>
+		<type_traits>
+		<vector>
 )
