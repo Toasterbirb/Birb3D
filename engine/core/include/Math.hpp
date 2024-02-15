@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cmath>
+#include <numeric>
+#include <vector>
 
 namespace birb
 {
@@ -21,5 +23,15 @@ namespace birb
 		 * 3. Divide the value with 10 ^ decimal points to get the desired rounded decimal value
 		 * */
 		return std::round(value * std::pow(10, decimal_points)) / static_cast<double>(std::pow(10, decimal_points));
+	}
+
+	/**
+	 * @brief Calculate the average value of a vector
+	 */
+	template<typename T>
+	constexpr T average(std::vector<T> data)
+	{
+		T total = std::accumulate(data.begin(), data.end(), 0.0);
+		return total / data.size();
 	}
 }
