@@ -11,7 +11,7 @@
 
 int main(void)
 {
-	birb::window window("Triangle", birb::vec2<int>(800, 800));
+	birb::window window("Texture", birb::vec2<int>(800, 800));
 	birb::renderer renderer;
 
 	window.init_imgui();
