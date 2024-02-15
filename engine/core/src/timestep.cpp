@@ -1,5 +1,6 @@
 #include "Timestep.hpp"
 
+#include <cassert>
 #include <GLFW/glfw3.h>
 #include <chrono>
 #include <thread>
@@ -57,6 +58,8 @@ namespace birb
 
 	void timestep::set_target_fps(double target_fps)
 	{
+		assert(target_fps != 0 && "Zero division");
+
 		this->target_fps = target_fps;
 
 		// Convert the target fps to frametime in milliseconds
