@@ -16,6 +16,9 @@ namespace birb
 		// of the primary monitor
 		const GLFWvidmode* vid_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		set_target_fps(vid_mode->refreshRate);
+
+		// Fill frametime history with 1s to avoid zero divisions in the performance widget
+		std::fill(frametime_history.begin(), frametime_history.end(), 1);
 	}
 
 	timestep::timestep(double target_fps)
