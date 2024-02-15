@@ -11,6 +11,12 @@ target_sources(birb PRIVATE ${CORE_SRC})
 file(GLOB RENDER_SRC rendering/src/*.cpp)
 target_sources(birb PRIVATE ${RENDER_SRC})
 
+
+# Widgets
+file(GLOB WIDGET_SRC widgets/src/*.cpp)
+target_sources(birb PRIVATE ${WIDGET_SRC})
+
+
 target_link_libraries(birb glfw glad imgui)
 
 target_precompile_headers(birb PUBLIC

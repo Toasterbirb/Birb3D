@@ -20,7 +20,9 @@ if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
 endif(CCACHE_FOUND)
 
-include_directories(./engine/core/include ./engine/rendering/include)
+include_directories(./engine/core/include
+	./engine/rendering/include
+	./engine/widgets/include)
 
 # Include stb libraries
 include_directories(./vendor/stb)
