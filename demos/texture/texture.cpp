@@ -13,6 +13,8 @@ int main(void)
 {
 	birb::window window("Texture", birb::vec2<int>(800, 800));
 	birb::renderer renderer;
+	birb::timestep timestep;
+	birb::widget::performance performance_widget(timestep);
 
 	window.init_imgui();
 
@@ -84,9 +86,11 @@ int main(void)
 		vao1.bind();
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		performance_widget.draw();
 
 		window.flip();
 		window.poll();
+		timestep.step();
 	}
 
 	vao1.unload();
