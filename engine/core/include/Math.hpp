@@ -31,6 +31,10 @@ namespace birb
 	template<typename T>
 	constexpr T average(std::vector<T> data)
 	{
+		// Avoid a zero division
+		if (data.empty())
+			return 0;
+
 		T total = std::accumulate(data.begin(), data.end(), 0.0);
 		return total / data.size();
 	}

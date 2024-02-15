@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <cmath>
 #include <string>
 #include <iostream>
@@ -101,11 +102,15 @@ namespace birb
 
         constexpr vec2<T> operator/(const vec2<T>& other) const
         {
+			assert(other.x != 0 && "Zero division");
+			assert(other.y != 0 && "Zero division");
 			return vec2<T>(x / other.x, y / other.y);
         }
 
         constexpr vec2<T>& operator/=(const vec2<T>& other)
         {
+			assert(other.x != 0 && "Zero division");
+			assert(other.y != 0 && "Zero division");
 			x /= other.x;
 			y /= other.y;
 			return *this;
@@ -113,6 +118,7 @@ namespace birb
 
         constexpr vec2<T> operator/(T other) const
         {
+			assert(other != 0 && "Zero division");
 			return vec2<T>(x / other, y / other);
         }
 
@@ -245,11 +251,17 @@ namespace birb
 
         constexpr vec3<T> operator/(const vec3<T>& other) const
         {
+			assert(other.x != 0 && "Zero division");
+			assert(other.y != 0 && "Zero division");
+			assert(other.z != 0 && "Zero division");
 			return vec3<T>(x / other.x, y / other.y, z / other.z);
         }
 
         constexpr vec3<T>& operator/=(const vec3<T>& other)
         {
+			assert(other.x != 0 && "Zero division");
+			assert(other.y != 0 && "Zero division");
+			assert(other.z != 0 && "Zero division");
 			x /= other.x;
 			y /= other.y;
 			z /= other.z;
@@ -258,6 +270,7 @@ namespace birb
 
         constexpr vec3<T> operator/(T other) const
         {
+			assert(other != 0 && "Zero division");
 			return vec3<T>(x / other, y / other, z / other);
         }
 

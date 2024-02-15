@@ -70,11 +70,13 @@ namespace birb
 	void timestep::set_target_fps(double target_fps)
 	{
 		assert(target_fps != 0 && "Zero division");
+		assert(target_fps > 0 && "Target FPS below zero is not valid");
 
 		this->target_fps = target_fps;
 
 		// Convert the target fps to frametime in milliseconds
 		target_frametime = 1.0 / target_fps;
+		assert(target_frametime != 0 && "Target frametime of zero will cause a zero division");
 
 		// Update the frametime history size to fit one second worth of frametime data
 		constexpr double min_frametime_history_size = 16;
