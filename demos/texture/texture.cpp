@@ -5,6 +5,7 @@
 #include <stb_image.h>
 
 #include "Shader.hpp"
+#include "Texture.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
 #include "EBO.hpp"
@@ -53,28 +54,9 @@ int main(void)
 	unsigned int uni_id = glGetUniformLocation(shader_program.id, "scale");
 
 
-	birb::vec2<int> texture_size(512, 512);
-	stbi_set_flip_vertically_on_load(true);
-	int texture_color_channel_count;
-	unsigned char* tex_bytes = stbi_load("texture_512.png", &texture_size.x, &texture_size.y, &texture_color_channel_count, 0);
+	birb::texture graphic_design("texture_512.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+	graphic_design.tex_unit(shader_program, "tex0", 0);
 
-	unsigned int texture;
-	glGenTextures(1, &texture);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, texture_size.x, texture_size.y, 0, GL_RGB, GL_UNSIGNED_BYTE, tex_bytes);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	stbi_image_free(tex_bytes);
-	glBindTexture(GL_TEXTURE_2D, 0);
-
-	unsigned int tex0_uni = glGetUniformLocation(shader_program.id, "tex0");
-	shader_program.activate();
-	glUniform1i(tex0_uni, 0);
 
 	while (!window.should_close())
 	{
@@ -82,9 +64,9 @@ int main(void)
 
 		shader_program.activate();
 		glUniform1f(uni_id, 0.5f);
-		glBindTexture(GL_TEXTURE_2D, texture);
 		vao1.bind();
 
+		graphic_design.bind();
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		performance_widget.draw();
 
@@ -97,8 +79,8 @@ int main(void)
 	vbo1.unload();
 	ebo1.unload();
 	shader_program.unload();
+	graphic_design.unload();
 
-	glDeleteTextures(1, &texture);
 
 	return 0;
 }
