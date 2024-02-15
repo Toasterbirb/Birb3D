@@ -119,10 +119,6 @@ namespace birb
 		 * stuff before swapping the buffers */
 		if (this->imgui_initialized)
 		{
-			// Draw the performance widget
-			if (this->perf_widget_visible)
-				this->perf_widget.draw();
-
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
@@ -150,13 +146,6 @@ namespace birb
 			{
 				switch(engine_input_queue.front().key)
 				{
-					case (input::keycode::F1):
-						if (this->imgui_initialized)
-							this->perf_widget_visible = !this->perf_widget_visible;
-						else
-							birb::log_warn("Can't open the performance widget since ImGui wasn't initialized");
-						break;
-
 					default:
 						break;
 				}

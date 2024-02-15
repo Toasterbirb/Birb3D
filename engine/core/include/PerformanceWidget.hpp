@@ -1,22 +1,33 @@
 #pragma once
 
+#include "Timestep.hpp"
+
+#include <array>
 #include <sys/resource.h>
 
 namespace birb
 {
-	class performance_widget
+	namespace widget
 	{
-	public:
-		performance_widget();
-		float frametime = 0;
-		void draw();
+		class performance
+		{
+		public:
+			performance(timestep& ts);
+			void draw();
 
-	private:
-		int pid; // Our process ID
+		private:
+			int pid; // Our process ID
 
-		int fps() const;
+			// Get resident memory usage in megabytes
+			long resident_memory_usage() const;
 
-		// Get resident memory usage in megabytes
-		long resident_memory_usage() const;
-	};
+			std::array<float, 16> memory_history;
+
+			// Reference to the timestep used in the gameloop
+			// This is used to get frametime data
+			timestep& ts;
+
+			std::array<char, 12> overlay_text_buffer;
+		};
+	}
 }

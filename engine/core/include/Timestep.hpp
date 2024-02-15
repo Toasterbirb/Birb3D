@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vector>
+
 namespace birb
 {
 	class timestep
@@ -47,6 +49,22 @@ namespace birb
 		double fps() const;
 
 		/**
+		 * @brief Calculate the portion of framebudget used
+		 *
+		 * Framebudget is the time we can be spend while
+		 * still staying above the target framerate. This function calculates
+		 * the amount we have used from this so called framebudget.
+		 *
+		 * @return Framebudget usage as a percentage value
+		 */
+		double framebudget() const;
+
+		/**
+		 * @brief Frametime history for the past second (up-to 240 fps)
+		 */
+		std::vector<float> frametime_history;
+
+		/**
 		 * @brief Set a new target framerate during runtime
 		 *
 		 * @param target_fps New target framerate as frames per second
@@ -63,5 +81,8 @@ namespace birb
 		double target_frametime;
 
 		double _deltatime;
+
+		// Framebudget usage of the previous frame
+		double previous_framebudget;
 	};
 }

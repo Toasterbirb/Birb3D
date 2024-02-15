@@ -124,10 +124,6 @@ namespace birb
 		bool imgui_initialized = false;
 		void new_imgui_frame();
 
-		performance_widget perf_widget;
-		bool perf_widget_visible = false;
-		void toggle_performance_widget();
-
 		// Static variables for callback functions
 		static inline bool window_size_changed;
 
