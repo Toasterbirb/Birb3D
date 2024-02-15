@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cstdio>
 #include <imgui.h>
+#include <stb_sprintf.h>
 #include <sys/resource.h>
 
 
@@ -29,7 +30,7 @@ namespace birb
 
 			// Frametime
 			float average_frametime = birb::average(ts.frametime_history);
-			snprintf(overlay_text_buffer.data(), overlay_text_buffer.size(), "%.5f ms", average_frametime);
+			stbsp_snprintf(overlay_text_buffer.data(), overlay_text_buffer.size(), "%.5f ms", average_frametime);
 			ImGui::PlotLines("Frametime",
 					ts.frametime_history.data(),
 					ts.frametime_history.size(),
@@ -55,7 +56,7 @@ namespace birb
 
 			float memory_max = *std::max_element(memory_history.begin(), memory_history.end());
 
-			snprintf(overlay_text_buffer.data(), overlay_text_buffer.size(), "%lu MB", memory_usage);
+			stbsp_snprintf(overlay_text_buffer.data(), overlay_text_buffer.size(), "%lu MB", memory_usage);
 
 			ImGui::PlotHistogram("Memory usage",
 					memory_history.data(),
