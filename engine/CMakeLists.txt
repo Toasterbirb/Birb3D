@@ -14,6 +14,7 @@ target_sources(birb PRIVATE ${RENDER_SRC})
 target_link_libraries(birb glfw glad imgui)
 
 target_precompile_headers(birb PUBLIC
+	${CORE_INC}/Input.hpp
 	${CORE_INC}/Logger.hpp
 	${CORE_INC}/Vector.hpp
 
