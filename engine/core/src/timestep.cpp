@@ -1,4 +1,5 @@
 #include "Timestep.hpp"
+#include "Logger.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -39,6 +40,7 @@ namespace birb
 		frametime_history.at(frametime_history.size() - 1) = _deltatime;
 
 		// Delay to keep up the target framerate
+		FIXME("Timestep delay time is calculated incorrectly")
 		double delay_time = target_frametime - (_deltatime * 0.001);
 		previous_framebudget = 1 - (delay_time / target_frametime);
 
