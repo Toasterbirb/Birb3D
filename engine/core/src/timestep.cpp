@@ -1,4 +1,5 @@
 #include "Timestep.hpp"
+#include "Math.hpp"
 #include "Logger.hpp"
 
 #include <algorithm>
@@ -17,9 +18,7 @@ namespace birb
 		// of the primary monitor
 		const GLFWvidmode* vid_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		set_target_fps(vid_mode->refreshRate);
-
-		// Fill frametime history with 1s to avoid zero divisions in the performance widget
-		std::fill(frametime_history.begin(), frametime_history.end(), 1);
+		setup_history_arrays();
 	}
 
 	timestep::timestep(double target_fps)
@@ -27,6 +26,16 @@ namespace birb
 		frame_end = glfwGetTime();
 		frame_start = glfwGetTime();
 		set_target_fps(target_fps);
+		setup_history_arrays();
+	}
+
+	void timestep::setup_history_arrays()
+	{
+		// Fill frametime history with 1s to avoid zero divisions in the performance widget
+		std::fill(frametime_history.begin(), frametime_history.end(), 1);
+
+		// Resize the framebudget history to the sample count
+		framebudget_history.resize(birb::timestep::framebudget_sample_count);
 	}
 
 	void timestep::step()
@@ -41,9 +50,11 @@ namespace birb
 		std::rotate(frametime_history.begin(), frametime_history.begin() + 1, frametime_history.end());
 		frametime_history.at(frametime_history.size() - 1) = _deltatime;
 
-		// Delay to keep up the target framerate
-		previous_framebudget = 1 - (delay_time / target_frametime);
+		// Update framebudget history
+		framebudget_history.pop_front();
+		framebudget_history.push_back(1 - (delay_time / target_frametime));
 
+		// Delay to keep up the target framerate
 		if (delay_time > 0)
 		{
 			std::chrono::duration<double> delay_duration(delay_time);
@@ -65,7 +76,7 @@ namespace birb
 
 	double timestep::framebudget() const
 	{
-		return previous_framebudget;
+		return birb::average_deque(framebudget_history);
 	}
 
 	void timestep::set_target_fps(double target_fps)

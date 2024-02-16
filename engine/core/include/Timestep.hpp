@@ -1,5 +1,6 @@
 #pragma once
 
+#include <deque>
 #include <vector>
 
 namespace birb
@@ -72,6 +73,12 @@ namespace birb
 		void set_target_fps(double target_fps);
 
 	private:
+		/**
+		 * @brief Initialize history arrays like frametime_history and framebudget_history
+		 * with the correct sizes and data
+		 */
+		void setup_history_arrays();
+
 		double frame_start;
 		double frame_end;
 
@@ -84,6 +91,7 @@ namespace birb
 		double _deltatime;
 
 		// Framebudget usage of the previous frame
-		double previous_framebudget;
+		static constexpr int framebudget_sample_count = 64;
+		std::deque<double> framebudget_history;
 	};
 }
