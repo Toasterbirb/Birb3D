@@ -22,14 +22,15 @@ namespace birb
 		{
 			float frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
+			float average_frametime = birb::average(ts.frametime_history);
 
 			ImGui::Begin("Performance");
 			ImGui::Text("FPS: %.2f", ts.fps());
+			ImGui::Text("FPS avg: %.0f", std::round(1.0f / average_frametime));
 			ImGui::Text("FPS min: %.2f", 1.0f / frametime_max);
 			ImGui::Text("FPS max: %.2f", 1.0f / frametime_min);
 
 			// Frametime
-			float average_frametime = birb::average(ts.frametime_history);
 			stbsp_snprintf(overlay_text_buffer.data(), overlay_text_buffer.size(), "%.5f ms", average_frametime);
 			ImGui::PlotLines("Frametime",
 					ts.frametime_history.data(),
