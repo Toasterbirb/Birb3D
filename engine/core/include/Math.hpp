@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <deque>
 #include <numeric>
 #include <vector>
 
@@ -30,6 +31,20 @@ namespace birb
 	 */
 	template<typename T>
 	constexpr T average(std::vector<T> data)
+	{
+		// Avoid a zero division
+		if (data.empty())
+			return 0;
+
+		T total = std::accumulate(data.begin(), data.end(), 0.0);
+		return total / data.size();
+	}
+
+	/**
+	 * @brief Calculate the average value of a dequeu
+	 */
+	template<typename T>
+	constexpr T average_deque(std::deque<T> data)
 	{
 		// Avoid a zero division
 		if (data.empty())

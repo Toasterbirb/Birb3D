@@ -24,3 +24,12 @@ TEST_CASE("Calculate the average value of a std::vector")
 	std::vector<float> float_vals = {1.2f, 3.2f};
 	CHECK(birb::average(float_vals) == 2.2f);
 }
+
+TEST_CASE("Calculate the average value of a std::deque")
+{
+	std::deque<int> int_vals = {1, 2, 3, 4, 5};
+	CHECK(birb::average_deque(int_vals) == 3);
+
+	std::deque<float> float_vals = {1.2f, 3.2f};
+	CHECK(birb::average_deque(float_vals) == 2.2f);
+}
