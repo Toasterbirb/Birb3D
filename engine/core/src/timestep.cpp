@@ -25,12 +25,14 @@ namespace birb
 	timestep::timestep(double target_fps)
 	{
 		frame_end = glfwGetTime();
+		frame_start = glfwGetTime();
 		set_target_fps(target_fps);
 	}
 
 	void timestep::step()
 	{
 		double current_time = glfwGetTime();
+		double delay_time = target_frametime - (current_time - frame_start);
 
 		_deltatime = current_time - frame_end;
 		frame_end = current_time;
@@ -40,21 +42,15 @@ namespace birb
 		frametime_history.at(frametime_history.size() - 1) = _deltatime;
 
 		// Delay to keep up the target framerate
-		FIXME("Timestep delay time is calculated incorrectly")
-		double delay_time = target_frametime - (_deltatime * 0.001);
 		previous_framebudget = 1 - (delay_time / target_frametime);
 
 		if (delay_time > 0)
 		{
-			// Add a little bit of headroom to avoid going below the target FPS
-			// This calculation uses the frametime to try to keep it accurate when
-			// the FPS increases. A static multiplier doesn't scale too well
-			// but this solution probably isn't the best one either
-			delay_time *= 1 - target_frametime;
-
 			std::chrono::duration<double> delay_duration(delay_time);
 			std::this_thread::sleep_for(delay_duration);
 		}
+
+		frame_start = glfwGetTime();
 	}
 
 	double timestep::deltatime() const

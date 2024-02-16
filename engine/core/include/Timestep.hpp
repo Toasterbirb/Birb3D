@@ -72,6 +72,7 @@ namespace birb
 		void set_target_fps(double target_fps);
 
 	private:
+		double frame_start;
 		double frame_end;
 
 		// Target FPS (frames per second)
