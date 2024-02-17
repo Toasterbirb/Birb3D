@@ -3,6 +3,7 @@
 #include <vector>
 #include <glad/gl.h>
 
+#include "Timestep.hpp"
 #include "Shader.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"

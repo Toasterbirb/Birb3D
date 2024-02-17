@@ -4,6 +4,8 @@
 #include <glad/gl.h>
 #include <stb_image.h>
 
+#include "PerformanceWidget.hpp"
+#include "Timestep.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
 #include "VAO.hpp"
