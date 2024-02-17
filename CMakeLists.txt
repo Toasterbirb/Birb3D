@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(WINDOWS "Disable Linux specific things")
+option(BIRB_PROFILER "Enable the profiling with microprofile" OFF)
 
 if (WINDOWS)
 	add_definitions(-DBIRB_PLATFORM_WINDOWS)
@@ -57,6 +58,15 @@ add_library(imgui
 set(GLAD_PATH "${CMAKE_SOURCE_DIR}/vendor/glad")
 include_directories(${GLAD_PATH}/include)
 add_library(glad ${GLAD_PATH}/src/gl.c)
+
+# Build microprofile
+add_subdirectory(vendor/microprofile)
+include_directories(vendor/microprofile)
+if (BIRB_PROFILER)
+	add_compile_definitions(MICROPROFILE_ENABLED=1)
+else()
+	add_compile_definitions(MICROPROFILE_ENABLED=0)
+endif()
 
 # Build with all kinds of warnings enabled because programmers usually don't
 # know what they are doing

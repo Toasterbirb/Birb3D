@@ -10,6 +10,10 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <sys/cdefs.h>
+#include <microprofile.h>
+
+#define PROFILER_GROUP "Window"
+#define PROFILER_COLOR MP_LIGHTBLUE
 
 namespace birb
 {
@@ -25,6 +29,7 @@ namespace birb
 	window::window(const std::string& title, const vec2<int> dimensions)
 	:dimensions(dimensions)
 	{
+		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Window construction", PROFILER_COLOR);
 		assert(window_count == 0 && "There can only be one window at any given time");
 		assert(!title.empty() && "Empty window title");
 		assert(dimensions.x > 0 && "Invalid window width");
@@ -115,19 +120,23 @@ namespace birb
 
 	void window::flip()
 	{
+		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Buffer flip", PROFILER_COLOR);
 		/* If ImGui has been initialized, let it draw its
 		 * stuff before swapping the buffers */
 		if (this->imgui_initialized)
 		{
+			MICROPROFILE_SCOPEI(PROFILER_GROUP, "ImGui render", PROFILER_COLOR);
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
 
 		glfwSwapBuffers(this->glfw_window);
+		MicroProfileFlip(nullptr);
 	}
 
 	void window::poll()
 	{
+		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Input polling", PROFILER_COLOR);
 		glfwPollEvents();
 
 		// Update window dimensions and viewport size if needed
