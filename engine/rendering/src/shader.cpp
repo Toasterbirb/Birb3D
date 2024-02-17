@@ -1,10 +1,16 @@
 #include "IO.hpp"
 #include "Shader.hpp"
 
+#include <microprofile.h>
+
+#define PROFILER_GROUP "Shaders"
+#define PROFILER_COLOR MP_GREEN
+
 namespace birb
 {
 	shader::shader(const std::string& vertex_path, const std::string& fragment_path)
 	{
+		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Shader compiling", PROFILER_COLOR);
 		std::string vertex_src = birb::io::read_file(vertex_path);
 		std::string fragment_src = birb::io::read_file(fragment_path);
 

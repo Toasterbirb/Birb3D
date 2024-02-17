@@ -7,6 +7,10 @@
 #include <GLFW/glfw3.h>
 #include <chrono>
 #include <thread>
+#include <microprofile.h>
+
+#define PROFILER_GROUP "Timestep"
+#define PROFILER_COLOR MP_LIGHTGREEN
 
 namespace birb
 {
@@ -31,6 +35,7 @@ namespace birb
 
 	void timestep::setup_history_arrays()
 	{
+		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Setup history arrays", PROFILER_COLOR);
 		// Fill frametime history with 1s to avoid zero divisions in the performance widget
 		std::fill(frametime_history.begin(), frametime_history.end(), 1);
 
@@ -40,6 +45,7 @@ namespace birb
 
 	void timestep::step()
 	{
+		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Step", PROFILER_COLOR);
 		double current_time = glfwGetTime();
 		double delay_time = target_frametime - (current_time - frame_start);
 
@@ -57,6 +63,7 @@ namespace birb
 		// Delay to keep up the target framerate
 		if (delay_time > 0)
 		{
+			MICROPROFILE_SCOPEI(PROFILER_GROUP, "Stall", PROFILER_COLOR);
 			std::chrono::duration<double> delay_duration(delay_time);
 			std::this_thread::sleep_for(delay_duration);
 		}

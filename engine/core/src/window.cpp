@@ -29,7 +29,6 @@ namespace birb
 	window::window(const std::string& title, const vec2<int> dimensions)
 	:dimensions(dimensions)
 	{
-		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Window construction", PROFILER_COLOR);
 		assert(window_count == 0 && "There can only be one window at any given time");
 		assert(!title.empty() && "Empty window title");
 		assert(dimensions.x > 0 && "Invalid window width");
@@ -229,6 +228,7 @@ namespace birb
 
 	void window::new_imgui_frame()
 	{
+		MICROPROFILE_SCOPEI(PROFILER_GROUP, "New ImGui frame", PROFILER_COLOR);
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();

@@ -6,7 +6,10 @@
 #include <imgui.h>
 #include <stb_sprintf.h>
 #include <sys/resource.h>
+#include <microprofile.h>
 
+#define PROFILER_GROUP "Performance widget"
+#define PROFILER_COLOR MP_RED
 
 namespace birb
 {
@@ -20,6 +23,7 @@ namespace birb
 
 		void performance::draw()
 		{
+			MICROPROFILE_SCOPEI(PROFILER_GROUP, "Draw", PROFILER_COLOR);
 			float frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float average_frametime = birb::average(ts.frametime_history);
