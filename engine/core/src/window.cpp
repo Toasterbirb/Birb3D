@@ -128,6 +128,10 @@ namespace birb
 
 		glfwSwapBuffers(this->glfw_window);
 		MicroProfileFlip(nullptr);
+
+		// If ImGui was initialized, start a new frame
+		if (this->imgui_initialized)
+			new_imgui_frame();
 	}
 
 	void window::poll()
@@ -158,10 +162,6 @@ namespace birb
 
 			engine_input_queue.pop();
 		}
-
-		// If ImGui was initialized, start a new frame
-		if (this->imgui_initialized)
-			new_imgui_frame();
 	}
 
 	bool window::inputs_available() const
