@@ -222,6 +222,11 @@ namespace birb
 		return vid_mode->refreshRate;
 	}
 
+	void window::set_background_color(birb::color color)
+	{
+		glClearColor(color.r, color.g, color.b, color.a);
+	}
+
 
 	void window::new_imgui_frame()
 	{

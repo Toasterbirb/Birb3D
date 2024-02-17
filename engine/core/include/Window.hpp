@@ -1,6 +1,7 @@
 #pragma once
 #define GLFW_INCLUDE_NONE
 
+#include "Color.hpp"
 #include "Input.hpp"
 #include "PerformanceWidget.hpp"
 #include "Vector.hpp"
@@ -103,6 +104,11 @@ namespace birb
 		 * @return The refreshrate of the primary monitor
 		 */
 		int monitor_refreshrate() const;
+
+		/**
+		 * @brief Set the default background color
+		 */
+		void set_background_color(birb::color color);
 
 	private:
 		GLFWwindow* glfw_window;
