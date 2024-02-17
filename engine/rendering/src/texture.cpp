@@ -12,7 +12,13 @@ namespace birb
 		birb::vec2<int> texture_size;
 		stbi_set_flip_vertically_on_load(true);
 		int texture_color_channel_count;
+
 		unsigned char* tex_bytes = stbi_load(image_path, &texture_size.x, &texture_size.y, &texture_color_channel_count, 0);
+		if (tex_bytes == nullptr)
+		{
+			birb::log_error("Can't open a texture at: " + std::string(image_path));
+			return;
+		}
 
 		unsigned int texture;
 		glGenTextures(1, &id);
