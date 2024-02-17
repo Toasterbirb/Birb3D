@@ -54,19 +54,11 @@ namespace birb
 			birb::log_fatal("Can't create a new GLFW window");
 		}
 
-		// Make the window's context current
+		// Set GLFW callback functions
 		glfwMakeContextCurrent(this->glfw_window);
-
-		// Assign the key callback function
 		glfwSetKeyCallback(this->glfw_window, key_callback);
-
-		// Assign the mouse callback function
 		glfwSetMouseButtonCallback(glfw_window, mouse_button_callback);
-
-		// Assign the error callback function
 		glfwSetErrorCallback(error_callback);
-
-		// Assign the window resized callback function
 		glfwSetWindowSizeCallback(this->glfw_window, window_size_callback);
 
 		// Disable vsync
