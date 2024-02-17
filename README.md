@@ -7,11 +7,9 @@ TLDR: Another never ending hobbyist game engine project
 ## Building
 
 ### Dependencies
-Most of these should be simple to install with a Linux package manager. If you are compiling this on Windows, you are on your own
-- [GLFW](https://www.glfw.org/)
-
 Vendored dependencies that are included as submodules or directly in the repository:
 - [GLAD](https://github.com/Dav1dde/glad)
+- [GLFW](https://www.glfw.org/)
 - [ImGui](https://github.com/ocornut/imgui/tree/docking)
 - [stb](https://github.com/nothings/stb)
 

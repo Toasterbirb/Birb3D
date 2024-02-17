@@ -27,6 +27,15 @@ include_directories(./engine/core/include
 # Include stb libraries
 include_directories(./vendor/stb)
 
+# Build GLFW
+set(GLFW_PATH "${CMAKE_SOURCE_DIR}/vendor/glfw")
+include_directories("${GLFW_PATH}/include")
+set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build the GLFW example programs")
+set(GLFW_BUILD_TESTS OFF CACHE BOOL "Build the GLFW test programs")
+set(GLFW_BUILD_DOCS OFF CACHE BOOL "Build the GLFW documentation")
+set(GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation target")
+add_subdirectory("${GLFW_PATH}")
+
 # Build ImGui
 set(IMGUI_PATH "${CMAKE_SOURCE_DIR}/vendor/imgui")
 include_directories(
