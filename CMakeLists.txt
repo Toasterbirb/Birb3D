@@ -7,10 +7,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-option(WINDOWS "Disable Linux specific things")
+option(BIRB_WINDOWS "Disable Linux specific things")
 option(BIRB_PROFILER "Enable the profiling with microprofile" OFF)
 
-if (WINDOWS)
+if (BIRB_WINDOWS)
 	add_definitions(-DBIRB_PLATFORM_WINDOWS)
 else()
 	add_definitions(-DBIRB_PLATFORM_LINUX)
