@@ -12,6 +12,7 @@ int main(void)
 {
 	birb::window window("Triangle", birb::vec2<int>(800, 800));
 	birb::renderer renderer;
+	birb::timestep timestep;
 
 	window.init_imgui();
 
@@ -63,6 +64,7 @@ int main(void)
 
 		window.flip();
 		window.poll();
+		timestep.step();
 	}
 
 	vao1.unload();
