@@ -47,6 +47,7 @@ namespace birb
 			ImGui::Text("Framebudget");
 
 
+#ifdef BIRB_PLATFORM_LINUX
 			// Memory usage
 			//   Update the graph if the last value has changed
 			long memory_usage = resident_memory_usage();
@@ -66,6 +67,7 @@ namespace birb
 					0, overlay_text_buffer.data(),
 					0, memory_max + 10,
 					ImVec2(0, 40));
+#endif
 
 			ImGui::Text("Profiler enabled:");
 			ImGui::SameLine();
