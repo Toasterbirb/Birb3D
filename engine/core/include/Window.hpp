@@ -3,7 +3,6 @@
 
 #include "Color.hpp"
 #include "Input.hpp"
-#include "PerformanceWidget.hpp"
 #include "Vector.hpp"
 
 #include <string>

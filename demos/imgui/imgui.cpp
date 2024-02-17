@@ -1,3 +1,4 @@
+#include "PerformanceWidget.hpp"
 #include "Timestep.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
