@@ -67,6 +67,14 @@ namespace birb
 					0, memory_max + 10,
 					ImVec2(0, 40));
 
+			ImGui::Text("Profiler enabled:");
+			ImGui::SameLine();
+#if MICROPROFILE_ENABLED == 1
+			ImGui::TextColored(ImVec4(0.49f, 0.72f, 0.34f, 1.0f), "yes");
+#else
+			ImGui::TextColored(ImVec4(0.80f, 0.27f, 0.27f, 1.0f), "no");
+#endif
+
 			ImGui::End();
 		}
 
