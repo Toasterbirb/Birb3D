@@ -1,4 +1,5 @@
 #include "Window.hpp"
+#include "Profiling.hpp"
 
 #include <algorithm>
 #include <glad/gl.h>
@@ -10,10 +11,6 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <sys/cdefs.h>
-#include <microprofile.h>
-
-#define PROFILER_GROUP "Window"
-#define PROFILER_COLOR MP_LIGHTBLUE
 
 namespace birb
 {
@@ -119,12 +116,12 @@ namespace birb
 
 	void window::flip()
 	{
-		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Buffer flip", PROFILER_COLOR);
+		PROFILER_SCOPE_RENDER("Buffer flip");
 		/* If ImGui has been initialized, let it draw its
 		 * stuff before swapping the buffers */
 		if (this->imgui_initialized)
 		{
-			MICROPROFILE_SCOPEI(PROFILER_GROUP, "ImGui render", PROFILER_COLOR);
+			PROFILER_SCOPE_RENDER("ImGui render");
 			ImGui::Render();
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
@@ -135,7 +132,7 @@ namespace birb
 
 	void window::poll()
 	{
-		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Input polling", PROFILER_COLOR);
+		PROFILER_SCOPE_INPUT("Input polling");
 		glfwPollEvents();
 
 		// Update window dimensions and viewport size if needed
@@ -228,7 +225,7 @@ namespace birb
 
 	void window::new_imgui_frame()
 	{
-		MICROPROFILE_SCOPEI(PROFILER_GROUP, "New ImGui frame", PROFILER_COLOR);
+		PROFILER_SCOPE_RENDER("New ImGui frame");
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();

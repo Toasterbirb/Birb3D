@@ -1,14 +1,11 @@
 #include "IO.hpp"
 #include "Logger.hpp"
+#include "Profiling.hpp"
 
 #include <cassert>
 #include <fstream>
 #include <future>
 #include <string>
-#include <microprofile.h>
-
-#define PROFILER_GROUP "I/O"
-#define PROFILER_COLOR MP_BLUE
 
 namespace birb
 {
@@ -16,7 +13,7 @@ namespace birb
 	{
 		std::string read_file(const std::string& path)
 		{
-			MICROPROFILE_SCOPEI(PROFILER_GROUP, "Read file", PROFILER_COLOR);
+			PROFILER_SCOPE_IO("Read from file");
 			assert(!path.empty() && "Can't read from an empty filepath");
 
 			std::ifstream file;
@@ -46,7 +43,7 @@ namespace birb
 
 		bool write_file(const std::string& path, const std::string& text)
 		{
-			MICROPROFILE_SCOPEI(PROFILER_GROUP, "Write file", PROFILER_COLOR);
+			PROFILER_SCOPE_IO("Write to file");
 			assert(!path.empty() && "Can't write to an empty filepath");
 
 			std::ofstream file;

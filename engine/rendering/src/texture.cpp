@@ -1,17 +1,14 @@
+#include "Profiling.hpp"
 #include "Texture.hpp"
 
 #include <stb_image.h>
-#include <microprofile.h>
-
-#define PROFILER_GROUP "Texture"
-#define PROFILER_COLOR MP_RED1
 
 namespace birb
 {
 	texture::texture(const char* image_path, GLenum tex_type, GLenum slot, GLenum format, GLenum pixel_type)
 	:type(tex_type)
 	{
-		MICROPROFILE_SCOPEI(PROFILER_GROUP, "Texture loading", PROFILER_COLOR);
+		PROFILER_SCOPE_IO("Texture loading")
 		birb::vec2<int> texture_size;
 		stbi_set_flip_vertically_on_load(true);
 		int texture_color_channel_count;
