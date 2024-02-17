@@ -143,7 +143,7 @@ namespace birb
 		glfwPollEvents();
 
 		// Update window dimensions and viewport size if needed
-		if (window::window_size_changed)
+		if (window::window_size_changed && viewport_autoresize)
 		{
 			window::window_size_changed = false;
 			glfwGetWindowSize(glfw_window, &dimensions.x, &dimensions.y);

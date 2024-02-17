@@ -109,6 +109,11 @@ namespace birb
 		 */
 		void set_background_color(birb::color color);
 
+		/**
+		 * @brief Automatically resize the viewport when window gets resized
+		 */
+		bool viewport_autoresize = true;
+
 	private:
 		GLFWwindow* glfw_window;
 
