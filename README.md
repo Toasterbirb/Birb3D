@@ -13,6 +13,9 @@ Vendored dependencies that are included as submodules or directly in the reposit
 - [ImGui](https://github.com/ocornut/imgui/tree/docking)
 - [stb](https://github.com/nothings/stb)
 
+Optional dependencies:
+- [doxygen](https://www.doxygen.nl/index.html) for building documentation
+
 ### How to compile
 Build the project with cmake by running the following commands
 ```sh
@@ -26,6 +29,8 @@ You can build and run tests by running the following command in the build direct
 ```sh
 make -j$(nproc) test
 ```
+
+You can also build the documentation with `make docs`
 
 ## Installation
 To install Birb3D to /usr/local/bin, run the following command
