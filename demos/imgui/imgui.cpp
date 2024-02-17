@@ -16,8 +16,6 @@ int main(void)
 	// Setup ImGui
 	window.init_imgui();
 
-	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-
 	while (!window.should_close())
 	{
 		// Process inputs

@@ -79,6 +79,9 @@ namespace birb
 		// Set static variables
 		window::window_size_changed = false;
 
+		// Set the default background color to something other than black
+		set_background_color(0x2e3440);
+
 		birb::log("window created successfully!");
 	}
 

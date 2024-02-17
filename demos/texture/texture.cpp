@@ -34,8 +34,6 @@ int main(void)
 		0, 3, 2
 	};
 
-	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-
 	birb::shader shader_program("texture_vert.glsl", "texture_frag.glsl");
 
 	birb::vao vao1;

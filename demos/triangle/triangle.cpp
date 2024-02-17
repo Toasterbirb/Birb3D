@@ -34,8 +34,6 @@ int main(void)
 		5, 4, 1, // Upper triangle
 	};
 
-	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-
 	birb::shader shader_program("default_vert.glsl", "default_frag.glsl");
 
 	birb::vao vao1;
