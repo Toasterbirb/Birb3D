@@ -36,7 +36,7 @@ int main(void)
 		0, 3, 2
 	};
 
-	birb::shader shader_program("texture_vert.glsl", "texture_frag.glsl");
+	birb::shader shader_program("texture_vert", "texture_frag");
 
 	birb::vao vao1;
 	vao1.bind();

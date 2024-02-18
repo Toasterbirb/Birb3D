@@ -1,3 +1,4 @@
 *.o
 .cache
 build/
+engine/rendering/shaders/ShaderSource.hpp

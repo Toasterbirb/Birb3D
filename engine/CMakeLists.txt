@@ -1,3 +1,6 @@
+# Include shader source code
+include_directories(rendering/shaders)
+
 add_library(birb)
 
 # Engine core
@@ -7,8 +10,16 @@ target_sources(birb PRIVATE ${CORE_SRC})
 
 
 # Rendering
+file(GLOB SHADER_SRC rendering/shaders/*.glsl)
+add_custom_command(
+	OUTPUT ShaderSource.hpp
+	COMMAND ./generate_shader_header.sh
+	DEPENDS ${SHADER_SRC} ${CMAKE_SOURCE_DIR}/engine/rendering/shaders/generate_shader_header.sh
+	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/engine/rendering/shaders
+)
+
 file(GLOB RENDER_SRC rendering/src/*.cpp)
-target_sources(birb PRIVATE ${RENDER_SRC})
+target_sources(birb PRIVATE ${RENDER_SRC} ShaderSource.hpp)
 
 
 # Widgets

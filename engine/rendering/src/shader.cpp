@@ -1,14 +1,20 @@
-#include "IO.hpp"
 #include "Shader.hpp"
 #include "Profiling.hpp"
+#include "ShaderSource.hpp"
+
+#include <cassert>
 
 namespace birb
 {
-	shader::shader(const std::string& vertex_path, const std::string& fragment_path)
+	shader::shader(const std::string& vertex, const std::string& fragment)
 	{
 		PROFILER_SCOPE_RENDER("Shader compiling");
-		std::string vertex_src = birb::io::read_file(vertex_path);
-		std::string fragment_src = birb::io::read_file(fragment_path);
+
+		assert(birb::shader_src.contains(vertex) && "Tried to use a vertex shader that wasn't in the pregenerated header");
+		assert(birb::shader_src.contains(fragment) && "Tried to use a fragment shader that wasn't in the pregenerated header");
+
+		const std::string& vertex_src = birb::shader_src[vertex];
+		const std::string& fragment_src = birb::shader_src[fragment];
 
 		const char* vertex_src_c_str = vertex_src.c_str();
 		const char* fragment_src_c_str = fragment_src.c_str();

@@ -7,7 +7,7 @@ namespace birb
 	class shader
 	{
 	public:
-		shader(const std::string& vertex_path, const std::string& fragment_path);
+		shader(const std::string& vertex, const std::string& fragment);
 
 		// Reference to the shader program
 		unsigned int id;
