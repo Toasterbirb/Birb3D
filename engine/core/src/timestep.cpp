@@ -61,7 +61,7 @@ namespace birb
 		framebudget_history.push_back(1 - (delay_time / target_frametime));
 
 		// Delay to keep up the target framerate
-		if (delay_time > 0)
+		if (delay_time > 0 && !disable_fps_cap)
 		{
 			PROFILER_SCOPE_RENDER("Do nothing");
 			std::chrono::duration<double> delay_duration(delay_time);

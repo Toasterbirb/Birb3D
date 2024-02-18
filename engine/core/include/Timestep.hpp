@@ -72,6 +72,12 @@ namespace birb
 		 */
 		void set_target_fps(double target_fps);
 
+		/**
+		 * @brief If set to true, the target FPS will be ignored
+		 * and the framerate will be uncapped
+		 */
+		bool disable_fps_cap = false;
+
 	private:
 		/**
 		 * @brief Initialize history arrays like frametime_history and framebudget_history
