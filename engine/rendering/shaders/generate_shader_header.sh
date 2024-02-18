@@ -18,7 +18,7 @@ EOF
 SHADER_FILES="$(find . -iname "*.glsl")"
 for i in $SHADER_FILES
 do
-	SHADER_FILE_NAME="$(basename $i)"
+	SHADER_FILE_NAME="$(basename "$i")"
 	SHADER_NAME="${SHADER_FILE_NAME//.glsl/}"
 
 	{ echo "{ \"$SHADER_NAME\", R\"("; cat "$i"; echo ')" },'; } >> "$HEADER_FILE"
