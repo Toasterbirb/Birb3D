@@ -13,7 +13,7 @@ namespace birb
 	{
 		std::string read_file(const std::string& path)
 		{
-			PROFILER_SCOPE_IO("Read from file");
+			PROFILER_SCOPE_IO_FN();
 			assert(!path.empty() && "Can't read from an empty filepath");
 
 			std::ifstream file;
@@ -43,7 +43,7 @@ namespace birb
 
 		bool write_file(const std::string& path, const std::string& text)
 		{
-			PROFILER_SCOPE_IO("Write to file");
+			PROFILER_SCOPE_IO_FN();
 			assert(!path.empty() && "Can't write to an empty filepath");
 
 			std::ofstream file;

@@ -8,8 +8,6 @@ namespace birb
 {
 	shader::shader(const std::string& vertex, const std::string& fragment)
 	{
-		PROFILER_SCOPE_RENDER("Shader compiling");
-
 		assert(birb::shader_src.contains(vertex) && "Tried to use a vertex shader that wasn't in the pregenerated header");
 		assert(birb::shader_src.contains(fragment) && "Tried to use a fragment shader that wasn't in the pregenerated header");
 
@@ -20,25 +18,28 @@ namespace birb
 		const char* fragment_src_c_str = fragment_src.c_str();
 
 		// Compile shaders
-		unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vertex_shader, 1, &vertex_src_c_str, NULL);
-		glCompileShader(vertex_shader);
-		compile_errors(vertex_shader, "VERTEX");
+		{
+			PROFILER_SCOPE_RENDER("Shader compiling")
+			unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+			glShaderSource(vertex_shader, 1, &vertex_src_c_str, NULL);
+			glCompileShader(vertex_shader);
+			compile_errors(vertex_shader, "VERTEX");
 
-		unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fragment_shader, 1, &fragment_src_c_str, NULL);
-		glCompileShader(fragment_shader);
-		compile_errors(fragment_shader, "FRAGMENT");
+			unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+			glShaderSource(fragment_shader, 1, &fragment_src_c_str, NULL);
+			glCompileShader(fragment_shader);
+			compile_errors(fragment_shader, "FRAGMENT");
 
-		this->id = glCreateProgram();
-		glAttachShader(this->id, vertex_shader);
-		glAttachShader(this->id, fragment_shader);
-		glLinkProgram(this->id);
-		compile_errors(id, "PROGRAM");
+			this->id = glCreateProgram();
+			glAttachShader(this->id, vertex_shader);
+			glAttachShader(this->id, fragment_shader);
+			glLinkProgram(this->id);
+			compile_errors(id, "PROGRAM");
 
-		// Delete the shaders since they are now in the program
-		glDeleteShader(vertex_shader);
-		glDeleteShader(fragment_shader);
+			// Delete the shaders since they are now in the program
+			glDeleteShader(vertex_shader);
+			glDeleteShader(fragment_shader);
+		}
 	}
 
 	void shader::activate()

@@ -20,7 +20,7 @@ namespace birb
 
 		void performance::draw()
 		{
-			PROFILER_SCOPE_RENDER("Draw performance widget")
+			PROFILER_SCOPE_RENDER_FN()
 			float frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float average_frametime = birb::average(ts.frametime_history);

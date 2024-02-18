@@ -35,7 +35,7 @@ namespace birb
 
 	void timestep::setup_history_arrays()
 	{
-		PROFILER_SCOPE_RENDER("Setup performance history arrays");
+		PROFILER_SCOPE_RENDER_FN()
 		// Fill frametime history with 1s to avoid zero divisions in the performance widget
 		std::fill(frametime_history.begin(), frametime_history.end(), 1);
 
@@ -45,7 +45,7 @@ namespace birb
 
 	void timestep::step()
 	{
-		PROFILER_SCOPE_RENDER("Timestep step");
+		PROFILER_SCOPE_RENDER_FN()
 		double current_time = glfwGetTime();
 		double delay_time = target_frametime - (current_time - frame_start);
 
