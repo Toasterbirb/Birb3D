@@ -11,15 +11,17 @@ target_sources(birb PRIVATE ${CORE_SRC})
 
 # Rendering
 file(GLOB SHADER_SRC rendering/shaders/*.glsl)
+set(SHADER_SOURCE_HEADER
+	"${CMAKE_SOURCE_DIR}/engine/rendering/shaders/ShaderSource.hpp")
 add_custom_command(
-	OUTPUT ShaderSource.hpp
+	OUTPUT ${SHADER_SOURCE_HEADER}
 	COMMAND ./generate_shader_header.sh
 	DEPENDS ${SHADER_SRC} ${CMAKE_SOURCE_DIR}/engine/rendering/shaders/generate_shader_header.sh
 	WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/engine/rendering/shaders
 )
 
 file(GLOB RENDER_SRC rendering/src/*.cpp)
-target_sources(birb PRIVATE ${RENDER_SRC} ShaderSource.hpp)
+target_sources(birb PRIVATE ${RENDER_SRC} ${SHADER_SOURCE_HEADER})
 
 
 # Widgets
