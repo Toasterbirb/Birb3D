@@ -8,6 +8,7 @@ TLDR: Another never ending hobbyist game engine project
 
 ### Dependencies
 Vendored dependencies that are included as submodules or directly in the repository:
+- [EnTT](https://github.com/skypjack/entt)
 - [GLAD](https://github.com/Dav1dde/glad)
 - [GLFW](https://www.glfw.org/)
 - [ImGui](https://github.com/ocornut/imgui/tree/docking)

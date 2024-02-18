@@ -28,6 +28,11 @@ include_directories(./engine/core/include
 # Include stb libraries
 include_directories(./vendor/stb)
 
+
+# Include EnTT
+include_directories(${CMAKE_SOURCE_DIR}/vendor/entt/single_include/entt)
+
+
 # Build GLFW
 set(GLFW_PATH "${CMAKE_SOURCE_DIR}/vendor/glfw")
 include_directories("${GLFW_PATH}/include")
