@@ -1,0 +1,15 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  shellcheck:
+    runs-on: docker
+    steps:
+      - uses: https://code.forgejo.org/actions/checkout@v4
+
+      - name: Install dependencies
+        run: apk add shellcheck
+
+      - name: Shellcheck
+        run: shellcheck -s sh -S style $(find ./engine ./scripts -iname "*.sh")
