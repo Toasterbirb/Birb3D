@@ -242,7 +242,7 @@ namespace birb
 		}
 	}
 
-	void window::key_callback(__attribute_maybe_unused__ GLFWwindow* window, int key, int scancode, int action, int mods)
+	void window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		input new_input {
 			.scancode	= scancode,
@@ -286,7 +286,7 @@ namespace birb
 		birb::log_error("GLFW error [" + std::to_string(error) + "]: " + std::string(description));
 	}
 
-	void window::window_size_callback(__attribute_maybe_unused__ GLFWwindow* window, __attribute_maybe_unused__ int width, __attribute_maybe_unused__ int height)
+	void window::window_size_callback(GLFWwindow* window, int width, int height)
 	{
 		window::window_size_changed = true;
 	}
