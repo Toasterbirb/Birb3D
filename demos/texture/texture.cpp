@@ -44,9 +44,9 @@ int main(void)
 	birb::vbo vbo1(verts);
 	birb::ebo ebo1(indices);
 
-	vao1.link_vbo(vbo1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
-	vao1.link_vbo(vbo1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-	vao1.link_vbo(vbo1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+	vao1.link_vbo(vbo1, 0, 3, GL_FLOAT, 8 * sizeof(float), nullptr);
+	vao1.link_vbo(vbo1, 1, 3, GL_FLOAT, 8 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+	vao1.link_vbo(vbo1, 2, 2, GL_FLOAT, 8 * sizeof(float), reinterpret_cast<void*>(6 * sizeof(float)));
 	vao1.unbind();
 	vbo1.unbind();
 	ebo1.unbind();
