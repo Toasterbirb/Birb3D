@@ -3,7 +3,7 @@ FROM alpine:3.19
 ARG USER=user
 
 # Install all required dependencies
-RUN apk update && apk add cmake g++ git make doas wayland-dev libxkbcommon-dev libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-dev
+RUN apk update && apk add bash cmake g++ git make doas wayland-dev libxkbcommon-dev libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-dev
 
 # Create a new non-root user and set up its workspace
 RUN adduser -D ${USER} &&\
