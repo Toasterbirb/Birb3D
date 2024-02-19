@@ -15,8 +15,6 @@ jobs:
           packages: cmake
           version: 1.0
 
-        run: apt update && apt install -y cmake
-
       - run: mkdir -p build
 
       - run: cd build ; cmake .. ; make -j$(nproc) test
