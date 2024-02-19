@@ -20,7 +20,6 @@ namespace birb
 			return;
 		}
 
-		unsigned int texture;
 		glGenTextures(1, &id);
 		glActiveTexture(slot);
 		glBindTexture(tex_type, id);
