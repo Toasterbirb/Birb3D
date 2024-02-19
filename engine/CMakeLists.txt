@@ -59,7 +59,6 @@ target_precompile_headers(birb PUBLIC
 		<random>
 		<stb_image.h>
 		<string>
-		<sys/cdefs.h>
 		<sys/resource.h>
 		<thread>
 		<type_traits>
