@@ -1,19 +1,21 @@
 FROM alpine:3.19
 
-ARG USER=user
+ARG USER=toasterbirb
 
 # Install all required dependencies
 RUN apk update && apk add bash cmake g++ git make doas wayland-dev libxkbcommon-dev libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev mesa-dev
 
 # Create a new non-root user and set up its workspace
+RUN mkdir -p /workspace/${USER}/
+
 RUN adduser -D ${USER} &&\
 	adduser ${USER} wheel &&\
-	chown -R ${USER}:${USER} /home/${USER}
+	chown -R ${USER}:${USER} /workspace/${USER}
 
 # Configure doas
 RUN mkdir -p /etc/doas.d && echo "permit nopass :wheel" > /etc/doas.d/doas.conf
 
-WORKDIR /home/${USER}
+WORKDIR /workspace/${USER}
 USER ${USER}
 
 # Clone the source code and submodules recursively
