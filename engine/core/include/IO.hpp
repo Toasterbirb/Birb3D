@@ -56,5 +56,5 @@ namespace birb
 		 * @return A future to a boolean value that tells if the file writing was successful
 		 */
 		std::future<bool> write_file_async(const std::string& path, const std::string& text);
-	};
+	}
 }
