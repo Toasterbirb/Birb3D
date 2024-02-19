@@ -14,4 +14,4 @@ jobs:
         run: apt update && apt install -y cmake
 
       - name: Test
-      - run: mkdir -p build ; cd build ; cmake .. ; make -j$(nproc) test
+        run: mkdir -p build ; cd build ; cmake .. ; make -j$(nproc) test
