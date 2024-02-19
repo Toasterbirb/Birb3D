@@ -5,13 +5,8 @@ on:
 jobs:
   test:
     runs-on: docker
+    container:
+      - image: 192.168.1.104:5000/toasterbirb/birb3d:latest
     steps:
-      - uses: https://code.forgejo.org/actions/checkout@v4
-        with:
-          submodules: 'recursive'
-
-      - name: Install dependencies
-        run: apt update && apt install -y cmake
-
       - name: Test
-        run: mkdir -p build ; cd build ; cmake .. ; make -j$(nproc) test
+        run: cd Birb3D ; mkdir -p build ; cd build ; cmake .. ; make -j$(nproc) test
