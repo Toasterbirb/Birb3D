@@ -4,7 +4,7 @@ on:
       - main
 jobs:
   test:
-    runs-on: docker
+    runs-on: birb3d
     container:
       - image: docker:docker://192.168.1.104:5000/toasterbirb/birb3d:latest
     steps:
