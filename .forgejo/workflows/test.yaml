@@ -1,7 +1,12 @@
-on: [push]
+on:
+  push:
+    branches:
+      - main
 jobs:
   test:
     runs-on: docker
     steps:
+      - uses: https://code.forgejo.org/actions/checkout@v4
+      - run: apt update && apt install -y cmake doctest
       - run: mkdir -p build
       - run: cd build ; cmake .. ; make -j$(nproc) test
