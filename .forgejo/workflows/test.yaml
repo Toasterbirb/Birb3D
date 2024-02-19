@@ -9,6 +9,12 @@ jobs:
       - uses: https://code.forgejo.org/actions/checkout@v4
         with:
           submodules: 'recursive'
-      - run: apt update && apt install -y cmake
+
+      - name: Install dependencies
+        id: install-deps
+        uses: https://code.forgejo.org/actions/cache@v4
+        run: apt update && apt install -y cmake
+
       - run: mkdir -p build
+
       - run: cd build ; cmake .. ; make -j$(nproc) test
