@@ -15,6 +15,9 @@ RUN adduser -D ${USER} &&\
 # Configure doas
 RUN mkdir -p /etc/doas.d && echo "permit nopass :wheel" > /etc/doas.d/doas.conf
 
+# Create some directory that the forgejo runner expects to find
+RUN mkdir -p /var/run
+
 WORKDIR /workspace/${USER}
 USER ${USER}
 
