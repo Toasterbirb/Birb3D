@@ -51,7 +51,7 @@ namespace birb
 		 * @param b blue
 		 * @param a alpha
 		 */
-		constexpr color(int r, int g, int b, int a = 255)
+		color(int r, int g, int b, int a = 255)
 		{
 			constexpr float reverse_division = 1 / 255.0f;
 			this->r = r * reverse_division;
@@ -67,7 +67,7 @@ namespace birb
 		 *
 		 * @param hex Hex encoded RGB value (i.e. 0xFF00FF)
 		 */
-		constexpr color(int hex)
+		color(int hex)
 		:a(1.0f)
 		{
 			constexpr float reverse_division = 1 / 255.0f;
