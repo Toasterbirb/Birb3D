@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -19,9 +19,9 @@ SHADER_FILES="$(find . -iname "*.glsl")"
 for i in $SHADER_FILES
 do
 	SHADER_FILE_NAME="$(basename "$i")"
-	SHADER_NAME="${SHADER_FILE_NAME//.glsl/}"
+	SHADER_NAME="$(echo "$SHADER_FILE_NAME" | sed 's/.glsl//')"
 
 	{ echo "{ \"$SHADER_NAME\", R\"("; cat "$i"; echo ')" },'; } >> "$HEADER_FILE"
 done
 
-echo -e "\t};\n}" >> "$HEADER_FILE"
+printf "\t};\n}" >> "$HEADER_FILE"
