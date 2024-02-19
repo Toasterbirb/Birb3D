@@ -12,6 +12,7 @@ Vendored dependencies that are included as submodules or directly in the reposit
 - [GLAD](https://github.com/Dav1dde/glad)
 - [GLFW](https://www.glfw.org/)
 - [ImGui](https://github.com/ocornut/imgui/tree/docking)
+- [doctest](https://github.com/doctest/doctest)
 - [stb](https://github.com/nothings/stb)
 
 Optional dependencies:

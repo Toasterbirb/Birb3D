@@ -28,6 +28,8 @@ include_directories(./engine/core/include
 # Include stb libraries
 include_directories(./vendor/stb)
 
+# Include doctest
+include_directories(./vendor/doctest/doctest)
 
 # Include EnTT
 include_directories(${CMAKE_SOURCE_DIR}/vendor/entt/single_include/entt)

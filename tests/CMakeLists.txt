@@ -1,5 +1,3 @@
-find_package(doctest REQUIRED)
-
 file(GLOB TEST_SRC *.cpp)
 add_executable(birb_test ${TEST_SRC})
 
