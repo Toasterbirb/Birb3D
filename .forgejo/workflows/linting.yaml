@@ -3,13 +3,16 @@ on:
     branches:
       - main
 jobs:
-  shellcheck:
+  linting:
     runs-on: docker
     steps:
       - uses: https://code.forgejo.org/actions/checkout@v4
 
       - name: Install dependencies
-        run: apt update && apt install -y shellcheck
+        run: apt update && apt install -y shellcheck cppcheck
 
       - name: Shellcheck
         run: shellcheck -s sh -S style $(find ./engine ./scripts -iname "*.sh")
+
+      - name: CppCheck
+        run: cppcheck ./engine ./tests ./demos
