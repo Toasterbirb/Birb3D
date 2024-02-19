@@ -8,7 +8,6 @@ jobs:
     steps:
       - uses: https://code.forgejo.org/actions/checkout@v4
         with:
-          lfs: 'true'
           submodules: 'recursive'
       - run: apt update && apt install -y cmake
       - run: mkdir -p build
