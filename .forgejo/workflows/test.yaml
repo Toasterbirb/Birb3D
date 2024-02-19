@@ -10,9 +10,11 @@ jobs:
         with:
           submodules: 'recursive'
 
-      - name: Install dependencies
-        id: install-deps
-        uses: https://code.forgejo.org/actions/cache@v4
+      - uses: https://github.com/awalsh128/cache-apt-pkgs-action@v1.4.1
+        with:
+          packages: cmake
+          version: 1.0
+
         run: apt update && apt install -y cmake
 
       - run: mkdir -p build
