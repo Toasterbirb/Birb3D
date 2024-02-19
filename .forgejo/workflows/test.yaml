@@ -9,6 +9,6 @@ jobs:
       - image: docker:docker://192.168.1.104:5000/toasterbirb/birb3d:latest
 
     steps:
-      - run: mkdir -p /var/run/act/
+      - run: git pull
       - name: Test
         run: mkdir -p build ; cd build ; cmake .. ; make -j$(nproc) test
