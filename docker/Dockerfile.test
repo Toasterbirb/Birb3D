@@ -8,18 +8,11 @@ RUN apk update && apk add bash cmake g++ git make doas wayland-dev libxkbcommon-
 # Create a new non-root user and set up its workspace
 RUN mkdir -p /workspace/${USER}/
 
-RUN adduser -D ${USER} &&\
-	adduser ${USER} wheel &&\
-	chown -R ${USER}:${USER} /workspace/${USER}
-
 # Configure doas
 RUN mkdir -p /etc/doas.d && echo "permit nopass :wheel" > /etc/doas.d/doas.conf
 
 # Create some directory that the forgejo runner expects to find
 RUN mkdir -p /var/run
 
-WORKDIR /workspace/${USER}
-USER ${USER}
-
 # Clone the source code and submodules recursively
-RUN git clone --recursive --depth 1 http://192.168.1.104:5000/toasterbirb/Birb3D
+RUN git clone --recursive --depth 1 http://192.168.1.104:5000/toasterbirb/Birb3D /workspace/${USER}/Birb3D
