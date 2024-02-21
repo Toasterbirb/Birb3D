@@ -12,7 +12,7 @@ namespace birb
 		class performance
 		{
 		public:
-			performance(timestep& ts);
+			explicit performance(timestep& ts);
 			~performance();
 			void draw();
 
