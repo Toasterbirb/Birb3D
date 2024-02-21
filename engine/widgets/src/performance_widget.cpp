@@ -25,7 +25,20 @@ namespace birb
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float average_frametime = birb::average(ts.frametime_history);
 
-			ImGui::Begin("Performance");
+			bool p_open = false;
+			ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
+
+			const float padding = 5.0f;
+			const ImGuiViewport* viewport = ImGui::GetMainViewport();
+			ImVec2 work_pos = viewport->WorkPos;
+			ImVec2 work_size = viewport->WorkSize;
+			ImVec2 window_pos(work_pos.x + padding, work_pos.y + padding);
+			ImVec2 window_pos_pivot(0.0f, 0.0f);
+
+			ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
+			ImGui::SetNextWindowBgAlpha(0.45f);
+
+			ImGui::Begin("Performance", &p_open, window_flags);
 			ImGui::Text("FPS: %.2f", ts.fps());
 			ImGui::Text("FPS avg: %.0f", std::round(1.0f / average_frametime));
 			ImGui::Text("FPS min: %.2f", 1.0f / frametime_max);
