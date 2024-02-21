@@ -35,4 +35,14 @@ namespace birb
 	{
 
 	}
+
+	void renderer::toggle_wireframe()
+	{
+		if (wireframe_mode)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		else
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+		wireframe_mode = !wireframe_mode;
+	}
 }
