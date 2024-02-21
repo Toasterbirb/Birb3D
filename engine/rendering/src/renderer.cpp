@@ -24,11 +24,22 @@ namespace birb
 {
 	renderer::renderer()
 	{
+		event_bus::register_event_id(1, this); // Toggle wireframe mode
 	}
 
 	renderer::~renderer()
 	{
 		birb::log("Crushing the renderer");
+	}
+
+	void renderer::process_event(unsigned short event_id, const event_data& data)
+	{
+		switch (event_id)
+		{
+			case 1:
+				toggle_wireframe();
+				break;
+		}
 	}
 
 	void renderer::draw_verts(std::vector<float> verts)
@@ -38,6 +49,7 @@ namespace birb
 
 	void renderer::toggle_wireframe()
 	{
+		birb::log("Toggling wireframe mode");
 		if (wireframe_mode)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		else

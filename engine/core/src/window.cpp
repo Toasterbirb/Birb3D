@@ -1,5 +1,6 @@
-#include "Window.hpp"
+#include "EventBus.hpp"
 #include "Profiling.hpp"
+#include "Window.hpp"
 
 #include <algorithm>
 #include <glad/gl.h>
@@ -151,6 +152,10 @@ namespace birb
 			{
 				switch(engine_input_queue.front().key)
 				{
+					case birb::input::keycode::F1:
+						event_bus::send_event(1);
+						break;
+
 					default:
 						break;
 				}
