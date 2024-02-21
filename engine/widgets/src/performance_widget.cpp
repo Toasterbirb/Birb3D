@@ -44,7 +44,6 @@ namespace birb
 			const float padding = 5.0f;
 			const ImGuiViewport* viewport = ImGui::GetMainViewport();
 			ImVec2 work_pos = viewport->WorkPos;
-			ImVec2 work_size = viewport->WorkSize;
 			ImVec2 window_pos(work_pos.x + padding, work_pos.y + padding);
 			ImVec2 window_pos_pivot(0.0f, 0.0f);
 
