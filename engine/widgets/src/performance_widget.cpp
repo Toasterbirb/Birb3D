@@ -1,6 +1,7 @@
 #include "Math.hpp"
 #include "PerformanceWidget.hpp"
 #include "Profiling.hpp"
+#include "Logger.hpp"
 
 #include <algorithm>
 #include <cstdio>
@@ -12,8 +13,16 @@ namespace birb
 {
 	namespace widget
 	{
+		// There should only be a singular performance widget at any point
+		static unsigned short perf_widget_count = 0;
+
 		performance::performance(timestep& ts) : ts(ts)
 		{
+			if (perf_widget_count != 0)
+				birb::log_warn("Spawning multiple performance widgets is unnecessary");
+
+			perf_widget_count++;
+
 			this->pid = RUSAGE_SELF;
 			std::fill(memory_history.begin(), memory_history.end(), 0);
 		}
