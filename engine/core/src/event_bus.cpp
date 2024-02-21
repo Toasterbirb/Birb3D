@@ -1,13 +1,13 @@
 #include "EventBus.hpp"
 
-#include <map>
+#include <unordered_map>
 #include <vector>
 
 namespace birb
 {
 	namespace event_bus
 	{
-		static std::map<unsigned short, std::vector<event_obj*>> event_bus_registry;
+		static std::unordered_map<unsigned short, std::vector<event_obj*>> event_bus_registry;
 
 		void register_event_id(unsigned short event_id, event_obj* obj)
 		{
