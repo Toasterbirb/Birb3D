@@ -25,7 +25,9 @@ namespace birb
 	window::window(const std::string& title, const vec2<int> dimensions)
 	:dimensions(dimensions)
 	{
-		assert(window_count == 0 && "There can only be one window at any given time");
+		if (window_count != 0)
+			birb::log_fatal("There can only be one window at any given time");
+
 		assert(!title.empty() && "Empty window title");
 		assert(dimensions.x > 0 && "Invalid window width");
 		assert(dimensions.y > 0 && "Invalid window height");
