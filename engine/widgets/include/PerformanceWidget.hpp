@@ -13,6 +13,7 @@ namespace birb
 		{
 		public:
 			performance(timestep& ts);
+			~performance();
 			void draw();
 
 		private:

@@ -27,6 +27,11 @@ namespace birb
 			std::fill(memory_history.begin(), memory_history.end(), 0);
 		}
 
+		performance::~performance()
+		{
+			perf_widget_count--;
+		}
+
 		void performance::draw()
 		{
 			PROFILER_SCOPE_RENDER_FN()
