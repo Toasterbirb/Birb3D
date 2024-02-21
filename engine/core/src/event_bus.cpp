@@ -30,7 +30,7 @@ namespace birb
 				return;
 			}
 
-			std::vector<event_obj*>& event_objs = event_bus_registry.at(event_id);
+			const std::vector<event_obj*>& event_objs = event_bus_registry.at(event_id);
 			for (event_obj* obj : event_objs)
 				obj->process_event(event_id, data);
 		}
