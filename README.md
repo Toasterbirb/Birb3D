@@ -44,6 +44,7 @@ You can customize the installation *PREFIX* and *DESTDIR* variables normally wit
 ## Resources
 Awesome websites/people/resources etc. etc. that notably helped with the creation of this project
 
+- [learnopengl.com](https://learnopengl.com)
 - [OpenGL Course - Create 3D and 2D Graphics With C++](https://www.youtube.com/watch?v=45MIykWJ-C4&t=1716)
 - [GLFW documentation](https://www.glfw.org/documentation.html)
 - [Vulkan Game Engine Series by Travis Vroman](https://www.youtube.com/watch?v=teg23SJlyl8)
