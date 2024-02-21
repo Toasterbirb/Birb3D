@@ -4,7 +4,6 @@
 #include "Logger.hpp"
 
 #include <algorithm>
-#include <cstdio>
 #include <imgui.h>
 #include <stb_sprintf.h>
 #include <sys/resource.h>
