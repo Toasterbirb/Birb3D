@@ -50,4 +50,12 @@ namespace birb
 		std::cerr << "\033[31mFATAL ERROR: " << text << "\033[0m\n";
 		exit(exit_code);
 	}
+
+	/**
+	 * @brief Helper function for converting 64-bit pointers to a string
+	 */
+	static std::string ptr_to_str(const void* ptr)
+	{
+		return "0x" + std::to_string(reinterpret_cast<long long>(ptr));
+	}
 }
