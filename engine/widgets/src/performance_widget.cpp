@@ -1,9 +1,11 @@
+#include "Logger.hpp"
 #include "Math.hpp"
 #include "PerformanceWidget.hpp"
 #include "Profiling.hpp"
-#include "Logger.hpp"
+#include "Window.hpp"
 
 #include <algorithm>
+#include <cassert>
 #include <imgui.h>
 #include <stb_sprintf.h>
 #include <sys/resource.h>
@@ -34,6 +36,9 @@ namespace birb
 		void performance::draw()
 		{
 			PROFILER_SCOPE_RENDER_FN()
+
+			assert(window::imgui_is_init() && "The performance widget requires ImGui to be initialized");
+
 			float frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float average_frametime = birb::average(ts.frametime_history);
