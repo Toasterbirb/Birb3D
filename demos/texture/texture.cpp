@@ -24,10 +24,10 @@ int main(void)
 	// Format: coordinates, colors
 	std::vector<float> verts =
 	{
-		-0.5f, -0.5f, 0.0f,		1.0f, 0.0f, 0.0f,	0.0f, 0.0f, // Lower left corner
-		-0.5f,  0.5f, 0.0f,		0.0f, 1.0f, 0.0f, 	0.0f, 1.0f, // Upper left corner
-		 0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f, 	1.0f, 1.0f, // Upper right corner
-		 0.5f, -0.5f, 0.0f,		1.0f, 1.0f, 1.0f, 	1.0f, 0.0f, // Lower right corner
+		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, // Lower left corner
+		-0.5f,  0.5f, 0.0f,		0.0f, 1.0f, // Upper left corner
+		 0.5f,  0.5f, 0.0f,		1.0f, 1.0f, // Upper right corner
+		 0.5f, -0.5f, 0.0f,		1.0f, 0.0f, // Lower right corner
 	};
 
 	std::vector<unsigned int> indices =
@@ -44,9 +44,8 @@ int main(void)
 	birb::vbo vbo1(verts);
 	birb::ebo ebo1(indices);
 
-	vao1.link_vbo(vbo1, 0, 3, 8, 0);
-	vao1.link_vbo(vbo1, 1, 3, 8, 3);
-	vao1.link_vbo(vbo1, 2, 2, 8, 6);
+	vao1.link_vbo(vbo1, 0, 3, 5, 0);
+	vao1.link_vbo(vbo1, 1, 2, 5, 3);
 	vao1.unbind();
 	vbo1.unbind();
 	ebo1.unbind();
