@@ -9,13 +9,13 @@ namespace birb
 	{
 	public:
 		explicit ebo(std::vector<unsigned int> indices);
+		~ebo();
 
 		// Reference to the element array buffer
 		unsigned int id;
 
 		void bind();
 		void unbind();
-		void unload();
 
 	private:
 

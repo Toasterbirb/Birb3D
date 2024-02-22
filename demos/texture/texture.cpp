@@ -75,12 +75,5 @@ int main(void)
 		timestep.step();
 	}
 
-	vao1.unload();
-	vbo1.unload();
-	ebo1.unload();
-	shader_program.unload();
-	graphic_design.unload();
-
-
 	return 0;
 }

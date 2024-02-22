@@ -11,6 +11,11 @@ namespace birb
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * indices.size(), indices.data(), GL_STATIC_DRAW);
 	}
 
+	ebo::~ebo()
+	{
+		glDeleteBuffers(1, &id);
+	}
+
 	void ebo::bind()
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
@@ -19,10 +24,5 @@ namespace birb
 	void ebo::unbind()
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	}
-
-	void ebo::unload()
-	{
-		glDeleteBuffers(1, &id);
 	}
 }

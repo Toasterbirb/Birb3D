@@ -9,7 +9,12 @@ namespace birb
 		glGenVertexArrays(1, &id);
 	}
 
-	void vao::link_vbo(birb::vbo vbo, unsigned int layout, unsigned int num_components, GLenum type, size_t stride, void* offset)
+	vao::~vao()
+	{
+		glDeleteVertexArrays(1, &id);
+	}
+
+	void vao::link_vbo(birb::vbo& vbo, unsigned int layout, unsigned int num_components, GLenum type, size_t stride, void* offset)
 	{
 		vbo.bind();
 
@@ -27,10 +32,5 @@ namespace birb
 	void vao::unbind()
 	{
 		glBindVertexArray(0);
-	}
-
-	void vao::unload()
-	{
-		glDeleteVertexArrays(1, &id);
 	}
 }

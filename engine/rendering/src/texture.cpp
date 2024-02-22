@@ -34,7 +34,12 @@ namespace birb
 		glBindTexture(tex_type, 0);
 	}
 
-	void texture::tex_unit(birb::shader shader, const char* uniform, unsigned int unit)
+	texture::~texture()
+	{
+		glDeleteTextures(1, &id);
+	}
+
+	void texture::tex_unit(birb::shader& shader, const char* uniform, unsigned int unit)
 	{
 		unsigned int tex0_uni = glGetUniformLocation(shader.id, uniform);
 		shader.activate();
@@ -49,10 +54,5 @@ namespace birb
 	void texture::unbind()
 	{
 		glBindTexture(type, 0);
-	}
-
-	void texture::unload()
-	{
-		glDeleteTextures(1, &id);
 	}
 }

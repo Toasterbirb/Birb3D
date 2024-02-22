@@ -11,6 +11,11 @@ namespace birb
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), vertices.data(), GL_STATIC_DRAW);
 	}
 
+	vbo::~vbo()
+	{
+		glDeleteBuffers(1, &id);
+	}
+
 	void vbo::bind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, id);
@@ -19,10 +24,5 @@ namespace birb
 	void vbo::unbind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	void vbo::unload()
-	{
-		glDeleteBuffers(1, &id);
 	}
 }

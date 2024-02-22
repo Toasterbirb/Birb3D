@@ -45,14 +45,14 @@ namespace birb
 		}
 	}
 
+	shader::~shader()
+	{
+		glDeleteProgram(this->id);
+	}
+
 	void shader::activate()
 	{
 		glUseProgram(this->id);
-	}
-
-	void shader::unload()
-	{
-		glDeleteProgram(this->id);
 	}
 
 	void shader::compile_errors(unsigned int shader, const std::string& type)
