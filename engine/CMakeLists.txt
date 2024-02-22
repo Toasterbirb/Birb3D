@@ -64,3 +64,7 @@ target_precompile_headers(birb PUBLIC
 		<type_traits>
 		<vector>
 )
+
+
+# Utils
+add_subdirectory(utils)
