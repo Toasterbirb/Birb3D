@@ -9,6 +9,11 @@ struct test_obj : public birb::event_obj
 		birb::event_bus::register_event_id(999, this); // Reserved for testing purposes
 	}
 
+	~test_obj()
+	{
+		birb::event_bus::unregister_event_id(999, this);
+	}
+
 	void process_event(unsigned short event_id, const birb::event_data& data)
 	{
 		if (event_id == 999)

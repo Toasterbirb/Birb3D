@@ -16,3 +16,6 @@ jobs:
 
       - name: CppCheck
         run: cppcheck --enable=warning,style,performance,portability --error-exitcode=1 ./engine ./tests ./demos
+
+      - name: Event bus unregister calls
+        run: ./scripts/event_id_linter.sh
