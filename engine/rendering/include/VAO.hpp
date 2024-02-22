@@ -2,6 +2,8 @@
 
 #include "VBO.hpp"
 
+#include <glad/gl.h>
+
 namespace birb
 {
 	// Vertex array object
