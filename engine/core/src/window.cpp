@@ -72,6 +72,7 @@ namespace birb
 
 		// Set static variables
 		window::window_size_changed = false;
+		window::imgui_initialized = false;
 
 		// Set the default background color to something other than black
 		set_background_color(0x2e3440);
@@ -82,7 +83,7 @@ namespace birb
 	window::~window()
 	{
 		// If ImGui was initialize, quit it gracefully
-		if (this->imgui_initialized)
+		if (window::imgui_initialized)
 		{
 			ImGui_ImplOpenGL3_Shutdown();
 			ImGui_ImplGlfw_Shutdown();
@@ -116,7 +117,7 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN()
 		/* If ImGui has been initialized, let it draw its
 		 * stuff before swapping the buffers */
-		if (this->imgui_initialized)
+		if (window::imgui_initialized)
 		{
 			PROFILER_SCOPE_RENDER("ImGui render");
 			ImGui::Render();
@@ -127,7 +128,7 @@ namespace birb
 		MicroProfileFlip(nullptr);
 
 		// If ImGui was initialized, start a new frame
-		if (this->imgui_initialized)
+		if (window::imgui_initialized)
 			new_imgui_frame();
 	}
 
@@ -211,10 +212,15 @@ namespace birb
 		ImGui_ImplGlfw_InitForOpenGL(this->glfw_window, true);
 		ImGui_ImplOpenGL3_Init();
 
-		imgui_initialized = true;
+		window::imgui_initialized = true;
 
 		// Start the first ImGui frame
 		new_imgui_frame();
+	}
+
+	bool window::imgui_is_init()
+	{
+		return window::imgui_initialized;
 	}
 
 	int window::monitor_refreshrate() const
