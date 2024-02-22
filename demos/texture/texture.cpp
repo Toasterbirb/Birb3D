@@ -67,7 +67,7 @@ int main(void)
 		vao1.bind();
 
 		graphic_design.bind();
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		renderer.draw_elements(vao1, indices.size());
 		performance_widget.draw();
 
 		window.flip();

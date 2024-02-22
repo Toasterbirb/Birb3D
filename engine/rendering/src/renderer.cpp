@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <cstdint>
 #include <glad/gl.h>
-#include <vector>
 
 // Make sure that all of the datatypes are of correct size
 // so that they work correctly with OpenGL
@@ -43,9 +42,10 @@ namespace birb
 		}
 	}
 
-	void renderer::draw_verts(std::vector<float> verts)
+	void renderer::draw_elements(vao& vao, size_t index_count)
 	{
-
+		vao.bind();
+		glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
 	}
 
 	void renderer::toggle_wireframe()

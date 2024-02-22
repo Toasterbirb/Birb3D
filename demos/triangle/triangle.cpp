@@ -59,7 +59,7 @@ int main(void)
 		glUniform1f(uni_id, 0.5f);
 		vao1.bind();
 
-		glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+		renderer.draw_elements(vao1, indices.size());
 
 		window.flip();
 		window.poll();
