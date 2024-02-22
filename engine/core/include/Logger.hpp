@@ -56,6 +56,6 @@ namespace birb
 	 */
 	static std::string ptr_to_str(const void* ptr)
 	{
-		return "0x" + std::to_string(reinterpret_cast<long long>(ptr));
+		return "0x" + std::to_string(reinterpret_cast<long>(ptr));
 	}
 }
