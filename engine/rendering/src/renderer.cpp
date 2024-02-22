@@ -30,6 +30,7 @@ namespace birb
 	renderer::~renderer()
 	{
 		birb::log("Crushing the renderer");
+		event_bus::unregister_event_id(1, this);
 	}
 
 	void renderer::process_event(unsigned short event_id, const event_data& data)

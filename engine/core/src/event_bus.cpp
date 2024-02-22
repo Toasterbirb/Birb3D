@@ -11,7 +11,21 @@ namespace birb
 
 		void register_event_id(unsigned short event_id, event_obj* obj)
 		{
+			birb::log("Event ID " + std::to_string(event_id) + " registered to " + birb::ptr_to_str(obj));
+
 			event_bus_registry[event_id].push_back(obj);
+		}
+
+		void unregister_event_id(unsigned short event_id, event_obj* obj)
+		{
+			birb::log("Event ID " + std::to_string(event_id) + " unregistered for " + birb::ptr_to_str(obj));
+
+			std::vector<event_obj*>& event_objs = event_bus_registry.at(event_id);
+			event_objs.erase(std::remove_if(event_objs.begin(), event_objs.end(),
+				[&obj](const event_obj* ptr)
+				{
+					return ptr && (ptr == obj);
+				}));
 		}
 
 		void send_event(unsigned short event_id)

@@ -21,15 +21,30 @@ namespace birb
 		virtual void process_event(unsigned short event_id, const event_data& data) = 0;
 	};
 
+	/**
+	 * @brief System for sending events around the program
+	 */
 	namespace event_bus
 	{
 		/**
 		 * @brief Register a new event
 		 *
+		 * @warning For every event ID you register, you should also unregister them
+		 * in the destructor. Otherwise you might be walking on thin ice and the program
+		 * can crash if the event ID gets called after the object goes out of scope
+		 *
 		 * @param event_id Identifier for the event
 		 * @param obj Pointer to the object that will receive the event
 		 */
 		void register_event_id(unsigned short event_id, event_obj* obj);
+
+		/**
+		 * @brief Unregister an object from an event ID
+		 *
+		 * @param event_id Identifier for the event
+		 * @param obj Pointer to the object that will be removed from the event ID registry
+		 */
+		void unregister_event_id(unsigned short event_id, event_obj* obj);
 
 		/**
 		 * @brief Send an event to all event objects that have subscribed to the given ID
