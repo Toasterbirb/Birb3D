@@ -14,11 +14,11 @@ namespace birb
 		glDeleteVertexArrays(1, &id);
 	}
 
-	void vao::link_vbo(birb::vbo& vbo, unsigned int layout, unsigned int num_components, GLenum type, size_t stride, void* offset)
+	void vao::link_vbo(birb::vbo& vbo, unsigned int layout, unsigned int num_components, size_t stride, unsigned int offset)
 	{
 		vbo.bind();
 
-		glVertexAttribPointer(layout, num_components, type, GL_FALSE, stride, offset);
+		glVertexAttribPointer(layout, num_components, GL_FLOAT, GL_FALSE, stride * sizeof(float), reinterpret_cast<void*>(offset * sizeof(float)));
 		glEnableVertexAttribArray(layout);
 
 		vbo.unbind();
