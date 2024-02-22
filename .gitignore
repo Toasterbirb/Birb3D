@@ -2,3 +2,4 @@
 .cache
 build/
 engine/rendering/shaders/ShaderSource.hpp
+playground/playground.cpp

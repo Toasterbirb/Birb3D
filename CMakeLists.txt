@@ -91,6 +91,9 @@ add_subdirectory(demos)
 # Build tests
 add_subdirectory(tests)
 
+# Build the playground project
+add_subdirectory(playground)
+
 # Build documentation
 find_package(Doxygen)
 if (Doxygen_FOUND)
