@@ -8,7 +8,7 @@ namespace birb
 	class vbo
 	{
 	public:
-		vbo(std::vector<float> vertices);
+		explicit vbo(std::vector<float> vertices);
 
 		// Reference to the vertex buffer object
 		unsigned int id;

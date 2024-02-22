@@ -8,7 +8,7 @@ namespace birb
 	class ebo
 	{
 	public:
-		ebo(std::vector<unsigned int> indices);
+		explicit ebo(std::vector<unsigned int> indices);
 
 		// Reference to the element array buffer
 		unsigned int id;
