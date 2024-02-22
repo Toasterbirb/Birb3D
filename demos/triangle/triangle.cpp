@@ -49,14 +49,14 @@ int main(void)
 	vbo1.unbind();
 	ebo1.unbind();
 
-	unsigned int uni_id = glGetUniformLocation(shader_program.id, "scale");
+	shader_program.add_uniform_location("scale");
 
 	while (!window.should_close())
 	{
 		window.clear();
 
 		shader_program.activate();
-		glUniform1f(uni_id, 0.5f);
+		shader_program.set_uniform_float_1("scale", 0.5f);
 		vao1.bind();
 
 		renderer.draw_elements(vao1, indices.size());

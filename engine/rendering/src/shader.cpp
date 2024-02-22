@@ -82,4 +82,14 @@ namespace birb
 			}
 		}
 	}
+
+	void shader::add_uniform_location(const std::string& name)
+	{
+		uniform_locations[name] = glGetUniformLocation(id, name.c_str());
+	}
+
+	void shader::set_uniform_float_1(const std::string& name, float f)
+	{
+		glUniform1f(uniform_locations[name], f);
+	}
 }
