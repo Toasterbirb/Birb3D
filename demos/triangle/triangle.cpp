@@ -35,7 +35,7 @@ int main(void)
 		5, 4, 1, // Upper triangle
 	};
 
-	birb::shader shader_program("color_vert", "color_frag");
+	birb::shader shader_program("color", "color");
 
 	birb::vao vao1;
 	vao1.bind();

@@ -8,11 +8,14 @@ namespace birb
 {
 	shader::shader(const std::string& vertex, const std::string& fragment)
 	{
-		assert(birb::shader_src.contains(vertex) && "Tried to use a vertex shader that wasn't in the pregenerated header");
-		assert(birb::shader_src.contains(fragment) && "Tried to use a fragment shader that wasn't in the pregenerated header");
+		const std::string vertex_name = vertex + "_vert";
+		const std::string fragment_name = fragment + "_frag";
 
-		const std::string& vertex_src = birb::shader_src[vertex];
-		const std::string& fragment_src = birb::shader_src[fragment];
+		assert(birb::shader_src.contains(vertex_name) && "Tried to use a vertex shader that wasn't in the pregenerated header");
+		assert(birb::shader_src.contains(fragment_name) && "Tried to use a fragment shader that wasn't in the pregenerated header");
+
+		const std::string& vertex_src = birb::shader_src[vertex_name];
+		const std::string& fragment_src = birb::shader_src[fragment_name];
 
 		const char* vertex_src_c_str = vertex_src.c_str();
 		const char* fragment_src_c_str = fragment_src.c_str();
