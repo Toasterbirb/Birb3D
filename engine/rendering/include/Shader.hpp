@@ -24,11 +24,11 @@ namespace birb
 		void set_var_mat4(const std::string& name, glm::mat4 mat4);
 
 		template<typename T>
-		void set_var(const std::string& name, T f)
+		void set_var(const std::string& name, T value)
 		{
 			activate();
 			assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
-			glUniform1f(uniform_locations[name], f);
+			glUniform1f(uniform_locations[name], value);
 		}
 
 	private:
