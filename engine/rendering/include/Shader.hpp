@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cassert>
+#include <glad/gl.h>
 #include <string>
 #include <unordered_map>
 
@@ -18,7 +20,14 @@ namespace birb
 		void activate();
 
 		void add_uniform_location(const std::string& name);
-		void set_uniform_float_1(const std::string& name, float f);
+
+		template<typename T>
+		void set_var(const std::string& name, T f)
+		{
+			activate();
+			assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
+			glUniform1f(uniform_locations[name], f);
+		}
 
 	private:
 		void compile_errors(unsigned int shader, const std::string& type);

@@ -88,10 +88,4 @@ namespace birb
 		activate();
 		uniform_locations[name] = glGetUniformLocation(id, name.c_str());
 	}
-
-	void shader::set_uniform_float_1(const std::string& name, float f)
-	{
-		activate();
-		glUniform1f(uniform_locations[name], f);
-	}
 }
