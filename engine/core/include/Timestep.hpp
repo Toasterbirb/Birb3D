@@ -34,6 +34,11 @@ namespace birb
 		void step();
 
 		/**
+		 * @return Time passed since startup in seconds
+		 */
+		double time_since_startup() const;
+
+		/**
 		 * @return The duration of the previous frame
 		 */
 		double deltatime() const;

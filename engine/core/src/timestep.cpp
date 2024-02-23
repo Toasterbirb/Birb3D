@@ -71,6 +71,11 @@ namespace birb
 		frame_start = glfwGetTime();
 	}
 
+	double timestep::time_since_startup() const
+	{
+		return glfwGetTime();
+	}
+
 	double timestep::deltatime() const
 	{
 		return _deltatime;
