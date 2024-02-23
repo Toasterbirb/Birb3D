@@ -19,7 +19,7 @@ namespace birb
 		 *
 		 * @param target_fps The amount of frames per second that the game tries to maintain
 		 */
-		timestep(double target_fps);
+		explicit timestep(double target_fps);
 
 		/**
 		 * @brief End a gameloop iteration and start a new one
