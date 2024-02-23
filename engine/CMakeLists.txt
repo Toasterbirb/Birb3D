@@ -29,7 +29,7 @@ file(GLOB WIDGET_SRC widgets/src/*.cpp)
 target_sources(birb PRIVATE ${WIDGET_SRC})
 
 
-target_link_libraries(birb glfw glad imgui microprofile)
+target_link_libraries(birb glfw glad glm imgui microprofile)
 
 target_precompile_headers(birb PUBLIC
 	${CORE_INC}/Input.hpp
