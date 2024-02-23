@@ -4,6 +4,8 @@
 #include <cmath>
 #include <string>
 #include <iostream>
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 
 namespace birb
 {
@@ -47,6 +49,11 @@ namespace birb
 		constexpr vec2<float> to_float() const
 		{
 			return vec2<float>(x, y);
+		}
+
+		constexpr glm::vec2 to_glm_vec() const
+		{
+			return glm::vec2(x, y);
 		}
 
 		constexpr bool operator==(const vec2& other) const
@@ -193,6 +200,11 @@ namespace birb
 		constexpr vec3<float> to_float() const
 		{
 			return vec3<float>(x, y, z);
+		}
+
+		constexpr glm::vec3 to_glm_vec() const
+		{
+			return glm::vec3(x, y, z);
 		}
 
 		constexpr bool operator==(const vec3 other) const

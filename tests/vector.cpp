@@ -2,6 +2,8 @@
 #include "Vector.hpp"
 
 #include <doctest/doctest.h>
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 
 TEST_CASE("Vector constructors")
 {
@@ -151,6 +153,20 @@ TEST_CASE("Vector conversions")
 		CHECK(vec3_b.x == 1);
 		CHECK(vec3_b.y == 2);
 		CHECK(vec3_b.z == 3);
+	}
+
+	SUBCASE("vec to glm::vec")
+	{
+		birb::vec2<float> vec2(4.0f, 5.0f);
+		glm::vec2 glm_vec2 = vec2.to_glm_vec();
+		CHECK(glm_vec2.x == vec2.x);
+		CHECK(glm_vec2.y == vec2.y);
+
+		birb::vec3<float> vec3(4.0f, 5.0f, 6.0f);
+		glm::vec3 glm_vec3 = vec3.to_glm_vec();
+		CHECK(glm_vec3.x == vec3.x);
+		CHECK(glm_vec3.y == vec3.y);
+		CHECK(glm_vec3.z == vec3.z);
 	}
 }
 
