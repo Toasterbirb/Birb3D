@@ -4,6 +4,10 @@
 #include <glad/gl.h>
 #include <stb_image.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "PerformanceWidget.hpp"
 #include "Timestep.hpp"
 #include "Shader.hpp"
@@ -14,10 +18,6 @@
 
 int main(void)
 {
-	std::cout << GL_TEXTURE_1D << "\n";
-	std::cout << GL_TEXTURE_2D << "\n";
-	std::cout << GL_TEXTURE_3D << "\n";
-
 	birb::window window("Texture", birb::vec2<int>(800, 800));
 	birb::renderer renderer;
 	birb::timestep timestep;
@@ -54,22 +54,36 @@ int main(void)
 	vbo1.unbind();
 	ebo1.unbind();
 
-	unsigned int uni_id = glGetUniformLocation(shader_program.id, "scale");
+	shader_program.add_uniform_location("transform");
+
 
 	birb::texture graphic_design("texture_512.png", 0, birb::color_format::RGB);
 	graphic_design.tex_unit(shader_program, "tex0", 0);
 
 
+	constexpr float rotation_speed = 5.0f;
+
 	while (!window.should_close())
 	{
 		window.clear();
 
+		glm::mat4 trans = glm::mat4(1.0f);
+		trans = glm::translate(trans, glm::vec3(0.2f, 0.2f, 0.0f));
+		trans = glm::rotate(trans, glm::radians(static_cast<float>(timestep.time_since_startup()) * rotation_speed), glm::vec3(0.0, 0.0, 1.0f));
+		trans = glm::scale(trans, glm::vec3(1.2f, 1.2f, 1.2f));
+
 		shader_program.activate();
-		glUniform1f(uni_id, 0.5f);
+		shader_program.set_var_mat4("transform", trans);
 		vao1.bind();
 
 		graphic_design.bind();
 		renderer.draw_elements(vao1, indices.size());
+
+		trans = glm::mat4(1.0f);
+		trans = glm::translate(trans, glm::vec3(-0.5f, -0.5f, 0.0f));
+		shader_program.set_var_mat4("transform", trans);
+		renderer.draw_elements(vao1, indices.size());
+
 		performance_widget.draw();
 
 		window.flip();

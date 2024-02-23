@@ -3,6 +3,7 @@
 #include "ShaderSource.hpp"
 
 #include <cassert>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace birb
 {
@@ -87,5 +88,12 @@ namespace birb
 	{
 		activate();
 		uniform_locations[name] = glGetUniformLocation(id, name.c_str());
+	}
+
+	void shader::set_var_mat4(const std::string& name, glm::mat4 mat4)
+	{
+		activate();
+		assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
+		glUniformMatrix4fv(uniform_locations[name], 1, GL_FALSE, glm::value_ptr(mat4));
 	}
 }

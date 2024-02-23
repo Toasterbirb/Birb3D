@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cassert>
-#include <glad/gl.h>
+#include <glm/fwd.hpp>
 #include <string>
 #include <unordered_map>
 
@@ -20,6 +20,7 @@ namespace birb
 		void activate();
 
 		void add_uniform_location(const std::string& name);
+		void set_var_mat4(const std::string& name, glm::mat4 mat4);
 
 		template<typename T>
 		void set_var(const std::string& name, T f)

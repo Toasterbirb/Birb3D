@@ -6,10 +6,10 @@ out vec3 color;
 
 out vec2 texCoord;
 
-uniform float scale;
+uniform mat4 transform;
 
 void main()
 {
-	gl_Position = vec4(aPos.x + aPos.x * scale, aPos.y + aPos.y * scale, aPos.z + aPos.z * scale, 1.0);
+	gl_Position = transform * vec4(aPos, 1.0f);
 	texCoord = aTex;
 }
