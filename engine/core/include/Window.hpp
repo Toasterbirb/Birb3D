@@ -6,6 +6,7 @@
 #include "Vector.hpp"
 
 #include <string>
+#include <unordered_set>
 #include <GLFW/glfw3.h>
 
 namespace birb
@@ -78,6 +79,11 @@ namespace birb
 		input next_input();
 
 		/**
+		 * @brief Check if a key is being held down
+		 */
+		bool is_key_held(birb::input::keycode key) const;
+
+		/**
 		 * @brief Clear the keyboard input queue
 		 *
 		 * This is useful in situations where you haven't had the chance to handle
@@ -141,6 +147,7 @@ namespace birb
 
 		// Static variables for callback functions
 		static inline bool window_size_changed;
+		static inline std::unordered_set<birb::input::keycode> held_down_keys;
 
 		/**
 		 * @brief GLFW input callback function

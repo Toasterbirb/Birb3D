@@ -180,6 +180,11 @@ namespace birb
 		return top_input;
 	}
 
+	bool window::is_key_held(birb::input::keycode key) const
+	{
+		return held_down_keys.contains(key);
+	}
+
 	void window::forget_inputs()
 	{
 		std::queue<input> empty_queue;
@@ -279,6 +284,17 @@ namespace birb
 			.state		= static_cast<input::action>(action),
 			.pos		= {-1, -1},
 		};
+
+		// Keep the "held down keys" list up-to-date
+		if (new_input.state == birb::input::action::KEY_DOWN)
+		{
+			held_down_keys.insert(new_input.key);
+		}
+		else if (new_input.state == birb::input::action::KEY_UP)
+		{
+			assert(held_down_keys.contains(new_input.key) && "Tried to remove a key from held down keys when it wasn't in the set in the first place");
+			held_down_keys.erase(new_input.key);
+		}
 
 		// Handle reserved keybindings
 		switch (new_input.key)
