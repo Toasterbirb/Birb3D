@@ -14,6 +14,10 @@
 
 int main(void)
 {
+	std::cout << GL_TEXTURE_1D << "\n";
+	std::cout << GL_TEXTURE_2D << "\n";
+	std::cout << GL_TEXTURE_3D << "\n";
+
 	birb::window window("Texture", birb::vec2<int>(800, 800));
 	birb::renderer renderer;
 	birb::timestep timestep;
@@ -52,8 +56,7 @@ int main(void)
 
 	unsigned int uni_id = glGetUniformLocation(shader_program.id, "scale");
 
-
-	birb::texture graphic_design("texture_512.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+	birb::texture graphic_design("texture_512.png", 0, birb::color_format::RGB);
 	graphic_design.tex_unit(shader_program, "tex0", 0);
 
 
