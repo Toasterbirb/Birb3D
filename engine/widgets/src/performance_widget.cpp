@@ -62,7 +62,7 @@ namespace birb
 			ImGui::Text("FPS max: %.2f", 1.0f / frametime_min);
 
 			// Frametime
-			stbsp_snprintf(overlay_text_buffer.data(), overlay_text_buffer.size(), "%.5f ms", average_frametime);
+			stbsp_snprintf(overlay_text_buffer.data(), overlay_text_buffer.size(), "%.5f ms", average_frametime * 1000);
 			ImGui::PlotLines("Frametime",
 					ts.frametime_history.data(),
 					ts.frametime_history.size(),
