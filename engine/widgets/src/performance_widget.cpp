@@ -99,13 +99,28 @@ namespace birb
 					ImVec2(0, 40));
 #endif
 
+
+			ImVec4 green(0.49f, 0.72f, 0.34f, 1.0f);
+			ImVec4 red(0.80f, 0.27f, 0.27f, 1.0f);
+
 			ImGui::Text("Profiler enabled:");
 			ImGui::SameLine();
 #if MICROPROFILE_ENABLED == 1
-			ImGui::TextColored(ImVec4(0.49f, 0.72f, 0.34f, 1.0f), "yes");
+			ImGui::TextColored(green, "yes");
 #else
-			ImGui::TextColored(ImVec4(0.80f, 0.27f, 0.27f, 1.0f), "no");
+			ImGui::TextColored(red, "no");
 #endif
+
+
+			ImGui::Text("Debug build:");
+			ImGui::SameLine();
+
+#ifdef NDEBUG
+			ImGui::TextColored(red, "no");
+#else
+			ImGui::TextColored(green, "yes");
+#endif
+
 
 			ImGui::End();
 		}
