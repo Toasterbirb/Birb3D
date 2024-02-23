@@ -28,10 +28,47 @@ int main(void)
 	// Format: coordinates, colors
 	std::vector<float> verts =
 	{
-		-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, // Lower left corner
-		-0.5f,  0.5f, 0.0f,		0.0f, 1.0f, // Upper left corner
-		 0.5f,  0.5f, 0.0f,		1.0f, 1.0f, // Upper right corner
-		 0.5f, -0.5f, 0.0f,		1.0f, 0.0f, // Lower right corner
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
 
 	std::vector<unsigned int> indices =
@@ -54,35 +91,41 @@ int main(void)
 	vbo1.unbind();
 	ebo1.unbind();
 
-	shader_program.add_uniform_location("transform");
+	shader_program.add_uniform_location("model");
+	shader_program.add_uniform_location("view");
+	shader_program.add_uniform_location("projection");
 
 
 	birb::texture graphic_design("texture_512.png", 0, birb::color_format::RGB);
 	graphic_design.tex_unit(shader_program, "tex0", 0);
 
 
-	constexpr float rotation_speed = 5.0f;
+	constexpr float rotation_speed = 50.0f;
 
 	while (!window.should_close())
 	{
 		window.clear();
 
-		glm::mat4 trans = glm::mat4(1.0f);
-		trans = glm::translate(trans, glm::vec3(0.2f, 0.2f, 0.0f));
-		trans = glm::rotate(trans, glm::radians(static_cast<float>(timestep.time_since_startup()) * rotation_speed), glm::vec3(0.0, 0.0, 1.0f));
-		trans = glm::scale(trans, glm::vec3(1.2f, 1.2f, 1.2f));
+		glm::mat4 model = glm::mat4(1.0f);
+		model = glm::translate(model, glm::vec3(0.2f, 0.2f, 0.0f));
+		model = glm::rotate(model, glm::radians(static_cast<float>(timestep.time_since_startup()) * rotation_speed), glm::vec3(0.7f, 1.0f, 0.5f));
+		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
+
+		glm::mat4 view = glm::mat4(1.0f);
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+		glm::mat4 projection;
+		projection = glm::perspective(glm::radians(45.0f), static_cast<float>(window.size().x) / static_cast<float>(window.size().y), 0.1f, 100.0f);
 
 		shader_program.activate();
-		shader_program.set_var_mat4("transform", trans);
+		shader_program.set_var_mat4("model", model);
+		shader_program.set_var_mat4("view", view);
+		shader_program.set_var_mat4("projection", projection);
 		vao1.bind();
 
 		graphic_design.bind();
-		renderer.draw_elements(vao1, indices.size());
-
-		trans = glm::mat4(1.0f);
-		trans = glm::translate(trans, glm::vec3(-0.5f, -0.5f, 0.0f));
-		shader_program.set_var_mat4("transform", trans);
-		renderer.draw_elements(vao1, indices.size());
+		// renderer.draw_elements(vao1, indices.size());
+		glDrawArrays(GL_TRIANGLES, 0, 36);
 
 		performance_widget.draw();
 

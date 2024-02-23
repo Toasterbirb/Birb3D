@@ -77,6 +77,10 @@ namespace birb
 		// Set the default background color to something other than black
 		set_background_color(0x1F1F28);
 
+		// Enable depth testing
+		glEnable(GL_DEPTH_TEST);
+
+
 		birb::log("window created successfully!");
 	}
 
@@ -109,7 +113,7 @@ namespace birb
 
 	void window::clear()
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void window::flip()

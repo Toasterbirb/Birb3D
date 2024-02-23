@@ -32,6 +32,14 @@ namespace birb
 		bool should_close() const;
 
 		/**
+		 * @return The current dimensions of the window
+		 */
+		vec2<int> size() const
+		{
+			return dimensions;
+		}
+
+		/**
 		 * @brief Clear the window back buffer
 		 *
 		 * Call this function before starting to render new stuff. Otherwise
