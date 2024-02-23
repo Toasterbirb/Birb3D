@@ -1,7 +1,6 @@
 #pragma once
 
 #include <random>
-#include <type_traits>
 
 namespace birb
 {
@@ -20,7 +19,7 @@ namespace birb
 		/**
 		 * @brief Construct a random number generator with a set seed
 		 */
-		random(unsigned int seed);
+		explicit random(unsigned int seed);
 
 		/**
 		 * @brief Change the seed of the random number engine
