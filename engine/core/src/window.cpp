@@ -229,7 +229,7 @@ namespace birb
 		style.Colors[ImGuiCol_PlotLines] = ImVec4(0.862745f, 0.843137f, 0.729412f, 1.0f);
 		style.Colors[ImGuiCol_PlotHistogram] = ImVec4(0.596078f, 0.733333f, 0.423529f, 1.0f);
 		style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.462745f, 0.580392f, 0.415686f, 1.0f);
-		style.Colors[ImGuiCol_FrameBg] = ImVec4(0.164706f, 0.164706f, 0.215686f, 1.0f);
+		style.Colors[ImGuiCol_FrameBg] = ImVec4(0.164706f, 0.164706f, 0.215686f, 0.7f);
 		style.Colors[ImGuiCol_Header] = ImVec4(0.145098f, 0.145098f, 0.207843f, 1.0f);
 		style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.329412f, 0.329412f, 0.427451f, 1.0f);
 		style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.176471f, 0.309804f, 0.403922f, 1.0f);
