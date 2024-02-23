@@ -66,6 +66,10 @@ set(GLAD_PATH "${CMAKE_SOURCE_DIR}/vendor/glad")
 include_directories(${GLAD_PATH}/include)
 add_library(glad ${GLAD_PATH}/src/gl.c)
 
+# Build glm
+include_directories("${CMAKE_SOURCE_DIR}/vendor/glm")
+add_subdirectory("${CMAKE_SOURCE_DIR}/vendor/glm")
+
 # Build microprofile
 add_subdirectory(vendor/microprofile)
 include_directories(vendor/microprofile)
