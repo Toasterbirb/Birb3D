@@ -48,6 +48,12 @@ namespace birb
 		glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
 	}
 
+	void renderer::draw_arrays(vao& vao, size_t vert_count)
+	{
+		vao.bind();
+		glDrawArrays(GL_TRIANGLES, 0, vert_count);
+	}
+
 	void renderer::toggle_wireframe()
 	{
 		birb::log("Toggling wireframe mode");

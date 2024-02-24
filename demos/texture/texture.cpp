@@ -125,7 +125,7 @@ int main(void)
 
 		graphic_design.bind();
 		// renderer.draw_elements(vao1, indices.size());
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		renderer.draw_arrays(vao1, verts.size());
 
 		performance_widget.draw();
 
