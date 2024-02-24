@@ -97,7 +97,7 @@ int main(void)
 
 
 	birb::texture graphic_design("texture_512.png", 0, birb::color_format::RGB);
-	graphic_design.tex_unit(shader_program, "tex0", 0);
+	graphic_design.tex_unit(shader_program, "tex0");
 
 
 	constexpr float rotation_speed = 50.0f;
