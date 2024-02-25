@@ -49,26 +49,26 @@ namespace birb
 
 		// Create the window
 		birb::log("Creating the window");
-		this->glfw_window = glfwCreateWindow(dimensions.x, dimensions.y, title.c_str(), NULL, NULL);
-		if (!this->glfw_window)
+		glfw_window = glfwCreateWindow(dimensions.x, dimensions.y, title.c_str(), NULL, NULL);
+		if (!glfw_window)
 		{
 			glfwTerminate();
 			birb::log_fatal("Can't create a new GLFW window");
 		}
 
 		// Set GLFW callback functions
-		glfwMakeContextCurrent(this->glfw_window);
-		glfwSetKeyCallback(this->glfw_window, key_callback);
+		glfwMakeContextCurrent(glfw_window);
+		glfwSetKeyCallback(glfw_window, key_callback);
 		glfwSetMouseButtonCallback(glfw_window, mouse_button_callback);
 		glfwSetErrorCallback(error_callback);
-		glfwSetWindowSizeCallback(this->glfw_window, window_size_callback);
+		glfwSetWindowSizeCallback(glfw_window, window_size_callback);
 
 		// Disable vsync
 		glfwSwapInterval(0);
 
 		// Setup glad
 		gladLoadGL((GLADloadfunc)glfwGetProcAddress);
-		glViewport(0, 0, this->dimensions.x, this->dimensions.y);
+		glViewport(0, 0, dimensions.x, dimensions.y);
 
 		// Set static variables
 		window::window_size_changed = false;
@@ -95,7 +95,7 @@ namespace birb
 		}
 
 		birb::log("Destroying the window");
-		glfwDestroyWindow(this->glfw_window);
+		glfwDestroyWindow(glfw_window);
 
 		birb::log("Terminating GLFW");
 		glfwTerminate();
@@ -103,12 +103,12 @@ namespace birb
 
 	bool window::should_close() const
 	{
-		return glfwWindowShouldClose(this->glfw_window) || force_should_quit;
+		return glfwWindowShouldClose(glfw_window) || force_should_quit;
 	}
 
 	void window::quit()
 	{
-		this->force_should_quit = true;
+		force_should_quit = true;
 	}
 
 	void window::clear()
@@ -128,7 +128,7 @@ namespace birb
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
 
-		glfwSwapBuffers(this->glfw_window);
+		glfwSwapBuffers(glfw_window);
 		MicroProfileFlip(nullptr);
 
 		// If ImGui was initialized, start a new frame
@@ -218,7 +218,7 @@ namespace birb
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 
 		// Setup renderer backend
-		ImGui_ImplGlfw_InitForOpenGL(this->glfw_window, true);
+		ImGui_ImplGlfw_InitForOpenGL(glfw_window, true);
 		ImGui_ImplOpenGL3_Init();
 
 		window::imgui_initialized = true;
