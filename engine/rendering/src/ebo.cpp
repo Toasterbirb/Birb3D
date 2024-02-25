@@ -4,7 +4,7 @@
 
 namespace birb
 {
-	ebo::ebo(std::vector<unsigned int> indices)
+	ebo::ebo(const std::vector<unsigned int>& indices)
 	{
 		glGenBuffers(1, &id);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);

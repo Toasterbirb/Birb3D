@@ -5,7 +5,7 @@
 
 namespace birb
 {
-	vbo::vbo(std::vector<float> vertices)
+	vbo::vbo(const std::vector<float>& vertices)
 	{
 		assert(vertices.size() < 33000 && "You might wanna check the vert count on that model");
 		glGenBuffers(1, &id);
