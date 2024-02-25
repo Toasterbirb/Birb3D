@@ -7,7 +7,17 @@
 
 namespace birb
 {
+	shader::shader(const std::string& shader_name)
+	{
+		compile_shader(shader_name, shader_name);
+	}
+
 	shader::shader(const std::string& vertex, const std::string& fragment)
+	{
+		compile_shader(vertex, fragment);
+	}
+
+	void shader::compile_shader(const std::string& vertex, const std::string& fragment)
 	{
 		const std::string vertex_name = vertex + "_vert";
 		const std::string fragment_name = fragment + "_frag";

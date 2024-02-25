@@ -77,7 +77,7 @@ int main(void)
 		0, 3, 2
 	};
 
-	birb::shader shader_program("texture", "texture");
+	birb::shader shader_program("texture");
 
 	birb::vao vao1;
 	vao1.bind();

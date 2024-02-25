@@ -11,6 +11,7 @@ namespace birb
 	class shader
 	{
 	public:
+		shader(const std::string& shader_name);
 		shader(const std::string& vertex, const std::string& fragment);
 		~shader();
 
@@ -32,6 +33,7 @@ namespace birb
 		}
 
 	private:
+		void compile_shader(const std::string& vertex, const std::string& fragment);
 		void compile_errors(unsigned int shader, const std::string& type);
 		std::unordered_map<std::string, unsigned int> uniform_locations;
 	};
