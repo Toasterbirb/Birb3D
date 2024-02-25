@@ -24,8 +24,10 @@ namespace birb
 
 			perf_widget_count++;
 
+#ifdef BIRB_PLATFORM_LINUX
 			this->pid = RUSAGE_SELF;
 			std::fill(memory_history.begin(), memory_history.end(), 0);
+#endif
 		}
 
 		performance::~performance()
@@ -130,11 +132,13 @@ namespace birb
 			ImGui::End();
 		}
 
+#ifdef BIRB_PLATFORM_LINUX
 		long performance::resident_memory_usage() const
 		{
 			struct rusage mem;
 			getrusage(pid, &mem);
 			return mem.ru_maxrss / 1024;
 		}
+#endif
 	}
 }

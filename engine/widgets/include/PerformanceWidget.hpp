@@ -17,12 +17,14 @@ namespace birb
 			void draw();
 
 		private:
+#ifdef BIRB_PLATFORM_LINUX
 			int pid; // Our process ID
 
 			// Get resident memory usage in megabytes
 			long resident_memory_usage() const;
 
 			std::array<float, 16> memory_history;
+#endif
 
 			// Reference to the timestep used in the gameloop
 			// This is used to get frametime data
