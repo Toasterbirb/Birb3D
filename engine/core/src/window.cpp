@@ -146,6 +146,10 @@ namespace birb
 		{
 			window::window_size_changed = false;
 			glfwGetWindowSize(glfw_window, &dimensions.x, &dimensions.y);
+
+			assert(dimensions.x != 0 && "Chance for a zero division");
+			assert(dimensions.y != 0 && "Chance for a zero division");
+
 			glViewport(0, 0, dimensions.x, dimensions.y);
 		}
 
