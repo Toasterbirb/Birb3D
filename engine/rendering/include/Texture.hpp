@@ -18,7 +18,7 @@ namespace birb
 
 		unsigned int id;
 
-		void tex_unit(birb::shader& shader, const char* uniform, unsigned int unit = 0);
+		void tex_unit(birb::shader& shader, const char* uniform = "tex0", unsigned int unit = 0);
 		void bind();
 		void unbind();
 
