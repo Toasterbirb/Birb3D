@@ -1,5 +1,6 @@
 #include "VAO.hpp"
 
+#include <cassert>
 #include <glad/gl.h>
 
 namespace birb
@@ -16,6 +17,9 @@ namespace birb
 
 	void vao::link_vbo(birb::vbo& vbo, unsigned int layout, unsigned int num_components, size_t stride, unsigned int offset)
 	{
+		assert(num_components != 0 && "Invalid amount of components");
+		assert(stride != 0 && "Invalid stride");
+
 		vbo.bind();
 
 		glVertexAttribPointer(layout, num_components, GL_FLOAT, GL_FALSE, stride * sizeof(float), reinterpret_cast<void*>(offset * sizeof(float)));

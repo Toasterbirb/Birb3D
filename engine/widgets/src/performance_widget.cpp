@@ -43,6 +43,10 @@ namespace birb
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float average_frametime = birb::average(ts.frametime_history);
 
+			assert(frametime_min != 0 && "Zero division");
+			assert(frametime_max != 0 && "Zero division");
+			assert(average_frametime != 0 && "Zero division");
+
 			bool p_open = false;
 			ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
 
@@ -80,6 +84,7 @@ namespace birb
 #ifdef BIRB_PLATFORM_LINUX
 			// Memory usage
 			//   Update the graph if the last value has changed
+			assert(!memory_history.empty() && "Empty memory history will cause an out-of-bounds read");
 			long memory_usage = resident_memory_usage();
 			if (memory_history.at(memory_history.size() - 1) != memory_usage)
 			{

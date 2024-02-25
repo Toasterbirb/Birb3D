@@ -9,6 +9,7 @@ namespace birb
 	{
 		assert(!vertices.empty() && "Empty index array");
 		assert(vertices.size() < 33000 && "You might wanna check the vert count on that model");
+
 		glGenBuffers(1, &id);
 		glBindBuffer(GL_ARRAY_BUFFER, id);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * vertices.size(), vertices.data(), GL_STATIC_DRAW);

@@ -1,5 +1,6 @@
 #include "EventBus.hpp"
 
+#include <cassert>
 #include <unordered_map>
 #include <vector>
 
@@ -11,6 +12,8 @@ namespace birb
 
 		void register_event_id(unsigned short event_id, event_obj* obj)
 		{
+			assert(obj != nullptr && "Can register event_id for a null pointer");
+
 			birb::log("Event ID " + std::to_string(event_id) + " registered to " + birb::ptr_to_str(obj));
 
 			event_bus_registry[event_id].push_back(obj);
@@ -18,6 +21,8 @@ namespace birb
 
 		void unregister_event_id(unsigned short event_id, event_obj* obj)
 		{
+			assert(obj != nullptr && "Can unregister event_id for a null pointer");
+
 			birb::log("Event ID " + std::to_string(event_id) + " unregistered for " + birb::ptr_to_str(obj));
 
 			std::vector<event_obj*>& event_objs = event_bus_registry.at(event_id);
@@ -51,6 +56,7 @@ namespace birb
 
 		void wipe()
 		{
+			birb::log("Event bus wiped! All event_id registrations have been cleared");
 			event_bus_registry.clear();
 		}
 	}

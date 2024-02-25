@@ -1,6 +1,7 @@
 #include "Profiling.hpp"
 #include "Texture.hpp"
 
+#include <cassert>
 #include <stb_image.h>
 
 namespace birb

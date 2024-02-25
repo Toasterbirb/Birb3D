@@ -19,6 +19,9 @@ namespace birb
 
 	void shader::compile_shader(const std::string& vertex, const std::string& fragment)
 	{
+		assert(!vertex.empty() && "Empty vertex shader name string");
+		assert(!fragment.empty() && "Empty fratment shader name string");
+
 		const std::string vertex_name = vertex + "_vert";
 		const std::string fragment_name = fragment + "_frag";
 
@@ -96,14 +99,19 @@ namespace birb
 
 	void shader::add_uniform_location(const std::string& name)
 	{
+		assert(!name.empty() && "Empty uniform name");
+		assert(!uniform_locations.contains(name) && "Duplicate uniform variable");
+
 		activate();
 		uniform_locations[name] = glGetUniformLocation(id, name.c_str());
 	}
 
 	void shader::set_var_mat4(const std::string& name, glm::mat4 mat4)
 	{
-		activate();
+		assert(!name.empty() && "Empty uniform name");
 		assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
+
+		activate();
 		glUniformMatrix4fv(uniform_locations[name], 1, GL_FALSE, glm::value_ptr(mat4));
 	}
 }
