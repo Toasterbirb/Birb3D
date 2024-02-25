@@ -73,9 +73,8 @@ namespace birb
 
 	void texture::tex_unit(birb::shader& shader, const char* uniform, unsigned int unit)
 	{
-		unsigned int tex0_uni = glGetUniformLocation(shader.id, uniform);
-		shader.activate();
-		glUniform1i(tex0_uni, unit);
+		shader.add_uniform_location(uniform);
+		shader.set_var(uniform, unit);
 	}
 
 	void texture::bind()
