@@ -213,6 +213,11 @@ namespace birb
 		return pos;
 	}
 
+	void window::lock_cursor_to_window()
+	{
+		glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+
 	void window::init_imgui()
 	{
 		birb::log("Initializing ImGui");

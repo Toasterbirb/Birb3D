@@ -107,6 +107,11 @@ namespace birb
 		vec2<double> cursor_pos();
 
 		/**
+		 * @brief Hide the cursor and lock it into the window
+		 */
+		void lock_cursor_to_window();
+
+		/**
 		 * @brief Initialize the ImGui library
 		 *
 		 * This needs to be called before using anything ImGui related
