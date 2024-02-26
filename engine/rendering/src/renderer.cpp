@@ -56,13 +56,18 @@ namespace birb
 
 	void renderer::toggle_wireframe()
 	{
-		birb::log("Toggling wireframe mode");
 		wireframe_mode = !wireframe_mode;
 
 		if (!wireframe_mode)
+		{
+			birb::log("Toggling wireframe mode off");
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
 		else
+		{
+			birb::log("Toggling wireframe mode on");
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
 
 	}
 }
