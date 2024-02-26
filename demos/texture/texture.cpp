@@ -102,12 +102,34 @@ int main(void)
 
 	constexpr float rotation_speed = 50.0f;
 
+	birb::vec3<float> position;
+
 	while (!window.should_close())
 	{
+		if (window.is_key_held(birb::input::keycode::LEFT))
+			position.x -= timestep.deltatime();
+
+		if (window.is_key_held(birb::input::keycode::RIGHT))
+			position.x += timestep.deltatime();
+
+		if (window.is_key_held(birb::input::keycode::UP))
+			position.y += timestep.deltatime();
+
+		if (window.is_key_held(birb::input::keycode::DOWN))
+			position.y -= timestep.deltatime();
+
+		if (window.is_key_held(birb::input::keycode::KP_ADD))
+			position.z += timestep.deltatime();
+
+		if (window.is_key_held(birb::input::keycode::KP_SUBTRACT))
+			position.z -= timestep.deltatime();
+
+		window.forget_inputs();
+
 		window.clear();
 
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.2f, 0.2f, 0.0f));
+		model = glm::translate(model, glm::vec3(position.x, position.y, position.z));
 		model = glm::rotate(model, glm::radians(static_cast<float>(timestep.time_since_startup()) * rotation_speed), glm::vec3(0.7f, 1.0f, 0.5f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 
