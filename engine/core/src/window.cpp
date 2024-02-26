@@ -206,9 +206,12 @@ namespace birb
 
 		glfwGetCursorPos(glfw_window, &pos.x, &pos.y);
 
-		// Clamp mouse coords to window size
-		pos.x = std::clamp(pos.x, 0.0, static_cast<double>(dimensions.x));
-		pos.y = std::clamp(pos.y, 0.0, static_cast<double>(dimensions.y));
+		if (!cursor_locked_to_window)
+		{
+			// Clamp mouse coords to window size
+			pos.x = std::clamp(pos.x, 0.0, static_cast<double>(dimensions.x));
+			pos.y = std::clamp(pos.y, 0.0, static_cast<double>(dimensions.y));
+		}
 
 		return pos;
 	}
@@ -216,6 +219,7 @@ namespace birb
 	void window::lock_cursor_to_window()
 	{
 		glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		cursor_locked_to_window = true;
 	}
 
 	void window::init_imgui()

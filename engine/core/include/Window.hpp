@@ -150,6 +150,8 @@ namespace birb
 		 */
 		vec2<int> dimensions;
 
+		bool cursor_locked_to_window = false;
+
 		/**
 		 * @brief Override for the should_close() function. Can be set to true with quit()
 		 */
