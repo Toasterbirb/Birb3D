@@ -9,6 +9,11 @@ file(GLOB CORE_SRC core/src/*.cpp)
 target_sources(birb PRIVATE ${CORE_SRC})
 
 
+# Asset management
+file(GLOB ASSETS_SRC assets/src/*.cpp)
+target_sources(birb PRIVATE ${ASSETS_SRC})
+
+
 # Rendering
 file(GLOB SHADER_SRC rendering/shaders/*.glsl)
 set(SHADER_SOURCE_HEADER

@@ -1,4 +1,4 @@
-#include "IO.hpp"
+#include "Image.hpp"
 #include "Profiling.hpp"
 #include "Texture.hpp"
 
@@ -41,7 +41,7 @@ namespace birb
 		}
 		assert(tex_type != 0 && "Invalid texture type");
 
-		birb::io::image texture(image_path, true);
+		birb::asset::image texture(image_path, true);
 
 		glGenTextures(1, &id);
 		glActiveTexture(GL_TEXTURE0 + slot);

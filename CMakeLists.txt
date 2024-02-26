@@ -22,6 +22,7 @@ if(CCACHE_FOUND)
 endif(CCACHE_FOUND)
 
 include_directories(./engine/core/include
+	./engine/assets/include
 	./engine/rendering/include
 	./engine/widgets/include)
 
