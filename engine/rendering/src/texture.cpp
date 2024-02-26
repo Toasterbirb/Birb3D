@@ -1,3 +1,4 @@
+#include "IO.hpp"
 #include "Profiling.hpp"
 #include "Texture.hpp"
 
@@ -9,12 +10,6 @@ namespace birb
 	texture::texture(const char* image_path, unsigned int slot, color_format format, unsigned short texture_dimension)
 	{
 		PROFILER_SCOPE_IO("Texture loading")
-
-		assert(image_path != nullptr && "Null image path");
-
-		birb::vec2<int> texture_size;
-		stbi_set_flip_vertically_on_load(true);
-		int texture_color_channel_count;
 
 		GLenum gl_color_format = 0;
 		switch (format)
@@ -46,12 +41,7 @@ namespace birb
 		}
 		assert(tex_type != 0 && "Invalid texture type");
 
-		unsigned char* tex_bytes = stbi_load(image_path, &texture_size.x, &texture_size.y, &texture_color_channel_count, 0);
-		if (tex_bytes == nullptr)
-		{
-			birb::log_error("Can't open a texture at: " + std::string(image_path));
-			return;
-		}
+		birb::io::image texture(image_path, true);
 
 		glGenTextures(1, &id);
 		glActiveTexture(GL_TEXTURE0 + slot);
@@ -60,10 +50,9 @@ namespace birb
 		glTexParameteri(tex_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(tex_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTexImage2D(tex_type, 0, GL_RGB, texture_size.x, texture_size.y, 0, gl_color_format, GL_UNSIGNED_BYTE, tex_bytes);
+		glTexImage2D(tex_type, 0, GL_RGB, texture.dimensions.x, texture.dimensions.y, 0, gl_color_format, GL_UNSIGNED_BYTE, texture.data);
 		glGenerateMipmap(tex_type);
 
-		stbi_image_free(tex_bytes);
 		glBindTexture(tex_type, 0);
 	}
 
