@@ -1,3 +1,4 @@
+#pragma GCC diagnostic ignored "-Wunused-parameter"
 #include "EventBus.hpp"
 #include "Profiling.hpp"
 #include "Window.hpp"
