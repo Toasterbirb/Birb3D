@@ -122,7 +122,7 @@ namespace birb
 		glUniformMatrix4fv(uniform_locations[name], 1, GL_FALSE, glm::value_ptr(mat4));
 	}
 
-	void shader::set_var_vec3f(const std::string& name, vec3<float> vector)
+	void shader::set_var_vec3(const std::string& name, glm::vec3 vector)
 	{
 		activate();
 		assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
