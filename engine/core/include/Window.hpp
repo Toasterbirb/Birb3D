@@ -112,6 +112,11 @@ namespace birb
 		void lock_cursor_to_window();
 
 		/**
+		 * @brief Show the cursor and unlock it from the window
+		 */
+		void unlock_cursor_from_window();
+
+		/**
 		 * @brief Initialize the ImGui library
 		 *
 		 * This needs to be called before using anything ImGui related

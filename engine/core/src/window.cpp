@@ -218,8 +218,20 @@ namespace birb
 
 	void window::lock_cursor_to_window()
 	{
-		glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		cursor_locked_to_window = true;
+		if (!cursor_locked_to_window)
+		{
+			glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			cursor_locked_to_window = true;
+		}
+	}
+
+	void window::unlock_cursor_from_window()
+	{
+		if (cursor_locked_to_window)
+		{
+			glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			cursor_locked_to_window = false;
+		}
 	}
 
 	void window::init_imgui()
