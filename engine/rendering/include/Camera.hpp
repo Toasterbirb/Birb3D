@@ -19,7 +19,7 @@ namespace birb
 		void process_input(window& window, const timestep& timestep);
 		void update_camera_vectors();
 
-		vec3<float> position = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 position = { 0.0, 0.0, 0.0 };
 
 		float yaw = -90.0f;
 		float pitch = 0.0f;

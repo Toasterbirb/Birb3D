@@ -14,14 +14,14 @@ namespace birb
 		update_camera_vectors();
 	}
 
-	camera::camera(vec3<float> position) : position(position)
+	camera::camera(vec3<float> position) : position(position.to_glm_vec())
 	{
 		world_up = up;
 		update_camera_vectors();
 	}
 
 	camera::camera(vec3<float> position, float yaw, float pitch)
-	:position(position), yaw(yaw), pitch(pitch)
+	:position(position.to_glm_vec()), yaw(yaw), pitch(pitch)
 	{
 		world_up = up;
 		update_camera_vectors();
@@ -29,23 +29,23 @@ namespace birb
 
 	glm::mat4 camera::get_view_matrix() const
 	{
-		return glm::lookAt(position.to_glm_vec(), position.to_glm_vec() + front, up);
+		return glm::lookAt(position, position + front, up);
 	}
 
 	void camera::process_input(window& window, const timestep& timestep)
 	{
 		// Keyboard input
-		if (window.is_key_held(birb::input::keycode::A))
-			position.x -= timestep.deltatime() * movement_speed;
-
-		if (window.is_key_held(birb::input::keycode::D))
-			position.x += timestep.deltatime() * movement_speed;
-
 		if (window.is_key_held(birb::input::keycode::W))
-			position.z -= timestep.deltatime() * movement_speed;
+			position += front * static_cast<float>(timestep.deltatime()) * movement_speed;
+
+		if (window.is_key_held(birb::input::keycode::A))
+			position -= right * static_cast<float>(timestep.deltatime()) * movement_speed;
 
 		if (window.is_key_held(birb::input::keycode::S))
-			position.z += timestep.deltatime() * movement_speed;
+			position -= front * static_cast<float>(timestep.deltatime()) * movement_speed;
+
+		if (window.is_key_held(birb::input::keycode::D))
+			position += right * static_cast<float>(timestep.deltatime()) * movement_speed;
 
 		// Calculate cursor positions
 		birb::vec2<double> new_cursor_pos = window.cursor_pos();
