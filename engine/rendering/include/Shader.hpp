@@ -25,6 +25,7 @@ namespace birb
 		void add_uniform_location(const std::string& name);
 		void add_uniform_location(const std::vector<std::string>& names);
 		void set_var_mat4(const std::string& name, glm::mat4 mat4);
+		void set_var_vec3f(const std::string& name, vec3<float> vector);
 
 		template<typename T>
 		void set_var(const std::string& name, T value)
