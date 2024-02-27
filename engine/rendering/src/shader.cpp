@@ -82,7 +82,7 @@ namespace birb
 			if (has_compiled == false)
 			{
 				glGetShaderInfoLog(shader, LOG_BUFFER_SIZE, NULL, info_log);
-				birb::log_error("Shader failed to compiled: " + type);
+				birb::log_error("Shader failed to compile: " + type + " | " + info_log);
 			}
 		}
 		else
@@ -92,7 +92,7 @@ namespace birb
 			if (has_compiled == false)
 			{
 				glGetProgramInfoLog(shader, LOG_BUFFER_SIZE, NULL, info_log);
-				birb::log_error("Shader failed to link: " + type);
+				birb::log_error("Shader failed to link: " + type + " | " + info_log);
 			}
 		}
 	}
