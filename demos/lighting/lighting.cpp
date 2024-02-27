@@ -102,15 +102,26 @@ int main(void)
 
 	birb::shader default_shader("default");
 	default_shader.add_uniform_location(std::vector<std::string>({"model", "view", "projection"}));
-	default_shader.add_uniform_location(std::vector<std::string>({"object_color", "light_color", "light_pos", "view_pos"}));
+	default_shader.add_uniform_location(std::vector<std::string>({"light_color", "light_pos", "view_pos"}));
+	default_shader.add_uniform_location(std::vector<std::string>({"material.ambient", "material.diffuse", "material.specular", "material.shininess"}));
+	default_shader.add_uniform_location(std::vector<std::string>({"light.ambient", "light.diffuse", "light.specular", "light.position"}));
 
-	default_shader.set_var_vec3("object_color", {1.0f, 0.5f, 0.31f});
-	default_shader.set_var_vec3("light_color", {1.0f, 1.0f, 1.0f});
-	default_shader.set_var_vec3("light_pos", light_pos);
 
+	default_shader.set_var_vec3("material.ambient", {1.0f, 0.5f, 0.31f});
+	default_shader.set_var_vec3("material.diffuse", {1.0f, 0.5f, 0.31f});
+	default_shader.set_var_vec3("material.specular", {0.5f, 0.5f, 0.5});
+	default_shader.set_var("material.shininess", 32.0f);
+
+	default_shader.set_var_vec3("light.ambient", {0.2f, 0.2f, 0.2f});
+	default_shader.set_var_vec3("light.diffuse", {0.5f, 0.5f, 0.5f});
+	default_shader.set_var_vec3("light.specular", {1.0f, 1.0f, 1.0f});
+
+	default_shader.set_var_vec3("light.position", light_pos);
 
 	birb::shader light_shader("default", "light");
+	glm::vec3 light_color = {1.0, 1.0, 1.0};
 	light_shader.add_uniform_location(std::vector<std::string>({"model", "view", "projection"}));
+	light_shader.add_uniform_location("light_color");
 
 
 	while (!window.should_close())
@@ -127,7 +138,7 @@ int main(void)
 		if (window.is_key_held(birb::input::keycode::RIGHT))
 			light_pos.z -= timestep.deltatime();
 
-		default_shader.set_var_vec3("light_pos", light_pos);
+		default_shader.set_var_vec3("light.position", light_pos);
 
 		while (window.inputs_available())
 		{
@@ -169,6 +180,8 @@ int main(void)
 		light_shader.set_var_mat4("view", camera.get_view_matrix());
 		light_shader.set_var_mat4("projection", projection);
 
+		default_shader.set_var_vec3("light_color", light_color);
+		light_shader.set_var_vec3("light_color", light_color);
 
 		window.clear();
 
