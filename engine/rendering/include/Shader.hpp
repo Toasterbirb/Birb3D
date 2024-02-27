@@ -1,10 +1,11 @@
 #pragma once
 
 #include <cassert>
+#include <glad/gl.h>
 #include <glm/fwd.hpp>
 #include <string>
 #include <unordered_map>
-#include <glad/gl.h>
+#include <vector>
 
 namespace birb
 {
@@ -22,6 +23,7 @@ namespace birb
 		void activate();
 
 		void add_uniform_location(const std::string& name);
+		void add_uniform_location(const std::vector<std::string>& names);
 		void set_var_mat4(const std::string& name, glm::mat4 mat4);
 
 		template<typename T>

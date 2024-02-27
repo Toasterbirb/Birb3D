@@ -106,6 +106,13 @@ namespace birb
 		uniform_locations[name] = glGetUniformLocation(id, name.c_str());
 	}
 
+	void shader::add_uniform_location(const std::vector<std::string>& names)
+	{
+		assert(!names.empty() && "Unnecessary call to add_uniform_location");
+		for (const std::string& name : names)
+			add_uniform_location(name);
+	}
+
 	void shader::set_var_mat4(const std::string& name, glm::mat4 mat4)
 	{
 		assert(!name.empty() && "Empty uniform name");
