@@ -8,6 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Camera.hpp"
 #include "PerformanceWidget.hpp"
 #include "Timestep.hpp"
 #include "Shader.hpp"
@@ -23,22 +24,24 @@ int main(void)
 	birb::timestep timestep;
 	birb::widget::performance performance_widget(timestep);
 
+	window.lock_cursor_to_window();
+
 	window.init_imgui();
 
 	// Format: coordinates, colors
-	std::vector<float> verts =
+	const std::vector<float> verts =
 	{
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
 		-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
 		-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
@@ -49,24 +52,24 @@ int main(void)
 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 		-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
 		-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 		-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
 
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-		0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-		0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+		 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 		-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 		-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 	};
@@ -91,6 +94,27 @@ int main(void)
 	vbo1.unbind();
 	ebo1.unbind();
 
+
+	std::vector<float> plane_verts =
+	{
+		-1.0f,  1.0f, 0.0f,
+		 1.0f,  1.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,
+
+		 1.0f,  1.0f, 0.0f,
+		 1.0f, -1.0f, 0.0f,
+		-1.0f, -1.0f, 0.0f,
+	};
+	birb::vao plane_vao;
+	plane_vao.bind();
+
+	birb::vbo plane_vbo(plane_verts);
+	plane_vao.link_vbo(plane_vbo, 0, 3, 3, 0);
+	plane_vao.unbind();
+	plane_vbo.unbind();
+
+
+
 	shader_program.add_uniform_location("model");
 	shader_program.add_uniform_location("view");
 	shader_program.add_uniform_location("projection");
@@ -100,54 +124,46 @@ int main(void)
 	graphic_design.tex_unit(shader_program);
 
 
-	constexpr float rotation_speed = 50.0f;
+	/** Camera stuff **/
+	birb::camera camera({0.0f, 0.0f, 3.0f});
+
 
 	birb::vec3<float> position;
 
 	while (!window.should_close())
 	{
-		if (window.is_key_held(birb::input::keycode::LEFT))
-			position.x -= timestep.deltatime();
-
-		if (window.is_key_held(birb::input::keycode::RIGHT))
-			position.x += timestep.deltatime();
-
-		if (window.is_key_held(birb::input::keycode::UP))
-			position.y += timestep.deltatime();
-
-		if (window.is_key_held(birb::input::keycode::DOWN))
-			position.y -= timestep.deltatime();
-
-		if (window.is_key_held(birb::input::keycode::KP_ADD))
-			position.z += timestep.deltatime();
-
-		if (window.is_key_held(birb::input::keycode::KP_SUBTRACT))
-			position.z -= timestep.deltatime();
-
+		camera.process_input(window, timestep);
 		window.forget_inputs();
 
 		window.clear();
 
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(position.x, position.y, position.z));
-		model = glm::rotate(model, glm::radians(static_cast<float>(timestep.time_since_startup()) * rotation_speed), glm::vec3(0.7f, 1.0f, 0.5f));
+		model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+		// model = glm::rotate(model, glm::radians(static_cast<float>(timestep.time_since_startup()) * rotation_speed), glm::vec3(0.7f, 1.0f, 0.5f));
 		model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));
 
-		glm::mat4 view = glm::mat4(1.0f);
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
 		glm::mat4 projection;
 		projection = glm::perspective(glm::radians(45.0f), static_cast<float>(window.size().x) / static_cast<float>(window.size().y), 0.1f, 100.0f);
 
 		shader_program.activate();
 		shader_program.set_var_mat4("model", model);
-		shader_program.set_var_mat4("view", view);
+		shader_program.set_var_mat4("view", camera.get_view_matrix());
 		shader_program.set_var_mat4("projection", projection);
 		vao1.bind();
 
 		graphic_design.bind();
 		// renderer.draw_elements(vao1, indices.size());
 		renderer.draw_arrays(vao1, verts.size());
+
+
+		// Render the floor
+		glm::mat4 plane_model = glm::mat4(1.0f);
+		plane_model = glm::translate(plane_model, glm::vec3(0.0f, -0.5f, 0.0f));
+		plane_model = glm::rotate(plane_model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+		shader_program.set_var_mat4("model", plane_model);
+		renderer.draw_arrays(plane_vao, plane_verts.size());
 
 		performance_widget.draw();
 
