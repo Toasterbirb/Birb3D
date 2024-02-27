@@ -144,7 +144,7 @@ int main(void)
 
 
 		glm::mat4 projection;
-		projection = glm::perspective(glm::radians(45.0f), static_cast<float>(window.size().x) / static_cast<float>(window.size().y), 0.1f, 100.0f);
+		projection = glm::perspective(glm::radians(camera.fov), static_cast<float>(window.size().x) / static_cast<float>(window.size().y), 0.1f, 100.0f);
 
 		shader_program.activate();
 		shader_program.set_var_mat4("model", model);
