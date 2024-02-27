@@ -3,7 +3,7 @@
 #include <vector>
 #include <glad/gl.h>
 
-#include "PerformanceWidget.hpp"
+#include "PerformanceOverlay.hpp"
 #include "Timestep.hpp"
 #include "Shader.hpp"
 #include "VAO.hpp"
@@ -15,7 +15,7 @@ int main(void)
 	birb::window window("Triangle", birb::vec2<int>(800, 800));
 	birb::renderer renderer;
 	birb::timestep timestep;
-	birb::widget::performance perf_widget(timestep);
+	birb::overlay::performance perf_widget(timestep);
 
 	window.init_imgui();
 

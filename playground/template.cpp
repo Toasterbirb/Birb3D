@@ -1,6 +1,6 @@
 #include "Window.hpp"
 #include "Timestep.hpp"
-#include "PerformanceWidget.hpp"
+#include "PerformanceOverlay.hpp"
 
 int main(void)
 {
@@ -8,7 +8,7 @@ int main(void)
 	window.init_imgui();
 
 	birb::timestep timestep;
-	birb::widget::performance perf_widget(timestep);
+	birb::overlay::performance perf_widget(timestep);
 
 	while (!window.should_close())
 	{

@@ -1,4 +1,4 @@
-#include "PerformanceWidget.hpp"
+#include "PerformanceOverlay.hpp"
 #include "Timestep.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
@@ -11,7 +11,7 @@ int main(void)
 	birb::window window("imgui test", birb::vec2<int>(960, 540));
 
 	birb::timestep timestep;
-	birb::widget::performance perf_widget(timestep);
+	birb::overlay::performance perf_widget(timestep);
 
 	// Setup ImGui
 	window.init_imgui();

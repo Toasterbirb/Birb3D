@@ -1,20 +1,21 @@
 #pragma once
 
 #include "Timestep.hpp"
+#include "WidgetBase.hpp"
 
 #include <array>
 #include <sys/resource.h>
 
 namespace birb
 {
-	namespace widget
+	namespace overlay
 	{
-		class performance
+		class performance : public widget_base
 		{
 		public:
 			explicit performance(timestep& ts);
 			~performance();
-			void draw();
+			void draw() override;
 
 		private:
 #ifdef BIRB_PLATFORM_LINUX

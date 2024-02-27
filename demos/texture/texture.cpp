@@ -9,7 +9,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Camera.hpp"
-#include "PerformanceWidget.hpp"
+#include "PerformanceOverlay.hpp"
+#include "CameraInfoOverlay.hpp"
 #include "Timestep.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
@@ -22,7 +23,7 @@ int main(void)
 	birb::window window("Texture", birb::vec2<int>(800, 800));
 	birb::renderer renderer;
 	birb::timestep timestep;
-	birb::widget::performance performance_widget(timestep);
+	birb::overlay::performance performance_widget(timestep);
 
 	window.lock_cursor_to_window();
 
@@ -126,6 +127,7 @@ int main(void)
 
 	/** Camera stuff **/
 	birb::camera camera({0.0f, 0.0f, 3.0f});
+	birb::overlay::camera_info camera_widget(camera);
 
 
 	birb::vec3<float> position;
@@ -166,6 +168,7 @@ int main(void)
 		renderer.draw_arrays(plane_vao, plane_verts.size());
 
 		performance_widget.draw();
+		camera_widget.draw();
 
 		window.flip();
 		window.poll();

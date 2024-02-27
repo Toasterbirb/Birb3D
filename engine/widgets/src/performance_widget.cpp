@@ -1,6 +1,6 @@
 #include "Logger.hpp"
 #include "Math.hpp"
-#include "PerformanceWidget.hpp"
+#include "PerformanceOverlay.hpp"
 #include "Profiling.hpp"
 #include "Window.hpp"
 
@@ -12,17 +12,17 @@
 
 namespace birb
 {
-	namespace widget
+	namespace overlay
 	{
-		// There should only be a singular performance widget at any point
-		static unsigned short perf_widget_count = 0;
+		// There should only be a singular performance overlay at any point
+		static unsigned short perf_overlay_count = 0;
 
 		performance::performance(timestep& ts) : ts(ts)
 		{
-			if (perf_widget_count != 0)
-				birb::log_warn("Spawning multiple performance widgets is unnecessary");
+			if (perf_overlay_count != 0)
+				birb::log_warn("Spawning multiple performance overlays is unnecessary");
 
-			perf_widget_count++;
+			perf_overlay_count++;
 
 #ifdef BIRB_PLATFORM_LINUX
 			this->pid = RUSAGE_SELF;
@@ -32,14 +32,14 @@ namespace birb
 
 		performance::~performance()
 		{
-			perf_widget_count--;
+			perf_overlay_count--;
 		}
 
 		void performance::draw()
 		{
 			PROFILER_SCOPE_RENDER_FN()
 
-			assert(window::imgui_is_init() && "The performance widget requires ImGui to be initialized");
+			assert(window::imgui_is_init() && "The performance overlay requires ImGui to be initialized");
 
 			float frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
@@ -50,18 +50,11 @@ namespace birb
 			assert(average_frametime != 0 && "Zero division");
 
 			bool p_open = false;
-			ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoMove;
 
-			const float padding = 5.0f;
-			const ImGuiViewport* viewport = ImGui::GetMainViewport();
-			ImVec2 work_pos = viewport->WorkPos;
-			ImVec2 window_pos(work_pos.x + padding, work_pos.y + padding);
-			ImVec2 window_pos_pivot(0.0f, 0.0f);
+			setup_overlay();
 
-			ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
-			ImGui::SetNextWindowBgAlpha(0.45f);
-
-			ImGui::Begin("Performance", &p_open, window_flags);
+			ImGui::Begin("Overlay", &p_open, overlay_window_flags);
+			ImGui::SeparatorText("Performance");
 			ImGui::Text("FPS: %.2f", ts.fps());
 			ImGui::Text("FPS avg: %.0f", std::round(1.0f / average_frametime));
 			ImGui::Text("FPS min: %.2f", 1.0f / frametime_max);
