@@ -22,18 +22,14 @@ namespace birb
 		// Activate the shader program
 		void activate();
 
+		bool has_uniform_var(const std::string& name) const;
 		void add_uniform_location(const std::string& name);
 		void add_uniform_location(const std::vector<std::string>& names);
-		void set_var_mat4(const std::string& name, glm::mat4 mat4);
-		void set_var_vec3(const std::string& name, glm::vec3 vector);
 
-		template<typename T>
-		void set_var(const std::string& name, T value)
-		{
-			activate();
-			assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
-			glUniform1f(uniform_locations[name], value);
-		}
+		void set_mat4(const std::string& name, const glm::mat4 mat4);
+		void set_vec3(const std::string& name, const glm::vec3 vector);
+		void set_float(const std::string& name, const float f);
+		void set_int(const std::string& name, const int i);
 
 	private:
 		void compile_shader(const std::string& vertex, const std::string& fragment);

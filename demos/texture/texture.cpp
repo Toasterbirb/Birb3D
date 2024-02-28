@@ -149,9 +149,9 @@ int main(void)
 		projection = glm::perspective(glm::radians(camera.fov), static_cast<float>(window.size().x) / static_cast<float>(window.size().y), 0.1f, 100.0f);
 
 		shader_program.activate();
-		shader_program.set_var_mat4("model", model);
-		shader_program.set_var_mat4("view", camera.get_view_matrix());
-		shader_program.set_var_mat4("projection", projection);
+		shader_program.set_mat4("model", model);
+		shader_program.set_mat4("view", camera.get_view_matrix());
+		shader_program.set_mat4("projection", projection);
 		vao1.bind();
 
 		graphic_design.bind();
@@ -164,7 +164,7 @@ int main(void)
 		plane_model = glm::translate(plane_model, glm::vec3(0.0f, -0.5f, 0.0f));
 		plane_model = glm::rotate(plane_model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
-		shader_program.set_var_mat4("model", plane_model);
+		shader_program.set_mat4("model", plane_model);
 		renderer.draw_arrays(plane_vao, plane_verts.size());
 
 		performance_widget.draw();

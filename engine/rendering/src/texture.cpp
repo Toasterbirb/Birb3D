@@ -2,12 +2,15 @@
 #include "Profiling.hpp"
 #include "Texture.hpp"
 
+#include <string>
+
 #include <cassert>
 #include <stb_image.h>
 
 namespace birb
 {
-	texture::texture(const char* image_path, unsigned int slot, color_format format, unsigned short texture_dimension)
+	texture::texture(const char* image_path, const unsigned int slot, const color_format format, const unsigned short texture_dimension)
+	:slot(slot)
 	{
 		PROFILER_SCOPE_IO("Texture loading")
 
@@ -61,14 +64,17 @@ namespace birb
 		glDeleteTextures(1, &id);
 	}
 
-	void texture::tex_unit(birb::shader& shader, const char* uniform, unsigned int unit)
+	void texture::tex_unit(birb::shader& shader, const char* uniform, const unsigned int unit)
 	{
-		shader.add_uniform_location(uniform);
-		shader.set_var(uniform, unit);
+		if (!shader.has_uniform_var(uniform))
+			shader.add_uniform_location(uniform);
+
+		shader.set_int(uniform, unit);
 	}
 
 	void texture::bind()
 	{
+		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(tex_type, id);
 	}
 

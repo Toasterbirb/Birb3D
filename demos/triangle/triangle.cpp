@@ -58,7 +58,7 @@ int main(void)
 		window.clear();
 
 		shader_program.activate();
-		shader_program.set_var("scale", 0.5f);
+		shader_program.set_float("scale", 0.5f);
 		vao1.bind();
 
 		renderer.draw_elements(vao1, indices.size());
