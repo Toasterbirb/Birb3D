@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector.hpp"
+
 #include <random>
 
 namespace birb
@@ -52,6 +54,28 @@ namespace birb
 		{
 			T multiplier = (static_cast<T>(rng_engine())) / rng_engine.max();
 			return (multiplier * (max - min)) + min;
+		}
+
+		vec2<int> range_vec2_int(int min, int max)
+		{
+			return vec2<int>(range(min, max), range(min, max));
+		}
+
+		template<typename T>
+		vec2<T> range_vec2_float(T min, T max)
+		{
+			return vec2<T>(range_float(min, max), range_float(min, max));
+		}
+
+		vec3<int> range_vec3_int(int min, int max)
+		{
+			return vec3<int>(range(min, max), range(min, max), range(min, max));
+		}
+
+		template<typename T>
+		vec3<T> range_vec3_float(T min, T max)
+		{
+			return vec3<T>(range_float(min, max), range_float(min, max), range_float(min, max));
 		}
 
 	private:

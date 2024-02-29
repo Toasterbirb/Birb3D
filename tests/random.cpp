@@ -56,3 +56,36 @@ TEST_CASE("Random in range (seeded)")
 		std::cout << "\n";
 	}
 }
+
+TEST_CASE("Random vectors")
+{
+	birb::random rng(42);
+
+	birb::vec2<int> rnd_vec2_int = rng.range_vec2_int(3, 7);
+	CHECK(rnd_vec2_int.x >= 3);
+	CHECK(rnd_vec2_int.x <= 7);
+	CHECK(rnd_vec2_int.y >= 3);
+	CHECK(rnd_vec2_int.y <= 7);
+
+	birb::vec2<float> rnd_vec2_float = rng.range_vec2_float(3.0f, 7.0f);
+	CHECK(rnd_vec2_float.x >= 3.0f);
+	CHECK(rnd_vec2_float.x <= 7.0f);
+	CHECK(rnd_vec2_float.y >= 3.0f);
+	CHECK(rnd_vec2_float.y <= 7.0f);
+
+	birb::vec3<int> rnd_vec3_int = rng.range_vec3_int(3, 7);
+	CHECK(rnd_vec3_int.x >= 3);
+	CHECK(rnd_vec3_int.x <= 7);
+	CHECK(rnd_vec3_int.y >= 3);
+	CHECK(rnd_vec3_int.y <= 7);
+	CHECK(rnd_vec3_int.z >= 3);
+	CHECK(rnd_vec3_int.z <= 7);
+
+	birb::vec3<float> rnd_vec3_float = rng.range_vec3_float(3.0f, 7.0f);
+	CHECK(rnd_vec3_float.x >= 3.0f);
+	CHECK(rnd_vec3_float.x <= 7.0f);
+	CHECK(rnd_vec3_float.y >= 3.0f);
+	CHECK(rnd_vec3_float.y <= 7.0f);
+	CHECK(rnd_vec3_float.z >= 3.0f);
+	CHECK(rnd_vec3_float.z <= 7.0f);
+}
