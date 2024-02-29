@@ -17,6 +17,65 @@ namespace birb
 		compile_shader(vertex, fragment);
 	}
 
+	shader::~shader()
+	{
+		glDeleteProgram(this->id);
+	}
+
+	void shader::activate()
+	{
+		glUseProgram(this->id);
+	}
+
+	bool shader::has_uniform_var(const std::string& name) const
+	{
+		return uniform_locations.contains(name);
+	}
+
+	void shader::set_mat4(const std::string& name, const glm::mat4 mat4)
+	{
+		add_uniform_location(name);
+
+		activate();
+		glUniformMatrix4fv(uniform_locations[name], 1, GL_FALSE, glm::value_ptr(mat4));
+	}
+
+	void shader::set_vec3(const std::string& name, const glm::vec3 vector)
+	{
+		add_uniform_location(name);
+
+		activate();
+		glUniform3f(uniform_locations[name], vector.x, vector.y, vector.z);
+	}
+
+	void shader::set_float(const std::string& name, const float f)
+	{
+		add_uniform_location(name);
+
+		activate();
+		glUniform1f(uniform_locations[name], f);
+	}
+
+	void shader::set_int(const std::string& name, const int i)
+	{
+		add_uniform_location(name);
+
+		activate();
+		glUniform1i(uniform_locations[name], i);
+	}
+
+	void shader::add_uniform_location(const std::string& name)
+	{
+		assert(!name.empty() && "Empty uniform name");
+
+		// Don't fetch the uniform location if its already in the hashmap
+		if (!uniform_locations.contains(name))
+		{
+			activate();
+			uniform_locations[name] = glGetUniformLocation(id, name.c_str());
+		}
+	}
+
 	void shader::compile_shader(const std::string& vertex, const std::string& fragment)
 	{
 		assert(!vertex.empty() && "Empty vertex shader name string");
@@ -59,16 +118,6 @@ namespace birb
 		}
 	}
 
-	shader::~shader()
-	{
-		glDeleteProgram(this->id);
-	}
-
-	void shader::activate()
-	{
-		glUseProgram(this->id);
-	}
-
 	void shader::compile_errors(unsigned int shader, const std::string& type)
 	{
 		constexpr int LOG_BUFFER_SIZE = 1024;
@@ -95,62 +144,5 @@ namespace birb
 				birb::log_error("Shader failed to link: " + type + " | " + info_log);
 			}
 		}
-	}
-
-	bool shader::has_uniform_var(const std::string& name) const
-	{
-		return uniform_locations.contains(name);
-	}
-
-	void shader::add_uniform_location(const std::string& name)
-	{
-		assert(!name.empty() && "Empty uniform name");
-		assert(!uniform_locations.contains(name) && "Duplicate uniform variable");
-
-		activate();
-		uniform_locations[name] = glGetUniformLocation(id, name.c_str());
-	}
-
-	void shader::add_uniform_location(const std::vector<std::string>& names)
-	{
-		assert(!names.empty() && "Unnecessary call to add_uniform_location");
-		for (const std::string& name : names)
-			add_uniform_location(name);
-	}
-
-	void shader::set_mat4(const std::string& name, const glm::mat4 mat4)
-	{
-		assert(!name.empty() && "Empty uniform name");
-		assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
-
-		activate();
-		glUniformMatrix4fv(uniform_locations[name], 1, GL_FALSE, glm::value_ptr(mat4));
-	}
-
-	void shader::set_vec3(const std::string& name, const glm::vec3 vector)
-	{
-		assert(!name.empty() && "Empty uniform name");
-		assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
-
-		activate();
-		glUniform3f(uniform_locations[name], vector.x, vector.y, vector.z);
-	}
-
-	void shader::set_float(const std::string& name, const float f)
-	{
-		assert(!name.empty() && "Empty uniform name");
-		assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
-
-		activate();
-		glUniform1f(uniform_locations[name], f);
-	}
-
-	void shader::set_int(const std::string& name, const int i)
-	{
-		assert(!name.empty() && "Empty uniform name");
-		assert(uniform_locations.contains(name) && "Tried to access a uniform variable that wasn't added");
-
-		activate();
-		glUniform1i(uniform_locations[name], i);
 	}
 }

@@ -66,8 +66,6 @@ namespace birb
 
 	void texture::tex_unit(birb::shader& shader, const char* uniform, const unsigned int unit)
 	{
-		if (!shader.has_uniform_var(uniform))
-			shader.add_uniform_location(uniform);
 
 		shader.set_int(uniform, unit);
 	}

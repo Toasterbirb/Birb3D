@@ -115,12 +115,6 @@ int main(void)
 	plane_vbo.unbind();
 
 
-
-	shader_program.add_uniform_location("model");
-	shader_program.add_uniform_location("view");
-	shader_program.add_uniform_location("projection");
-
-
 	birb::texture graphic_design("texture_512.png", 0, birb::color_format::RGB);
 	graphic_design.tex_unit(shader_program);
 

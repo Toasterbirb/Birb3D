@@ -51,8 +51,6 @@ int main(void)
 	vbo1.unbind();
 	ebo1.unbind();
 
-	shader_program.add_uniform_location("scale");
-
 	while (!window.should_close())
 	{
 		window.clear();
