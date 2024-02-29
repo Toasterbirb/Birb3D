@@ -3,6 +3,8 @@
 #include "PerformanceOverlay.hpp"
 #include "CameraInfoOverlay.hpp"
 
+#include <algorithm>
+#include <execution>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -212,14 +214,20 @@ int main(void)
 		default_shader.set_vec3("view_pos", camera.position);
 
 		// Do the matrix maths
-		for (size_t i = 0; i < cube_positions.size(); ++i)
-		{
+		std::vector<glm::mat4> cube_model_matrices(cube_positions.size());
+
+		std::transform(std::execution::par, cube_positions.begin(), cube_positions.end(), cube_model_matrices.begin(), [timestep](const glm::vec3& position) {
 			glm::mat4 model = glm::mat4(1.0f);
 
-			model = glm::translate(model, cube_positions[i]);
-			model = glm::rotate(model, glm::radians((i * 20.0f) + static_cast<float>(timestep.time_since_startup()) * 50.0f), glm::vec3(1.0f, 0.3f, 0.5f));
+			model = glm::translate(model, position);
+			model = glm::rotate(model, glm::radians(((position.x + position.y + position.z) * 20.0f) + static_cast<float>(timestep.time_since_startup()) * 50.0f), glm::vec3(1.0f, 0.3f, 0.5f));
 
-			default_shader.set_mat4("model", model);
+			return model;
+		});
+
+		for (size_t i = 0; i < cube_positions.size(); ++i)
+		{
+			default_shader.set_mat4("model", cube_model_matrices[i]);
 			renderer.draw_arrays(cube_vao, cube_verts.size());
 		}
 
