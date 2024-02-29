@@ -28,6 +28,9 @@ namespace birb
 		float mouse_sensitivity = 0.1f;
 		float fov = 45.0f;
 
+		// Keybinds
+		directional_keys keybinds;
+
 	private:
 		vec2<double> prev_cursor_pos;
 

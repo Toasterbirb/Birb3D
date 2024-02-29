@@ -156,4 +156,29 @@ namespace birb
 		action state;
 		vec2<double> pos;
 	};
+
+	struct directional_keys
+	{
+		directional_keys();
+
+		input::keycode up;
+		input::keycode down;
+		input::keycode left;
+		input::keycode right;
+
+		/**
+		 * @brief Reset the keybinds to WASD
+		 */
+		void reset();
+
+		/**
+		 * @brief Use the vim movement keys
+		 */
+		void vim_preset();
+
+		/**
+		 * @brief Use arrow keys for movement
+		 */
+		void arrow_key_preset();
+	};
 }

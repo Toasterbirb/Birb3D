@@ -35,16 +35,16 @@ namespace birb
 	void camera::process_input(window& window, const timestep& timestep)
 	{
 		// Keyboard input
-		if (window.is_key_held(birb::input::keycode::W))
+		if (window.is_key_held(keybinds.up))
 			position += front * static_cast<float>(timestep.deltatime()) * movement_speed;
 
-		if (window.is_key_held(birb::input::keycode::A))
+		if (window.is_key_held(keybinds.left))
 			position -= right * static_cast<float>(timestep.deltatime()) * movement_speed;
 
-		if (window.is_key_held(birb::input::keycode::S))
+		if (window.is_key_held(keybinds.down))
 			position -= front * static_cast<float>(timestep.deltatime()) * movement_speed;
 
-		if (window.is_key_held(birb::input::keycode::D))
+		if (window.is_key_held(keybinds.right))
 			position += right * static_cast<float>(timestep.deltatime()) * movement_speed;
 
 		// Calculate cursor positions
