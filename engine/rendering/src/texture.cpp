@@ -12,7 +12,14 @@ namespace birb
 	texture::texture(const char* image_path, const unsigned int slot, const color_format format, const unsigned short texture_dimension)
 	:slot(slot)
 	{
+		this->load(image_path, slot, format, texture_dimension);
+	}
+
+	void texture::load(const char* image_path, const unsigned int slot, const color_format format, const unsigned short texture_dimension)
+	{
 		PROFILER_SCOPE_IO("Texture loading")
+
+		this->slot = slot;
 
 		GLenum gl_color_format = 0;
 		switch (format)
@@ -61,23 +68,30 @@ namespace birb
 
 	texture::~texture()
 	{
+		assert(id != 0 && "Attempted to destruct a texture that wasn't initialized");
+
 		glDeleteTextures(1, &id);
 	}
 
 	void texture::tex_unit(birb::shader& shader, const char* uniform, const unsigned int unit)
 	{
+		assert(id != 0 && "Texture needs to be initialized at this point");
 
 		shader.set_int(uniform, unit);
 	}
 
 	void texture::bind()
 	{
+		assert(id != 0 && "Texture needs to be initialized at this point");
+
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(tex_type, id);
 	}
 
 	void texture::unbind()
 	{
+		assert(id != 0 && "Texture needs to be initialized at this point");
+
 		glBindTexture(tex_type, 0);
 	}
 }
