@@ -37,6 +37,21 @@ include_directories(./vendor/doctest)
 # Include EnTT
 include_directories(${CMAKE_SOURCE_DIR}/vendor/entt/single_include/entt)
 
+# Build assimp
+# Disable some features that aren't needed
+set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "Build the assimp test suite")
+set(ASSIMP_INSTALL OFF CACHE BOOL "Disable this if you want to use assimp as a submodule.")
+set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT OFF CACHE BOOL "Build assimp with all importers enabled.")
+set(ASSIMP_BUILD_ALL_EXPORTERS_BY_DEFAULT OFF CACHE BOOL "Build assimp with all exporters enabled.")
+set(ASSIMP_NO_EXPORT ON CACHE BOOL "Disable Assimp's export functionality.")
+set(ASSIMP_BUILD_ASSIMP_VIEW OFF CACHE BOOL "Build Assimp view tool")
+
+# Enable the needed file formats
+set(ASSIMP_BUILD_OBJ_IMPORTER ON CACHE BOOL "Build support for .obj files")
+set(ASSIMP_BUILD_FBX_IMPORTER ON CACHE BOOL "Build support for .fbx files")
+set(ASSIMP_BUILD_BLEND_IMPORTER ON CACHE BOOL "Build support for .blend files")
+
+add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/assimp)
 
 # Build GLFW
 set(GLFW_PATH "${CMAKE_SOURCE_DIR}/vendor/glfw")
