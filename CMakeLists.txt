@@ -85,6 +85,7 @@ include_directories(${GLAD_PATH}/include)
 add_library(glad ${GLAD_PATH}/src/gl.c)
 
 # Build glm
+set(GLM_ENABLE_CXX_20 ON CACHE BOOL "Enable C++ 20")
 include_directories("${CMAKE_SOURCE_DIR}/vendor/glm")
 add_subdirectory("${CMAKE_SOURCE_DIR}/vendor/glm")
 
