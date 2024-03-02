@@ -10,7 +10,7 @@ namespace birb
 		class camera_info : public widget_base
 		{
 		public:
-			explicit camera_info(camera& camera);
+			explicit camera_info(const camera& camera);
 
 			void draw() override;
 

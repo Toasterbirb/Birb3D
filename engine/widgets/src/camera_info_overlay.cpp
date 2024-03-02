@@ -7,7 +7,7 @@ namespace birb
 {
 	namespace overlay
 	{
-		camera_info::camera_info(camera& camera)
+		camera_info::camera_info(const camera& camera)
 		:camera_obj(camera)
 		{}
 
