@@ -24,6 +24,7 @@ namespace birb
 
 		void set_mat4(const std::string& name, const glm::mat4 mat4);
 		void set_vec3(const std::string& name, const glm::vec3 vector);
+		void set_vec4(const std::string& name, const glm::vec4 vector);
 		void set_float(const std::string& name, const float f);
 		void set_int(const std::string& name, const int i);
 

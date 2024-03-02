@@ -94,4 +94,33 @@ namespace birb
 
 		glBindTexture(tex_type, 0);
 	}
+
+	unsigned int texture::texture_from_file(const std::string& path)
+	{
+		assert(!path.empty());
+
+		// Load the image data
+		asset::image image(path.c_str(), true);
+		assert(image.data != nullptr);
+		assert(image.dimensions.x != 0);
+		assert(image.dimensions.y != 0);
+		assert(image.color_channels != 0);
+
+		unsigned int id;
+
+		glGenTextures(1, &id);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, id);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		FIXME("Handle RGB textures that don't have an alpha channel");
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.dimensions.x, image.dimensions.y, 0, GL_RGBA, GL_UNSIGNED_BYTE, image.data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		return id;
+	}
 }

@@ -48,6 +48,14 @@ namespace birb
 		glUniform3f(uniform_locations[name], vector.x, vector.y, vector.z);
 	}
 
+	void shader::set_vec4(const std::string& name, const glm::vec4 vector)
+	{
+		add_uniform_location(name);
+
+		activate();
+		glUniform4f(uniform_locations[name], vector.x, vector.y, vector.z, vector.w);
+	}
+
 	void shader::set_float(const std::string& name, const float f)
 	{
 		add_uniform_location(name);

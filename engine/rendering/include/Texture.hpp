@@ -25,6 +25,8 @@ namespace birb
 		void bind();
 		void unbind();
 
+		static unsigned int texture_from_file(const std::string& path);
+
 	private:
 		GLenum tex_type;
 		unsigned int slot = 0;

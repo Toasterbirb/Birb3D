@@ -3,6 +3,10 @@
 #include <vector>
 #include <glad/gl.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "PerformanceOverlay.hpp"
 #include "Timestep.hpp"
 #include "Shader.hpp"
@@ -37,7 +41,13 @@ int main(void)
 		5, 4, 1, // Upper triangle
 	};
 
-	birb::shader shader_program("color", "color");
+	birb::shader shader_program("vertex_color");
+
+	glm::mat4 default_matrix(1.0f);
+	default_matrix = glm::scale(default_matrix, glm::vec3(1.1f, 1.1f, 1.1f));
+	shader_program.set_mat4("model", default_matrix);
+	shader_program.set_mat4("view", default_matrix);
+	shader_program.set_mat4("projection", default_matrix);
 
 	birb::vao vao1;
 	vao1.bind();

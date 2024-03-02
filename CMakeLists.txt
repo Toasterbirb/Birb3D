@@ -51,6 +51,7 @@ set(ASSIMP_BUILD_OBJ_IMPORTER ON CACHE BOOL "Build support for .obj files")
 set(ASSIMP_BUILD_FBX_IMPORTER ON CACHE BOOL "Build support for .fbx files")
 set(ASSIMP_BUILD_BLEND_IMPORTER ON CACHE BOOL "Build support for .blend files")
 
+include_directories(${CMAKE_SOURCE_DIR}/vendor/assimp/include ${CMAKE_BINARY_DIR}/vendor/assimp/include)
 add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/assimp)
 
 # Build GLFW
