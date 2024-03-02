@@ -1,4 +1,5 @@
 #include "Shader.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 #include "ShaderSource.hpp"
 
@@ -80,7 +81,12 @@ namespace birb
 		if (!uniform_locations.contains(name))
 		{
 			activate();
-			uniform_locations[name] = glGetUniformLocation(id, name.c_str());
+			int location = glGetUniformLocation(id, name.c_str());
+
+			if (location != -1)
+				uniform_locations[name] = location;
+			else
+				birb::log_warn("Tried to add shader uniform that doesn't exist: " + name);
 		}
 	}
 
