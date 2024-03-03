@@ -99,7 +99,7 @@ namespace birb
 		// Target frametime (milliseconds per frame)
 		double target_frametime;
 
-		double _deltatime;
+		double _deltatime = 0.001;
 
 		// Framebudget usage of the previous frame
 		static constexpr int framebudget_sample_count = 64;
