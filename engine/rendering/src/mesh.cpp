@@ -1,6 +1,7 @@
 #include "Mesh.hpp"
 #include "Profiling.hpp"
 
+#include <cassert>
 #include <climits>
 #include <cstddef>
 #include <glad/gl.h>
@@ -16,6 +17,8 @@ namespace birb
 
 	void mesh::draw(shader& shader)
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		assert(shader.id != 0);
 
 		unsigned int diffuse_nr = 1;
@@ -31,6 +34,8 @@ namespace birb
 				number = std::to_string(diffuse_nr++);
 			else if (name == "texture_specular")
 				number = std::to_string(specular_nr++);
+			else
+				birb::log_warn("Tried to draw an unknown texture type: " + textures[i].type);
 
 			assert(i < INT_MAX && "Integer overflow");
 			shader.set_int("material." + name + number, i);
@@ -47,6 +52,9 @@ namespace birb
 	void mesh::setup_mesh()
 	{
 		PROFILER_SCOPE_MISC_FN()
+
+		assert(!vertices.empty());
+		assert(!indices.empty());
 
 		// Create the buffers
 		glGenVertexArrays(1, &vao);

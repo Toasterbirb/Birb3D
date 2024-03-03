@@ -5,6 +5,9 @@ namespace birb
 	material::material(const std::string& diffuse_map, const std::string& specular_map, float shininess)
 	:shininess(shininess)
 	{
+		assert(!diffuse_map.empty());
+		assert(!specular_map.empty());
+
 		diffuse.load(diffuse_map.c_str(), 0, color_format::RGB);
 		specular.load(specular_map.c_str(), 1, color_format::RGB);
 	}

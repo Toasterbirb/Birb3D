@@ -95,12 +95,22 @@ namespace birb
 
 	void renderer::draw_elements(vao& vao, size_t index_count)
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
+		assert(vao.id != 0);
+		assert(index_count > 0 && "Unncessary call to draw_elements()");
+
 		vao.bind();
 		glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
 	}
 
 	void renderer::draw_arrays(vao& vao, size_t vert_count)
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
+		assert(vao.id != 0);
+		assert(vert_count > 0 && "Unncessary call to draw_arrays()");
+
 		vao.bind();
 		glDrawArrays(GL_TRIANGLES, 0, vert_count);
 	}

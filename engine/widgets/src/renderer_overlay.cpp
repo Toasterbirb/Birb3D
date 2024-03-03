@@ -15,8 +15,6 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER_FN()
 
-			assert(window::imgui_is_init() && "The renderer overlay requires ImGui to be initialized");
-
 			setup_overlay();
 
 			bool p_open = false;

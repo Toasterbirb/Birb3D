@@ -39,8 +39,6 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER_FN()
 
-			assert(window::imgui_is_init() && "The performance overlay requires ImGui to be initialized");
-
 			float frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float average_frametime = birb::average(ts.frametime_history);

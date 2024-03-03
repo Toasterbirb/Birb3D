@@ -1,6 +1,7 @@
+#include "Logger.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
-#include "Logger.hpp"
+#include "Profiling.hpp"
 #include "Texture.hpp"
 
 #include <assimp/Importer.hpp>
@@ -28,6 +29,8 @@ namespace birb
 
 	void model::load_model(const std::string& path)
 	{
+		PROFILER_SCOPE_IO_FN()
+
 		assert(!path.empty());
 		assert(std::filesystem::exists(path));
 
@@ -53,6 +56,9 @@ namespace birb
 
 	void model::process_node(aiNode* node, const aiScene* scene)
 	{
+		assert(node != nullptr);
+		assert(scene != nullptr);
+
 		// Process all meshes in the node
 		for (unsigned int i = 0; i < node->mNumMeshes; ++i)
 		{
@@ -69,6 +75,11 @@ namespace birb
 
 	mesh model::process_mesh(aiMesh* ai_mesh, const aiScene* scene)
 	{
+		PROFILER_SCOPE_IO_FN()
+
+		assert(ai_mesh != nullptr);
+		assert(scene != nullptr);
+
 		std::vector<vertex> vertices;
 		std::vector<unsigned int> indices;
 		std::vector<mesh_texture> textures;
@@ -130,6 +141,11 @@ namespace birb
 
 	std::vector<mesh_texture> model::load_material_textures(aiMaterial* mat, aiTextureType type, std::string type_name)
 	{
+		PROFILER_SCOPE_IO_FN()
+
+		assert(mat != nullptr);
+		assert(!type_name.empty());
+
 		std::vector<mesh_texture> textures;
 
 		for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i)

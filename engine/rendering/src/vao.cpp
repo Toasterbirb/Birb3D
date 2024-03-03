@@ -1,3 +1,4 @@
+#include "Profiling.hpp"
 #include "VAO.hpp"
 
 #include <cassert>
@@ -17,6 +18,9 @@ namespace birb
 
 	void vao::link_vbo(birb::vbo& vbo, unsigned int layout, unsigned int num_components, size_t stride, unsigned int offset)
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
+		assert(vbo.id != 0);
 		assert(num_components != 0 && "Invalid amount of components");
 		assert(stride != 0 && "Invalid stride");
 
