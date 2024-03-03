@@ -57,6 +57,24 @@ int main(void)
 	{
 		camera.process_input(window, timestep);
 
+		while (window.inputs_available())
+		{
+			birb::input input = window.next_input();
+
+			if (input.state == birb::input::action::KEY_DOWN)
+			{
+				switch (input.key)
+				{
+					case (birb::input::keycode::MOUSE_1):
+						window.lock_cursor_to_window();
+						break;
+
+					default:
+						break;
+				}
+			}
+		}
+
 		glm::mat4 model = glm::mat4(1.0f);
 		shader.set_mat4("model", model);
 

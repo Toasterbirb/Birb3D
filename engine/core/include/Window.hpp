@@ -117,6 +117,11 @@ namespace birb
 		void unlock_cursor_from_window();
 
 		/**
+		 * @brief Check if the cursor is locked to the window
+		 */
+		static bool is_cursor_locked_to_window();
+
+		/**
 		 * @brief Initialize the ImGui library
 		 *
 		 * This needs to be called before using anything ImGui related
@@ -155,7 +160,7 @@ namespace birb
 		 */
 		vec2<int> dimensions;
 
-		bool cursor_locked_to_window = false;
+		static inline bool cursor_locked_to_window = false;
 
 		/**
 		 * @brief Override for the should_close() function. Can be set to true with quit()

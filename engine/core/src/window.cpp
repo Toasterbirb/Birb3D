@@ -166,6 +166,10 @@ namespace birb
 						event_bus::send_event(1);
 						break;
 
+					case birb::input::keycode::ESCAPE:
+						unlock_cursor_from_window();
+						break;
+
 					default:
 						break;
 				}
@@ -232,6 +236,11 @@ namespace birb
 			glfwSetInputMode(glfw_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			cursor_locked_to_window = false;
 		}
+	}
+
+	bool window::is_cursor_locked_to_window()
+	{
+		return cursor_locked_to_window;
 	}
 
 	void window::init_imgui()
@@ -329,8 +338,15 @@ namespace birb
 		// Handle reserved keybindings
 		switch (new_input.key)
 		{
-			case(input::keycode::F1):
+			case (input::keycode::F1):
 				engine_input_queue.push(new_input);
+				break;
+
+			// Process the escape key as engine input and also add it to the
+			// game input queue
+			case (input::keycode::ESCAPE):
+				engine_input_queue.push(new_input);
+				input_queue.push(new_input);
 				break;
 
 			default:

@@ -47,13 +47,28 @@ namespace birb
 		if (window.is_key_held(keybinds.right))
 			position += right * static_cast<float>(timestep.deltatime()) * movement_speed;
 
-		// Calculate cursor positions
-		birb::vec2<double> new_cursor_pos = window.cursor_pos();
-		birb::vec2<double> cursor_delta = new_cursor_pos - prev_cursor_pos;
-		prev_cursor_pos = new_cursor_pos;
+		// Skip processing mouse input if the cursor isn't locked to the window
+		if (window::is_cursor_locked_to_window() && !first_mouse_delta_after_lock)
+		{
+			// Calculate cursor positions
+			birb::vec2<double> new_cursor_pos = window.cursor_pos();
+			birb::vec2<double> cursor_delta = new_cursor_pos - prev_cursor_pos;
+			prev_cursor_pos = new_cursor_pos;
 
-		yaw += cursor_delta.x * mouse_sensitivity;
-		pitch -= cursor_delta.y * mouse_sensitivity;
+			yaw += cursor_delta.x * mouse_sensitivity;
+			pitch -= cursor_delta.y * mouse_sensitivity;
+		}
+		else if (window::is_cursor_locked_to_window() && first_mouse_delta_after_lock)
+		{
+			// Ignore the first mouse click after locking
+			prev_cursor_pos = window.cursor_pos();
+
+			first_mouse_delta_after_lock = false;
+		}
+		else
+		{
+			first_mouse_delta_after_lock = true;
+		}
 
 		pitch = std::clamp(pitch, -89.0f, 89.0f);
 

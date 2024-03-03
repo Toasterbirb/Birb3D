@@ -34,6 +34,10 @@ namespace birb
 	private:
 		vec2<double> prev_cursor_pos;
 
+		// Ignore the first mouse delta after the window is clicked
+		// to lock the mouse to avoid a big jump in view
+		bool first_mouse_delta_after_lock = false;
+
 		glm::vec3 front = { 0.0f, 0.0f, -1.0f };
 		glm::vec3 up = { 0.0f, 1.0f, 0.0f };
 		glm::vec3 right;
