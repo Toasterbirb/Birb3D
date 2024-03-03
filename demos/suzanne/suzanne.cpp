@@ -1,10 +1,12 @@
 #include "Camera.hpp"
 #include "CameraInfoOverlay.hpp"
+#include "Components.hpp"
 #include "Entity.hpp"
 #include "Model.hpp"
 #include "PerformanceOverlay.hpp"
 #include "Random.hpp"
 #include "Renderer.hpp"
+#include "RendererOverlay.hpp"
 #include "Scene.hpp"
 #include "Timestep.hpp"
 #include "Vector.hpp"
@@ -13,6 +15,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <string>
 
 int main(void)
 {
@@ -26,16 +29,29 @@ int main(void)
 
 	birb::overlay::performance perf_overlay(timestep);
 	birb::overlay::camera_info cam_info(camera);
+	birb::overlay::renderer_overlay renderer_overlay(renderer);
 
 	birb::scene scene;
+	renderer.set_scene(scene);
 
 	birb::entity suzanne = scene.create_entity();
 
 	birb::model suzanne_model("suzanne.obj");
 	suzanne.add_component(suzanne_model);
 
+	birb::component::transform transform;
+	transform.position.z = -4.0f;
+	transform.rotation.y = 45.0f;
+	suzanne.add_component(transform);
+
 	birb::shader shader("color");
 	shader.set_vec4("color", { 0.2f, 0.3f, 0.4f, 1.0f });
+	suzanne.add_component(shader);
+
+	// Reset camera rotation
+	camera.process_input(window, timestep);
+	camera.yaw = -90;
+	camera.pitch = 0;
 
 	while (!window.should_close())
 	{
@@ -54,14 +70,11 @@ int main(void)
 		shader.activate();
 
 		// Render all models
-		auto view = scene.get_registry().view<birb::model>();
-		for (auto ent : view)
-			view.get<birb::model>(ent).draw(shader);
-
-		suzanne.get_component<birb::model>().draw(shader);
+		renderer.draw_entities();
 
 		perf_overlay.draw();
 		cam_info.draw();
+		renderer_overlay.draw();
 
 		window.flip();
 		window.poll();

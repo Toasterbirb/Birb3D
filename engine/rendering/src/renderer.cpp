@@ -1,8 +1,19 @@
+#include "Logger.hpp"
+#include "Model.hpp"
 #include "Renderer.hpp"
+#include "Profiling.hpp"
 #include "Shader.hpp"
+#include "Transform.hpp"
+#include "glm/fwd.hpp"
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+#include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <entt.hpp>
 #include <glad/gl.h>
 
 // Make sure that all of the datatypes are of correct size
@@ -42,6 +53,46 @@ namespace birb
 		}
 	}
 
+	void renderer::set_scene(scene& scene)
+	{
+		current_scene = &scene;
+	}
+
+	void renderer::draw_entities()
+	{
+		PROFILER_SCOPE_RENDER_FN()
+
+		assert(current_scene != nullptr);
+
+		entt::registry& entity_registry = current_scene->get_registry();
+
+		// Render all models
+		rendered_entities = 0;
+		auto view = entity_registry.view<birb::model, birb::shader, birb::component::transform>();
+		for (auto ent : view)
+		{
+			// Get the shader we'll be using for drawing the meshes of the model
+			shader& shader = view.get<birb::shader>(ent);
+
+			const birb::component::transform& transform = view.get<birb::component::transform>(ent);
+
+			// Calculate the model transform
+			glm::mat4 model_matrix = glm::mat4(1.0f);
+			model_matrix = glm::translate(model_matrix, transform.position.to_glm_vec());
+
+			glm::vec3 euler_angles({glm::radians(transform.rotation.x), glm::radians(transform.rotation.y), glm::radians(transform.rotation.z)});
+			glm::quat quaternion(euler_angles);
+			glm::mat4 rotation_matrix(quaternion);
+			model_matrix = model_matrix * rotation_matrix;
+
+			shader.set_mat4("model", model_matrix);
+
+			// Draw the model
+			view.get<birb::model>(ent).draw(shader);
+			++rendered_entities;
+		}
+	}
+
 	void renderer::draw_elements(vao& vao, size_t index_count)
 	{
 		vao.bind();
@@ -69,5 +120,15 @@ namespace birb
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
+	}
+
+	bool renderer::is_wireframe_enabled()
+	{
+		return wireframe_mode;
+	}
+
+	unsigned int renderer::rendered_entities_count() const
+	{
+		return rendered_entities;
 	}
 }
