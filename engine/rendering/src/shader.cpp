@@ -28,6 +28,32 @@ namespace birb
 		glUseProgram(this->id);
 	}
 
+	void shader::reset_lights()
+	{
+		// Point lights
+		for (unsigned int i = 0; i < point_light_count; ++i)
+		{
+			// Set the lights to black
+			set_vec3("point_lights[" + std::to_string(i) + "].ambient", {0.0f, 0.0f, 0.0f});
+			set_vec3("point_lights[" + std::to_string(i) + "].diffuse", {0.0f, 0.0f, 0.0f});
+			set_vec3("point_lights[" + std::to_string(i) + "].specular", {0.0f, 0.0f, 0.0f});
+
+			// Set the position to zero
+			set_vec3( "point_lights[" + std::to_string(i) + "].position", {0.0f, 0.0f, 0.0f});
+
+			// Keep the attenuation values
+			set_float("point_lights[" + std::to_string(i) + "].constant", 1.0f);
+			set_float("point_lights[" + std::to_string(i) + "].linear", 0.09f);
+			set_float("point_lights[" + std::to_string(i) + "].quadratic", 0.032f);
+		}
+
+		// Set the directional light diffuse and specular to black, but keep the ambient light
+		set_vec3("directional_light.direction", {0.2f, 0.2f, -0.7f});
+		set_vec3("directional_light.ambient", {0.2f, 0.2f, 0.2f});
+		set_vec3("directional_light.diffuse", {1.0f, 1.0f, 1.0f});
+		set_vec3("directional_light.specular", {1.0f, 1.0f, 1.0f});
+	}
+
 	bool shader::has_uniform_var(const std::string& name) const
 	{
 		return uniform_locations.contains(name);

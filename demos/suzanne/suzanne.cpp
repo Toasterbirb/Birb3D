@@ -24,6 +24,7 @@ int main(void)
 	birb::renderer renderer;
 	birb::timestep timestep;
 	birb::camera camera;
+	camera.movement_speed = 7;
 
 	window.init_imgui();
 
@@ -44,8 +45,11 @@ int main(void)
 	transform.rotation.y = 45.0f;
 	suzanne.add_component(transform);
 
-	birb::shader shader("color");
-	shader.set_vec4("color", { 0.2f, 0.3f, 0.4f, 1.0f });
+	birb::shader shader("default", "default_color");
+	shader.reset_lights();
+	shader.set_vec3("material.diffuse", { 0.2f, 0.3f, 0.4f });
+	shader.set_vec3("material.specular", { 0.9f, 0.8f, 0.7f });
+	shader.set_float("material.shininess", 32);
 	suzanne.add_component(shader);
 
 	// Reset camera rotation

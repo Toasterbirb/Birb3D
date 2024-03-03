@@ -20,6 +20,11 @@ namespace birb
 		// Activate the shader program
 		void activate();
 
+		/**
+		 * @brief Set all directional and point lights to black
+		 */
+		void reset_lights();
+
 		bool has_uniform_var(const std::string& name) const;
 
 		void set_mat4(const std::string& name, const glm::mat4 mat4);
@@ -33,5 +38,7 @@ namespace birb
 		void compile_shader(const std::string& vertex, const std::string& fragment);
 		void compile_errors(unsigned int shader, const std::string& type);
 		std::unordered_map<std::string, int> uniform_locations;
+
+		const unsigned int point_light_count = 4;
 	};
 }
