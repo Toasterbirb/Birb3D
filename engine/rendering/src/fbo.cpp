@@ -14,6 +14,7 @@ namespace birb
 		// Add a render buffer object for depth testing
 		glGenRenderbuffers(1, &rbo);
 		glBindRenderbuffer(1, rbo);
+		glEnable(GL_CULL_FACE);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, dimensions.x, dimensions.y);
 		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
