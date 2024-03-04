@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <iostream>
 #include <string>
 
@@ -90,6 +91,16 @@ namespace birb
 				std::to_string(b) + ", " +
 				std::to_string(a) +
 				"]";
+		}
+
+		std::array<float*, 3> to_ptr_array()
+		{
+			return { &r, &g, &b };
+		}
+
+		std::array<float*, 4> to_ptr_array_alpha()
+		{
+			return { &r, &g, &b, &a };
 		}
 
 		constexpr bool operator==(const color& other) const

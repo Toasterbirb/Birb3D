@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cassert>
 #include <cmath>
 #include <string>
@@ -49,6 +50,11 @@ namespace birb
 		constexpr vec2<float> to_float() const
 		{
 			return vec2<float>(x, y);
+		}
+
+		std::array<T*, 2> to_ptr_array()
+		{
+			return { &x, &y };
 		}
 
 		constexpr glm::vec2 to_glm_vec() const
@@ -200,6 +206,11 @@ namespace birb
 		constexpr vec3<float> to_float() const
 		{
 			return vec3<float>(x, y, z);
+		}
+
+		std::array<T*, 3> to_ptr_array()
+		{
+			return { &x, &y, &z };
 		}
 
 		constexpr glm::vec3 to_glm_vec() const
