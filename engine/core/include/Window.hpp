@@ -173,6 +173,7 @@ namespace birb
 		// Static variables for callback functions
 		static inline bool window_size_changed;
 		static inline std::unordered_set<birb::input::keycode> held_down_keys;
+		static void update_held_down_keys(const birb::input& input);
 
 		/**
 		 * @brief GLFW input callback function

@@ -314,6 +314,20 @@ namespace birb
 		}
 	}
 
+	void window::update_held_down_keys(const birb::input& input)
+	{
+		// Keep the "held down keys" list up-to-date
+		if (input.state == birb::input::action::KEY_DOWN)
+		{
+			held_down_keys.insert(input.key);
+		}
+		else if (input.state == birb::input::action::KEY_UP)
+		{
+			assert(held_down_keys.contains(input.key) && "Tried to remove a key from held down keys when it wasn't in the set in the first place");
+			held_down_keys.erase(input.key);
+		}
+	}
+
 	void window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 	{
 		input new_input {
@@ -324,16 +338,7 @@ namespace birb
 			.pos		= {-1, -1},
 		};
 
-		// Keep the "held down keys" list up-to-date
-		if (new_input.state == birb::input::action::KEY_DOWN)
-		{
-			held_down_keys.insert(new_input.key);
-		}
-		else if (new_input.state == birb::input::action::KEY_UP)
-		{
-			assert(held_down_keys.contains(new_input.key) && "Tried to remove a key from held down keys when it wasn't in the set in the first place");
-			held_down_keys.erase(new_input.key);
-		}
+		update_held_down_keys(new_input);
 
 		// Handle reserved keybindings
 		switch (new_input.key)
@@ -364,6 +369,8 @@ namespace birb
 			.state		= static_cast<input::action>(action),
 			.pos		= vec2<double>(0,0),
 		};
+
+		update_held_down_keys(new_input);
 
 		// Get the current mouse position
 		glfwGetCursorPos(window, &new_input.pos.x, &new_input.pos.y);
