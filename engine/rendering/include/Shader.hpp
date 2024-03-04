@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Color.hpp"
+#include "EditorComponent.hpp"
+
 #include <glad/gl.h>
 #include <glm/fwd.hpp>
 #include <string>
@@ -7,7 +10,7 @@
 
 namespace birb
 {
-	class shader
+	class shader : editor_component
 	{
 	public:
 		explicit shader(const std::string& shader_name);
@@ -17,6 +20,12 @@ namespace birb
 		// Reference to the shader program
 		unsigned int id;
 
+		// Directional lighting
+		static inline vec3<float> directional_direction = { 0.2f, 0.2f, -0.7f };
+		static inline vec3<float> directional_ambient = { 0.2f, 0.2f, 0.2f };
+		static inline vec3<float> directional_diffuse = { 1.0f, 1.0f, 1.0f };
+		static inline vec3<float> directional_specular = { 1.0f, 1.0f, 1.0f };
+
 		// Activate the shader program
 		void activate();
 
@@ -25,6 +34,8 @@ namespace birb
 		 */
 		void reset_lights();
 
+		void update_directional_light();
+
 		bool has_uniform_var(const std::string& name) const;
 
 		void set_mat4(const std::string& name, const glm::mat4 mat4);
@@ -32,6 +43,14 @@ namespace birb
 		void set_vec4(const std::string& name, const glm::vec4 vector);
 		void set_float(const std::string& name, const float f);
 		void set_int(const std::string& name, const int i);
+		void set_color(const std::string& name, const color& color);
+
+		// Material helper functions
+		void set_diffuse_color(const color& color);
+		void set_specular_color(const color& color);
+		void set_shininess(const float shininess);
+
+		void draw_editor_ui() override;
 
 	private:
 		void add_uniform_location(const std::string& name);
@@ -40,5 +59,12 @@ namespace birb
 		std::unordered_map<std::string, int> uniform_locations;
 
 		const unsigned int point_light_count = 4;
+		const std::string vertex_shader_name = "NULL";
+		const std::string fragment_shader_name = "NULL";
+
+		// Material variables
+		float shininess = 32.0f;
+		color diffuse_color = { 0.0f, 0.0f, 0.0f };
+		color specular_color = { 0.0f, 0.0f, 0.0f };
 	};
 }

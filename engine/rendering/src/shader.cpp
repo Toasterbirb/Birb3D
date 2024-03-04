@@ -3,17 +3,21 @@
 #include "Profiling.hpp"
 #include "ShaderSource.hpp"
 
+#include <array>
 #include <cassert>
 #include <glm/gtc/type_ptr.hpp>
+#include <imgui.h>
 
 namespace birb
 {
 	shader::shader(const std::string& shader_name)
+	:vertex_shader_name(shader_name), fragment_shader_name(shader_name)
 	{
 		compile_shader(shader_name, shader_name);
 	}
 
 	shader::shader(const std::string& vertex, const std::string& fragment)
+	:vertex_shader_name(vertex), fragment_shader_name(fragment)
 	{
 		compile_shader(vertex, fragment);
 	}
@@ -47,11 +51,15 @@ namespace birb
 			set_float("point_lights[" + std::to_string(i) + "].quadratic", 0.032f);
 		}
 
-		// Set the directional light diffuse and specular to black, but keep the ambient light
-		set_vec3("directional_light.direction", {0.2f, 0.2f, -0.7f});
-		set_vec3("directional_light.ambient", {0.2f, 0.2f, 0.2f});
-		set_vec3("directional_light.diffuse", {1.0f, 1.0f, 1.0f});
-		set_vec3("directional_light.specular", {1.0f, 1.0f, 1.0f});
+		update_directional_light();
+	}
+
+	void shader::update_directional_light()
+	{
+		set_vec3("directional_light.direction", directional_direction.to_glm_vec());
+		set_vec3("directional_light.ambient", directional_ambient.to_glm_vec());
+		set_vec3("directional_light.diffuse", directional_diffuse.to_glm_vec());
+		set_vec3("directional_light.specular", directional_specular.to_glm_vec());
 	}
 
 	bool shader::has_uniform_var(const std::string& name) const
@@ -97,6 +105,73 @@ namespace birb
 
 		activate();
 		glUniform1i(uniform_locations[name], i);
+	}
+
+	void shader::set_color(const std::string& name, const color& color)
+	{
+		add_uniform_location(name);
+
+		activate();
+		glUniform3f(uniform_locations[name], color.r, color.g, color.b);
+	}
+
+	void shader::set_diffuse_color(const color& color)
+	{
+		diffuse_color = color;
+		set_vec3("material.diffuse", { color.r, color.g, color.b });
+	}
+
+	void shader::set_specular_color(const color& color)
+	{
+		specular_color = color;
+		set_vec3("material.specular", { color.r, color.g, color.b });
+	}
+
+	void shader::set_shininess(const float shininess)
+	{
+		this->shininess = shininess;
+		set_float("material.shininess", shininess);
+	}
+
+	void shader::draw_editor_ui()
+	{
+		if (ImGui::CollapsingHeader("Shader"))
+		{
+			assert(!vertex_shader_name.empty());
+			assert(!fragment_shader_name.empty());
+
+			ImGui::Text("Vertex: %s", vertex_shader_name.c_str());
+			ImGui::Text("Fragment: %s", fragment_shader_name.c_str());
+
+			if (uniform_locations.contains("material.diffuse"))
+			{
+				if (ImGui::ColorEdit3("Diffuse", *diffuse_color.to_ptr_array().data()))
+					set_diffuse_color(diffuse_color);
+			}
+
+			if (uniform_locations.contains("material.specular"))
+			{
+				if (ImGui::ColorEdit3("Specular", *specular_color.to_ptr_array().data()))
+					set_specular_color(specular_color);
+			}
+
+			if (ImGui::DragFloat("shininess", &shininess, 1.0f, 0.1f, 2048.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp))
+				set_shininess(shininess);
+
+			ImGui::Spacing();
+			if (ImGui::TreeNode("Uniforms"))
+			{
+				auto it = uniform_locations.begin();
+				while (it != uniform_locations.end())
+				{
+					ImGui::BulletText("%s", (*it).first.c_str());
+					it++;
+				}
+
+				ImGui::TreePop();
+			}
+		}
+
 	}
 
 	void shader::add_uniform_location(const std::string& name)

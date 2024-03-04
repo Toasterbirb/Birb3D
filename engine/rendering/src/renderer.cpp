@@ -68,6 +68,7 @@ namespace birb
 
 		// Render all models
 		rendered_entities = 0;
+		rendered_vertices = 0;
 		auto view = entity_registry.view<birb::model, birb::shader, birb::component::transform>();
 		for (auto ent : view)
 		{
@@ -91,9 +92,13 @@ namespace birb
 			shader.set_mat4("view", view_matrix);
 			shader.set_mat4("projection", projection_matrix);
 
+			// Make sure the directional lighting is up-to-date
+			shader.update_directional_light();
+
 			// Draw the model
 			view.get<birb::model>(ent).draw(shader);
 			++rendered_entities;
+			rendered_vertices += view.get<birb::model>(ent).vertex_count();
 		}
 	}
 
@@ -144,5 +149,10 @@ namespace birb
 	unsigned int renderer::rendered_entities_count() const
 	{
 		return rendered_entities;
+	}
+
+	unsigned int renderer::rendered_vertex_count() const
+	{
+		return rendered_vertices;
 	}
 }

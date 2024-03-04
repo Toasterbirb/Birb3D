@@ -9,21 +9,24 @@
 
 namespace editor
 {
-	game_viewport::game_viewport(birb::scene& scene, birb::window& window, birb::timestep& timestep)
+	viewport::viewport(birb::scene& scene, birb::window& window, birb::timestep& timestep)
 	:fbo(last_viewport_size), scene(scene), window(window), timestep(timestep)
 	{
 		renderer.set_scene(scene);
 	}
 
-	void game_viewport::draw_viewport()
+	void viewport::draw()
 	{
-		camera.process_input(window, timestep);
-
 		// Render the game viewport
-		ImGui::Begin("GameWindow");
+		ImGui::Begin("Viewport");
 		{
-			ImGui::BeginChild("Viewport");
+			ImGui::BeginChild("ViewportRenderview");
 			ImVec2 window_size = ImGui::GetWindowSize();
+			imgui_window_hovered = ImGui::IsWindowHovered();
+
+			if (imgui_window_hovered)
+				camera.process_input(window, timestep);
+
 
 			// Render the game view
 			fbo.bind();
@@ -34,11 +37,11 @@ namespace editor
 					fbo.reload_frame_buffer_texture(last_viewport_size);
 				}
 
-				glm::mat4 projection = glm::perspective(glm::radians(45.0f), window_size.x / window_size.y, 0.1f, 100.0f);
-
 				glViewport(0, 0, window_size.x, window_size.y);
+				glm::mat4 projection = glm::perspective(glm::radians(camera.fov), window_size.x / window_size.y, camera_near_clip, camera_far_clip);
 
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+				glEnable(GL_DEPTH_TEST);
 				renderer.draw_entities(camera.get_view_matrix(), projection);
 			}
 			fbo.unbind();
@@ -47,5 +50,10 @@ namespace editor
 			ImGui::EndChild();
 		}
 		ImGui::End();
+	}
+
+	bool viewport::is_window_hovered() const
+	{
+		return imgui_window_hovered;
 	}
 }

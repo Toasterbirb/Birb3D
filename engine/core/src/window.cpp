@@ -284,11 +284,11 @@ namespace birb
 		style.Colors[ImGuiCol_ResizeGripHovered] = focus_color;
 		style.Colors[ImGuiCol_SliderGrabActive] = focus_color;
 		style.Colors[ImGuiCol_SliderGrab] = ImVec4(0.211765f, 0.211765f, 0.27451f, 1.0f);
-		style.Colors[ImGuiCol_TabActive] = ImVec4(0.211765f, 0.211765f, 0.27451f, 1.0f);
 		style.Colors[ImGuiCol_TabHovered] = ImVec4(0.164706f, 0.164706f, 0.215686f, 1.0f);
-		style.Colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0.0862745f, 0.0862745f, 0.113725f, 1.0f);
-		style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.0862745f, 0.0862745f, 0.113725f, 1.0f);
-		style.Colors[ImGuiCol_Tab] = ImVec4(0.0862745f, 0.0862745f, 0.113725f, 1.0f);
+		style.Colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0.211765f, 0.211765f, 0.27451f, 1.0f);
+		style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.211765f, 0.211765f, 0.27451f, 1.0f);
+		style.Colors[ImGuiCol_Tab] = ImVec4(0.211765f, 0.211765f, 0.27451f, 1.0f);
+		style.Colors[ImGuiCol_TabActive] = ImVec4(0.0862745f, 0.0862745f, 0.113725f, 1.0f);
 		style.Colors[ImGuiCol_Text] = ImVec4(0.862745f, 0.843137f, 0.729412f, 1.0f);
 		style.Colors[ImGuiCol_TitleBgActive] = focus_color;
 		style.Colors[ImGuiCol_TitleBg] = ImVec4(0.145098f, 0.145098f, 0.207843f, 1.0f);
@@ -309,11 +309,16 @@ namespace birb
 		return vid_mode->refreshRate;
 	}
 
-	void window::set_background_color(birb::color color)
+	void window::set_background_color(const birb::color& color)
 	{
 		glClearColor(color.r, color.g, color.b, color.a);
+		current_background_color = color;
 	}
 
+	color window::background_color() const
+	{
+		return current_background_color;
+	}
 
 	void window::new_imgui_frame()
 	{
@@ -339,14 +344,9 @@ namespace birb
 	{
 		// Keep the "held down keys" list up-to-date
 		if (input.state == birb::input::action::KEY_DOWN)
-		{
 			held_down_keys.insert(input.key);
-		}
 		else if (input.state == birb::input::action::KEY_UP)
-		{
-			assert(held_down_keys.contains(input.key) && "Tried to remove a key from held down keys when it wasn't in the set in the first place");
 			held_down_keys.erase(input.key);
-		}
 	}
 
 	void window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)

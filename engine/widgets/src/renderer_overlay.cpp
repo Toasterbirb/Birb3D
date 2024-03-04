@@ -37,6 +37,7 @@ namespace birb
 			if (is_overlay || ImGui::CollapsingHeader(collapsing_menu_name))
 			{
 				ImGui::Text("Rendered entities: %u", renderer.rendered_entities_count());
+				ImGui::Text("Vertex count: %u", renderer.rendered_vertex_count());
 
 				if (renderer::is_wireframe_enabled())
 					ImGui::Text("> Wireframe mode enabled");

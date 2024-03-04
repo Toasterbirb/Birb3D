@@ -141,7 +141,12 @@ namespace birb
 		/**
 		 * @brief Set the default background color
 		 */
-		void set_background_color(birb::color color);
+		void set_background_color(const birb::color& color);
+
+		/**
+		 * @return The currently set background clear color of the window
+		 */
+		color background_color() const;
 
 		/**
 		 * @brief Automatically resize the viewport when window gets resized
@@ -150,6 +155,7 @@ namespace birb
 
 	private:
 		GLFWwindow* glfw_window;
+		color current_background_color;
 
 		/**
 		 * @brief Current size of the window

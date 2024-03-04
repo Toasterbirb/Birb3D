@@ -18,7 +18,7 @@ namespace birb
 
 		void set_scene(scene& scene);
 
-		void draw_entities(const glm::mat4& view, const glm::mat4& projection);
+		void draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix);
 		void draw_elements(vao& vao, size_t index_count);
 		void draw_arrays(vao& vao, size_t vert_count);
 		static void toggle_wireframe();
@@ -29,6 +29,11 @@ namespace birb
 		 */
 		unsigned int rendered_entities_count() const;
 
+		/**
+		 * @return The amount of vertices rendered during last call to draw_entities()
+		 */
+		unsigned int rendered_vertex_count() const;
+
 	private:
 		scene* current_scene = nullptr;
 		unsigned int shader_program;
@@ -37,5 +42,6 @@ namespace birb
 
 		// Variables for rendering statistics
 		unsigned int rendered_entities = 0;
+		unsigned int rendered_vertices = 0;
 	};
 }

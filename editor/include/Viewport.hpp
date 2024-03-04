@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Camera.hpp"
+#include "EditorWindow.hpp"
 #include "FBO.hpp"
 #include "Renderer.hpp"
 #include "Scene.hpp"
@@ -11,20 +12,28 @@
 
 namespace editor
 {
-	class game_viewport
+	class viewport : public editor_window
 	{
 	public:
-		game_viewport(birb::scene& scene, birb::window& window, birb::timestep& timestep);
+		viewport(birb::scene& scene, birb::window& window, birb::timestep& timestep);
 
-		void draw_viewport();
+		void draw() override;
+		bool is_window_hovered() const;
+
+		birb::renderer renderer;
+		birb::camera camera;
+
+		float camera_near_clip = 0.1f;
+		float camera_far_clip = 100.0f;
+
 	private:
 		birb::vec2<int> last_viewport_size = {1280, 720};
 		birb::fbo fbo;
 
-		birb::renderer renderer;
-		birb::camera camera;
 		birb::scene& scene;
 		birb::window& window;
 		birb::timestep& timestep;
+
+		bool imgui_window_hovered = false;
 	};
 }

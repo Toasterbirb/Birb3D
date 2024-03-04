@@ -7,6 +7,9 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
+#include <filesystem>
+#include <imgui.h>
+#include <imgui_stdlib.h>
 
 #ifndef NDEBUG
 #include <filesystem> // Needed for asserts
@@ -27,12 +30,47 @@ namespace birb
 		}
 	}
 
+	void model::draw_editor_ui()
+	{
+		static const ImVec4 red(0.80f, 0.27f, 0.27f, 1.0f);
+
+		if (ImGui::CollapsingHeader("Model"))
+		{
+			ImGui::InputText("File path", &text_box_model_file_path);
+
+			if (ImGui::Button("Reload"))
+			{
+				if (!std::filesystem::exists(text_box_model_file_path))
+				{
+					file_exists = false;
+				}
+				else
+				{
+					destroy();
+					load_model(text_box_model_file_path);
+				}
+			}
+
+			if (!file_exists)
+				ImGui::TextColored(red, "File doesn't exist");
+		}
+	}
+
+	std::string model::model_file_path()
+	{
+		return file_path;
+	}
+
 	void model::load_model(const std::string& path)
 	{
 		PROFILER_SCOPE_IO_FN()
 
 		assert(!path.empty());
 		assert(std::filesystem::exists(path));
+
+		file_exists = true;
+		file_path = path;
+		text_box_model_file_path = path;
 
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(path.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
@@ -50,9 +88,19 @@ namespace birb
 		else
 			directory = "./";
 
+		// Reset the vert counter. The process_node function will recalculate it
+		vert_count = 0;
+
 		process_node(scene->mRootNode, scene);
 	}
 
+	void model::destroy()
+	{
+		textures_loaded.clear();
+		meshes.clear();
+		directory = "";
+		vert_count = 0;
+	}
 
 	void model::process_node(aiNode* node, const aiScene* scene)
 	{
@@ -64,6 +112,7 @@ namespace birb
 		{
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 			meshes.push_back(process_mesh(mesh, scene));
+			vert_count += mesh->mNumVertices;
 		}
 
 		// Process the child nodes of the node
@@ -177,5 +226,10 @@ namespace birb
 		}
 
 		return textures;
+	}
+
+	unsigned int model::vertex_count() const
+	{
+		return vert_count;
 	}
 }

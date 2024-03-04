@@ -57,6 +57,12 @@ target_precompile_headers(birb PUBLIC
 	PRIVATE
 		<glad/gl.h>
 		<GLFW/glfw3.h>
+		<glm/glm.hpp>
+		<glm/gtc/matrix_transform.hpp>
+		<glm/gtc/type_ptr.hpp>
+		<assimp/Importer.hpp>
+		<assimp/postprocess.h>
+		<assimp/scene.h>
 		<algorithm>
 		<array>
 		<cassert>

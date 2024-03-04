@@ -24,7 +24,8 @@ namespace birb
 		texture frame_buffer;
 
 		void attach_texture(const texture& texture);
+		void setup_rbo(vec2<int> dimensions);
 
-		unsigned int rbo;
+		unsigned int rbo = 0;
 	};
 }
