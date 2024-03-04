@@ -149,12 +149,22 @@ namespace birb
 			RIGHT_SUPER = 347,
 			MENU = 348,
 			LAST = MENU,
+			SCROLLING = 349,
 		};
 
 		int scancode, mods;
 		keycode key;
 		action state;
+
+		/**
+		 * @brief Mouse click positions
+		 */
 		vec2<double> pos;
+
+		/**
+		 * @brief Scrolling offsets
+		 */
+		vec2<double> offset;
 	};
 
 	struct directional_keys

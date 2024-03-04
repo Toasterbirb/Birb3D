@@ -186,6 +186,11 @@ namespace birb
 		static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
 
 		/**
+		 * @brief GLFW mouse scrolling callback function
+		 */
+		static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
+		/**
 		 * @brief GLFW error callback function
 		 */
 		static void error_callback(int error, const char* description);

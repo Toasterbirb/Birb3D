@@ -61,6 +61,7 @@ namespace birb
 		glfwMakeContextCurrent(glfw_window);
 		glfwSetKeyCallback(glfw_window, key_callback);
 		glfwSetMouseButtonCallback(glfw_window, mouse_button_callback);
+		glfwSetScrollCallback(glfw_window, scroll_callback);
 		glfwSetErrorCallback(error_callback);
 		glfwSetWindowSizeCallback(glfw_window, window_size_callback);
 
@@ -335,7 +336,8 @@ namespace birb
 			.mods		= mods,
 			.key		= static_cast<input::keycode>(key),
 			.state		= static_cast<input::action>(action),
-			.pos		= {-1, -1},
+			.pos		= vec2<double>(-1, -1),
+			.offset		= vec2<double>(0,0),
 		};
 
 		update_held_down_keys(new_input);
@@ -368,12 +370,27 @@ namespace birb
 			.key		= static_cast<input::keycode>(button),
 			.state		= static_cast<input::action>(action),
 			.pos		= vec2<double>(0,0),
+			.offset		= vec2<double>(0,0),
 		};
 
 		update_held_down_keys(new_input);
 
 		// Get the current mouse position
 		glfwGetCursorPos(window, &new_input.pos.x, &new_input.pos.y);
+
+		input_queue.push(new_input);
+	}
+
+	void window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+	{
+		input new_input {
+			.scancode	= 0,
+			.mods		= 0,
+			.key		= input::keycode::SCROLLING,
+			.state		= input::action::KEY_DOWN,
+			.pos		= vec2<double>(0,0),
+			.offset		= vec2<double>(xoffset, yoffset),
+		};
 
 		input_queue.push(new_input);
 	}
