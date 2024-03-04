@@ -58,7 +58,7 @@ namespace birb
 		current_scene = &scene;
 	}
 
-	void renderer::draw_entities()
+	void renderer::draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix)
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
@@ -86,6 +86,8 @@ namespace birb
 			model_matrix = model_matrix * rotation_matrix;
 
 			shader.set_mat4("model", model_matrix);
+			shader.set_mat4("view", view_matrix);
+			shader.set_mat4("projection", projection_matrix);
 
 			// Draw the model
 			view.get<birb::model>(ent).draw(shader);

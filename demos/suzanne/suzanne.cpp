@@ -79,20 +79,12 @@ int main(void)
 			}
 		}
 
-		glm::mat4 model = glm::mat4(1.0f);
-		shader.set_mat4("model", model);
-
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(window.size().x) / static_cast<float>(window.size().y), 0.1f, 100.0f);
-		shader.set_mat4("projection", projection);
-
-		shader.set_mat4("view", camera.get_view_matrix());
 
 		window.clear();
 
-		shader.activate();
-
 		// Render all models
-		renderer.draw_entities();
+		renderer.draw_entities(camera.get_view_matrix(), projection);
 
 		perf_overlay.draw();
 		cam_info.draw();

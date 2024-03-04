@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Shader.hpp"
+#include "Vector.hpp"
+
 #include <glad/gl.h>
 
 namespace birb
@@ -18,6 +20,15 @@ namespace birb
 		~texture();
 
 		unsigned int id = 0;
+
+		/**
+		 * @brief Create an empty OpenGL texture
+		 *
+		 * This is can be used for framebuffer stuff etc.
+		 * It only initializes the texture and doesn't do any fancy things like
+		 * mipmapping and so on
+		 */
+		void create_empty(birb::vec2<int> dimensions);
 
 		void load(const char* image_path, const unsigned int slot, const color_format format, const unsigned short texture_dimension = 2);
 

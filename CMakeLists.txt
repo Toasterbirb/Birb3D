@@ -112,6 +112,9 @@ add_compile_options(-pedantic -Wall -Wextra -Wcast-align
 # Build the engine library
 add_subdirectory(engine)
 
+# Build the editor
+add_subdirectory(editor)
+
 # Build demos
 add_subdirectory(demos)
 

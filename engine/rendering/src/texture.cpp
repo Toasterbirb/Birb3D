@@ -15,9 +15,28 @@ namespace birb
 		this->load(image_path, slot, format, texture_dimension);
 	}
 
+	void texture::create_empty(birb::vec2<int> dimensions)
+	{
+		assert(id == 0 && "Memory leak");
+		assert(dimensions.x > 0);
+		assert(dimensions.y > 0);
+
+		glGenTextures(1, &id);
+		assert(id != 0);
+
+		glBindTexture(GL_TEXTURE_2D, id);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, dimensions.x, dimensions.y, 0, GL_RGB, GL_UNSIGNED_INT, NULL);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	}
+
 	void texture::load(const char* image_path, const unsigned int slot, const color_format format, const unsigned short texture_dimension)
 	{
 		PROFILER_SCOPE_IO("Texture loading")
+
+		assert(id == 0 && "Memory leak");
 
 		this->slot = slot;
 
