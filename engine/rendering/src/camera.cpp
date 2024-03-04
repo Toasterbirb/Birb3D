@@ -48,7 +48,8 @@ namespace birb
 			position += right * static_cast<float>(timestep.deltatime()) * movement_speed;
 
 		// Skip processing mouse input if the cursor isn't locked to the window
-		if (window::is_cursor_locked_to_window() && !first_mouse_delta_after_lock)
+		// (unless editor mode is active, though with that require mouse3 to be held down)
+		if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && !first_mouse_delta_after_lock)
 		{
 			// Calculate cursor positions
 			birb::vec2<double> new_cursor_pos = window.cursor_pos();
@@ -58,7 +59,7 @@ namespace birb
 			yaw += cursor_delta.x * mouse_sensitivity;
 			pitch -= cursor_delta.y * mouse_sensitivity;
 		}
-		else if (window::is_cursor_locked_to_window() && first_mouse_delta_after_lock)
+		else if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && first_mouse_delta_after_lock)
 		{
 			// Ignore the first mouse click after locking
 			prev_cursor_pos = window.cursor_pos();
@@ -86,5 +87,10 @@ namespace birb
 		// Update the right and up vectors
 		right = glm::normalize(glm::cross(front, world_up));
 		up = glm::normalize(glm::cross(right, front));
+	}
+
+	void camera::zoom(float delta)
+	{
+		position += front * delta;
 	}
 }

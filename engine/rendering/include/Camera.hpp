@@ -28,6 +28,9 @@ namespace birb
 		float mouse_sensitivity = 0.1f;
 		float fov = 45.0f;
 
+		bool editor_mode = false;
+		void zoom(float delta);
+
 		// Keybinds
 		directional_keys keybinds;
 
