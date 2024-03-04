@@ -14,6 +14,7 @@ Vendored dependencies that are included as submodules or directly in the reposit
 - [ImGui](https://github.com/ocornut/imgui/tree/docking)
 - [assimp](https://github.com/assimp/assimp)
 - [doctest](https://github.com/doctest/doctest)
+- [nlohmann::json](https://github.com/nlohmann/json)
 - [stb](https://github.com/nothings/stb)
 
 Optional dependencies:

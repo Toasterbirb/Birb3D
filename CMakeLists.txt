@@ -37,6 +37,9 @@ include_directories(./vendor/doctest)
 # Include EnTT
 include_directories(${CMAKE_SOURCE_DIR}/vendor/entt/single_include/entt)
 
+# Include nlohmann::json
+include_directories(./vendor/json/include)
+
 # Build assimp
 # Disable some features that aren't needed
 set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "Build the assimp test suite")
