@@ -264,6 +264,7 @@ namespace birb
 		const ImVec4 active_color(0.462745f, 0.580392f, 0.415686f, 1.0f);
 
 		ImGuiStyle& style = ImGui::GetStyle();
+		style.TabRounding = 2.0f;
 		style.Alpha = 1.0f;
 
 		style.Colors[ImGuiCol_Border] = ImVec4(0.211765f, 0.211765f, 0.27451f, 1.0f);
@@ -273,7 +274,7 @@ namespace birb
 		style.Colors[ImGuiCol_FrameBgActive] = active_color;
 		style.Colors[ImGuiCol_FrameBgHovered] = focus_color;
 		style.Colors[ImGuiCol_FrameBg] = ImVec4(0.164706f, 0.164706f, 0.215686f, 0.7f);
-		style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.176471f, 0.309804f, 0.403922f, 1.0f);
+		style.Colors[ImGuiCol_HeaderActive] = active_color;
 		style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.329412f, 0.329412f, 0.427451f, 1.0f);
 		style.Colors[ImGuiCol_Header] = ImVec4(0.145098f, 0.145098f, 0.207843f, 1.0f);
 		style.Colors[ImGuiCol_PlotHistogramHovered] = active_color;
