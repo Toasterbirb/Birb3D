@@ -11,10 +11,14 @@ namespace birb
 		{
 		public:
 			explicit renderer_overlay(const birb::renderer& renderer);
+			renderer_overlay(const birb::renderer& renderer, const char* window);
 
 			void draw() override;
 
 		private:
+			const char* collapsing_menu_name = "";
+			bool is_overlay = true;
+
 			const birb::renderer& renderer;
 		};
 	}
