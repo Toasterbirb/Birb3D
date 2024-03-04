@@ -85,6 +85,8 @@ namespace birb
 			glm::mat4 rotation_matrix(quaternion);
 			model_matrix = model_matrix * rotation_matrix;
 
+			model_matrix = glm::scale(model_matrix, transform.local_scale.to_glm_vec());
+
 			shader.set_mat4("model", model_matrix);
 			shader.set_mat4("view", view_matrix);
 			shader.set_mat4("projection", projection_matrix);

@@ -13,6 +13,7 @@ namespace birb
 
 			vec3<float> position;
 			vec3<float> rotation;
+			vec3<float> local_scale;
 
 		private:
 
