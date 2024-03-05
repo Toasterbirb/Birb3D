@@ -62,6 +62,10 @@ namespace birb
 
 		void draw_editor_ui() override;
 
+		// Shader source code related functions
+		static std::vector<std::string> vertex_shader_name_list();
+		static std::vector<std::string> fragment_shader_name_list();
+
 	private:
 		void add_uniform_location(const std::string& name);
 		void compile_shader(const std::string& vertex, const std::string& fragment);

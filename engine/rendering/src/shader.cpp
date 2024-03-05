@@ -224,6 +224,16 @@ namespace birb
 
 	}
 
+	std::vector<std::string> shader::vertex_shader_name_list()
+	{
+		return shader_src_vert_names;
+	}
+
+	std::vector<std::string> shader::fragment_shader_name_list()
+	{
+		return shader_src_frag_names;
+	}
+
 	void shader::add_uniform_location(const std::string& name)
 	{
 		assert(!name.empty() && "Empty uniform name");

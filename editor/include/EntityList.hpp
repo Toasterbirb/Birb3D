@@ -24,5 +24,13 @@ namespace editor
 
 		entt::entity default_entity(std::string name);
 		static inline bool duplicate_name = false;
+
+		// Cache some shader stuff that won't change during runtime
+		std::string vertex_shader_name_list_str;
+		std::string fragment_shader_name_list_str;
+		const std::string default_vert_shader_name_str = "default";
+		const std::string default_frag_shader_name_str = "default_color";
+		unsigned short default_vertex_shader_index = 0;
+		unsigned short default_fragment_shader_index = 0;
 	};
 }

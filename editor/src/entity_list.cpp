@@ -5,12 +5,51 @@
 #include "Scene.hpp"
 #include "Shader.hpp"
 
+#include <algorithm>
 #include <imgui.h>
 #include <imgui_stdlib.h>
+#include <string>
+#include <vector>
+
+#ifndef NDEBUG
+#include <limits>
+#endif
 
 namespace editor
 {
-	entity_list::entity_list(birb::scene& scene) : scene(scene) {}
+	entity_list::entity_list(birb::scene& scene) : scene(scene)
+	{
+		// Create the zero separated shader list strings for combo selection windows
+		const std::vector<std::string>& vert_shader_names = birb::shader::vertex_shader_name_list();
+		const std::vector<std::string>& frag_shader_names = birb::shader::fragment_shader_name_list();
+
+		assert(!vert_shader_names.empty());
+		assert(!frag_shader_names.empty());
+
+		for (const std::string& vert_shader : vert_shader_names)
+			vertex_shader_name_list_str += vert_shader + '\0';
+
+		for (const std::string& frag_shader : frag_shader_names)
+			fragment_shader_name_list_str += frag_shader + '\0';
+
+		assert(!vertex_shader_name_list_str.empty());
+		assert(!fragment_shader_name_list_str.empty());
+
+		// Find the indicies of the default shaders
+		auto vert_it = std::find_if(vert_shader_names.begin(), vert_shader_names.end(), [this](const std::string& name){
+			return default_vert_shader_name_str == name;
+		});
+		assert(vert_it != vert_shader_names.end() && "Default vertex shader doesn't exist in ShaderSource.hpp");
+		assert(vert_it - vert_shader_names.begin() < std::numeric_limits<unsigned short>::max());
+		default_vertex_shader_index = vert_it - vert_shader_names.begin();
+
+		auto frag_it = std::find_if(frag_shader_names.begin(), frag_shader_names.end(), [this](const std::string& name){
+			return default_frag_shader_name_str == name;
+		});
+		assert(frag_it != frag_shader_names.end() && "Default fragment shader doesn't exist in ShaderSource.hpp");
+		assert(frag_it - frag_shader_names.begin() < std::numeric_limits<unsigned short>::max());
+		default_fragment_shader_index = frag_it - frag_shader_names.begin();
+	}
 
 	entt::entity entity_list::default_entity(std::string name)
 	{
@@ -61,13 +100,16 @@ namespace editor
 				if (ImGui::BeginMenu("Model"))
 				{
 					static std::string model_file_path;
-					static std::string vertex_shader = "default";
-					static std::string fragment_shader = "default_color";
+					static int selected_vert_index = default_vertex_shader_index;
+					static int selected_frag_index = default_fragment_shader_index;
+					std::string vertex_shader = "NULL";
+					std::string fragment_shader = "NULL";
 
 					ImGui::InputText("Name", &name);
 					ImGui::InputText("File path", &model_file_path);
-					ImGui::InputText("Vertex shader", &vertex_shader);
-					ImGui::InputText("Fragment shader", &fragment_shader);
+
+					ImGui::Combo("Vertex shader", &selected_vert_index, vertex_shader_name_list_str.c_str());
+					ImGui::Combo("Fragment shader", &selected_frag_index, fragment_shader_name_list_str.c_str());
 
 					if (ImGui::Button("Create"))
 					{
@@ -75,6 +117,9 @@ namespace editor
 
 						if (entity != entt::null)
 						{
+							vertex_shader = birb::shader::vertex_shader_name_list().at(selected_vert_index);
+							fragment_shader = birb::shader::fragment_shader_name_list().at(selected_frag_index);
+
 							birb::shader shader(vertex_shader, fragment_shader);
 							birb::color diffuse(rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f));
 							birb::color specular(1.0f, 1.0f, 1.0f);
