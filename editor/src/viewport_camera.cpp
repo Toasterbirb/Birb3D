@@ -36,6 +36,10 @@ namespace editor
 			ImGui::DragFloatRange2("Clipping", &game_viewport.camera_near_clip, &game_viewport.camera_far_clip, 0.1f, 0.001f, 1000.0f, "Near: %.3f", "Far: %.2f", ImGuiSliderFlags_AlwaysClamp);
 			ImGui::InputFloat("Scroll speed", &camera_scroll_strength, 0.25f);
 			ImGui::InputFloat("Movement speed", &game_viewport.camera.movement_speed, 0.25f);
+
+			bool wireframe_mode_enabled = birb::renderer::is_wireframe_enabled();
+			if (ImGui::Checkbox("Wireframe", &wireframe_mode_enabled))
+				birb::renderer::toggle_wireframe();
 		}
 		ImGui::End();
 	}
