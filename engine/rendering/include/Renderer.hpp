@@ -21,8 +21,12 @@ namespace birb
 		void draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix);
 		void draw_elements(vao& vao, size_t index_count);
 		void draw_arrays(vao& vao, size_t vert_count);
+
 		static void toggle_wireframe();
 		static bool is_wireframe_enabled();
+
+		static void set_backface_culling(bool state);
+		static bool is_backface_culling_enabled();
 
 		/**
 		 * @return The amount of entities rendered during last call to draw_entities()
@@ -39,6 +43,7 @@ namespace birb
 		unsigned int shader_program;
 		unsigned int VAO, VBO;
 		static inline bool wireframe_mode = false;
+		static inline bool backface_culling_enabled = false;
 
 		// Variables for rendering statistics
 		unsigned int rendered_entities = 0;

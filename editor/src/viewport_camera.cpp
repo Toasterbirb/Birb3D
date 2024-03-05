@@ -40,6 +40,10 @@ namespace editor
 			bool wireframe_mode_enabled = birb::renderer::is_wireframe_enabled();
 			if (ImGui::Checkbox("Wireframe", &wireframe_mode_enabled))
 				birb::renderer::toggle_wireframe();
+
+			bool backface_culling_enabled = birb::renderer::is_backface_culling_enabled();
+			if (ImGui::Checkbox("Backface culling", &backface_culling_enabled))
+				birb::renderer::set_backface_culling(backface_culling_enabled);
 		}
 		ImGui::End();
 	}

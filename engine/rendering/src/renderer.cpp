@@ -150,6 +150,21 @@ namespace birb
 		return wireframe_mode;
 	}
 
+	void renderer::set_backface_culling(bool state)
+	{
+		if (state)
+			glEnable(GL_CULL_FACE);
+		else
+			glDisable(GL_CULL_FACE);
+
+		backface_culling_enabled = state;
+	}
+
+	bool renderer::is_backface_culling_enabled()
+	{
+		return backface_culling_enabled;
+	}
+
 	unsigned int renderer::rendered_entities_count() const
 	{
 		return rendered_entities;
