@@ -34,6 +34,8 @@ namespace birb
 
 	void shader::reset_lights()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		// Point lights
 		for (unsigned int i = 0; i < point_light_count; ++i)
 		{
@@ -56,6 +58,8 @@ namespace birb
 
 	void shader::update_directional_light()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		set_vec3("directional_light.direction", directional_direction.to_glm_vec());
 		set_vec3("directional_light.ambient", directional_ambient.to_glm_vec());
 		set_vec3("directional_light.diffuse", directional_diffuse.to_glm_vec());
@@ -135,6 +139,8 @@ namespace birb
 
 	void shader::draw_editor_ui()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		if (ImGui::CollapsingHeader("Shader"))
 		{
 			assert(!vertex_shader_name.empty());

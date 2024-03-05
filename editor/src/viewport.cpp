@@ -1,5 +1,6 @@
-#include "Viewport.hpp"
 #include "FBO.hpp"
+#include "Profiling.hpp"
+#include "Viewport.hpp"
 
 #include <glad/gl.h>
 #include <glm/glm.hpp>
@@ -17,6 +18,8 @@ namespace editor
 
 	void viewport::draw()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		// Render the game viewport
 		ImGui::Begin("Viewport");
 		{

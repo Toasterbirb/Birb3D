@@ -116,6 +116,8 @@ namespace birb
 
 	unsigned int texture::texture_from_file(const std::string& path)
 	{
+		PROFILER_SCOPE_IO_FN()
+
 		assert(!path.empty());
 
 		// Load the image data

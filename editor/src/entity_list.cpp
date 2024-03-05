@@ -1,5 +1,6 @@
 #include "Components.hpp"
 #include "EntityList.hpp"
+#include "Profiling.hpp"
 #include "Scene.hpp"
 
 #include <imgui.h>
@@ -11,6 +12,8 @@ namespace editor
 
 	void entity_list::draw()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		ImGui::Begin("Entities");
 		{
 			if (ImGui::Button(new_entity_button_text.c_str()))

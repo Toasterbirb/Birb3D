@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include "Profiling.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -44,6 +45,8 @@ namespace birb
 
 	void camera::process_input(window& window, const timestep& timestep)
 	{
+		PROFILER_SCOPE_INPUT_FN()
+
 		// Keyboard input
 		if (window.is_key_held(keybinds.up))
 			position += front * static_cast<float>(timestep.deltatime()) * movement_speed;
@@ -88,6 +91,8 @@ namespace birb
 
 	void camera::update_camera_vectors()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		// Calculate the front vector
 		front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 		front.y = sin(glm::radians(pitch));

@@ -1,3 +1,4 @@
+#include "Profiling.hpp"
 #include "Shader.hpp"
 #include "World.hpp"
 
@@ -7,6 +8,8 @@ namespace editor
 
 	void world::draw()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		ImGui::Begin("World");
 		{
 			if (ImGui::CollapsingHeader("Directional light"))

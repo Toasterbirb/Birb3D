@@ -77,6 +77,8 @@ namespace birb
 
 	void fbo::setup_rbo(vec2<int> dimensions)
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		bind();
 		glGenRenderbuffers(1, &rbo);
 		glBindRenderbuffer(GL_RENDERBUFFER, rbo);

@@ -1,4 +1,5 @@
 #include "Material.hpp"
+#include "Profiling.hpp"
 
 namespace birb
 {
@@ -14,6 +15,8 @@ namespace birb
 
 	void material::apply_to_shader(shader& shader)
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		shader.activate();
 
 		// Set the texture units

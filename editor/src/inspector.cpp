@@ -1,7 +1,8 @@
-#include "EntityList.hpp"
-#include "Model.hpp"
 #include "Components.hpp"
+#include "EntityList.hpp"
 #include "Inspector.hpp"
+#include "Model.hpp"
+#include "Profiling.hpp"
 
 #include <imgui.h>
 
@@ -11,6 +12,8 @@ namespace editor
 
 	void inspector::draw()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		ImGui::Begin("Inspector");
 		{
 			const entt::entity& selected_entity = editor::entity_list::selected_entity;

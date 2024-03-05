@@ -1,3 +1,4 @@
+#include "Profiling.hpp"
 #include "Viewport.hpp"
 #include "ViewportCamera.hpp"
 
@@ -7,6 +8,8 @@ namespace editor
 
 	void viewport_camera::draw()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		ImGui::Begin("Viewport camera");
 		{
 			// Position slider

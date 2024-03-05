@@ -32,6 +32,8 @@ namespace birb
 
 	void model::draw_editor_ui()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		static const ImVec4 red(0.80f, 0.27f, 0.27f, 1.0f);
 
 		if (ImGui::CollapsingHeader("Model"))
