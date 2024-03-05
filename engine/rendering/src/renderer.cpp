@@ -95,6 +95,10 @@ namespace birb
 			// Make sure the directional lighting is up-to-date
 			shader.update_directional_light();
 
+			// Apply the color material on the shader
+			// TODO: Make this work with textures too
+			shader.apply_color_material();
+
 			// Draw the model
 			view.get<birb::model>(ent).draw(shader);
 			++rendered_entities;

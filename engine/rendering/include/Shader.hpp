@@ -34,6 +34,14 @@ namespace birb
 		 */
 		void reset_lights();
 
+		/**
+		 * @brief Add the following uniforms to the shader:
+		 * - model
+		 * - view
+		 * - projection
+		 */
+		void add_default_3d_matrix_uniforms();
+
 		void update_directional_light();
 
 		bool has_uniform_var(const std::string& name) const;
@@ -49,6 +57,7 @@ namespace birb
 		void set_diffuse_color(const color& color);
 		void set_specular_color(const color& color);
 		void set_shininess(const float shininess);
+		void apply_color_material();
 
 		void draw_editor_ui() override;
 

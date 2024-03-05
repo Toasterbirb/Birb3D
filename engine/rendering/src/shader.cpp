@@ -56,6 +56,13 @@ namespace birb
 		update_directional_light();
 	}
 
+	void shader::add_default_3d_matrix_uniforms()
+	{
+		add_uniform_location("model");
+		add_uniform_location("view");
+		add_uniform_location("projection");
+	}
+
 	void shader::update_directional_light()
 	{
 		PROFILER_SCOPE_RENDER_FN()
@@ -135,6 +142,13 @@ namespace birb
 	{
 		this->shininess = shininess;
 		set_float("material.shininess", shininess);
+	}
+
+	void shader::apply_color_material()
+	{
+		set_diffuse_color(diffuse_color);
+		set_specular_color(specular_color);
+		set_shininess(shininess);
 	}
 
 	void shader::draw_editor_ui()

@@ -15,6 +15,7 @@ namespace birb
 		entt::registry& get_registry();
 
 		birb::entity create_entity();
+		bool is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity = entt::null);
 
 		template<typename T>
 		void add_component(entt::entity& entity, const T& component)
