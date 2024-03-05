@@ -15,6 +15,7 @@ namespace birb
 	{
 	public:
 		explicit model(const std::string& path);
+		~model();
 
 		void draw(shader& shader);
 		void draw_editor_ui() override;

@@ -22,6 +22,11 @@ namespace birb
 		load_model(path);
 	}
 
+	model::~model()
+	{
+		birb::log("Model destroyed: " + file_path);
+	}
+
 	void model::draw(shader& shader)
 	{
 		for (unsigned int i = 0; i < meshes.size(); ++i)
@@ -70,6 +75,8 @@ namespace birb
 		assert(!path.empty());
 		assert(std::filesystem::exists(path));
 
+		birb::log("Loading model: " + path);
+
 		file_exists = true;
 		file_path = path;
 		text_box_model_file_path = path;
@@ -102,6 +109,7 @@ namespace birb
 		meshes.clear();
 		directory = "";
 		vert_count = 0;
+		birb::log("Model destroyed: " + file_path);
 	}
 
 	void model::process_node(aiNode* node, const aiScene* scene)
