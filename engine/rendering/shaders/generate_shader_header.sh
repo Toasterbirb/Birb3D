@@ -29,9 +29,9 @@ do
 
 	if echo "$SHADER_NAME" | grep -q "_frag$"
 	then
-		SHADER_FRAG_NAME_LIST="$SHADER_FRAG_NAME_LIST\"$SHADER_NAME\","
+		SHADER_FRAG_NAME_LIST="$SHADER_FRAG_NAME_LIST\"$(echo "$SHADER_NAME" | sed 's/_frag$//')\","
 	else
-		SHADER_VERT_NAME_LIST="$SHADER_VERT_NAME_LIST\"$SHADER_NAME\","
+		SHADER_VERT_NAME_LIST="$SHADER_VERT_NAME_LIST\"$(echo "$SHADER_NAME" | sed 's/_vert$//')\","
 	fi
 done
 
