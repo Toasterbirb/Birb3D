@@ -14,7 +14,7 @@ namespace birb
 		renderer();
 		~renderer();
 
-		void process_event(unsigned short event_id, const event_data& data);
+		void process_event(unsigned short event_id, const event_data& data) override;
 
 		void set_scene(scene& scene);
 
