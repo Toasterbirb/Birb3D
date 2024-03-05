@@ -2,6 +2,7 @@
 #define GLFW_INCLUDE_NONE
 
 #include "Color.hpp"
+#include "EventBus.hpp"
 #include "Input.hpp"
 #include "Vector.hpp"
 
@@ -11,7 +12,7 @@
 
 namespace birb
 {
-	class window
+	class window : public event_obj
 	{
 	public:
 		/**
@@ -23,6 +24,8 @@ namespace birb
 		window(const std::string& title, const vec2<int> dimensions);
 
 		~window();
+
+		void process_event(unsigned short event_id, const event_data& data) override;
 
 		/**
 		 * @brief Check if the window should be still kept open

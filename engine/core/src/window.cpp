@@ -27,6 +27,8 @@ namespace birb
 	window::window(const std::string& title, const vec2<int> dimensions)
 	:dimensions(dimensions)
 	{
+		event_bus::register_event_id(2, this); // Set window background clear color | float[3]
+
 		if (window_count != 0)
 			birb::log_fatal("There can only be one window at any given time");
 
@@ -88,6 +90,8 @@ namespace birb
 
 	window::~window()
 	{
+		event_bus::unregister_event_id(2, this);
+
 		// If ImGui was initialize, quit it gracefully
 		if (window::imgui_initialized)
 		{
@@ -101,6 +105,16 @@ namespace birb
 
 		birb::log("Terminating GLFW");
 		glfwTerminate();
+	}
+
+	void window::process_event(unsigned short event_id, const event_data& data)
+	{
+		switch (event_id)
+		{
+			case 2:
+				set_background_color({data._float[0], data._float[1], data._float[2]});
+				break;
+		}
 	}
 
 	bool window::should_close() const
