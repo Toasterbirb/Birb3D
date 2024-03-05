@@ -1,3 +1,4 @@
+#include "EventBus.hpp"
 #include "Profiling.hpp"
 #include "Shader.hpp"
 #include "World.hpp"
@@ -19,6 +20,15 @@ namespace editor
 				ImGui::ColorEdit3("Ambient", *birb::shader::directional_ambient.to_ptr_array().data());
 				ImGui::ColorEdit3("Diffuse", *birb::shader::directional_diffuse.to_ptr_array().data());
 				ImGui::ColorEdit3("Specular", *birb::shader::directional_specular.to_ptr_array().data());
+				ImGui::Spacing();
+
+				if (ImGui::Button("Apply ambient to background"))
+				{
+					birb::event_data data;
+					data._float = { birb::shader::directional_ambient.x, birb::shader::directional_ambient.y, birb::shader::directional_ambient.z };
+
+					birb::event_bus::send_event(2, data);
+				}
 			}
 
 			if (ImGui::CollapsingHeader("Background"))
