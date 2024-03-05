@@ -90,14 +90,14 @@ namespace birb
 		 */
 		void setup_history_arrays();
 
-		double frame_start;
-		double frame_end;
+		double frame_start = 0.0;
+		double frame_end = 0.0;
 
 		// Target FPS (frames per second)
-		double target_fps;
+		double target_fps = 60.0;
 
 		// Target frametime (milliseconds per frame)
-		double target_frametime;
+		double target_frametime = 16.7;
 
 		double _deltatime = 0.001;
 

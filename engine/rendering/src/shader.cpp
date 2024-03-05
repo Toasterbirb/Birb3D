@@ -257,7 +257,7 @@ namespace birb
 	{
 		constexpr int LOG_BUFFER_SIZE = 1024;
 
-		int has_compiled;
+		int has_compiled = true;
 		char info_log[LOG_BUFFER_SIZE];
 		if (type != "PROGRAM")
 		{
