@@ -40,10 +40,22 @@ namespace editor
 				birb::editor_component::try_draw_ui<birb::shader>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::model>(reg, selected_entity);
 
+				ImGui::Spacing();
 				ImGui::Separator();
+				ImGui::Spacing();
 
 				int current_component_type = -1;
 				ImGui::Combo("Component type", &current_component_type, "Hello\0World\0");
+
+				ImGui::Spacing();
+				ImGui::Separator();
+				ImGui::Spacing();
+
+				if (ImGui::Button("Delete"))
+				{
+					reg.destroy(selected_entity);
+					editor::entity_list::selected_entity = entt::null;
+				}
 			}
 		}
 		ImGui::End();
