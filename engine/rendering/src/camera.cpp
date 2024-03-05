@@ -32,6 +32,16 @@ namespace birb
 		return glm::lookAt(position, position + front, up);
 	}
 
+	glm::vec3 camera::front_vec() const
+	{
+		return front;
+	}
+
+	glm::vec3 camera::right_vec() const
+	{
+		return right;
+	}
+
 	void camera::process_input(window& window, const timestep& timestep)
 	{
 		// Keyboard input

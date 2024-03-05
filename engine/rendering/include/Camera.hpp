@@ -16,6 +16,8 @@ namespace birb
 		camera(vec3<float> position, float yaw, float pitch);
 
 		glm::mat4 get_view_matrix() const;
+		glm::vec3 front_vec() const;
+		glm::vec3 right_vec() const;
 		void process_input(window& window, const timestep& timestep);
 		void update_camera_vectors();
 
