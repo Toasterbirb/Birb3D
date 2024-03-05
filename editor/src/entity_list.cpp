@@ -107,9 +107,9 @@ namespace editor
 			ImGui::Separator();
 			ImGui::Spacing();
 
-			auto view = scene.get_registry().view<birb::component::info>();
+			const auto view = scene.get_registry().view<birb::component::info>();
 
-			for (auto entity : view)
+			for (const auto entity : view)
 			{
 				const birb::component::info& info = view.get<birb::component::info>(entity);
 

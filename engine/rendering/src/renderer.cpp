@@ -55,6 +55,7 @@ namespace birb
 
 	void renderer::set_scene(scene& scene)
 	{
+		assert(scene::scene_count() > 0);
 		current_scene = &scene;
 	}
 
@@ -63,17 +64,19 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN()
 
 		assert(current_scene != nullptr);
+		assert(scene::scene_count() > 0);
 
 		entt::registry& entity_registry = current_scene->get_registry();
 
 		// Render all models
 		rendered_entities = 0;
 		rendered_vertices = 0;
-		auto view = entity_registry.view<birb::model, birb::shader, birb::component::transform>();
-		for (auto ent : view)
+		const auto view = entity_registry.view<birb::model, birb::shader, birb::component::transform>();
+		for (const auto& ent : view)
 		{
 			// Get the shader we'll be using for drawing the meshes of the model
 			shader& shader = view.get<birb::shader>(ent);
+			assert(shader.id != 0 && "Tried to use an invalid shader for rendering");
 
 			const birb::component::transform& transform = view.get<birb::component::transform>(ent);
 
@@ -81,9 +84,9 @@ namespace birb
 			glm::mat4 model_matrix = glm::mat4(1.0f);
 			model_matrix = glm::translate(model_matrix, transform.position.to_glm_vec());
 
-			glm::vec3 euler_angles({glm::radians(transform.rotation.x), glm::radians(transform.rotation.y), glm::radians(transform.rotation.z)});
-			glm::quat quaternion(euler_angles);
-			glm::mat4 rotation_matrix(quaternion);
+			const glm::vec3 euler_angles({glm::radians(transform.rotation.x), glm::radians(transform.rotation.y), glm::radians(transform.rotation.z)});
+			const glm::quat quaternion(euler_angles);
+			const glm::mat4 rotation_matrix(quaternion);
 			model_matrix = model_matrix * rotation_matrix;
 
 			model_matrix = glm::scale(model_matrix, transform.local_scale.to_glm_vec());
@@ -100,6 +103,7 @@ namespace birb
 			shader.apply_color_material();
 
 			// Draw the model
+			assert(view.get<birb::model>(ent).vertex_count() != 0 && "Tried to render a model with no vertices");
 			view.get<birb::model>(ent).draw(shader);
 			++rendered_entities;
 			rendered_vertices += view.get<birb::model>(ent).vertex_count();

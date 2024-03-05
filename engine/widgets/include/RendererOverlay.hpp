@@ -17,7 +17,6 @@ namespace birb
 
 		private:
 			const char* collapsing_menu_name = "";
-			bool is_overlay = true;
 
 			const birb::renderer& renderer;
 		};

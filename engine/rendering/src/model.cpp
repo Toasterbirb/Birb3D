@@ -29,6 +29,8 @@ namespace birb
 
 	void model::draw(shader& shader)
 	{
+		assert(!meshes.empty() && "Attempted to draw a model with no meshes");
+
 		for (unsigned int i = 0; i < meshes.size(); ++i)
 		{
 			meshes[i].draw(shader);

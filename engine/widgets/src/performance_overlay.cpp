@@ -60,8 +60,6 @@ namespace birb
 			assert(frametime_max != 0 && "Zero division");
 			assert(average_frametime != 0 && "Zero division");
 
-			bool p_open = false;
-
 			if (is_overlay)
 			{
 				setup_overlay();
@@ -70,7 +68,7 @@ namespace birb
 			}
 			else
 			{
-				ImGui::Begin("Overlays", &p_open);
+				ImGui::Begin(overlay_window_name, &p_open);
 			}
 
 			if (is_overlay || ImGui::CollapsingHeader(collapsing_menu_name))
@@ -119,9 +117,6 @@ namespace birb
 						ImVec2(0, 40));
 #endif
 
-
-				ImVec4 green(0.49f, 0.72f, 0.34f, 1.0f);
-				ImVec4 red(0.80f, 0.27f, 0.27f, 1.0f);
 
 				ImGui::Text("Profiler enabled:");
 				ImGui::SameLine();

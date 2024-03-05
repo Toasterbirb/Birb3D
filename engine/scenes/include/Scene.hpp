@@ -29,6 +29,8 @@ namespace birb
 			return registry.get<T>(entity);
 		}
 
+		static int scene_count();
+
 	private:
 		entt::registry registry;
 	};

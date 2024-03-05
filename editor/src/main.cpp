@@ -13,6 +13,7 @@
 #include "Viewport.hpp"
 #include "ViewportCamera.hpp"
 #include "Window.hpp"
+#include "WindowInfoOverlay.hpp"
 #include "World.hpp"
 
 #include <imgui.h>
@@ -29,6 +30,8 @@ int main(void)
 {
 	birb::window window("Birb3D editor", birb::vec2<int>(1920, 1080));
 	window.init_imgui();
+
+	birb::overlay::window_info window_info(window, "Window");
 
 	birb::timestep timestep;
 	birb::overlay::performance perf_widget(timestep, "Performance");
@@ -65,32 +68,6 @@ int main(void)
 	ImGui::DockBuilderDockWindow("Entities", left_side_node);
 	ImGui::DockBuilderDockWindow("Inspector", left_side_bottom_node);
 	ImGui::DockBuilderDockWindow("World", right_side_node);
-
-	// Test model
-	birb::entity suzanne = scene.create_entity();
-
-	birb::component::info info("Suzanne");
-	suzanne.add_component(info);
-
-	birb::model suzanne_model("suzanne.obj");
-	suzanne.add_component(suzanne_model);
-
-	birb::component::transform transform;
-	transform.position.z = -4.0f;
-	transform.rotation.y = 45.0f;
-	suzanne.add_component(transform);
-
-	birb::shader shader("default", "default_color");
-	shader.reset_lights();
-
-	birb::color diffuse(0.2f, 0.3f, 0.4f);
-	shader.set_diffuse_color(diffuse);
-
-	birb::color specular(0.9f, 0.8f, 0.7f);
-	shader.set_specular_color(specular);
-
-	shader.set_shininess(32);
-	suzanne.add_component(shader);
 
 	while (!window.should_close())
 	{
@@ -139,6 +116,7 @@ int main(void)
 
 		perf_widget.draw();
 		renderer_overlay.draw();
+		window_info.draw();
 
 		window.flip();
 		window.poll();

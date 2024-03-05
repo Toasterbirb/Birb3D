@@ -9,6 +9,7 @@ namespace birb
 	{
 	public:
 		explicit fbo(const birb::vec2<int>& dimensions);
+		fbo(const fbo&) = delete;
 		~fbo();
 
 		// Reference to the frame buffer object

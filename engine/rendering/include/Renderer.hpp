@@ -12,6 +12,7 @@ namespace birb
 	{
 	public:
 		renderer();
+		renderer(const renderer&) = delete;
 		~renderer();
 
 		void process_event(unsigned short event_id, const event_data& data) override;

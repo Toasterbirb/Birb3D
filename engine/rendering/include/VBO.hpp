@@ -9,6 +9,7 @@ namespace birb
 	{
 	public:
 		explicit vbo(const std::vector<float>& vertices);
+		vbo(const vbo&) = delete;
 		~vbo();
 
 		// Reference to the vertex buffer object

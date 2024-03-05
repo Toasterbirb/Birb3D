@@ -9,6 +9,7 @@ namespace birb
 	{
 	public:
 		vao();
+		vao(const vao&) = delete;
 		~vao();
 
 		// Reference to the vertex array object

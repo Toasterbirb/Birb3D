@@ -9,6 +9,7 @@ namespace birb
 	{
 	public:
 		explicit ebo(const std::vector<unsigned int>& indices);
+		ebo(const ebo&) = delete;
 		~ebo();
 
 		// Reference to the element array buffer

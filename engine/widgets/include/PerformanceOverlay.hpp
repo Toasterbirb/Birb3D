@@ -21,7 +21,6 @@ namespace birb
 
 		private:
 			const char* collapsing_menu_name = "";
-			bool is_overlay = true;
 
 #ifdef BIRB_PLATFORM_LINUX
 			int pid; // Our process ID

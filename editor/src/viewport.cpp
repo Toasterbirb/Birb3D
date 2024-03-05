@@ -55,6 +55,11 @@ namespace editor
 		ImGui::End();
 	}
 
+	birb::vec2<int> viewport::dimensions() const
+	{
+		return last_viewport_size;
+	}
+
 	bool viewport::is_window_hovered() const
 	{
 		return imgui_window_hovered;

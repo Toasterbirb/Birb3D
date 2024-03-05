@@ -19,6 +19,7 @@ namespace editor
 
 		void draw() override;
 		bool is_window_hovered() const;
+		birb::vec2<int> dimensions() const;
 
 		birb::renderer renderer;
 		birb::camera camera;

@@ -14,16 +14,44 @@ namespace birb
 	:vertex_shader_name(shader_name), fragment_shader_name(shader_name)
 	{
 		compile_shader(shader_name, shader_name);
+		assert(id != 0);
 	}
 
 	shader::shader(const std::string& vertex, const std::string& fragment)
 	:vertex_shader_name(vertex), fragment_shader_name(fragment)
 	{
 		compile_shader(vertex, fragment);
+		assert(id != 0);
+	}
+
+	shader::shader(const shader& other)
+	{
+		PROFILER_SCOPE_MISC("Shader copy")
+
+		birb::log("Shader copy causing a recompile (" + birb::ptr_to_str(&other) + " -> " + birb::ptr_to_str(this) + ")");
+
+		id = 0;
+		vertex_shader_name		= other.vertex_shader_name;
+		fragment_shader_name	= other.fragment_shader_name;
+
+		compile_shader(other.vertex_shader_name, other.fragment_shader_name);
+
+		// Add all uniform locations
+		for (const std::pair<std::string, int> uniform_loc : other.uniform_locations)
+			this->add_uniform_location(uniform_loc.first);
+
+		reset_lights();
+
+		set_diffuse_color(other.diffuse_color);
+		set_specular_color(other.specular_color);
+		set_shininess(other.shininess);
+
+		assert(id != 0);
 	}
 
 	shader::~shader()
 	{
+		birb::log("Shader destroyed [" + vertex_shader_name + ", " + fragment_shader_name + "] (" + birb::ptr_to_str(this) + ")");
 		glDeleteProgram(this->id);
 	}
 
@@ -162,6 +190,8 @@ namespace birb
 
 			ImGui::Text("Vertex: %s", vertex_shader_name.c_str());
 			ImGui::Text("Fragment: %s", fragment_shader_name.c_str());
+			ImGui::Text("Address: %s", birb::ptr_to_str(this).c_str());
+			ImGui::Spacing();
 
 			if (uniform_locations.contains("material.diffuse"))
 			{
@@ -216,6 +246,9 @@ namespace birb
 		assert(!vertex.empty() && "Empty vertex shader name string");
 		assert(!fragment.empty() && "Empty fratment shader name string");
 
+		assert(vertex_shader_name == vertex && "Bug in the shader constructor");
+		assert(fragment_shader_name == fragment && "Bug in shader the constructor");
+
 		const std::string vertex_name = vertex + "_vert";
 		const std::string fragment_name = fragment + "_frag";
 
@@ -231,6 +264,9 @@ namespace birb
 		// Compile shaders
 		{
 			PROFILER_SCOPE_RENDER("Shader compiling")
+
+			birb::log("Compiling shader [" + vertex + ", " + fragment + "] (" + birb::ptr_to_str(this) + ")");
+
 			unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
 			glShaderSource(vertex_shader, 1, &vertex_src_c_str, NULL);
 			glCompileShader(vertex_shader);

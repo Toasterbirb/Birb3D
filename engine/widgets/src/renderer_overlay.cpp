@@ -31,7 +31,7 @@ namespace birb
 			}
 			else
 			{
-				ImGui::Begin("Overlays", &p_open);
+				ImGui::Begin(overlay_window_name, &p_open);
 			}
 
 			if (is_overlay || ImGui::CollapsingHeader(collapsing_menu_name))

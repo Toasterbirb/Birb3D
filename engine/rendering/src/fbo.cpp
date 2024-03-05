@@ -29,6 +29,7 @@ namespace birb
 
 	void fbo::bind()
 	{
+		assert(id != 0);
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
 	}
 
@@ -78,6 +79,8 @@ namespace birb
 	void fbo::setup_rbo(vec2<int> dimensions)
 	{
 		PROFILER_SCOPE_RENDER_FN()
+
+		assert(rbo == 0 && "Memory leak");
 
 		bind();
 		glGenRenderbuffers(1, &rbo);

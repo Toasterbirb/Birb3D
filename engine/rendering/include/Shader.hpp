@@ -15,10 +15,11 @@ namespace birb
 	public:
 		explicit shader(const std::string& shader_name);
 		shader(const std::string& vertex, const std::string& fragment);
+		shader(const shader& other);
 		~shader();
 
 		// Reference to the shader program
-		unsigned int id;
+		unsigned int id = 0;
 
 		// Directional lighting
 		static inline vec3<float> directional_direction = { 0.2f, 0.2f, -0.7f };
@@ -68,8 +69,8 @@ namespace birb
 		std::unordered_map<std::string, int> uniform_locations;
 
 		const unsigned int point_light_count = 4;
-		const std::string vertex_shader_name = "NULL";
-		const std::string fragment_shader_name = "NULL";
+		std::string vertex_shader_name = "NULL";
+		std::string fragment_shader_name = "NULL";
 
 		// Material variables
 		float shininess = 32.0f;

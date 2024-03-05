@@ -1,6 +1,7 @@
 #include "Profiling.hpp"
 #include "Viewport.hpp"
 #include "ViewportCamera.hpp"
+#include "Window.hpp"
 
 namespace editor
 {
@@ -12,6 +13,9 @@ namespace editor
 
 		ImGui::Begin("Viewport camera");
 		{
+			ImGui::Text("Viewport size: [%d, %d]", game_viewport.dimensions().x, game_viewport.dimensions().y);
+			ImGui::Spacing();
+
 			// Position slider
 			{
 				std::array<float, 3> camera_position_arr = { game_viewport.camera.position.x, game_viewport.camera.position.y, game_viewport.camera.position.z };
