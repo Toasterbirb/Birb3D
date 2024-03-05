@@ -43,6 +43,40 @@ namespace birb
 
 		if (ImGui::CollapsingHeader("Model"))
 		{
+			ImGui::BeginTable("Model info", 2);
+			{
+				draw_info_table_row("Meshes", meshes.size());
+				draw_info_table_row("Textures loaded", textures_loaded.size());
+				draw_info_table_row("File path", file_path);
+				draw_info_table_row("Directory", directory);
+			}
+			ImGui::EndTable();
+
+			if (ImGui::TreeNode("Meshes"))
+			{
+				for (size_t i = 0; i < meshes.size(); ++i)
+				{
+					const std::string node_name = "Mesh " + std::to_string(i);
+					if (ImGui::TreeNode(node_name.c_str()))
+					{
+						const std::string table_name = "Mesh " + std::to_string(i) + " info";
+						ImGui::BeginTable(table_name.c_str(), 2);
+						draw_info_table_row("Vertices", meshes.at(i).vertices.size());
+						draw_info_table_row("Indices", meshes.at(i).indices.size());
+						draw_info_table_row("Textures", meshes.at(i).textures.size());
+						ImGui::EndTable();
+						ImGui::TreePop();
+					}
+				}
+
+				ImGui::TreePop();
+			}
+
+
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+
 			ImGui::InputText("File path", &text_box_model_file_path);
 
 			if (ImGui::Button("Reload"))
