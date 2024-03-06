@@ -21,6 +21,21 @@ namespace birb
 	}
 
 	/**
+	 * @brief Print debug level information
+	 *
+	 * Example output:
+	 * 	[L] Value: 4
+	 *
+	 * @param label
+	 * @param data
+	 */
+	template<typename T>
+	static void log(const std::string& label, T data)
+	{
+		std::cout << "[L] " << label << ": " << data << "\n";
+	}
+
+	/**
 	 * @brief Print a yellow warning message
 	 *
 	 * @param text Warning text to print
