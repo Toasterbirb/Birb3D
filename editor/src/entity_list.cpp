@@ -104,8 +104,6 @@ namespace editor
 					static std::string model_file_path;
 					static int selected_vert_index = default_vertex_shader_index;
 					static int selected_frag_index = default_fragment_shader_index;
-					std::string vertex_shader = "NULL";
-					std::string fragment_shader = "NULL";
 
 					ImGui::InputText("Name", &name);
 					ImGui::InputText("File path", &model_file_path);
@@ -119,8 +117,8 @@ namespace editor
 
 						if (entity != entt::null)
 						{
-							vertex_shader = birb::shader::vertex_shader_name_list().at(selected_vert_index);
-							fragment_shader = birb::shader::fragment_shader_name_list().at(selected_frag_index);
+							std::string vertex_shader = birb::shader::vertex_shader_name_list().at(selected_vert_index);
+							std::string fragment_shader = birb::shader::fragment_shader_name_list().at(selected_frag_index);
 
 							birb::shader shader(vertex_shader, fragment_shader);
 							birb::color diffuse(rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f));

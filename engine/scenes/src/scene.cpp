@@ -40,20 +40,16 @@ namespace birb
 		// Default check that doesn't ignore any entities
 		if (ignored_entity == entt::null)
 		{
-			for (const auto& entity : view)
-			{
-				if (name == view.get<birb::component::info>(entity).name)
-					return true;
-			}
+			return std::any_of(view.begin(), view.end(), [name, view](const auto& entity){
+				return name == view.get<birb::component::info>(entity).name;
+			});
 		}
 		// Ignore an entity while checking for duplicates
 		else
 		{
-			for (const auto& entity : view)
-			{
-				if (name == view.get<birb::component::info>(entity).name && entity != ignored_entity)
-					return true;
-			}
+			return std::any_of(view.begin(), view.end(), [name, view, ignored_entity](const auto& entity){
+				return name == view.get<birb::component::info>(entity).name && entity != ignored_entity;
+			});
 		}
 
 		return false;
