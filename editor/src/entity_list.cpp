@@ -53,6 +53,9 @@ namespace editor
 
 	entt::entity entity_list::default_entity(std::string name)
 	{
+		if (name.empty())
+			name = "Untitled_" + std::to_string(counter++);
+
 		duplicate_name = scene.is_duplicate_entity_info_name(name);
 
 		if (duplicate_name)
@@ -60,9 +63,6 @@ namespace editor
 			birb::log("Duplicate entity name: " + name);
 			return entt::null;
 		}
-
-		if (name.empty())
-			name = "Untitled_" + std::to_string(counter++);
 
 		if (name == new_entity_menu_text)
 			name += "_" + std::to_string(counter++);
@@ -111,7 +111,7 @@ namespace editor
 					ImGui::Combo("Vertex shader", &selected_vert_index, vertex_shader_name_list_str.c_str());
 					ImGui::Combo("Fragment shader", &selected_frag_index, fragment_shader_name_list_str.c_str());
 
-					if (ImGui::Button("Create"))
+					if (ImGui::Button("Create") && !model_file_path.empty())
 					{
 						entt::entity entity = default_entity(name);
 
