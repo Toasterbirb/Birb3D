@@ -53,6 +53,11 @@ namespace editor
 
 				if (ImGui::Button("Delete"))
 				{
+					// If the entity has any meshes on it, clean those up
+					auto entity_model = reg.try_get<birb::model>(selected_entity);
+					if (entity_model)
+						entity_model->destroy();
+
 					reg.destroy(selected_entity);
 					editor::entity_list::selected_entity = entt::null;
 				}

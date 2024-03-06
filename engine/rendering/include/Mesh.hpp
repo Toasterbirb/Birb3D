@@ -24,6 +24,7 @@ namespace birb
 	{
 	public:
 		mesh(const std::vector<vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<mesh_texture>& textures);
+		void destroy();
 
 		void draw(shader& shader);
 

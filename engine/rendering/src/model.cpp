@@ -24,7 +24,6 @@ namespace birb
 
 	model::~model()
 	{
-		birb::log("Model destroyed: " + file_path);
 	}
 
 	void model::draw(shader& shader)
@@ -137,11 +136,18 @@ namespace birb
 		vert_count = 0;
 
 		process_node(scene->mRootNode, scene);
+
+		birb::log("Model loaded: " + path);
 	}
 
 	void model::destroy()
 	{
 		textures_loaded.clear();
+
+		// Destroy meshes manually
+		for (birb::mesh mesh : meshes)
+			mesh.destroy();
+
 		meshes.clear();
 		directory = "";
 		vert_count = 0;

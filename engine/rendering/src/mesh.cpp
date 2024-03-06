@@ -13,6 +13,20 @@ namespace birb
 	:vertices(vertices), indices(indices), textures(textures)
 	{
 		setup_mesh();
+		birb::log("Mesh constructed (" + birb::ptr_to_str(this) + ")");
+	}
+
+	void mesh::destroy()
+	{
+		birb::log("Destroying mesh (" + birb::ptr_to_str(this) + ")");
+
+		assert(vao != 0);
+		assert(vbo != 0);
+		assert(ebo != 0);
+
+		glDeleteVertexArrays(1, &vao);
+		glDeleteBuffers(1, &vbo);
+		glDeleteBuffers(1, &ebo);
 	}
 
 	void mesh::draw(shader& shader)
