@@ -67,6 +67,8 @@ namespace editor
 		if (name == new_entity_menu_text)
 			name += "_" + std::to_string(counter++);
 
+		assert(!scene.is_duplicate_entity_info_name(name));
+
 		entt::entity new_entity = scene.get_registry().create();
 		birb::component::info default_info(name);
 		scene.add_component(new_entity, default_info);

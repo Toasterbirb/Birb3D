@@ -69,6 +69,7 @@ namespace birb
 
 		assert(!vertices.empty());
 		assert(!indices.empty());
+		assert(indices.size() >= vertices.size());
 
 		// Create the buffers
 		glGenVertexArrays(1, &vao);

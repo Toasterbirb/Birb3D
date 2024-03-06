@@ -13,6 +13,9 @@ namespace birb
 	shader::shader(const std::string& shader_name)
 	:vertex_shader_name(shader_name), fragment_shader_name(shader_name)
 	{
+		static_assert(point_light_count > 0);
+		static_assert(point_light_count < 8192 && "Arbitrary limitation, but you are probably doing something wrong");
+
 		compile_shader(shader_name, shader_name);
 		assert(id != 0);
 	}

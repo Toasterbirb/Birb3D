@@ -72,7 +72,7 @@ namespace birb
 		void compile_errors(unsigned int shader, const std::string& type);
 		std::unordered_map<std::string, int> uniform_locations;
 
-		const unsigned int point_light_count = 4;
+		const static unsigned short point_light_count = 4;
 		std::string vertex_shader_name = "NULL";
 		std::string fragment_shader_name = "NULL";
 

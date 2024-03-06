@@ -40,6 +40,7 @@ namespace birb
 		std::fill(frametime_history.begin(), frametime_history.end(), 1);
 
 		// Resize the framebudget history to the sample count
+		static_assert(birb::timestep::framebudget_sample_count > 0);
 		framebudget_history.resize(birb::timestep::framebudget_sample_count);
 	}
 
@@ -57,7 +58,10 @@ namespace birb
 		frametime_history.at(frametime_history.size() - 1) = _deltatime;
 
 		// Update framebudget history
+		assert(!framebudget_history.empty());
 		framebudget_history.pop_front();
+
+		assert(target_frametime != 0 && "Zero division");
 		framebudget_history.push_back(1 - (delay_time / target_frametime));
 
 		// Delay to keep up the target framerate
@@ -83,7 +87,8 @@ namespace birb
 
 	double timestep::fps() const
 	{
-		return 1.0 / deltatime();
+		assert(_deltatime != 0 && "Zero division");
+		return 1.0 / _deltatime;
 	}
 
 	double timestep::framebudget() const
@@ -106,5 +111,6 @@ namespace birb
 		constexpr double min_frametime_history_size = 16;
 		constexpr double max_frametime_history_size = 240;
 		frametime_history.resize(std::clamp(target_fps, min_frametime_history_size, max_frametime_history_size));
+		assert(frametime_history.size() > 1);
 	}
 }
