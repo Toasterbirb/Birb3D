@@ -30,6 +30,7 @@ TEST_CASE("File reading and writing")
 	std::future<std::string> result_future = birb::io::read_file_async(path_async);
 
 	CHECK(result == text);
-	CHECK(result_future.get() == text_async);
+	std::string async_result = result_future.get();
+	CHECK(async_result == text_async);
 	CHECK(async_write_future.get());
 }
