@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include "Debugging.hpp"
 #include "EntityList.hpp"
 #include "Inspector.hpp"
 #include "Logger.hpp"
@@ -42,6 +43,7 @@ int main(void)
 	editor::inspector inspector(scene);
 	editor::viewport_camera viewport_camera(game_viewport);
 	editor::world world(window);
+	editor::debugging debugging;
 
 	birb::overlay::renderer_overlay renderer_overlay(game_viewport.renderer, "Viewport renderer");
 
@@ -65,6 +67,7 @@ int main(void)
 	ImGui::DockBuilderDockWindow("Entities", left_side_node);
 	ImGui::DockBuilderDockWindow("Inspector", left_side_bottom_node);
 	ImGui::DockBuilderDockWindow("World", right_side_node);
+	ImGui::DockBuilderDockWindow("Debugging", right_side_node);
 
 	while (!window.should_close())
 	{
@@ -110,6 +113,7 @@ int main(void)
 		entity_list.draw();
 		inspector.draw();
 		world.draw();
+		debugging.draw();
 
 		perf_widget.draw();
 		renderer_overlay.draw();

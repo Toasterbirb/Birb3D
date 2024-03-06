@@ -10,6 +10,10 @@
 
 namespace birb
 {
+	// Cache for compiled shaders
+	static std::unordered_map<std::string, unsigned int> shader_cache;
+	static size_t shader_cache_hit_count = 0;
+
 	shader::shader(const std::string& shader_name)
 	:vertex_shader_name(shader_name), fragment_shader_name(shader_name)
 	{
@@ -237,6 +241,30 @@ namespace birb
 		return shader_src_frag_names;
 	}
 
+	void shader::clear_shader_cache()
+	{
+		PROFILER_SCOPE_MISC_FN()
+
+		birb::log("Clearing shader cache");
+
+		// Free all of the shaders
+		for (const std::pair<std::string, unsigned int> shader : shader_cache)
+			glDeleteShader(shader.second);
+
+		shader_cache.clear();
+		shader_cache_hit_count = 0;
+	}
+
+	size_t shader::shader_cache_size()
+	{
+		return shader_cache.size();
+	}
+
+	size_t shader::shader_cache_hits()
+	{
+		return shader_cache_hit_count;
+	}
+
 	void shader::add_uniform_location(const std::string& name)
 	{
 		assert(!name.empty() && "Empty uniform name");
@@ -280,25 +308,49 @@ namespace birb
 
 			birb::log("Compiling shader [" + vertex + ", " + fragment + "] (" + birb::ptr_to_str(this) + ")");
 
-			unsigned int vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-			glShaderSource(vertex_shader, 1, &vertex_src_c_str, NULL);
-			glCompileShader(vertex_shader);
-			compile_errors(vertex_shader, "VERTEX");
+			unsigned int vertex_shader = 0;
+			if (!shader_cache.contains(vertex_name))
+			{
+				vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+				glShaderSource(vertex_shader, 1, &vertex_src_c_str, NULL);
+				glCompileShader(vertex_shader);
+				compile_errors(vertex_shader, "VERTEX");
 
-			unsigned int fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-			glShaderSource(fragment_shader, 1, &fragment_src_c_str, NULL);
-			glCompileShader(fragment_shader);
-			compile_errors(fragment_shader, "FRAGMENT");
+				shader_cache[vertex_name] = vertex_shader;
+				birb::log("Shader program cached: " + vertex_name + " (" + std::to_string(vertex_shader) + ")");
+			}
+			else
+			{
+				vertex_shader = shader_cache[vertex_name];
+				shader_cache_hit_count++;
+				birb::log("Loaded shader from cache: " + vertex_name + " (" + std::to_string(vertex_shader) + ")");
+			}
+			assert(vertex_shader != 0);
+
+			unsigned int fragment_shader = 0;
+			if (!shader_cache.contains(fragment_name))
+			{
+				fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+				glShaderSource(fragment_shader, 1, &fragment_src_c_str, NULL);
+				glCompileShader(fragment_shader);
+				compile_errors(fragment_shader, "FRAGMENT");
+
+				shader_cache[fragment_name] = fragment_shader;
+				shader_cache_hit_count++;
+				birb::log("Shader program cached: " + fragment_name + " (" + std::to_string(fragment_shader) + ")");
+			}
+			else
+			{
+				fragment_shader = shader_cache[fragment_name];
+				birb::log("Loaded shader from cache: " + fragment_name + " (" + std::to_string(fragment_shader) + ")");
+			}
+			assert(fragment_shader != 0);
 
 			this->id = glCreateProgram();
 			glAttachShader(this->id, vertex_shader);
 			glAttachShader(this->id, fragment_shader);
 			glLinkProgram(this->id);
 			compile_errors(id, "PROGRAM");
-
-			// Delete the shaders since they are now in the program
-			glDeleteShader(vertex_shader);
-			glDeleteShader(fragment_shader);
 		}
 	}
 

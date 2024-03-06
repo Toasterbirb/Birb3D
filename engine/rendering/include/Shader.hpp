@@ -66,13 +66,20 @@ namespace birb
 		static std::vector<std::string> vertex_shader_name_list();
 		static std::vector<std::string> fragment_shader_name_list();
 
+		// Shader caching
+		static void clear_shader_cache();
+		static size_t shader_cache_size();
+		static size_t shader_cache_hits();
+
+		// Other misc. constants
+		const static unsigned short point_light_count = 4;
+
 	private:
 		void add_uniform_location(const std::string& name);
 		void compile_shader(const std::string& vertex, const std::string& fragment);
 		void compile_errors(unsigned int shader, const std::string& type);
 		std::unordered_map<std::string, int> uniform_locations;
 
-		const static unsigned short point_light_count = 4;
 		std::string vertex_shader_name = "NULL";
 		std::string fragment_shader_name = "NULL";
 
