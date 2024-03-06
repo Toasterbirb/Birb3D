@@ -2,6 +2,7 @@
 
 #include <string>
 #include <iostream>
+#include <stb_sprintf.h>
 
 // Macro useful for marking "TODO" stuff in code that'll get logged during runtime as a reminder
 // or as a notification of possibly missing features
@@ -56,6 +57,9 @@ namespace birb
 	 */
 	static std::string ptr_to_str(const void* ptr)
 	{
-		return "0x" + std::to_string(reinterpret_cast<long>(ptr));
+		constexpr unsigned int buf_size = 18;
+		char buf[buf_size];
+		stbsp_snprintf(buf, buf_size, "%p", ptr);
+		return "0x" + std::string(buf);
 	}
 }
