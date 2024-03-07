@@ -29,12 +29,16 @@ namespace birb
 
 	void fbo::bind()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		assert(id != 0);
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
 	}
 
 	void fbo::unbind()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
@@ -69,6 +73,8 @@ namespace birb
 
 	void fbo::attach_texture(const texture& texture)
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		assert(id != 0);
 		assert(texture.id != 0);
 

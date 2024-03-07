@@ -4,6 +4,7 @@
 #include "Inspector.hpp"
 #include "Logger.hpp"
 #include "PerformanceOverlay.hpp"
+#include "Profiling.hpp"
 #include "RendererOverlay.hpp"
 #include "Scene.hpp"
 #include "Timestep.hpp"
@@ -71,31 +72,35 @@ int main(void)
 
 	while (!window.should_close())
 	{
-		while (window.inputs_available())
 		{
-			birb::input input = window.next_input();
+			PROFILER_SCOPE_INPUT("Process window input")
 
-			if (input.state == birb::input::action::KEY_DOWN)
+			while (window.inputs_available())
 			{
-				switch (input.key)
-				{
-					case birb::input::keycode::SCROLLING:
-					{
-						// Scroll the viewport view only if we are hoving over it
-						if (game_viewport.is_window_hovered())
-						{
-							if (window.is_key_held(birb::input::keycode::LEFT_SHIFT))
-								game_viewport.camera.position.y += input.offset.y * viewport_camera.camera_scroll_strength;
-							else if (window.is_key_held(birb::input::keycode::LEFT_CONTROL))
-								game_viewport.camera.position += (static_cast<float>(input.offset.y * viewport_camera.camera_scroll_strength) * game_viewport.camera.right_vec());
-							else
-								game_viewport.camera.zoom(input.offset.y * viewport_camera.camera_scroll_strength);
-						}
-						break;
-					}
+				birb::input input = window.next_input();
 
-					default:
-						break;
+				if (input.state == birb::input::action::KEY_DOWN)
+				{
+					switch (input.key)
+					{
+						case birb::input::keycode::SCROLLING:
+							{
+								// Scroll the viewport view only if we are hoving over it
+								if (game_viewport.is_window_hovered())
+								{
+									if (window.is_key_held(birb::input::keycode::LEFT_SHIFT))
+										game_viewport.camera.position.y += input.offset.y * viewport_camera.camera_scroll_strength;
+									else if (window.is_key_held(birb::input::keycode::LEFT_CONTROL))
+										game_viewport.camera.position += (static_cast<float>(input.offset.y * viewport_camera.camera_scroll_strength) * game_viewport.camera.right_vec());
+									else
+										game_viewport.camera.zoom(input.offset.y * viewport_camera.camera_scroll_strength);
+								}
+								break;
+							}
+
+						default:
+							break;
+					}
 				}
 			}
 		}
@@ -103,21 +108,25 @@ int main(void)
 		window.clear();
 
 
-		// Update the dimensions of the docking space
-		ImGui::DockBuilderSetNodePos(dockspace_id, ImGui::GetMainViewport()->Pos);
-		ImGui::DockBuilderSetNodeSize(dockspace_id, ImGui::GetMainViewport()->Size);
+		{
+			PROFILER_SCOPE_RENDER("Update docking space dimensions")
+			ImGui::DockBuilderSetNodePos(dockspace_id, ImGui::GetMainViewport()->Pos);
+			ImGui::DockBuilderSetNodeSize(dockspace_id, ImGui::GetMainViewport()->Size);
+		}
 
 		// Draw the editor windows
-		game_viewport.draw();
-		viewport_camera.draw();
-		entity_list.draw();
-		inspector.draw();
-		world.draw();
-		debugging.draw();
-
-		perf_widget.draw();
-		renderer_overlay.draw();
-		window_info.draw();
+		{
+			PROFILER_SCOPE_RENDER("Draw editor windows")
+			game_viewport.draw();
+			viewport_camera.draw();
+			entity_list.draw();
+			inspector.draw();
+			world.draw();
+			debugging.draw();
+			perf_widget.draw();
+			renderer_overlay.draw();
+			window_info.draw();
+		}
 
 		window.flip();
 		window.poll();

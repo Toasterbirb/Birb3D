@@ -129,6 +129,8 @@ namespace birb
 
 	void window::clear()
 	{
+		PROFILER_SCOPE_RENDER_FN()
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
