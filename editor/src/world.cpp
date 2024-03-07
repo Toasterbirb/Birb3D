@@ -3,6 +3,10 @@
 #include "Shader.hpp"
 #include "World.hpp"
 
+#include <imgui.h>
+#include <imgui_stdlib.h>
+#include <stb_sprintf.h>
+
 namespace editor
 {
 	world::world(birb::window& window) : window(window) {}
@@ -28,6 +32,37 @@ namespace editor
 					data._float = { birb::shader::directional_ambient.x, birb::shader::directional_ambient.y, birb::shader::directional_ambient.z };
 
 					birb::event_bus::send_event(2, data);
+				}
+			}
+
+			if (ImGui::CollapsingHeader("Point lights"))
+			{
+				for (unsigned int i = 0; i < birb::shader::point_light_count; ++i)
+				{
+					std::string light_name = std::to_string(i) + " " + birb::shader::point_lights[i].name;
+
+					if (ImGui::TreeNode(light_name.c_str()))
+					{
+						static std::string new_name = birb::shader::point_lights[i].name;
+						ImGui::InputText("Name", &new_name);
+						ImGui::SameLine();
+						if (ImGui::Button("Apply"))
+							birb::shader::point_lights[i].name = new_name;
+
+						ImGui::Spacing();
+						ImGui::DragFloat3("Position", *birb::shader::point_lights[i].position.to_ptr_array().data());
+						ImGui::Spacing();
+						ImGui::SeparatorText("Color");
+						ImGui::ColorEdit3("Ambient", *birb::shader::point_lights[i].ambient.to_ptr_array().data());
+						ImGui::ColorEdit3("Diffuse", *birb::shader::point_lights[i].diffuse.to_ptr_array().data());
+						ImGui::ColorEdit3("Specular", *birb::shader::point_lights[i].specular.to_ptr_array().data());
+						ImGui::Spacing();
+						ImGui::SeparatorText("Attenuation");
+						ImGui::DragFloat("Constant", &birb::shader::point_lights[i].attenuation_constant);
+						ImGui::DragFloat("Linear", &birb::shader::point_lights[i].attenuation_linear);
+						ImGui::DragFloat("Quadratic", &birb::shader::point_lights[i].attenuation_quadratic);
+						ImGui::TreePop();
+					}
 				}
 			}
 

@@ -10,6 +10,20 @@
 
 namespace birb
 {
+	struct point_light
+	{
+		std::string name = "";
+		vec3<float> ambient = { 0.0f, 0.0f, 0.0f };
+		vec3<float> diffuse = { 0.0f, 0.0f, 0.0f };
+		vec3<float> specular = { 0.0f, 0.0f, 0.0f };
+
+		vec3<float> position = { 0.0f, 0.0f, 0.0f };
+
+		float attenuation_constant = 1.0f;
+		float attenuation_linear = 0.09f;
+		float attenuation_quadratic = 0.032f;
+	};
+
 	class shader : editor_component
 	{
 	public:
@@ -21,11 +35,17 @@ namespace birb
 		// Reference to the shader program
 		unsigned int id = 0;
 
+		// Lighting constants
+		const static unsigned short point_light_count = 4;
+
 		// Directional lighting
 		static inline vec3<float> directional_direction = { 0.2f, 0.2f, -0.7f };
 		static inline vec3<float> directional_ambient = { 0.2f, 0.2f, 0.2f };
 		static inline vec3<float> directional_diffuse = { 1.0f, 1.0f, 1.0f };
 		static inline vec3<float> directional_specular = { 1.0f, 1.0f, 1.0f };
+
+		// Point lights
+		static inline std::array<point_light, point_light_count> point_lights;
 
 		// Activate the shader program
 		void activate();
@@ -44,11 +64,13 @@ namespace birb
 		void add_default_3d_matrix_uniforms();
 
 		void update_directional_light();
+		void update_point_lights();
 
 		bool has_uniform_var(const std::string& name) const;
 
 		void set_mat4(const std::string& name, const glm::mat4 mat4);
 		void set_vec3(const std::string& name, const glm::vec3 vector);
+		void set_vec3_birb_float(const std::string& name, const vec3<float> vector);
 		void set_vec4(const std::string& name, const glm::vec4 vector);
 		void set_float(const std::string& name, const float f);
 		void set_int(const std::string& name, const int i);
@@ -70,9 +92,6 @@ namespace birb
 		static void clear_shader_cache();
 		static size_t shader_cache_size();
 		static size_t shader_cache_hits();
-
-		// Other misc. constants
-		const static unsigned short point_light_count = 4;
 
 	private:
 		void add_uniform_location(const std::string& name);

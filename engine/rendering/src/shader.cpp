@@ -108,6 +108,28 @@ namespace birb
 		set_vec3("directional_light.specular", directional_specular.to_glm_vec());
 	}
 
+	void shader::update_point_lights()
+	{
+		PROFILER_SCOPE_RENDER_FN()
+
+		// Point lights
+		for (unsigned int i = 0; i < point_light_count; ++i)
+		{
+			// Set the lights to black
+			set_vec3_birb_float("point_lights[" + std::to_string(i) + "].ambient", point_lights[i].ambient);
+			set_vec3_birb_float("point_lights[" + std::to_string(i) + "].diffuse", point_lights[i].diffuse);
+			set_vec3_birb_float("point_lights[" + std::to_string(i) + "].specular", point_lights[i].specular);
+
+			// Set the position to zero
+			set_vec3_birb_float( "point_lights[" + std::to_string(i) + "].position", point_lights[i].position);
+
+			// Keep the attenuation values
+			set_float("point_lights[" + std::to_string(i) + "].constant", point_lights[i].attenuation_constant);
+			set_float("point_lights[" + std::to_string(i) + "].linear", point_lights[i].attenuation_linear);
+			set_float("point_lights[" + std::to_string(i) + "].quadratic", point_lights[i].attenuation_quadratic);
+		}
+	}
+
 	bool shader::has_uniform_var(const std::string& name) const
 	{
 		return uniform_locations.contains(name);
@@ -122,6 +144,14 @@ namespace birb
 	}
 
 	void shader::set_vec3(const std::string& name, const glm::vec3 vector)
+	{
+		add_uniform_location(name);
+
+		activate();
+		glUniform3f(uniform_locations[name], vector.x, vector.y, vector.z);
+	}
+
+	void shader::set_vec3_birb_float(const std::string& name, const vec3<float> vector)
 	{
 		add_uniform_location(name);
 

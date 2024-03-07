@@ -95,8 +95,9 @@ namespace birb
 			shader.set_mat4("view", view_matrix);
 			shader.set_mat4("projection", projection_matrix);
 
-			// Make sure the directional lighting is up-to-date
+			// Make sure the lighting is up-to-date
 			shader.update_directional_light();
+			shader.update_point_lights();
 
 			// Apply the color material on the shader
 			// TODO: Make this work with textures too
