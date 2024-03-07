@@ -102,10 +102,10 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		set_vec3("directional_light.direction", directional_direction.to_glm_vec());
-		set_vec3("directional_light.ambient", directional_ambient.to_glm_vec());
-		set_vec3("directional_light.diffuse", directional_diffuse.to_glm_vec());
-		set_vec3("directional_light.specular", directional_specular.to_glm_vec());
+		set_vec3_birb_float("directional_light.direction", directional_direction);
+		set_vec3_birb_float("directional_light.ambient", directional_ambient);
+		set_vec3_birb_float("directional_light.diffuse", directional_diffuse);
+		set_vec3_birb_float("directional_light.specular", directional_specular);
 	}
 
 	void shader::update_point_lights()
