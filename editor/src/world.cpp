@@ -58,9 +58,9 @@ namespace editor
 						ImGui::ColorEdit3("Specular", *birb::shader::point_lights[i].specular.to_ptr_array().data());
 						ImGui::Spacing();
 						ImGui::SeparatorText("Attenuation");
-						ImGui::DragFloat("Constant", &birb::shader::point_lights[i].attenuation_constant);
-						ImGui::DragFloat("Linear", &birb::shader::point_lights[i].attenuation_linear);
-						ImGui::DragFloat("Quadratic", &birb::shader::point_lights[i].attenuation_quadratic);
+						ImGui::DragFloat("Constant", &birb::shader::point_lights[i].attenuation_constant, 0.05f);
+						ImGui::DragFloat("Linear", &birb::shader::point_lights[i].attenuation_linear, 0.005f);
+						ImGui::DragFloat("Quadratic", &birb::shader::point_lights[i].attenuation_quadratic, 0.001f);
 						ImGui::TreePop();
 					}
 				}
