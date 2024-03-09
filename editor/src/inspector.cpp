@@ -22,7 +22,7 @@ namespace editor
 			{
 				namespace cmp = birb::component;
 
-				entt::registry& reg = scene.get_registry();
+				entt::registry& reg = scene.registry;
 
 				// All entities should have the info component if they want to be visible in the entity list
 				std::string previous_name = reg.get<cmp::info>(selected_entity).name;

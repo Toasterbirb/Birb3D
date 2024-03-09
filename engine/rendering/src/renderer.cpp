@@ -66,7 +66,7 @@ namespace birb
 		assert(current_scene != nullptr);
 		assert(scene::scene_count() > 0);
 
-		entt::registry& entity_registry = current_scene->get_registry();
+		entt::registry& entity_registry = current_scene->registry;
 
 		// Render all models
 		rendered_entities = 0;

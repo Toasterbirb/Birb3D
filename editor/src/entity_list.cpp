@@ -69,7 +69,7 @@ namespace editor
 
 		assert(!scene.is_duplicate_entity_info_name(name));
 
-		entt::entity new_entity = scene.get_registry().create();
+		entt::entity new_entity = scene.registry.create();
 		birb::component::info default_info(name);
 		scene.add_component(new_entity, default_info);
 
@@ -152,7 +152,7 @@ namespace editor
 			ImGui::Separator();
 			ImGui::Spacing();
 
-			const auto view = scene.get_registry().view<birb::component::info>();
+			const auto view = scene.registry.view<birb::component::info>();
 
 			for (const auto entity : view)
 			{

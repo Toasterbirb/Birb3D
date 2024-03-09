@@ -12,7 +12,7 @@ namespace birb
 		scene();
 		~scene();
 
-		entt::registry& get_registry();
+		entt::registry registry;
 
 		birb::entity create_entity();
 		bool is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity = entt::null);
@@ -32,6 +32,5 @@ namespace birb
 		static int scene_count();
 
 	private:
-		entt::registry registry;
 	};
 }

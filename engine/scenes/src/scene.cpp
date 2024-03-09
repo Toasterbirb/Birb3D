@@ -20,11 +20,6 @@ namespace birb
 		current_scene_count--;
 	}
 
-	entt::registry& scene::get_registry()
-	{
-		return registry;
-	}
-
 	birb::entity scene::create_entity()
 	{
 		entt::entity entt_entity = registry.create();
