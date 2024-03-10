@@ -6,19 +6,18 @@ include_directories(include)
 add_executable(${EDITOR_BIN_NAME} ${EDITOR_SRC})
 target_link_libraries(${EDITOR_BIN_NAME} birb)
 
-target_precompile_headers(${EDITOR_BIN_NAME} PUBLIC
-	<array>
-	<assimp/Importer.hpp>
-	<assimp/postprocess.h>
-	<assimp/scene.h>
+target_precompile_headers(${EDITOR_BIN_NAME} PRIVATE
+	<algorithm>
 	<entt.hpp>
-	<filesystem>
+	<glad/gl.h>
 	<glm/glm.hpp>
 	<glm/gtc/matrix_transform.hpp>
 	<glm/gtc/type_ptr.hpp>
 	<imgui.h>
 	<imgui_internal.h>
 	<imgui_stdlib.h>
-	<iostream>
+	<limits>
+	<stb_sprintf.h>
+	<string>
 	<vector>
 )

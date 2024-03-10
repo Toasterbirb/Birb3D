@@ -14,6 +14,9 @@ namespace birb
 	static std::unordered_map<std::string, unsigned int> shader_cache;
 	static size_t shader_cache_hit_count = 0;
 
+	shader::shader()
+	{}
+
 	shader::shader(const std::string& shader_name)
 	:vertex_shader_name(shader_name), fragment_shader_name(shader_name)
 	{
@@ -259,6 +262,14 @@ namespace birb
 			}
 		}
 
+	}
+
+	void shader::compile()
+	{
+		assert(vertex_shader_name != "NULL");
+		assert(fragment_shader_name != "NULL");
+
+		compile_shader(vertex_shader_name, fragment_shader_name);
 	}
 
 	std::vector<std::string> shader::vertex_shader_name_list()

@@ -1,5 +1,6 @@
 #include "Components.hpp"
 #include "EntityList.hpp"
+#include "Logger.hpp"
 #include "Model.hpp"
 #include "Profiling.hpp"
 #include "Scene.hpp"

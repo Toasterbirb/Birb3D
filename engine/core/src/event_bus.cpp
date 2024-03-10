@@ -1,4 +1,5 @@
 #include "EventBus.hpp"
+#include "Logger.hpp"
 
 #include <cassert>
 #include <unordered_map>

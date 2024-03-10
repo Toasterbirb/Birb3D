@@ -9,14 +9,14 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "Camera.hpp"
-#include "PerformanceOverlay.hpp"
 #include "CameraInfoOverlay.hpp"
-#include "Timestep.hpp"
+#include "EBO.hpp"
+#include "PerformanceOverlay.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
+#include "Timestep.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
-#include "EBO.hpp"
 
 int main(void)
 {

@@ -1,6 +1,8 @@
 #include "Image.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 #include "Texture.hpp"
+#include "Vector.hpp"
 
 #include <string>
 

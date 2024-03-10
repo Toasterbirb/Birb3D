@@ -8,11 +8,12 @@ TLDR: Another never ending hobbyist game engine project
 
 ### Dependencies
 Vendored dependencies that are included as submodules or directly in the repository:
+- [Dear ImGui](https://github.com/ocornut/imgui/tree/docking)
 - [EnTT](https://github.com/skypjack/entt)
 - [GLAD](https://github.com/Dav1dde/glad)
 - [GLFW](https://www.glfw.org/)
-- [Dear ImGui](https://github.com/ocornut/imgui/tree/docking)
 - [assimp](https://github.com/assimp/assimp)
+- [cereal](https://github.com/USCiLab/cereal)
 - [doctest](https://github.com/doctest/doctest)
 - [nlohmann::json](https://github.com/nlohmann/json)
 - [stb](https://github.com/nothings/stb)

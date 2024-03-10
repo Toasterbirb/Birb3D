@@ -5,6 +5,7 @@
 #include "Logger.hpp"
 #include "PerformanceOverlay.hpp"
 #include "Profiling.hpp"
+#include "Project.hpp"
 #include "RendererOverlay.hpp"
 #include "Scene.hpp"
 #include "Timestep.hpp"
@@ -19,25 +20,31 @@
 #include <imgui_stdlib.h>
 #include <imgui_internal.h>
 
-#include <array>
 #include <entt.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-int main(void)
+int main(int argc, char** argv)
 {
+
 	birb::window window("Birb3D editor", birb::vec2<int>(1920, 1080));
 	window.init_imgui();
+
+	birb::project project;
+
+	if (argc == 2)
+		project.load(argv[1]);
+
+	birb::scene& scene = project.scene_collection["main"];
 
 	birb::overlay::window_info window_info(window, "Window");
 
 	birb::timestep timestep;
 	birb::overlay::performance perf_widget(timestep, "Performance");
 
-	birb::scene scene;
-
 	editor::viewport game_viewport(scene, window, timestep);
+	project.load_camera_settings(game_viewport.camera);
 	game_viewport.camera.editor_mode = true;
 
 	editor::entity_list entity_list(scene);
@@ -107,11 +114,45 @@ int main(void)
 
 		window.clear();
 
+		// Draw the main menu bar
+		if (ImGui::BeginMainMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Open project"))
+				{
+					constexpr unsigned int max_filename_len = 1024;
+					char filename[max_filename_len];
+					FILE* file = popen("zenity --file-selection", "r");
+					fgets(filename, max_filename_len, file);
+					birb::log("File name", filename);
+				}
+
+				if (ImGui::MenuItem("Save"))
+				{
+					birb::log("Saving the project to " + project.path());
+					project.save_camera_settings(game_viewport.camera);
+					project.save();
+				}
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMainMenuBar();
+		}
 
 		{
 			PROFILER_SCOPE_RENDER("Update docking space dimensions")
-			ImGui::DockBuilderSetNodePos(dockspace_id, ImGui::GetMainViewport()->Pos);
-			ImGui::DockBuilderSetNodeSize(dockspace_id, ImGui::GetMainViewport()->Size);
+
+			ImVec2 win_pos = ImGui::GetMainViewport()->Pos;
+			ImVec2 win_size = ImGui::GetMainViewport()->Size;
+
+			// Make room for the main menu
+			constexpr int offset = 22;
+			win_pos.y += offset;
+			win_size.y -= offset;
+
+			ImGui::DockBuilderSetNodePos(dockspace_id, win_pos);
+			ImGui::DockBuilderSetNodeSize(dockspace_id, win_size);
 		}
 
 		// Draw the editor windows

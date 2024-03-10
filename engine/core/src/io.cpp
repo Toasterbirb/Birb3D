@@ -5,6 +5,7 @@
 #include <cassert>
 #include <fstream>
 #include <future>
+#include <nlohmann/json.hpp>
 #include <stb_image.h>
 #include <string>
 
@@ -63,6 +64,46 @@ namespace birb
 		std::future<bool> write_file_async(const std::string &path, const std::string& text)
 		{
 			return std::async(std::launch::async, write_file, path, text);
+		}
+
+		bool write_json_file(const std::string& path, nlohmann::json json)
+		{
+			PROFILER_SCOPE_IO_FN();
+			assert(!path.empty() && "Can't write to an empty filepath");
+
+			std::ofstream file;
+			file.open(path);
+			if (!file.is_open())
+			{
+				birb::log_error("Couldn't write to file path " + path);
+				return false;
+			}
+
+			file << std::setw(4) << json << std::endl;
+			file.close();
+			return true;
+		}
+
+		bool write_bson_file(const std::string& path, nlohmann::json json)
+		{
+			PROFILER_SCOPE_IO_FN();
+			assert(!path.empty() && "Can't write to an empty filepath");
+
+			std::ofstream file;
+			file.open(path);
+			if (!file.is_open())
+			{
+				birb::log_error("Couldn't write to file path " + path);
+				return false;
+			}
+
+			std::vector<std::uint8_t> bson = nlohmann::json::to_bson(json);
+
+			for (std::uint8_t byte : bson)
+				file << byte << std::endl;
+
+			file.close();
+			return true;
 		}
 	}
 }

@@ -1,3 +1,4 @@
+#include "Logger.hpp"
 #include "Mesh.hpp"
 #include "Profiling.hpp"
 

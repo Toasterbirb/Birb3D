@@ -20,6 +20,12 @@ namespace birb
 		constexpr vec2(T x, T y) : x(x), y(y) {};
 		constexpr vec2(T values[2]) : x(values[0]), y(values[1]) {};
 
+		template<class Archive>
+		void serialize(Archive& ar)
+		{
+			ar(x, y);
+		}
+
 		/// Returns the normalization of the vector
         constexpr vec2<T> normalized() const
 		{
@@ -175,6 +181,12 @@ namespace birb
 		constexpr vec3() : x(0), y(0), z(0) {};
 		constexpr vec3(T x, T y, T z) : x(x), y(y), z(z) {};
 		constexpr vec3(T values[3]) : x(values[0]), y(values[1]), z(values[2]) {};
+
+		template<class Archive>
+		void serialize(Archive& ar)
+		{
+			ar(x, y, z);
+		}
 
 		/// Returns the normalization of the vector
         constexpr vec3<T> normalized() const

@@ -18,6 +18,12 @@ namespace birb
 			vec3<float> rotation;
 			vec3<float> local_scale;
 
+			template<class Archive>
+			void serialize(Archive& ar)
+			{
+				ar(position, rotation, local_scale);
+			}
+
 		private:
 
 		};

@@ -17,6 +17,9 @@
 
 namespace birb
 {
+	model::model()
+	{}
+
 	model::model(const std::string& path)
 	{
 		load_model(path);
@@ -101,6 +104,13 @@ namespace birb
 	std::string model::model_file_path()
 	{
 		return file_path;
+	}
+
+	void model::load_model()
+	{
+		assert(!file_path.empty());
+
+		load_model(file_path);
 	}
 
 	void model::load_model(const std::string& path)

@@ -7,7 +7,6 @@
 #include <assimp/material.h>
 #include <assimp/mesh.h>
 #include <assimp/scene.h>
-#include <memory>
 #include <string>
 
 namespace birb
@@ -15,6 +14,7 @@ namespace birb
 	class model : public editor_component
 	{
 	public:
+		model();
 		explicit model(const std::string& path);
 		~model();
 
@@ -22,10 +22,17 @@ namespace birb
 		void draw_editor_ui() override;
 
 		std::string model_file_path();
+		void load_model();
 		void load_model(const std::string& path);
 		void destroy();
 
 		unsigned int vertex_count() const;
+
+		template<class Archive>
+		void serialize(Archive& ar)
+		{
+			ar(directory, file_path);
+		}
 
 	private:
 		void process_node(aiNode* node, const aiScene* scene);

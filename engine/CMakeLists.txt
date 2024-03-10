@@ -49,43 +49,71 @@ target_sources(birb PRIVATE ${WIDGET_SRC})
 
 target_link_libraries(birb assimp glfw glad glm imgui microprofile)
 
-target_precompile_headers(birb PUBLIC
-	${CORE_INC}/Input.hpp
-	${CORE_INC}/Logger.hpp
-	${CORE_INC}/Vector.hpp
+target_precompile_headers(birb
+	PUBLIC
+		<Logger.hpp>
 
 	PRIVATE
+		# Headers that probably won't be changed that often
+		<Color.hpp>
+		<IO.hpp>
+		<Input.hpp>
+		<Random.hpp>
+		<Rect.hpp>
+		<Vector.hpp>
+		<Timestep.hpp>
+
+		# The order of these two headers is important
 		<glad/gl.h>
 		<GLFW/glfw3.h>
-		<glm/glm.hpp>
-		<glm/gtc/matrix_transform.hpp>
-		<glm/gtc/type_ptr.hpp>
-		<assimp/Importer.hpp>
-		<assimp/postprocess.h>
-		<assimp/scene.h>
+
+		# Other misc. library headers
 		<algorithm>
 		<array>
+		<assimp/Importer.hpp>
+		<assimp/material.h>
+		<assimp/mesh.h>
+		<assimp/postprocess.h>
+		<assimp/scene.h>
 		<cassert>
+		<cereal/archives/binary.hpp>
+		<cereal/types/string.hpp>
 		<chrono>
+		<climits>
 		<cmath>
 		<cstddef>
 		<cstdint>
-		<cstdio>
 		<ctime>
+		<deque>
+		<entt.hpp>
+		<filesystem>
 		<fstream>
 		<future>
+		<glm/fwd.hpp>
+		<glm/glm.hpp>
+		<glm/gtc/matrix_transform.hpp>
+		<glm/gtc/type_ptr.hpp>
+		<glm/vec2.hpp>
+		<glm/vec3.hpp>
 		<imgui.h>
 		<imgui_impl_glfw.h>
 		<imgui_impl_opengl3.h>
+		<imgui_stdlib.h>
 		<iostream>
+		<microprofile.h>
+		<nlohmann/json.hpp>
+		<nlohmann/json_fwd.hpp>
 		<numeric>
 		<queue>
 		<random>
 		<stb_image.h>
+		<stb_sprintf.h>
+		<string.h>
 		<string>
 		<sys/resource.h>
 		<thread>
-		<type_traits>
+		<unordered_map>
+		<unordered_set>
 		<vector>
 )
 

@@ -1,9 +1,11 @@
 #pragma once
 
 #include <array>
+#include <cstddef>
+
 namespace birb
 {
-	constexpr size_t event_data_size = 24; // Size of the event_data union in bytes
+	constexpr std::size_t event_data_size = 24; // Size of the event_data union in bytes
 
 	union event_data
 	{

@@ -1,4 +1,5 @@
 #include "FBO.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 
 #include <cassert>

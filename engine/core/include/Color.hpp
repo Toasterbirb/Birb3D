@@ -118,6 +118,12 @@ namespace birb
 					|| this->b != other.b
 					|| this->a != other.a);
 		}
+
+		template<class Archive>
+		void serialize(Archive& ar)
+		{
+			ar(r, g, b, a);
+		}
 	};
 
 	template<typename T>

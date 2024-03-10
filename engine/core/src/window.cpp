@@ -1,5 +1,6 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #include "EventBus.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 #include "Window.hpp"
 
@@ -73,10 +74,10 @@ namespace birb
 		// Setup glad
 		gladLoadGL((GLADloadfunc)glfwGetProcAddress);
 		glViewport(0, 0, dimensions.x, dimensions.y);
+		opengl_initialized = true;
 
 		// Set static variables
 		window::window_size_changed = false;
-		window::imgui_initialized = false;
 
 		// Set the default background color to something other than black
 		set_background_color(0x1F1F28);
@@ -317,6 +318,11 @@ namespace birb
 	bool window::imgui_is_init()
 	{
 		return window::imgui_initialized;
+	}
+
+	bool window::opengl_is_init()
+	{
+		return window::opengl_initialized;
 	}
 
 	int window::monitor_refreshrate() const

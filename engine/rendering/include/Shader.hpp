@@ -2,6 +2,7 @@
 
 #include "Color.hpp"
 #include "EditorComponent.hpp"
+#include "Vector.hpp"
 
 #include <glad/gl.h>
 #include <glm/fwd.hpp>
@@ -27,6 +28,7 @@ namespace birb
 	class shader : editor_component
 	{
 	public:
+		shader();
 		explicit shader(const std::string& shader_name);
 		shader(const std::string& vertex, const std::string& fragment);
 		shader(const shader& other);
@@ -85,6 +87,7 @@ namespace birb
 		void draw_editor_ui() override;
 
 		// Shader source code related functions
+		void compile();
 		static std::vector<std::string> vertex_shader_name_list();
 		static std::vector<std::string> fragment_shader_name_list();
 
@@ -92,6 +95,18 @@ namespace birb
 		static void clear_shader_cache();
 		static size_t shader_cache_size();
 		static size_t shader_cache_hits();
+
+		template<class Archive>
+		void serialize(Archive& ar)
+		{
+			ar(
+				vertex_shader_name,
+				fragment_shader_name,
+				shininess,
+				diffuse_color,
+				specular_color
+			);
+		}
 
 	private:
 		void add_uniform_location(const std::string& name);

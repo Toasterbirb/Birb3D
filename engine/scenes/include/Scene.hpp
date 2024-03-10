@@ -14,6 +14,11 @@ namespace birb
 
 		entt::registry registry;
 
+		/**
+		 * @brief Name of the scene
+		 */
+		std::string name = "Scene";
+
 		birb::entity create_entity();
 		bool is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity = entt::null);
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <future>
+#include <nlohmann/json_fwd.hpp>
 #include <string>
 
 /**
@@ -56,5 +57,30 @@ namespace birb
 		 * @return A future to a boolean value that tells if the file writing was successful
 		 */
 		std::future<bool> write_file_async(const std::string& path, const std::string& text);
+
+		/**
+		 * @brief Read binary bson data from a file and convert that to json
+		 *
+		 * @param path Path to the binary file to be read
+		 */
+		nlohmann::json read_file_bson(const std::string& path);
+
+		/**
+		 * @brief Write a json file to disk
+		 *
+		 * @param path Path to the file to be written into
+		 * @param json The json object that'll be written to the file
+		 * @return False if the file couldn't be opened for writing
+		 */
+		bool write_json_file(const std::string& path, nlohmann::json json);
+
+		/**
+		 * @brief Write a bson file to disk
+		 *
+		 * @param path Path to the file to be written into
+		 * @param json The json object that'll be converted to bson and written to the file
+		 * @return False if the file couldn't be opened for writing
+		 */
+		bool write_bson_file(const std::string& path, nlohmann::json json);
 	}
 }

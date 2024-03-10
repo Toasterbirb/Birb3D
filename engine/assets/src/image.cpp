@@ -1,4 +1,5 @@
 #include "Image.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 
 namespace birb
