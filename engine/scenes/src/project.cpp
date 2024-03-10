@@ -50,6 +50,8 @@ namespace birb
 
 	void project::save()
 	{
+		// Store the project with the current version format
+		project_json[keys::version] = version;
 		// Loop through scenes and save their entities
 		for (std::string scene_name : project_json[keys::scene_name_list])
 		{
@@ -162,6 +164,8 @@ namespace birb
 			scene& scene = scene_collection[name];
 			scene.name = name;
 
+			loaded_version = project_json[keys::version];
+
 			// Load entity data if the entity data file exists
 			const std::string& entity_data_path = name + entity_data_file_extension;
 
@@ -170,7 +174,7 @@ namespace birb
 				std::ifstream entity_archive(entity_data_path, std::ios::binary);
 				cereal::BinaryInputArchive archive(entity_archive);
 
-				switch (version)
+				switch (loaded_version)
 				{
 					case (1):
 					{

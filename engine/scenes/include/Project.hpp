@@ -39,6 +39,8 @@ namespace birb
 		 */
 		const static inline unsigned int version = 1;
 
+		static inline unsigned int loaded_version = 0;
+
 	private:
 		bool project_loaded = false;
 
