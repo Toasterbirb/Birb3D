@@ -3,6 +3,7 @@
 #include "EntityList.hpp"
 #include "Inspector.hpp"
 #include "Logger.hpp"
+#include "MainMenuBar.hpp"
 #include "PerformanceOverlay.hpp"
 #include "Profiling.hpp"
 #include "Project.hpp"
@@ -52,6 +53,7 @@ int main(int argc, char** argv)
 	editor::viewport_camera viewport_camera(game_viewport);
 	editor::world world(window);
 	editor::debugging debugging;
+	editor::main_menu_bar main_menu_bar(project, game_viewport);
 
 	birb::overlay::renderer_overlay renderer_overlay(game_viewport.renderer, "Viewport renderer");
 
@@ -114,31 +116,6 @@ int main(int argc, char** argv)
 
 		window.clear();
 
-		// Draw the main menu bar
-		if (ImGui::BeginMainMenuBar())
-		{
-			if (ImGui::BeginMenu("File"))
-			{
-				if (ImGui::MenuItem("Open project"))
-				{
-					constexpr unsigned int max_filename_len = 1024;
-					char filename[max_filename_len];
-					FILE* file = popen("zenity --file-selection", "r");
-					fgets(filename, max_filename_len, file);
-					birb::log("File name", filename);
-				}
-
-				if (ImGui::MenuItem("Save"))
-				{
-					birb::log("Saving the project to " + project.path());
-					project.save_camera_settings(game_viewport.camera);
-					project.save();
-				}
-				ImGui::EndMenu();
-			}
-
-			ImGui::EndMainMenuBar();
-		}
 
 		{
 			PROFILER_SCOPE_RENDER("Update docking space dimensions")
@@ -158,15 +135,16 @@ int main(int argc, char** argv)
 		// Draw the editor windows
 		{
 			PROFILER_SCOPE_RENDER("Draw editor windows")
-			game_viewport.draw();
-			viewport_camera.draw();
-			entity_list.draw();
-			inspector.draw();
-			world.draw();
 			debugging.draw();
+			entity_list.draw();
+			game_viewport.draw();
+			inspector.draw();
+			main_menu_bar.draw();
 			perf_widget.draw();
 			renderer_overlay.draw();
+			viewport_camera.draw();
 			window_info.draw();
+			world.draw();
 		}
 
 		window.flip();
