@@ -7,6 +7,7 @@
 #include "PerformanceOverlay.hpp"
 #include "Profiling.hpp"
 #include "Project.hpp"
+#include "ProjectManager.hpp"
 #include "RendererOverlay.hpp"
 #include "Scene.hpp"
 #include "Timestep.hpp"
@@ -54,6 +55,7 @@ int main(int argc, char** argv)
 	editor::world world(window);
 	editor::debugging debugging;
 	editor::main_menu_bar main_menu_bar(project, game_viewport);
+	editor::project_manager project_manager(project, game_viewport);
 
 	birb::overlay::renderer_overlay renderer_overlay(game_viewport.renderer, "Viewport renderer");
 
@@ -78,6 +80,7 @@ int main(int argc, char** argv)
 	ImGui::DockBuilderDockWindow("Inspector", left_side_bottom_node);
 	ImGui::DockBuilderDockWindow("World", right_side_node);
 	ImGui::DockBuilderDockWindow("Debugging", right_side_node);
+	ImGui::DockBuilderDockWindow("Project", right_side_node);
 
 	while (!window.should_close())
 	{
@@ -141,6 +144,7 @@ int main(int argc, char** argv)
 			inspector.draw();
 			main_menu_bar.draw();
 			perf_widget.draw();
+			project_manager.draw();
 			renderer_overlay.draw();
 			viewport_camera.draw();
 			window_info.draw();

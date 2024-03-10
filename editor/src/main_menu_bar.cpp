@@ -8,9 +8,7 @@ namespace editor
 
 	void main_menu_bar::save_project()
 	{
-		birb::log("Saving the project to " + project.path());
-		project.save_camera_settings(viewport.camera);
-		project.save();
+		project.save(viewport.camera);
 	}
 
 	void main_menu_bar::draw()

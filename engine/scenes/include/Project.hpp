@@ -18,7 +18,18 @@ namespace birb
 		project(const project&) = default;
 		project(project&) = default;
 
+		/**
+		 * @brief Save entity data + viewport camera information
+		 *
+		 * @param camera
+		 */
+		void save(const camera& camera);
+
+		/**
+		 * @brief Save entity data
+		 */
 		void save();
+
 		void load(const std::string& path);
 		static void write_empty_project_to_file(const std::string& dest_path);
 		static nlohmann::json default_project();

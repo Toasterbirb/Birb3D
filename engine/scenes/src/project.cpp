@@ -48,10 +48,19 @@ namespace birb
 		}
 	}
 
+	void project::save(const camera& camera)
+	{
+		save_camera_settings(camera);
+		save();
+	}
+
 	void project::save()
 	{
+		birb::log("Saving the project to " + file_path);
+
 		// Store the project with the current version format
 		project_json[keys::version] = version;
+
 		// Loop through scenes and save their entities
 		for (std::string scene_name : project_json[keys::scene_name_list])
 		{
