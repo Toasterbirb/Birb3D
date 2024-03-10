@@ -170,12 +170,24 @@ namespace birb
 				std::ifstream entity_archive(entity_data_path, std::ios::binary);
 				cereal::BinaryInputArchive archive(entity_archive);
 
-				entt::snapshot_loader{scene.registry}
-					.get<entt::entity>(archive)
-					.get<component::info>(archive)
-					.get<component::transform>(archive)
-					.get<model>(archive)
-					.get<shader>(archive);
+				switch (version)
+				{
+					case (1):
+					{
+						entt::snapshot_loader{scene.registry}
+							.get<entt::entity>(archive)
+							.get<component::info>(archive)
+							.get<component::transform>(archive)
+							.get<model>(archive)
+							.get<shader>(archive);
+						break;
+					}
+
+
+					default:
+						birb::log_fatal("Unsupported project version: " + std::to_string(version));
+						break;
+				}
 			}
 
 			// Load lighting information
