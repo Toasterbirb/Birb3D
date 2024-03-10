@@ -37,7 +37,7 @@ namespace birb
 		 * Increment this whenever there are breaking changes
 		 * so that they can be handled properly when loading the project
 		 */
-		static inline unsigned int version = 1;
+		const static inline unsigned int version = 1;
 
 	private:
 		bool project_loaded = false;
