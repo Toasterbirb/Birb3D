@@ -91,9 +91,9 @@ namespace birb
 
 			model_matrix = glm::scale(model_matrix, transform.local_scale.to_glm_vec());
 
-			shader.set_mat4("model", model_matrix);
-			shader.set_mat4("view", view_matrix);
-			shader.set_mat4("projection", projection_matrix);
+			shader.set(shader_uniforms::model, model_matrix);
+			shader.set(shader_uniforms::view, view_matrix);
+			shader.set(shader_uniforms::projection, projection_matrix);
 
 			// Make sure the lighting is up-to-date
 			shader.update_directional_light();

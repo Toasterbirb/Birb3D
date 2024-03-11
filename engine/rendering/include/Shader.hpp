@@ -2,8 +2,10 @@
 
 #include "Color.hpp"
 #include "EditorComponent.hpp"
+#include "ShaderUniforms.hpp"
 #include "Vector.hpp"
 
+#include <cassert>
 #include <glad/gl.h>
 #include <glm/fwd.hpp>
 #include <string>
@@ -70,13 +72,15 @@ namespace birb
 
 		bool has_uniform_var(const std::string& name) const;
 
-		void set_mat4(const std::string& name, const glm::mat4 mat4);
-		void set_vec3(const std::string& name, const glm::vec3 vector);
-		void set_vec3_birb_float(const std::string& name, const vec3<float> vector);
-		void set_vec4(const std::string& name, const glm::vec4 vector);
-		void set_float(const std::string& name, const float f);
-		void set_int(const std::string& name, const int i);
-		void set_color(const std::string& name, const color& color);
+		void set(const uniform& uniform, int value, int index = -1);
+		void set(const uniform& uniform, float value, int index = -1);
+		void set(const uniform& uniform, const glm::vec3 value, int index = -1);
+		void set(const uniform& uniform, const glm::vec4 value, int index = -1);
+		void set(const uniform& uniform, const birb::vec3<float> value, int index = -1);
+		void set(const uniform& uniform, const glm::mat4 value, int index = -1);
+		void set(const uniform& uniform, const color value, int index = -1);
+
+		void set_int(const std::string& name, const int value);
 
 		// Material helper functions
 		void set_diffuse_color(const color& color);

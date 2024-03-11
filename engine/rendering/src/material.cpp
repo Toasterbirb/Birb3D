@@ -20,11 +20,11 @@ namespace birb
 		shader.activate();
 
 		// Set the texture units
-		shader.set_int("material.diffuse", 0);
-		shader.set_int("material.specular", 1);
+		shader.set(shader_uniforms::material_texture::diffuse, 0);
+		shader.set(shader_uniforms::material_texture::specular, 1);
 
 		// Apply the shininess
-		shader.set_float("material.shininess", shininess);
+		shader.set(shader_uniforms::material_texture::shininess, shininess);
 
 		// Bind the textures
 		diffuse.bind();

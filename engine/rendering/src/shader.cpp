@@ -78,17 +78,17 @@ namespace birb
 		for (unsigned int i = 0; i < point_light_count; ++i)
 		{
 			// Set the lights to black
-			set_vec3("point_lights[" + std::to_string(i) + "].ambient", {0.0f, 0.0f, 0.0f});
-			set_vec3("point_lights[" + std::to_string(i) + "].diffuse", {0.0f, 0.0f, 0.0f});
-			set_vec3("point_lights[" + std::to_string(i) + "].specular", {0.0f, 0.0f, 0.0f});
+			set(shader_uniforms::point_lights::ambient,  vec3<float>( 0.0f, 0.0f, 0.0f ), i);
+			set(shader_uniforms::point_lights::diffuse,  vec3<float>( 0.0f, 0.0f, 0.0f ), i);
+			set(shader_uniforms::point_lights::specular, vec3<float>( 0.0f, 0.0f, 0.0f ), i);
 
 			// Set the position to zero
-			set_vec3( "point_lights[" + std::to_string(i) + "].position", {0.0f, 0.0f, 0.0f});
+			set(shader_uniforms::point_lights::position, vec3<float>(0.0f, 0.0f, 0.0f), i);
 
 			// Keep the attenuation values
-			set_float("point_lights[" + std::to_string(i) + "].constant", 1.0f);
-			set_float("point_lights[" + std::to_string(i) + "].linear", 0.09f);
-			set_float("point_lights[" + std::to_string(i) + "].quadratic", 0.032f);
+			set(shader_uniforms::point_lights::constant, 1.0f, i);
+			set(shader_uniforms::point_lights::linear, 0.09f, i);
+			set(shader_uniforms::point_lights::quadratic, 0.032f, i);
 		}
 
 		update_directional_light();
@@ -105,10 +105,10 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		set_vec3_birb_float("directional_light.direction", directional_direction);
-		set_vec3_birb_float("directional_light.ambient", directional_ambient);
-		set_vec3_birb_float("directional_light.diffuse", directional_diffuse);
-		set_vec3_birb_float("directional_light.specular", directional_specular);
+		set(shader_uniforms::directional_light::direction, directional_direction);
+		set(shader_uniforms::directional_light::ambient, directional_ambient);
+		set(shader_uniforms::directional_light::diffuse, directional_diffuse);
+		set(shader_uniforms::directional_light::specular, directional_specular);
 	}
 
 	void shader::update_point_lights()
@@ -118,18 +118,15 @@ namespace birb
 		// Point lights
 		for (unsigned int i = 0; i < point_light_count; ++i)
 		{
-			// Set the lights to black
-			set_vec3_birb_float("point_lights[" + std::to_string(i) + "].ambient", point_lights[i].ambient);
-			set_vec3_birb_float("point_lights[" + std::to_string(i) + "].diffuse", point_lights[i].diffuse);
-			set_vec3_birb_float("point_lights[" + std::to_string(i) + "].specular", point_lights[i].specular);
+			set(shader_uniforms::point_lights::ambient,  point_lights[i].ambient, i);
+			set(shader_uniforms::point_lights::diffuse,  point_lights[i].diffuse, i);
+			set(shader_uniforms::point_lights::specular, point_lights[i].specular, i);
 
-			// Set the position to zero
-			set_vec3_birb_float( "point_lights[" + std::to_string(i) + "].position", point_lights[i].position);
+			set(shader_uniforms::point_lights::position, point_lights[i].position, i);
 
-			// Keep the attenuation values
-			set_float("point_lights[" + std::to_string(i) + "].constant", point_lights[i].attenuation_constant);
-			set_float("point_lights[" + std::to_string(i) + "].linear", point_lights[i].attenuation_linear);
-			set_float("point_lights[" + std::to_string(i) + "].quadratic", point_lights[i].attenuation_quadratic);
+			set(shader_uniforms::point_lights::constant, 	point_lights[i].attenuation_constant, i);
+			set(shader_uniforms::point_lights::linear,		point_lights[i].attenuation_linear, i);
+			set(shader_uniforms::point_lights::quadratic,	point_lights[i].attenuation_quadratic, i);
 		}
 	}
 
@@ -138,78 +135,109 @@ namespace birb
 		return uniform_locations.contains(name);
 	}
 
-	void shader::set_mat4(const std::string& name, const glm::mat4 mat4)
+	void shader::set(const uniform& uniform, int value, int index)
 	{
-		add_uniform_location(name);
+		assert(!uniform.name.empty());
+		assert(uniform.type == uniform_type::INT);
+
+		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniformMatrix4fv(uniform_locations[name], 1, GL_FALSE, glm::value_ptr(mat4));
+		glUniform1i(uniform_locations[uniform.str(index)], value);
 	}
 
-	void shader::set_vec3(const std::string& name, const glm::vec3 vector)
+	void shader::set(const uniform& uniform, float value, int index)
 	{
-		add_uniform_location(name);
+		assert(!uniform.name.empty());
+		assert(uniform.type == uniform_type::FLOAT);
+
+		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform3f(uniform_locations[name], vector.x, vector.y, vector.z);
+		glUniform1f(uniform_locations[uniform.str(index)], value);
 	}
 
-	void shader::set_vec3_birb_float(const std::string& name, const vec3<float> vector)
+	void shader::set(const uniform& uniform, const glm::vec3 value, int index)
 	{
-		add_uniform_location(name);
+		assert(!uniform.name.empty());
+		assert(uniform.type == uniform_type::VEC3);
+
+		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform3f(uniform_locations[name], vector.x, vector.y, vector.z);
+		glUniform3f(uniform_locations[uniform.str(index)], value.x, value.y, value.z);
 	}
 
-	void shader::set_vec4(const std::string& name, const glm::vec4 vector)
+	void shader::set(const uniform& uniform, const glm::vec4 value, int index)
 	{
-		add_uniform_location(name);
+		assert(!uniform.name.empty());
+		assert(uniform.type == uniform_type::VEC4);
+
+		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform4f(uniform_locations[name], vector.x, vector.y, vector.z, vector.w);
+		glUniform4f(uniform_locations[uniform.str(index)], value.x, value.y, value.z, value.w);
 	}
 
-	void shader::set_float(const std::string& name, const float f)
+	void shader::set(const uniform& uniform, const birb::vec3<float> value, int index)
 	{
-		add_uniform_location(name);
+		assert(!uniform.name.empty());
+		assert(uniform.type == uniform_type::BIRB_VEC3_FLOAT);
+
+		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform1f(uniform_locations[name], f);
+		glUniform3f(uniform_locations[uniform.str(index)], value.x, value.y, value.z);
 	}
 
-	void shader::set_int(const std::string& name, const int i)
+	void shader::set(const uniform& uniform, const glm::mat4 value, int index)
 	{
-		add_uniform_location(name);
+		assert(!uniform.name.empty());
+		assert(uniform.type == uniform_type::MAT4);
+
+		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform1i(uniform_locations[name], i);
+		glUniformMatrix4fv(uniform_locations[uniform.str(index)], 1, GL_FALSE, glm::value_ptr(value));
 	}
 
-	void shader::set_color(const std::string& name, const color& color)
+	void shader::set(const uniform& uniform, const color value, int index)
 	{
+		assert(!uniform.name.empty());
+		assert(uniform.type == uniform_type::BIRB_COLOR);
+
+		add_uniform_location(uniform.str(index));
+
+		activate();
+		glUniform3f(uniform_locations[uniform.str(index)], value.r, value.g, value.b);
+	}
+
+	void shader::set_int(const std::string& name, const int value)
+	{
+		assert(!name.empty());
+
 		add_uniform_location(name);
 
 		activate();
-		glUniform3f(uniform_locations[name], color.r, color.g, color.b);
+		glUniform1i(uniform_locations[name], value);
 	}
 
 	void shader::set_diffuse_color(const color& color)
 	{
 		diffuse_color = color;
-		set_vec3("material.diffuse", { color.r, color.g, color.b });
+		set(shader_uniforms::material_color::diffuse, color);
 	}
 
 	void shader::set_specular_color(const color& color)
 	{
 		specular_color = color;
-		set_vec3("material.specular", { color.r, color.g, color.b });
+		set(shader_uniforms::material_color::specular, color);
 	}
 
 	void shader::set_shininess(const float shininess)
 	{
 		this->shininess = shininess;
-		set_float("material.shininess", shininess);
+		set(shader_uniforms::material_color::shininess, shininess);
 	}
 
 	void shader::apply_color_material()

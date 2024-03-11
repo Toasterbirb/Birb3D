@@ -120,8 +120,8 @@ int main(void)
 	light_vao.unbind();
 
 
-	std::array<glm::vec3, 4> light_positions;
-	std::array<glm::vec3, light_positions.size()> light_colors;
+	std::array<birb::vec3<float>, 4> light_positions;
+	std::array<birb::vec3<float>, light_positions.size()> light_colors;
 	for (size_t i = 0; i < light_positions.size(); ++i)
 	{
 		float x = rng.range_float(-5.0f, 5.0f);
@@ -136,30 +136,24 @@ int main(void)
 	}
 
 	birb::shader default_shader("default");
+	default_shader.reset_lights();
 
 	// Point light
 	for (size_t i = 0; i < light_positions.size(); ++i)
 	{
-		default_shader.set_vec3("point_lights[" + std::to_string(i) + "].ambient", {0.2f, 0.2f, 0.2f});
+		default_shader.point_lights[i].ambient = {0.2f, 0.2f, 0.2f};
+		default_shader.point_lights[i].diffuse = light_colors[i];
+		default_shader.point_lights[i].specular = {1.0f, 1.0f, 1.0f};
 
-		default_shader.set_vec3("point_lights[" + std::to_string(i) + "].diffuse", light_colors[i]);
-		default_shader.set_vec3("point_lights[" + std::to_string(i) + "].specular", {1.0f, 1.0f, 1.0f});
+		default_shader.point_lights[i].position = light_positions[i];
 
-		default_shader.set_vec3( "point_lights[" + std::to_string(i) + "].position", light_positions[i]);
-		default_shader.set_float("point_lights[" + std::to_string(i) + "].constant", 1.0f);
-		default_shader.set_float("point_lights[" + std::to_string(i) + "].linear", 0.09f);
-		default_shader.set_float("point_lights[" + std::to_string(i) + "].quadratic", 0.032f);
+		default_shader.point_lights[i].attenuation_constant = 1.0f;
+		default_shader.point_lights[i].attenuation_linear = 0.09f;
+		default_shader.point_lights[i].attenuation_quadratic = 0.032f;
 	}
 
-	// Directional light
-	// default_shader.set_vec3("directional_light.direction", {0.2f, 0.2f, 0.2f});
-	// default_shader.set_vec3("directional_light.ambient", {0.2f, 0.2f, 0.2f});
-	// default_shader.set_vec3("directional_light.diffuse", {0.5f, 0.5f, 0.5f});
-	// default_shader.set_vec3("directional_light.specular", {1.0f, 1.0f, 1.0f});
-	default_shader.set_vec3("directional_light.direction", {0.0f, 0.0f, 0.0f});
-	default_shader.set_vec3("directional_light.ambient", {0.0f, 0.0f, 0.0f});
-	default_shader.set_vec3("directional_light.diffuse", {0.0f, 0.0f, 0.0f});
-	default_shader.set_vec3("directional_light.specular", {0.0f, 0.0f, 0.0f});
+	default_shader.update_point_lights();
+	default_shader.update_directional_light();
 
 	birb::material material("texture_512.png", "specular_512.png", 32);
 	material.apply_to_shader(default_shader);
@@ -209,9 +203,9 @@ int main(void)
 
 		default_shader.activate();
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(window.size().x) / static_cast<float>(window.size().y), 0.1f, 100.0f);
-		default_shader.set_mat4("view", camera.get_view_matrix());
-		default_shader.set_mat4("projection", projection);
-		default_shader.set_vec3("view_pos", camera.position);
+		default_shader.set(birb::shader_uniforms::view, camera.get_view_matrix());
+		default_shader.set(birb::shader_uniforms::projection, projection);
+		default_shader.set(birb::shader_uniforms::view_pos, camera.position);
 
 		// Do the matrix maths
 		std::vector<glm::mat4> cube_model_matrices(cube_positions.size());
@@ -227,12 +221,12 @@ int main(void)
 
 		for (size_t i = 0; i < cube_positions.size(); ++i)
 		{
-			default_shader.set_mat4("model", cube_model_matrices[i]);
+			default_shader.set(birb::shader_uniforms::model, cube_model_matrices[i]);
 			renderer.draw_arrays(cube_vao, cube_verts.size());
 		}
 
-		light_shader.set_mat4("view", camera.get_view_matrix());
-		light_shader.set_mat4("projection", projection);
+		light_shader.set(birb::shader_uniforms::view, camera.get_view_matrix());
+		light_shader.set(birb::shader_uniforms::projection, projection);
 
 		light_shader.activate();
 
@@ -242,11 +236,11 @@ int main(void)
 			for (size_t i = 0; i < light_positions.size(); ++i)
 			{
 				glm::mat4 model = glm::mat4(1.0f);
-				model = glm::translate(model, light_positions[i]);
+				model = glm::translate(model, light_positions[i].to_glm_vec());
 				model = glm::scale(model, glm::vec3(0.2f));
 
-				light_shader.set_mat4("model", model);
-				light_shader.set_vec3("light_color", light_colors[i]);
+				light_shader.set(birb::shader_uniforms::model, model);
+				light_shader.set(birb::shader_uniforms::color, birb::color(light_colors[i].x, light_colors[i].y, light_colors[i].z));
 				renderer.draw_arrays(light_vao, cube_verts.size());
 			}
 		}
