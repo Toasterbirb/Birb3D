@@ -42,8 +42,7 @@ namespace birb
 		template<typename T>
 		T range(T min, T max)
 		{
-			static_assert(!std::is_same<T, float>::value, "Random integers can't be generated with a floating point range");
-			static_assert(!std::is_same<T, double>::value, "Random integers can't be generated with a floating point range");
+			static_assert(!std::is_same<T, float>::value && !std::is_same<T, double>::value, "Random integers can't be generated with a floating point range");
 			assert(min <= max);
 
 			T value = rng_engine() % (max + 1 - min) + min;
@@ -60,17 +59,7 @@ namespace birb
 		template<typename T>
 		T range_float(T min, T max)
 		{
-#define RANGE_FLOAT_STATIC_ASSERT_MSG "Calling range_float() with an integer range will always yield the min value as the result"
-			static_assert(!std::is_same<T, short>::value, RANGE_FLOAT_STATIC_ASSERT_MSG);
-			static_assert(!std::is_same<T, unsigned short>::value, RANGE_FLOAT_STATIC_ASSERT_MSG);
-			static_assert(!std::is_same<T, int>::value, RANGE_FLOAT_STATIC_ASSERT_MSG);
-			static_assert(!std::is_same<T, unsigned int>::value, RANGE_FLOAT_STATIC_ASSERT_MSG);
-			static_assert(!std::is_same<T, long>::value, RANGE_FLOAT_STATIC_ASSERT_MSG);
-			static_assert(!std::is_same<T, unsigned long>::value, RANGE_FLOAT_STATIC_ASSERT_MSG);
-			static_assert(!std::is_same<T, long long>::value, RANGE_FLOAT_STATIC_ASSERT_MSG);
-			static_assert(!std::is_same<T, unsigned long long>::value, RANGE_FLOAT_STATIC_ASSERT_MSG);
-#undef RANGE_FLOAT_STATIC_ASSERT_MSG
-
+			static_assert(std::is_same<T, float>::value || std::is_same<T, double>::value, "range_float() only works with floating point ranges");
 			assert(min <= max);
 
 			T multiplier = (static_cast<T>(rng_engine())) / rng_engine.max();
