@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Vector.hpp"
+#include <type_traits>
 
 namespace birb
 {
@@ -55,6 +56,7 @@ namespace birb
 		 */
 		constexpr rect<int> to_int() const
 		{
+			static_assert(!std::is_same<int, T>::value, "Unnecessary conversion from rect<int> to rect<int>");
 			return rect<int>(x, y, w, h);
 		}
 
@@ -65,6 +67,7 @@ namespace birb
 		 */
 		constexpr rect<float> to_float() const
 		{
+			static_assert(!std::is_same<float, T>::value, "Unnecessary conversion from rect<float> to rect<float>");
 			return rect<float>(x, y, w, h);
 		}
 
