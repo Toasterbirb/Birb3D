@@ -51,14 +51,14 @@ namespace birb
 		// No rounding is done and floating point values will get floored
 		constexpr vec2<int> to_int() const
 		{
-			static_assert(!std::is_same<int, T>::value && "Unnecessary conversion from vec2<int> to vec2<int>");
+			static_assert(!std::is_same<int, T>::value, "Unnecessary conversion from vec2<int> to vec2<int>");
 			return vec2<int>(x, y);
 		}
 
 		// Convert from any type to float
 		constexpr vec2<float> to_float() const
 		{
-			static_assert(!std::is_same<float, T>::value && "Unnecessary conversion from vec2<float> to vec2<float>");
+			static_assert(!std::is_same<float, T>::value, "Unnecessary conversion from vec2<float> to vec2<float>");
 			return vec2<float>(x, y);
 		}
 
@@ -216,14 +216,14 @@ namespace birb
 		// No rounding is done and floating point values will get floored
 		constexpr vec3<int> to_int() const
 		{
-			static_assert(!std::is_same<int, T>::value && "Unnecessary conversion from vec3<int> to vec3<int>");
+			static_assert(!std::is_same<int, T>::value, "Unnecessary conversion from vec3<int> to vec3<int>");
 			return vec3<int>(x, y, z);
 		}
 
 		// Convert from any type to float
 		constexpr vec3<float> to_float() const
 		{
-			static_assert(!std::is_same<float, T>::value && "Unnecessary conversion from vec3<float> to vec3<float>");
+			static_assert(!std::is_same<float, T>::value, "Unnecessary conversion from vec3<float> to vec3<float>");
 			return vec3<float>(x, y, z);
 		}
 
