@@ -41,7 +41,10 @@ namespace birb
 		template<typename T>
 		T range(T min, T max)
 		{
-			return rng_engine() % (max + 1 - min) + min;
+			T value = rng_engine() % (max + 1 - min) + min;
+			assert(value >= min);
+			assert(value <= max);
+			return value;
 		}
 
 		/**
@@ -53,7 +56,10 @@ namespace birb
 		T range_float(T min, T max)
 		{
 			T multiplier = (static_cast<T>(rng_engine())) / rng_engine.max();
-			return (multiplier * (max - min)) + min;
+			T value = (multiplier * (max - min)) + min;
+			assert(value >= min);
+			assert(value <= max);
+			return value;
 		}
 
 		vec2<int> range_vec2_int(int min, int max)
