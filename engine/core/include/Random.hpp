@@ -3,6 +3,7 @@
 #include "Vector.hpp"
 
 #include <random>
+#include <mutex>
 #include <type_traits>
 
 namespace birb
@@ -96,8 +97,7 @@ namespace birb
 
 		// This counter is meant to help with repeated calls to creating
 		// new instances of the random class
-		//
-		// TODO: Make this thread safe
 		static inline unsigned int counter = 0;
+		static inline std::mutex counter_mutex;
 	};
 }

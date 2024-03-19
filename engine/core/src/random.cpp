@@ -6,7 +6,12 @@ namespace birb
 {
 	random::random()
 	{
-		unsigned int seed = time(0) + counter++;
+		unsigned int seed = time(0);;
+
+		counter_mutex.lock();
+		seed += counter++;
+		counter_mutex.unlock();
+
 		rng_engine.seed(seed);
 	}
 
