@@ -29,6 +29,7 @@ namespace birb
 		/// Returns the normalization of the vector
         constexpr vec2<T> normalized() const
 		{
+			assert(magnitude() != 0 && "Zero division");
 			return *this / magnitude();
 		}
 
@@ -191,6 +192,7 @@ namespace birb
 		/// Returns the normalization of the vector
         constexpr vec3<T> normalized() const
 		{
+			assert(magnitude() != 0 && "Zero division");
 			return *this / magnitude();
 		}
 
