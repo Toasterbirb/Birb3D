@@ -55,6 +55,32 @@ TEST_CASE("Random in range (seeded)")
 
 		std::cout << "\n";
 	}
+
+	SUBCASE("Inclusivity test")
+	{
+		birb::random rng(42);
+		bool found_min_value = false;
+		bool found_max_value = false;
+
+		// Loop until both bounds have been found by random chance
+		std::cout << "Testing if the random int function is inclusive\n";
+		std::cout << "If the test hangs, there's a bug that needs fixing\n";
+		while (!found_min_value || !found_max_value)
+		{
+			constexpr int min = 1;
+			constexpr int max = 5;
+			const int random_value = rng.range(min, max);
+
+			if (random_value == min)
+				found_min_value = true;
+
+			if (random_value == max)
+				found_max_value = true;
+		}
+
+		CHECK(found_min_value);
+		CHECK(found_max_value);
+	}
 }
 
 TEST_CASE("Random vectors")
