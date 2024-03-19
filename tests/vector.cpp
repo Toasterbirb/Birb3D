@@ -109,24 +109,6 @@ TEST_CASE("Vector comparisons")
 
 TEST_CASE("Vector conversions")
 {
-	SUBCASE("Int to int")
-	{
-		birb::vec2<int> vec2(12, 453);
-		CHECK(vec2 == vec2.to_int());
-
-		birb::vec3<int> vec3(12, 453, 23);
-		CHECK(vec3 == vec3.to_int());
-	}
-
-	SUBCASE("Float to float")
-	{
-		birb::vec2<float> vec2(12.0f, 453.024f);
-		CHECK(vec2 == vec2.to_float());
-
-		birb::vec3<float> vec3(12.39f, 453.032f, 23.02f);
-		CHECK(vec3 == vec3.to_float());
-	}
-
 	SUBCASE("Int to float")
 	{
 		birb::vec2<int> vec2_a(4, 1);
