@@ -86,5 +86,11 @@ namespace birb
 
 	private:
 		std::mt19937_64 rng_engine;
+
+		// This counter is meant to help with repeated calls to creating
+		// new instances of the random class
+		//
+		// TODO: Make this thread safe
+		static inline unsigned int counter = 0;
 	};
 }
