@@ -353,6 +353,7 @@ namespace birb
 
 	void shader::compile_shader(const std::string& vertex, const std::string& fragment)
 	{
+		assert(!shader_src.empty() && "The shader source code hashmap is empty");
 		assert(!vertex.empty() && "Empty vertex shader name string");
 		assert(!fragment.empty() && "Empty fratment shader name string");
 
