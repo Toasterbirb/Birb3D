@@ -5,7 +5,6 @@
 #include "FBO.hpp"
 #include "Renderer.hpp"
 #include "Scene.hpp"
-#include "Scene.hpp"
 #include "Timestep.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
