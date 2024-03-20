@@ -29,6 +29,12 @@ namespace birb
 		}
 
 		template<typename T>
+		void remove_component(entt::entity& entity)
+		{
+			registry.remove<T>(entity);
+		}
+
+		template<typename T>
 		T& get_component(const entt::entity& entity)
 		{
 			return registry.get<T>(entity);
