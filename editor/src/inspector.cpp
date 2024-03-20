@@ -1,3 +1,4 @@
+#include "Camera.hpp"
 #include "Components.hpp"
 #include "EntityList.hpp"
 #include "Inspector.hpp"
@@ -39,6 +40,7 @@ namespace editor
 				birb::editor_component::try_draw_ui<cmp::transform>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::shader>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::model>(reg, selected_entity);
+				birb::editor_component::try_draw_ui<birb::camera>(reg, selected_entity);
 
 				ImGui::Spacing();
 				ImGui::Separator();

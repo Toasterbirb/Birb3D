@@ -118,16 +118,64 @@ namespace birb
 		PROFILER_SCOPE_IO_FN()
 
 		assert(!path.empty());
-		assert(std::filesystem::exists(path));
 
-		birb::log("Loading model: " + path);
+		// If the file path is a null_path, load the model from memory
+		// (assuming the model was serialized from entity data)
+		if (is_primitive_mesh)
+		{
+			load_model_from_memory(mesh_data_index, mesh_data_name);
+		}
+		else
+		{
+			assert(path != null_path && "Tried to load a model from disk that was probably meant to be loaded from memory");
+			assert(std::filesystem::exists(path));
 
-		file_exists = true;
-		file_path = path;
-		text_box_model_file_path = path;
+			birb::log("Loading model: " + path);
+
+			file_exists = true;
+			file_path = path;
+			text_box_model_file_path = path;
+
+			Assimp::Importer importer;
+			const aiScene* scene = importer.ReadFile(path.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
+
+			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+			{
+				birb::log_error("assimp error: " + std::string(importer.GetErrorString()));
+				return;
+			}
+
+			size_t last_slash = path.find_last_of('/');
+
+			if (last_slash != std::string::npos)
+				directory = path.substr(0, last_slash);
+			else
+				directory = "./";
+
+			// Reset the vert counter. The process_node function will recalculate it
+			vert_count = 0;
+
+			process_node(scene->mRootNode, scene);
+
+			birb::log("Model loaded: " + path);
+		}
+
+	}
+
+	void model::load_model_from_memory(const primitive_mesh mesh, const std::string& name)
+	{
+		PROFILER_SCOPE_IO_FN()
+
+		assert(primitive_mesh_data.contains(mesh) && "Mesh was not found from primitive mesh data hashmap");
+
+		birb::log("Loading a model from memory", name);
+
+		this->mesh_data_index = mesh;
+		this->mesh_data_name = name;
+		this->is_primitive_mesh = true;
 
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(path.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
+		const aiScene* scene = importer.ReadFileFromMemory(primitive_mesh_data[mesh_data_index].data(), primitive_mesh_data[mesh_data_index].size(), aiProcess_Triangulate | aiProcess_FlipUVs);
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
@@ -135,19 +183,15 @@ namespace birb
 			return;
 		}
 
-		size_t last_slash = path.find_last_of('/');
-
-		if (last_slash != std::string::npos)
-			directory = path.substr(0, last_slash);
-		else
-			directory = "./";
+		file_path = null_path;
+		directory = "./";
 
 		// Reset the vert counter. The process_node function will recalculate it
 		vert_count = 0;
 
 		process_node(scene->mRootNode, scene);
 
-		birb::log("Model loaded: " + path);
+		birb::log("Model loaded from memory: " + name);
 	}
 
 	void model::destroy()

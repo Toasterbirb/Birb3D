@@ -72,11 +72,6 @@ add_subdirectory("${GLFW_PATH}")
 
 # Build ImGui
 set(IMGUI_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
-include_directories(
-	${IMGUI_PATH}
-	${IMGUI_PATH}/backends
-	${IMGUI_PATH}/misc/cpp)
-
 add_library(imgui
 	${IMGUI_PATH}/imgui.cpp
 	${IMGUI_PATH}/imgui_demo.cpp
@@ -86,6 +81,13 @@ add_library(imgui
 	${IMGUI_PATH}/backends/imgui_impl_opengl3.cpp
 	${IMGUI_PATH}/backends/imgui_impl_glfw.cpp
 	${IMGUI_PATH}/misc/cpp/imgui_stdlib.cpp)
+
+target_include_directories(imgui PUBLIC
+	${IMGUI_PATH}
+	${IMGUI_PATH}/backends
+	${IMGUI_PATH}/misc/cpp
+)
+
 
 # Build glad
 set(GLAD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad")

@@ -8,6 +8,7 @@
 #include <cassert>
 #include <cereal/archives/binary.hpp>
 #include <cereal/types/string.hpp>
+#include <cereal/types/vector.hpp>
 #include <entt.hpp>
 #include <filesystem>
 #include <fstream>

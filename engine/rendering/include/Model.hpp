@@ -1,8 +1,9 @@
 #pragma once
 
-#include "Mesh.hpp"
-#include "Shader.hpp"
 #include "EditorComponent.hpp"
+#include "Mesh.hpp"
+#include "PrimitiveMeshes.hpp"
+#include "Shader.hpp"
 
 #include <assimp/material.h>
 #include <assimp/mesh.h>
@@ -24,6 +25,7 @@ namespace birb
 		std::string model_file_path();
 		void load_model();
 		void load_model(const std::string& path);
+		void load_model_from_memory(const primitive_mesh mesh, const std::string& name = "unknown");
 		void destroy();
 
 		unsigned int vertex_count() const;
@@ -31,7 +33,7 @@ namespace birb
 		template<class Archive>
 		void serialize(Archive& ar)
 		{
-			ar(directory, file_path);
+			ar(directory, file_path, is_primitive_mesh, mesh_data_index, mesh_data_name);
 		}
 
 	private:
@@ -43,6 +45,17 @@ namespace birb
 		std::vector<mesh> meshes;
 		std::string directory;
 		std::string file_path;
+
+		// Mesh data for built in primitive meshes
+		//
+		// These will be empty for normal models and only used
+		// when the file_path is equal to the null_path
+		bool is_primitive_mesh = false;
+		primitive_mesh mesh_data_index;
+		std::string mesh_data_name = "unknown";
+
+		// Files with this path don't exist
+		static inline const std::string null_path = "...";
 
 		unsigned int vert_count = 0;
 

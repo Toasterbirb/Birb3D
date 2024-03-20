@@ -15,6 +15,14 @@ target_include_directories(birb PUBLIC ${PROJECT_SOURCE_DIR}/vendor/cereal/inclu
 # Include nlohmann::json
 target_include_directories(birb PUBLIC ${PROJECT_SOURCE_DIR}/vendor/json/include)
 
+# Include dear imgui
+set(IMGUI_PATH "${PROJECT_SOURCE_DIR}/vendor/imgui")
+target_include_directories(birb PUBLIC
+	${IMGUI_PATH}
+	${IMGUI_PATH}/backends
+	${IMGUI_PATH}/misc/cpp
+)
+
 # Engine core
 set(CORE_INC core/include)
 file(GLOB CORE_SRC core/src/*.cpp)
@@ -37,8 +45,20 @@ add_custom_command(
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/engine/rendering/shaders
 )
 
+# Build the primitive meshes header
+file(GLOB OBJ_SRC assets/primitive/*.obj)
+set(OBJ_SRC_HEADER
+	"${PROJECT_SOURCE_DIR}/engine/assets/primitive/PrimitiveMeshes.hpp")
+add_custom_command(
+	OUTPUT ${OBJ_SRC_HEADER}
+	COMMAND ./gen_primitive_mesh_header.sh
+	DEPENDS ${OBJ_SRC} ${PROJECT_SOURCE_DIR}/engine/assets/primitive/gen_primitive_mesh_header.sh
+	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/engine/assets/primitive
+)
+
 file(GLOB RENDER_SRC rendering/src/*.cpp)
-target_sources(birb PRIVATE ${RENDER_SRC} ${SHADER_SOURCE_HEADER})
+target_sources(birb PRIVATE ${RENDER_SRC} ${SHADER_SOURCE_HEADER} ${OBJ_SRC_HEADER})
+target_include_directories(birb PUBLIC assets/primitive)
 
 
 # Scenes and ECS
@@ -52,6 +72,8 @@ add_custom_command(
 )
 file(GLOB SCENES_SRC scenes/src/*.cpp scenes/components/src/*.cpp)
 target_sources(birb PRIVATE ${SCENES_SRC} ${COMPONENT_COMBINATION_HEADER})
+target_include_directories(birb PUBLIC
+	"${PROJECT_SOURCE_DIR}/engine/scenes/components/include")
 
 
 # Widgets

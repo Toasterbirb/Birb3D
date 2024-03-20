@@ -1,8 +1,10 @@
 #include "Camera.hpp"
 #include "Profiling.hpp"
 
+#include <array>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <imgui.h>
 
 /* Some portions of this class are yoinked from here:
  * https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/camera.h */
@@ -26,6 +28,14 @@ namespace birb
 	{
 		world_up = up;
 		update_camera_vectors();
+	}
+
+	void camera::draw_editor_ui()
+	{
+		if (ImGui::CollapsingHeader("Camera"))
+		{
+			ImGui::DragFloat3("Position", &position[0], 0.25f);
+		}
 	}
 
 	glm::mat4 camera::get_view_matrix() const

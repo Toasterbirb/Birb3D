@@ -1,5 +1,6 @@
 #pragma once
 
+#include "EditorComponent.hpp"
 #include "Timestep.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
@@ -8,12 +9,14 @@
 
 namespace birb
 {
-	class camera
+	class camera : editor_component
 	{
 	public:
 		camera();
 		explicit camera(vec3<float> position);
 		camera(vec3<float> position, float yaw, float pitch);
+
+		void draw_editor_ui() override;
 
 		glm::mat4 get_view_matrix() const;
 		glm::vec3 front_vec() const;
@@ -35,6 +38,12 @@ namespace birb
 
 		// Keybinds
 		directional_keys keybinds;
+
+		template<class Archive>
+		void serialize(Archive& ar)
+		{
+			ar(position, yaw, pitch, movement_speed, mouse_sensitivity, fov, front, up, right, world_up);
+		}
 
 	private:
 		vec2<double> prev_cursor_pos;
