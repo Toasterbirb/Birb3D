@@ -47,9 +47,9 @@ int main(void)
 
 	birb::shader shader("default", "default_color");
 	shader.reset_lights();
-	shader.set_vec3("material.diffuse", { 0.2f, 0.3f, 0.4f });
-	shader.set_vec3("material.specular", { 0.9f, 0.8f, 0.7f });
-	shader.set_float("material.shininess", 32);
+	shader.set_diffuse_color({ 0.2f, 0.3f, 0.4f });
+	shader.set_specular_color({ 0.9f, 0.8f, 0.7f });
+	shader.set_shininess(32);
 	suzanne.add_component(shader);
 
 	// Reset camera rotation
