@@ -45,9 +45,9 @@ int main(void)
 
 	glm::mat4 default_matrix(1.0f);
 	default_matrix = glm::scale(default_matrix, glm::vec3(1.1f, 1.1f, 1.1f));
-	shader_program.set_mat4("model", default_matrix);
-	shader_program.set_mat4("view", default_matrix);
-	shader_program.set_mat4("projection", default_matrix);
+	shader_program.set(birb::shader_uniforms::model, default_matrix);
+	shader_program.set(birb::shader_uniforms::view, default_matrix);
+	shader_program.set(birb::shader_uniforms::projection, default_matrix);
 
 	birb::vao vao1;
 	vao1.bind();
@@ -66,7 +66,6 @@ int main(void)
 		window.clear();
 
 		shader_program.activate();
-		shader_program.set_float("scale", 0.5f);
 		vao1.bind();
 
 		renderer.draw_elements(vao1, indices.size());
