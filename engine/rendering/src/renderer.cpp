@@ -80,18 +80,7 @@ namespace birb
 
 			const birb::component::transform& transform = view.get<birb::component::transform>(ent);
 
-			// Calculate the model transform
-			glm::mat4 model_matrix = glm::mat4(1.0f);
-			model_matrix = glm::translate(model_matrix, transform.position.to_glm_vec());
-
-			const glm::vec3 euler_angles({glm::radians(transform.rotation.x), glm::radians(transform.rotation.y), glm::radians(transform.rotation.z)});
-			const glm::quat quaternion(euler_angles);
-			const glm::mat4 rotation_matrix(quaternion);
-			model_matrix = model_matrix * rotation_matrix;
-
-			model_matrix = glm::scale(model_matrix, transform.local_scale.to_glm_vec());
-
-			shader.set(shader_uniforms::model, model_matrix);
+			shader.set(shader_uniforms::model, transform.model_matrix());
 			shader.set(shader_uniforms::view, view_matrix);
 			shader.set(shader_uniforms::projection, projection_matrix);
 

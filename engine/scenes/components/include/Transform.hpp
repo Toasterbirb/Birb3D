@@ -3,6 +3,8 @@
 #include "EditorComponent.hpp"
 #include "Vector.hpp"
 
+#include <glm/glm.hpp>
+
 namespace birb
 {
 	namespace component
@@ -17,6 +19,8 @@ namespace birb
 			vec3<float> position;
 			vec3<float> rotation;
 			vec3<float> local_scale;
+
+			glm::mat4 model_matrix() const;
 
 			template<class Archive>
 			void serialize(Archive& ar)
