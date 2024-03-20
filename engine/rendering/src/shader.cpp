@@ -411,7 +411,7 @@ namespace birb
 			}
 			else
 			{
-				fragment_shader = shader_cache[fragment_name];
+				fragment_shader = shader_cache.at(fragment_name);
 				birb::log("Loaded shader from cache: " + fragment_name + " (" + std::to_string(fragment_shader) + ")");
 			}
 			assert(fragment_shader != 0);
