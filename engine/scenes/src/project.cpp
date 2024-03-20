@@ -44,6 +44,7 @@ namespace birb
 		}
 		else
 		{
+			birb::log_warn("No project file was found at " + path);
 			project_json = default_project();
 		}
 	}
