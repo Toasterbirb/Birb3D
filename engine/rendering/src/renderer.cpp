@@ -59,35 +59,6 @@ namespace birb
 		current_scene = &scene;
 	}
 
-	void renderer::draw_entity(const entt::entity& entity, const glm::mat4& view_matrix, const glm::mat4& projection_matrix)
-	{
-		PROFILER_SCOPE_RENDER_FN()
-
-		assert(current_scene != nullptr);
-		assert(scene::scene_count() > 0);
-
-		shader& shader = current_scene->registry.get<birb::shader>(entity);
-		assert(shader.id != 0 && "Tried to use an invalid shader for rendering");
-
-		const birb::component::transform& transform = current_scene->registry.get<birb::component::transform>(entity);
-
-		shader.set(shader_uniforms::model, transform.model_matrix());
-		shader.set(shader_uniforms::view, view_matrix);
-		shader.set(shader_uniforms::projection, projection_matrix);
-
-		// Make sure the lighting is up-to-date
-		shader.update_directional_light();
-		shader.update_point_lights();
-
-		// Apply the color material on the shader
-		// TODO: Make this work with textures too
-		shader.apply_color_material();
-
-		// Draw the model
-		assert(current_scene->registry.get<birb::model>(entity).vertex_count() != 0 && "Tried to render a model with no vertices");
-		current_scene->registry.get<birb::model>(entity).draw(shader);
-	}
-
 	void renderer::draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix)
 	{
 		PROFILER_SCOPE_RENDER_FN()

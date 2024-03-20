@@ -20,7 +20,6 @@ namespace birb
 
 		void set_scene(scene& scene);
 
-		void draw_entity(const entt::entity& entity, const glm::mat4& view_matrix, const glm::mat4& projection_matrix);
 		void draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix);
 		void draw_elements(vao& vao, size_t index_count);
 		void draw_arrays(vao& vao, size_t vert_count);
