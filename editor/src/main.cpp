@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 	if (argc == 2)
 		project.load(argv[1]);
 
-	birb::scene& scene = project.scene_collection["main"];
+	birb::scene& scene = project.scene_collection.at("main");
 
 	birb::overlay::window_info window_info(window, "Window");
 

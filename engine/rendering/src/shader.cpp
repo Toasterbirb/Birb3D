@@ -118,15 +118,15 @@ namespace birb
 		// Point lights
 		for (unsigned int i = 0; i < point_light_count; ++i)
 		{
-			set(shader_uniforms::point_lights::ambient,  point_lights[i].ambient, i);
-			set(shader_uniforms::point_lights::diffuse,  point_lights[i].diffuse, i);
-			set(shader_uniforms::point_lights::specular, point_lights[i].specular, i);
+			set(shader_uniforms::point_lights::ambient,  point_lights.at(i).ambient, i);
+			set(shader_uniforms::point_lights::diffuse,  point_lights.at(i).diffuse, i);
+			set(shader_uniforms::point_lights::specular, point_lights.at(i).specular, i);
 
-			set(shader_uniforms::point_lights::position, point_lights[i].position, i);
+			set(shader_uniforms::point_lights::position, point_lights.at(i).position, i);
 
-			set(shader_uniforms::point_lights::constant, 	point_lights[i].attenuation_constant, i);
-			set(shader_uniforms::point_lights::linear,		point_lights[i].attenuation_linear, i);
-			set(shader_uniforms::point_lights::quadratic,	point_lights[i].attenuation_quadratic, i);
+			set(shader_uniforms::point_lights::constant, 	point_lights.at(i).attenuation_constant, i);
+			set(shader_uniforms::point_lights::linear,		point_lights.at(i).attenuation_linear, i);
+			set(shader_uniforms::point_lights::quadratic,	point_lights.at(i).attenuation_quadratic, i);
 		}
 	}
 
@@ -143,7 +143,7 @@ namespace birb
 		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform1i(uniform_locations[uniform.str(index)], value);
+		glUniform1i(uniform_locations.at(uniform.str(index)), value);
 	}
 
 	void shader::set(const uniform& uniform, float value, int index)
@@ -154,7 +154,7 @@ namespace birb
 		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform1f(uniform_locations[uniform.str(index)], value);
+		glUniform1f(uniform_locations.at(uniform.str(index)), value);
 	}
 
 	void shader::set(const uniform& uniform, const glm::vec3 value, int index)
@@ -165,7 +165,7 @@ namespace birb
 		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform3f(uniform_locations[uniform.str(index)], value.x, value.y, value.z);
+		glUniform3f(uniform_locations.at(uniform.str(index)), value.x, value.y, value.z);
 	}
 
 	void shader::set(const uniform& uniform, const glm::vec4 value, int index)
@@ -176,7 +176,7 @@ namespace birb
 		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform4f(uniform_locations[uniform.str(index)], value.x, value.y, value.z, value.w);
+		glUniform4f(uniform_locations.at(uniform.str(index)), value.x, value.y, value.z, value.w);
 	}
 
 	void shader::set(const uniform& uniform, const birb::vec3<float> value, int index)
@@ -187,7 +187,7 @@ namespace birb
 		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform3f(uniform_locations[uniform.str(index)], value.x, value.y, value.z);
+		glUniform3f(uniform_locations.at(uniform.str(index)), value.x, value.y, value.z);
 	}
 
 	void shader::set(const uniform& uniform, const glm::mat4 value, int index)
@@ -198,7 +198,7 @@ namespace birb
 		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniformMatrix4fv(uniform_locations[uniform.str(index)], 1, GL_FALSE, glm::value_ptr(value));
+		glUniformMatrix4fv(uniform_locations.at(uniform.str(index)), 1, GL_FALSE, glm::value_ptr(value));
 	}
 
 	void shader::set(const uniform& uniform, const color value, int index)
@@ -209,7 +209,7 @@ namespace birb
 		add_uniform_location(uniform.str(index));
 
 		activate();
-		glUniform3f(uniform_locations[uniform.str(index)], value.r, value.g, value.b);
+		glUniform3f(uniform_locations.at(uniform.str(index)), value.r, value.g, value.b);
 	}
 
 	void shader::set_int(const std::string& name, const int value)
@@ -219,7 +219,7 @@ namespace birb
 		add_uniform_location(name);
 
 		activate();
-		glUniform1i(uniform_locations[name], value);
+		glUniform1i(uniform_locations.at(name), value);
 	}
 
 	void shader::set_diffuse_color(const color& color)
@@ -366,8 +366,8 @@ namespace birb
 		assert(birb::shader_src.contains(vertex_name) && "Tried to use a vertex shader that wasn't in the pregenerated header");
 		assert(birb::shader_src.contains(fragment_name) && "Tried to use a fragment shader that wasn't in the pregenerated header");
 
-		const std::string& vertex_src = birb::shader_src[vertex_name];
-		const std::string& fragment_src = birb::shader_src[fragment_name];
+		const std::string& vertex_src = birb::shader_src.at(vertex_name);
+		const std::string& fragment_src = birb::shader_src.at(fragment_name);
 
 		const char* vertex_src_c_str = vertex_src.c_str();
 		const char* fragment_src_c_str = fragment_src.c_str();
@@ -391,7 +391,7 @@ namespace birb
 			}
 			else
 			{
-				vertex_shader = shader_cache[vertex_name];
+				vertex_shader = shader_cache.at(vertex_name);
 				shader_cache_hit_count++;
 				birb::log("Loaded shader from cache: " + vertex_name + " (" + std::to_string(vertex_shader) + ")");
 			}
