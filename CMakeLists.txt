@@ -10,6 +10,12 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(BIRB_WINDOWS "Disable Linux specific things")
 option(BIRB_PROFILER "Enable the profiling with microprofile" ON)
 
+# Check if birb3d is being built as part of a game project
+set(GAME_PROJECT ON)
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+	set(GAME_PROJECT OFF)
+endif()
+
 if (BIRB_WINDOWS)
 	add_definitions(-DBIRB_PLATFORM_WINDOWS)
 else()
@@ -28,20 +34,8 @@ include_directories(./engine/core/include
 	./engine/scenes/components/include
 	./engine/widgets/include)
 
-# Include stb libraries
-include_directories(./vendor/stb)
-
 # Include doctest
-include_directories(./vendor/doctest)
-
-# Include EnTT
-include_directories(${CMAKE_SOURCE_DIR}/vendor/entt/single_include/entt)
-
-# Include nlohmann::json
-include_directories(./vendor/json/include)
-
-# Inlcude cereal
-include_directories(./vendor/cereal/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vendor/doctest)
 
 # Build assimp
 # Disable some features that aren't needed
@@ -57,11 +51,18 @@ set(ASSIMP_BUILD_OBJ_IMPORTER ON CACHE BOOL "Build support for .obj files")
 set(ASSIMP_BUILD_FBX_IMPORTER ON CACHE BOOL "Build support for .fbx files")
 set(ASSIMP_BUILD_BLEND_IMPORTER ON CACHE BOOL "Build support for .blend files")
 
-include_directories(${CMAKE_SOURCE_DIR}/vendor/assimp/include ${CMAKE_BINARY_DIR}/vendor/assimp/include)
-add_subdirectory(${CMAKE_SOURCE_DIR}/vendor/assimp)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vendor/assimp/include)
+
+if (GAME_PROJECT)
+	include_directories(${CMAKE_BINARY_DIR}/Birb3D/vendor/assimp/include)
+else()
+	include_directories(${CMAKE_BINARY_DIR}/vendor/assimp/include)
+endif()
+
+add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/assimp)
 
 # Build GLFW
-set(GLFW_PATH "${CMAKE_SOURCE_DIR}/vendor/glfw")
+set(GLFW_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/glfw")
 include_directories("${GLFW_PATH}/include")
 set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "Build the GLFW example programs")
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "Build the GLFW test programs")
@@ -70,7 +71,7 @@ set(GLFW_INSTALL OFF CACHE BOOL "Generate GLFW installation target")
 add_subdirectory("${GLFW_PATH}")
 
 # Build ImGui
-set(IMGUI_PATH "${CMAKE_SOURCE_DIR}/vendor/imgui")
+set(IMGUI_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
 include_directories(
 	${IMGUI_PATH}
 	${IMGUI_PATH}/backends
@@ -87,14 +88,14 @@ add_library(imgui
 	${IMGUI_PATH}/misc/cpp/imgui_stdlib.cpp)
 
 # Build glad
-set(GLAD_PATH "${CMAKE_SOURCE_DIR}/vendor/glad")
+set(GLAD_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/glad")
 include_directories(${GLAD_PATH}/include)
 add_library(glad ${GLAD_PATH}/src/gl.c)
 
 # Build glm
 set(GLM_ENABLE_CXX_20 ON CACHE BOOL "Enable C++ 20")
-include_directories("${CMAKE_SOURCE_DIR}/vendor/glm")
-add_subdirectory("${CMAKE_SOURCE_DIR}/vendor/glm")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm")
 
 # Build microprofile
 add_subdirectory(vendor/microprofile)
@@ -115,17 +116,21 @@ add_compile_options(-pedantic -Wall -Wextra -Wcast-align
 # Build the engine library
 add_subdirectory(engine)
 
-# Build the editor
-add_subdirectory(editor)
+# Skip building demos, editor, tests and the playground project if Birb3D is being
+# built as part of a game project
+if (NOT GAME_PROJECT)
+	# Build the editor
+	add_subdirectory(editor)
 
-# Build demos
-add_subdirectory(demos)
+	# Build demos
+	add_subdirectory(demos)
 
-# Build tests
-add_subdirectory(tests)
+	# Build tests
+	add_subdirectory(tests)
 
-# Build the playground project
-add_subdirectory(playground)
+	# Build the playground project
+	add_subdirectory(playground)
+endif()
 
 # Build documentation
 find_package(Doxygen)
