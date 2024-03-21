@@ -17,7 +17,7 @@ namespace birb
 
 	struct uniform
 	{
-		constexpr uniform(const std::string& name, uniform_type type, const std::string& struct_var = "", bool is_array = false)
+		uniform(const std::string& name, uniform_type type, const std::string& struct_var = "", bool is_array = false)
 		:name(name), type(type), struct_var(struct_var), is_array(is_array)
 		{}
 
