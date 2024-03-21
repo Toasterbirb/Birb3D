@@ -9,7 +9,16 @@
 
 namespace editor
 {
-	inspector::inspector(birb::scene& scene) : scene(scene) {}
+	inspector::inspector(birb::scene& scene) : scene(scene)
+	{
+		// Build the combo menu string for adding new components
+		for (size_t i = 0; i < component_types.size(); ++i)
+		{
+			component_type_str += component_types.at(i).first;
+			if (i < component_types.size() - 1)
+				component_type_str += '\0';
+		}
+	}
 
 	void inspector::draw()
 	{
@@ -17,7 +26,7 @@ namespace editor
 
 		ImGui::Begin("Inspector");
 		{
-			const entt::entity& selected_entity = editor::entity_list::selected_entity;
+			entt::entity& selected_entity = editor::entity_list::selected_entity;
 
 			if (selected_entity != entt::null)
 			{
@@ -47,7 +56,13 @@ namespace editor
 				ImGui::Spacing();
 
 				int current_component_type = -1;
-				ImGui::Combo("Component type", &current_component_type, "Hello\0World\0");
+				if (ImGui::Combo("Component type", &current_component_type, component_type_str.c_str()))
+				{
+					assert(current_component_type >= 0);
+
+					// Add the new component
+					scene.add_component(selected_entity, component_types.at(current_component_type).second);
+				}
 
 				ImGui::Spacing();
 				ImGui::Separator();
