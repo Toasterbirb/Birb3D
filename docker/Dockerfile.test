@@ -4,7 +4,7 @@ ARG USER=toasterbirb
 
 # Install all required dependencies
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get install -y bash cmake g++ git make libxkbcommon-dev libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libwayland-dev pkg-config libgl-dev
+RUN apt-get update && apt-get install -y bash cmake g++ git make libxkbcommon-dev libx11-dev libxrandr-dev libxinerama-dev libxcursor-dev libxi-dev libwayland-dev pkg-config libgl-dev xxd bc zlib1g-dev
 
 # Create a new non-root user and set up its workspace
 RUN mkdir -p /workspace/${USER}/
