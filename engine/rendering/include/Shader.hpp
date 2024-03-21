@@ -73,6 +73,7 @@ namespace birb
 
 		bool has_uniform_var(const std::string& name) const;
 
+		// These functions are defined in shader_set_funcs.cpp instead of shader.cpp
 		void set(const uniform& uniform, int value, int index = -1);
 		void set(const uniform& uniform, float value, int index = -1);
 		void set(const uniform& uniform, const glm::vec3 value, int index = -1);
