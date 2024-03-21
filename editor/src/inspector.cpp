@@ -54,7 +54,7 @@ namespace editor
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				static int current_component_type = -1;
+				int current_component_type = -1;
 				if (ImGui::Combo("Component type", &current_component_type, component_type_str.c_str()))
 				{
 					assert(current_component_type >= 0);
