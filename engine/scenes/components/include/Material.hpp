@@ -18,10 +18,10 @@ namespace birb
 			float shininess;
 
 			template<class Archive>
-				void serialize(Archive& ar)
-				{
-					ar(diffuse, specular, shininess);
-				}
+			void serialize(Archive& ar)
+			{
+				ar(diffuse, specular, shininess);
+			}
 		};
 	}
 }
