@@ -11,5 +11,10 @@ namespace birb
 		{
 			ImGui::InputText("Name", &name);
 		}
+
+		std::string info::collapsing_header_name() const
+		{
+			return editor_header_name;
+		}
 	}
 }

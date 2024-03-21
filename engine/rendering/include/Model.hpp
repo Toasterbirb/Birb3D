@@ -21,6 +21,7 @@ namespace birb
 
 		void draw(shader& shader);
 		void draw_editor_ui() override;
+		std::string collapsing_header_name() const override;
 
 		std::string model_file_path();
 		void load_model();
@@ -37,6 +38,8 @@ namespace birb
 		}
 
 	private:
+		const std::string editor_header_name = "Model";
+
 		void process_node(aiNode* node, const aiScene* scene);
 		mesh process_mesh(aiMesh* ai_mesh, const aiScene* scene);
 		std::vector<mesh_texture> load_material_textures(aiMaterial* mat, aiTextureType type, std::string type_name);

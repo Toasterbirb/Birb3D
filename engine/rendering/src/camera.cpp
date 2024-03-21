@@ -32,10 +32,12 @@ namespace birb
 
 	void camera::draw_editor_ui()
 	{
-		if (ImGui::CollapsingHeader("Camera"))
-		{
-			ImGui::DragFloat3("Position", &position[0], 0.25f);
-		}
+		ImGui::DragFloat3("Position", &position[0], 0.25f);
+	}
+
+	std::string camera::collapsing_header_name() const
+	{
+		return editor_header_name;
 	}
 
 	glm::mat4 camera::get_view_matrix() const

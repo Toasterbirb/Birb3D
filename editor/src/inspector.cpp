@@ -77,7 +77,7 @@ namespace editor
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				if (ImGui::Button("Delete"))
+				if (ImGui::Button("Delete entity"))
 				{
 					// If the entity has any meshes on it, clean those up
 					auto entity_model = reg.try_get<birb::model>(selected_entity);

@@ -17,6 +17,7 @@ namespace birb
 		camera(vec3<float> position, float yaw, float pitch);
 
 		void draw_editor_ui() override;
+		std::string collapsing_header_name() const override;
 
 		glm::mat4 get_view_matrix() const;
 		glm::vec3 front_vec() const;
@@ -46,6 +47,7 @@ namespace birb
 		}
 
 	private:
+		const std::string editor_header_name = "Camera";
 		vec2<double> prev_cursor_pos;
 
 		// Ignore the first mouse delta after the window is clicked

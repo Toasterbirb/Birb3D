@@ -7,12 +7,14 @@ namespace birb
 {
 	namespace component
 	{
-		struct material : public editor_component
+		class material : public editor_component
 		{
+		public:
 			material();
 			material(const color& diffuse, const color& specular, float shininess = 32);
 
 			void draw_editor_ui() override;
+			std::string collapsing_header_name() const override;
 
 			color diffuse, specular;
 			float shininess;
@@ -22,6 +24,9 @@ namespace birb
 			{
 				ar(diffuse, specular, shininess);
 			}
+
+		private:
+			const std::string editor_header_name = "Material";
 		};
 	}
 }

@@ -16,6 +16,7 @@ namespace birb
 			std::string name;
 
 			void draw_editor_ui() override;
+			std::string collapsing_header_name() const override;
 
 			template<class Archive>
 			void serialize(Archive& ar)
@@ -24,6 +25,7 @@ namespace birb
 			}
 
 		private:
+			const std::string editor_header_name = "NULL";
 		};
 	}
 }

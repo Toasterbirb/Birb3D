@@ -15,6 +15,7 @@ namespace birb
 			transform();
 
 			void draw_editor_ui() override;
+			std::string collapsing_header_name() const override;
 
 			vec3<float> position;
 			vec3<float> rotation;
@@ -29,7 +30,7 @@ namespace birb
 			}
 
 		private:
-
+			const std::string editor_header_name = "Transform";
 		};
 	}
 }

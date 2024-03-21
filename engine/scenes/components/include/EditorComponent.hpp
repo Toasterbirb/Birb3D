@@ -18,7 +18,17 @@ namespace birb
 		static void try_draw_ui(entt::registry& registry, const entt::entity& entity)
 		{
 			if (T* component = registry.try_get<T>(entity))
-				component->draw_editor_ui();
+			{
+				if (ImGui::CollapsingHeader(component->collapsing_header_name().c_str()))
+				{
+					component->draw_editor_ui();
+					ImGui::Spacing();
+					ImGui::Separator();
+					ImGui::Spacing();
+					if (ImGui::Button("Delete"))
+						registry.remove<T>(entity);
+				}
+			}
 		}
 
 		static void draw_info_table_row(const std::string& name, const std::string& data);
@@ -30,5 +40,6 @@ namespace birb
 		}
 
 		virtual void draw_editor_ui() = 0;
+		virtual std::string collapsing_header_name() const = 0;
 	};
 }

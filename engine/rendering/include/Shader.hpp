@@ -87,6 +87,7 @@ namespace birb
 		void apply_color_material(const component::material& material);
 
 		void draw_editor_ui() override;
+		std::string collapsing_header_name() const override;
 
 		// Shader source code related functions
 		void compile();
@@ -108,6 +109,8 @@ namespace birb
 		}
 
 	private:
+		const std::string editor_header_name = "Shader";
+
 		// Calls try_add_uniform_location but prints out a warning if the uniform
 		// doesn't exist
 		void add_uniform_location(const std::string& name);

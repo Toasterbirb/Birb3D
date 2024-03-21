@@ -167,29 +167,30 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		if (ImGui::CollapsingHeader("Shader"))
+		assert(!vertex_shader_name.empty());
+		assert(!fragment_shader_name.empty());
+
+		ImGui::Text("Vertex: %s", vertex_shader_name.c_str());
+		ImGui::Text("Fragment: %s", fragment_shader_name.c_str());
+		ImGui::Text("Address: %s", birb::ptr_to_str(this).c_str());
+		ImGui::Spacing();
+
+		if (ImGui::TreeNode("Uniforms"))
 		{
-			assert(!vertex_shader_name.empty());
-			assert(!fragment_shader_name.empty());
-
-			ImGui::Text("Vertex: %s", vertex_shader_name.c_str());
-			ImGui::Text("Fragment: %s", fragment_shader_name.c_str());
-			ImGui::Text("Address: %s", birb::ptr_to_str(this).c_str());
-			ImGui::Spacing();
-
-			if (ImGui::TreeNode("Uniforms"))
+			auto it = uniform_locations.begin();
+			while (it != uniform_locations.end())
 			{
-				auto it = uniform_locations.begin();
-				while (it != uniform_locations.end())
-				{
-					ImGui::BulletText("%s", (*it).first.c_str());
-					it++;
-				}
-
-				ImGui::TreePop();
+				ImGui::BulletText("%s", (*it).first.c_str());
+				it++;
 			}
-		}
 
+			ImGui::TreePop();
+		}
+	}
+
+	std::string shader::collapsing_header_name() const
+	{
+		return editor_header_name;
 	}
 
 	void shader::compile()
