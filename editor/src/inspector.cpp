@@ -11,13 +11,11 @@ namespace editor
 {
 	inspector::inspector(birb::scene& scene) : scene(scene)
 	{
+		assert(!component_names.empty());
+
 		// Build the combo menu string for adding new components
-		for (size_t i = 0; i < component_types.size(); ++i)
-		{
-			component_type_str += component_types.at(i).first;
-			if (i < component_types.size() - 1)
-				component_type_str += '\0';
-		}
+		for (size_t i = 0; i < component_names.size(); ++i)
+			component_type_str += component_names.at(i).first + '\0';
 	}
 
 	void inspector::draw()
@@ -56,13 +54,23 @@ namespace editor
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				int current_component_type = -1;
+				static int current_component_type = -1;
 				if (ImGui::Combo("Component type", &current_component_type, component_type_str.c_str()))
 				{
 					assert(current_component_type >= 0);
+					assert(current_component_type < static_cast<int>(component_names.size()) && "Malformed component_type_str or a buffer overflow");
 
 					// Add the new component
-					scene.add_component(selected_entity, component_types.at(current_component_type).second);
+					switch (component_names[current_component_type].second)
+					{
+						case (component_type::transform):
+							scene.add_component(selected_entity, birb::component::transform());
+							break;
+
+						case (component_type::material):
+							scene.add_component(selected_entity, birb::component::material());
+							break;
+					}
 				}
 
 				ImGui::Spacing();

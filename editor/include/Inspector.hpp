@@ -16,8 +16,15 @@ namespace editor
 	private:
 		birb::scene& scene;
 
-		static inline const std::vector<std::pair<std::string, birb::component::transform>> component_types = {
-			{ "Transform", birb::component::transform() }
+		enum class component_type
+		{
+			transform,
+			material,
+		};
+
+		static inline const std::vector<std::pair<std::string, component_type>> component_names = {
+			{ "Transform", component_type::transform },
+			{ "Material", component_type::material },
 		};
 
 		static inline std::string component_type_str = "";
