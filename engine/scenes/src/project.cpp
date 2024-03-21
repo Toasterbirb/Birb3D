@@ -66,6 +66,10 @@ namespace birb
 		// Loop through scenes and save their entities
 		for (std::string scene_name : project_json[keys::scene_name_list])
 		{
+			// Get rid of unused components so that the loading of the project
+			// doesn't fail if there were deleted entities
+			scene_collection.at(scene_name).registry.compact();
+
 			std::ofstream entity_archive(scene_name + entity_data_file_extension, std::ios::binary);
 			cereal::BinaryOutputArchive archive(entity_archive);
 
