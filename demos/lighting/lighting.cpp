@@ -11,7 +11,7 @@
 
 #include "Profiling.hpp"
 #include "Camera.hpp"
-#include "Material.hpp"
+#include "TextureMaterial.hpp"
 #include "Random.hpp"
 #include "Renderer.hpp"
 #include "Shader.hpp"
@@ -155,7 +155,7 @@ int main(void)
 	default_shader.update_point_lights();
 	default_shader.update_directional_light();
 
-	birb::material material("texture_512.png", "specular_512.png", 32);
+	birb::texture_material material("texture_512.png", "specular_512.png", 32);
 	material.apply_to_shader(default_shader);
 
 	birb::shader light_shader("default", "light");

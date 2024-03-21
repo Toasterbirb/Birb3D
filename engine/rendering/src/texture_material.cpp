@@ -1,9 +1,9 @@
-#include "Material.hpp"
+#include "TextureMaterial.hpp"
 #include "Profiling.hpp"
 
 namespace birb
 {
-	material::material(const std::string& diffuse_map, const std::string& specular_map, float shininess)
+	texture_material::texture_material(const std::string& diffuse_map, const std::string& specular_map, float shininess)
 	:shininess(shininess)
 	{
 		assert(!diffuse_map.empty());
@@ -13,7 +13,7 @@ namespace birb
 		specular.load(specular_map.c_str(), 1, color_format::RGB);
 	}
 
-	void material::apply_to_shader(shader& shader)
+	void texture_material::apply_to_shader(shader& shader)
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
