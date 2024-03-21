@@ -73,6 +73,7 @@ namespace birb
 				.get<entt::entity>(archive)
 				.get<component::info>(archive)
 				.get<component::transform>(archive)
+				.get<component::material>(archive)
 				.get<model>(archive)
 				.get<shader>(archive);
 		}
@@ -193,6 +194,7 @@ namespace birb
 							.get<entt::entity>(archive)
 							.get<component::info>(archive)
 							.get<component::transform>(archive)
+							.get<component::material>(archive)
 							.get<model>(archive)
 							.get<shader>(archive);
 						break;

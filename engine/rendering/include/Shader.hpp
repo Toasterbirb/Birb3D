@@ -2,6 +2,7 @@
 
 #include "Color.hpp"
 #include "EditorComponent.hpp"
+#include "Material.hpp"
 #include "ShaderUniforms.hpp"
 #include "Vector.hpp"
 
@@ -82,23 +83,7 @@ namespace birb
 
 		void set_int(const std::string& name, const int value);
 
-		// Material helper functions and variables
-		void set_diffuse_color(const color& color);
-		void set_specular_color(const color& color);
-		void set_shininess(const float shininess);
-		void apply_color_material();
-
-		/**
-		 * @brief Fallback color to use if the shader has a color uniform but
-		 * no material uniforms
-		 */
-		color fallback_color;
-
-		/**
-		 * @return True if the shader has material uniforms like diffuse, specular
-		 * and shininess
-		 */
-		bool has_color_material() const;
+		void apply_color_material(const component::material& material);
 
 		void draw_editor_ui() override;
 
@@ -117,10 +102,7 @@ namespace birb
 		{
 			ar(
 				vertex_shader_name,
-				fragment_shader_name,
-				shininess,
-				diffuse_color,
-				specular_color
+				fragment_shader_name
 			);
 		}
 
@@ -134,22 +116,16 @@ namespace birb
 		// if it did exists
 		int try_add_uniform_location(const std::string& name);
 
+		// Material helper functions and variables
+		void set_diffuse_color(const color& color);
+		void set_specular_color(const color& color);
+		void set_shininess(const float shininess);
+
 		void compile_shader(const std::string& vertex, const std::string& fragment);
 		void compile_errors(unsigned int shader, const std::string& type);
 		std::unordered_map<std::string, int> uniform_locations;
 
 		std::string vertex_shader_name = "NULL";
 		std::string fragment_shader_name = "NULL";
-
-		// Material variables
-		bool has_material_uniforms = true; // Not all shaders might need material colors
-		float shininess = 32.0f;
-		color diffuse_color = { 0.0f, 0.0f, 0.0f };
-		color specular_color = { 0.0f, 0.0f, 0.0f };
-
-		static inline const std::string color_uniform_name = "color";
-		static inline const std::string diffuse_uniform_name = "material.diffuse";
-		static inline const std::string specular_uniform_name = "material.specular";
-		static inline const std::string shininess_uniform_name = "material.shininess";
 	};
 }

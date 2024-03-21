@@ -47,10 +47,10 @@ int main(void)
 
 	birb::shader shader("default", "default_color");
 	shader.reset_lights();
-	shader.set_diffuse_color({ 0.2f, 0.3f, 0.4f });
-	shader.set_specular_color({ 0.9f, 0.8f, 0.7f });
-	shader.set_shininess(32);
 	suzanne.add_component(shader);
+
+	birb::component::material material({ 0.2f, 0.3f, 0.4f }, { 0.9f, 0.8f, 0.7f }, 32);
+	suzanne.add_component(material);
 
 	// Reset camera rotation
 	camera.process_input(window, timestep);

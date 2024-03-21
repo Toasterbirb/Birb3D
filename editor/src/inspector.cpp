@@ -48,6 +48,7 @@ namespace editor
 				// Draw UI components for entities in a specific order
 				birb::editor_component::try_draw_ui<cmp::transform>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::shader>(reg, selected_entity);
+				birb::editor_component::try_draw_ui<cmp::material>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::model>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::camera>(reg, selected_entity);
 

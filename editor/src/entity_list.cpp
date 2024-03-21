@@ -124,14 +124,14 @@ namespace editor
 							std::string fragment_shader = birb::shader::fragment_shader_name_list().at(selected_frag_index);
 
 							birb::shader shader(vertex_shader, fragment_shader);
-							birb::color diffuse(rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f));
-							birb::color specular(1.0f, 1.0f, 1.0f);
 							shader.reset_lights();
-							shader.set_diffuse_color(diffuse);
-							shader.set_specular_color(specular);
-							shader.set_shininess(32);
 							shader.add_default_3d_matrix_uniforms();
 							scene.add_component(entity, shader);
+
+							birb::color diffuse(rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f));
+							birb::color specular(1.0f, 1.0f, 1.0f);
+							birb::component::material material(diffuse, specular);
+							scene.add_component(entity, material);
 
 							birb::component::transform transform;
 							scene.add_component(entity, transform);
@@ -172,10 +172,9 @@ namespace editor
 							birb::shader camera_shader("default", "default_color");
 
 							birb::color diffuse(1.0f, 0.619608f, 0.231373f, 1.0f);
-							camera_shader.set_diffuse_color(diffuse);
-
 							birb::color specular(0.121569f, 0.121569f, 0.156863f, 1.0f);
-							camera_shader.set_specular_color(specular);
+							birb::component::material camera_material(diffuse, specular);
+							scene.add_component(entity, camera_material);
 
 							scene.add_component(entity, camera_shader);
 

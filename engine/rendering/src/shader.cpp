@@ -43,7 +43,6 @@ namespace birb
 		id = 0;
 		vertex_shader_name		= other.vertex_shader_name;
 		fragment_shader_name	= other.fragment_shader_name;
-		fallback_color			= other.fallback_color;
 
 		compile_shader(other.vertex_shader_name, other.fragment_shader_name);
 
@@ -52,10 +51,6 @@ namespace birb
 			this->add_uniform_location(uniform_loc.first);
 
 		reset_lights();
-
-		set_diffuse_color(other.diffuse_color);
-		set_specular_color(other.specular_color);
-		set_shininess(other.shininess);
 
 		assert(id != 0);
 	}
@@ -74,10 +69,6 @@ namespace birb
 	void shader::reset_lights()
 	{
 		PROFILER_SCOPE_RENDER_FN()
-
-		// Skip lighting stuff if the shader doesn't have material uniforms
-		if (!has_material_uniforms)
-			return;
 
 		// Point lights
 		for (unsigned int i = 0; i < point_light_count; ++i)
@@ -110,10 +101,6 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		// Skip lighting stuff if the shader doesn't have material uniforms
-		if (!has_material_uniforms)
-			return;
-
 		set(shader_uniforms::directional_light::direction, directional_direction);
 		set(shader_uniforms::directional_light::ambient, directional_ambient);
 		set(shader_uniforms::directional_light::diffuse, directional_diffuse);
@@ -123,10 +110,6 @@ namespace birb
 	void shader::update_point_lights()
 	{
 		PROFILER_SCOPE_RENDER_FN()
-
-		// Skip lighting stuff if the shader doesn't have material uniforms
-		if (!has_material_uniforms)
-			return;
 
 		// Point lights
 		for (unsigned int i = 0; i < point_light_count; ++i)
@@ -237,49 +220,24 @@ namespace birb
 
 	void shader::set_diffuse_color(const color& color)
 	{
-		if (has_material_uniforms)
-		{
-			diffuse_color = color;
-			set(shader_uniforms::material_color::diffuse, color);
-		}
+		set(shader_uniforms::material_color::diffuse, color);
 	}
 
 	void shader::set_specular_color(const color& color)
 	{
-		if (has_material_uniforms)
-		{
-			specular_color = color;
-			set(shader_uniforms::material_color::specular, color);
-		}
+		set(shader_uniforms::material_color::specular, color);
 	}
 
 	void shader::set_shininess(const float shininess)
 	{
-		if (has_material_uniforms)
-		{
-			this->shininess = shininess;
-			set(shader_uniforms::material_color::shininess, shininess);
-		}
+		set(shader_uniforms::material_color::shininess, shininess);
 	}
 
-	void shader::apply_color_material()
+	void shader::apply_color_material(const component::material& material)
 	{
-		if (has_material_uniforms)
-		{
-			set_diffuse_color(diffuse_color);
-			set_specular_color(specular_color);
-			set_shininess(shininess);
-		}
-		else
-		{
-			if (uniform_locations.contains(color_uniform_name))
-				set(shader_uniforms::color, fallback_color);
-		}
-	}
-
-	bool shader::has_color_material() const
-	{
-		return has_material_uniforms;
+		set_diffuse_color(material.diffuse);
+		set_specular_color(material.specular);
+		set_shininess(material.shininess);
 	}
 
 	void shader::draw_editor_ui()
@@ -296,25 +254,6 @@ namespace birb
 			ImGui::Text("Address: %s", birb::ptr_to_str(this).c_str());
 			ImGui::Spacing();
 
-			if (uniform_locations.contains(diffuse_uniform_name))
-			{
-				if (ImGui::ColorEdit3("Diffuse", *diffuse_color.to_ptr_array().data()))
-					set_diffuse_color(diffuse_color);
-			}
-
-			if (uniform_locations.contains(specular_uniform_name))
-			{
-				if (ImGui::ColorEdit3("Specular", *specular_color.to_ptr_array().data()))
-					set_specular_color(specular_color);
-			}
-
-			if (uniform_locations.contains(shininess_uniform_name))
-			{
-				if (ImGui::DragFloat("shininess", &shininess, 1.0f, 0.1f, 2048.0f, "%.1f", ImGuiSliderFlags_AlwaysClamp))
-					set_shininess(shininess);
-			}
-
-			ImGui::Spacing();
 			if (ImGui::TreeNode("Uniforms"))
 			{
 				auto it = uniform_locations.begin();
@@ -473,16 +412,6 @@ namespace birb
 			glAttachShader(this->id, fragment_shader);
 			glLinkProgram(this->id);
 			compile_errors(id, "PROGRAM");
-		}
-
-		// Check if the shader has material uniforms available
-		if (try_add_uniform_location(diffuse_uniform_name) == -1
-			|| try_add_uniform_location(specular_uniform_name) == -1
-			|| try_add_uniform_location(shininess_uniform_name) == -1)
-		{
-			// This shader doesn't appear to have material variables in it and thus
-			// shouldn't bother with them
-			has_material_uniforms = false;
 		}
 	}
 

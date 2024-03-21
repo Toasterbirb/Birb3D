@@ -4,6 +4,7 @@
 #include "Profiling.hpp"
 #include "Shader.hpp"
 #include "Transform.hpp"
+#include "Material.hpp"
 #include "glm/fwd.hpp"
 
 #include <glm/glm.hpp>
@@ -88,9 +89,11 @@ namespace birb
 			shader.update_directional_light();
 			shader.update_point_lights();
 
-			// Apply the color material on the shader
+			// Apply the material component on the shader if it has any
 			// TODO: Make this work with textures too
-			shader.apply_color_material();
+			const birb::component::material* material = entity_registry.try_get<birb::component::material>(ent);
+			if (material != nullptr)
+				shader.apply_color_material(*material);
 
 			// Draw the model
 			assert(view.get<birb::model>(ent).vertex_count() != 0 && "Tried to render a model with no vertices");
