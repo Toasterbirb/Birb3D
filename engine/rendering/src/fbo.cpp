@@ -24,8 +24,7 @@ namespace birb
 		assert(id != 0);
 		glDeleteBuffers(1, &id);
 
-		assert(rbo != 0);
-		glDeleteRenderbuffers(1, &rbo);
+		render_buffer_object.reset();
 	}
 
 	void fbo::bind()
@@ -58,11 +57,7 @@ namespace birb
 		attach_texture(frame_buffer);
 
 		// Render buffer object
-		if (rbo != 0)
-		{
-			glDeleteRenderbuffers(1, &rbo);
-			rbo = 0;
-		}
+		render_buffer_object.reset();
 
 		setup_rbo(dimensions);
 	}
@@ -87,13 +82,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		assert(rbo == 0 && "Memory leak");
+		assert(!render_buffer_object && "The render buffer object needs to be destroyed before creating a new one");
 
 		bind();
-		glGenRenderbuffers(1, &rbo);
-		glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, dimensions.x, dimensions.y);
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo);
+		render_buffer_object = std::make_unique<rbo>(dimensions);
 	}
 }

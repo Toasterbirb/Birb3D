@@ -1,7 +1,10 @@
 #pragma once
 
+#include "RBO.hpp"
 #include "Texture.hpp"
 #include "Vector.hpp"
+
+#include <memory>
 
 namespace birb
 {
@@ -27,6 +30,6 @@ namespace birb
 		void attach_texture(const texture& texture);
 		void setup_rbo(vec2<int> dimensions);
 
-		unsigned int rbo = 0;
+		std::unique_ptr<rbo> render_buffer_object;
 	};
 }
