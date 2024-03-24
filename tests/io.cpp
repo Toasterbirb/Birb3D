@@ -22,15 +22,15 @@ TEST_CASE("File reading and writing")
 
 	// Write a test string asynchronously into a file
 	std::future<bool> async_write_future = birb::io::write_file_async(path_async, text_async);
+	CHECK(async_write_future.get());
 
 	// Try to read the text from a file
 	std::string result = birb::io::read_file(path);
+	CHECK(result == text);
 
 	// Try to read the text from a file asynchronously
 	std::future<std::string> result_future = birb::io::read_file_async(path_async);
 
-	CHECK(result == text);
 	std::string async_result = result_future.get();
 	CHECK(async_result == text_async);
-	CHECK(async_write_future.get());
 }
