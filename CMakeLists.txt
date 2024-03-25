@@ -24,7 +24,8 @@ endif()
 
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)
-    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+	message("> ccache was found, using it to speed up compiling")
 endif(CCACHE_FOUND)
 
 include_directories(./engine/core/include
