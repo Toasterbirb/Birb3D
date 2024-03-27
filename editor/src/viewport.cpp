@@ -44,7 +44,7 @@ namespace editor
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				glEnable(GL_DEPTH_TEST);
 
-				renderer.draw_entities(camera.get_view_matrix(), camera.get_projection_matrix(birb::camera::projection_mode::orthographic, birb::vec2<int>(window_size.x, window_size.y)));
+				renderer.draw_entities(camera.get_view_matrix(), camera.get_projection_matrix(birb::camera::projection_mode::perspective, birb::vec2<int>(window_size.x, window_size.y)));
 			}
 			fbo.unbind();
 
