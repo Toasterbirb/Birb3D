@@ -40,7 +40,7 @@ namespace birb
 		static unsigned int texture_from_file(const std::string& path);
 
 	private:
-		GLenum tex_type;
+		GLenum tex_type = GL_TEXTURE_2D;
 		unsigned int slot = 0;
 	};
 }
