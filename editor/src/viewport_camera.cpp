@@ -37,7 +37,7 @@ namespace editor
 			}
 
             ImGui::SliderFloat("FOV", &game_viewport.camera.fov, 1.0f, 120.0f, "%.1f");
-			ImGui::DragFloatRange2("Clipping", &game_viewport.camera_near_clip, &game_viewport.camera_far_clip, 0.1f, 0.001f, 1000.0f, "Near: %.3f", "Far: %.2f", ImGuiSliderFlags_AlwaysClamp);
+			ImGui::DragFloatRange2("Clipping", &game_viewport.camera.near_clip, &game_viewport.camera.far_clip, 0.1f, 0.001f, 1000.0f, "Near: %.3f", "Far: %.2f", ImGuiSliderFlags_AlwaysClamp);
 			ImGui::InputFloat("Scroll speed", &camera_scroll_strength, 0.25f);
 			ImGui::InputFloat("Movement speed", &game_viewport.camera.movement_speed, 0.25f);
 

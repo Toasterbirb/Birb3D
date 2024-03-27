@@ -23,9 +23,6 @@ namespace editor
 		birb::renderer renderer;
 		birb::camera camera;
 
-		float camera_near_clip = 0.1f;
-		float camera_far_clip = 100.0f;
-
 	private:
 		birb::vec2<int> last_viewport_size = {1280, 720};
 		birb::fbo fbo;

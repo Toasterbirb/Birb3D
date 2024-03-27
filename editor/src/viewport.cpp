@@ -41,11 +41,10 @@ namespace editor
 				}
 
 				glViewport(0, 0, window_size.x, window_size.y);
-				glm::mat4 projection = glm::perspective(glm::radians(camera.fov), window_size.x / window_size.y, camera_near_clip, camera_far_clip);
-
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				glEnable(GL_DEPTH_TEST);
-				renderer.draw_entities(camera.get_view_matrix(), projection);
+
+				renderer.draw_entities(camera.get_view_matrix(), camera.get_projection_matrix(birb::camera::projection_mode::orthographic, birb::vec2<int>(window_size.x, window_size.y)));
 			}
 			fbo.unbind();
 

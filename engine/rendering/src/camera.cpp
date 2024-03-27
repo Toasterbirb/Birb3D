@@ -45,6 +45,24 @@ namespace birb
 		return glm::lookAt(position, position + front, up);
 	}
 
+	glm::mat4 camera::get_projection_matrix(camera::projection_mode mode, vec2<int> window_size) const
+	{
+		glm::mat4 projection;
+
+		switch (mode)
+		{
+			case camera::projection_mode::perspective:
+				projection = glm::perspective(glm::radians(fov), static_cast<float>(window_size.x) / static_cast<float>(window_size.y), near_clip, far_clip);
+				break;
+
+			case camera::projection_mode::orthographic:
+				projection = glm::ortho(0.0f, static_cast<float>(window_size.x), 0.0f, static_cast<float>(window_size.y), near_clip, far_clip);
+				break;
+		}
+
+		return projection;
+	}
+
 	glm::vec3 camera::front_vec() const
 	{
 		return front;

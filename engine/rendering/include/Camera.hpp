@@ -19,6 +19,13 @@ namespace birb
 		void draw_editor_ui() override;
 		std::string collapsing_header_name() const override;
 
+		enum class projection_mode
+		{
+			perspective,
+			orthographic
+		};
+		glm::mat4 get_projection_matrix(camera::projection_mode mode, vec2<int> window_size) const;
+
 		glm::mat4 get_view_matrix() const;
 		glm::vec3 front_vec() const;
 		glm::vec3 right_vec() const;
@@ -33,6 +40,9 @@ namespace birb
 		float movement_speed = 10.0f;
 		float mouse_sensitivity = 0.1f;
 		float fov = 45.0f;
+
+		float near_clip = 0.1f;
+		float far_clip = 100.0f;
 
 		bool editor_mode = false;
 		void zoom(float delta);
