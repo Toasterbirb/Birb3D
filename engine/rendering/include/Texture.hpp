@@ -37,10 +37,17 @@ namespace birb
 		void bind();
 		void unbind();
 
+		/**
+		 * @brief Get the width and height of the texture
+		 */
+		vec2<int> size();
+
 		static unsigned int texture_from_file(const std::string& path);
 
 	private:
 		GLenum tex_type = GL_TEXTURE_2D;
 		unsigned int slot = 0;
+
+		vec2<int> dimensions; // Width and height of the texture
 	};
 }

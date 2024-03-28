@@ -73,6 +73,7 @@ namespace birb
 		assert(tex_type != 0 && "Invalid texture type");
 
 		birb::asset::image texture(image_path, true);
+		this->dimensions = texture.dimensions;
 
 		glGenTextures(1, &id);
 		glActiveTexture(GL_TEXTURE0 + slot);
@@ -145,5 +146,10 @@ namespace birb
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		return id;
+	}
+
+	vec2<int> texture::size()
+	{
+		return dimensions;
 	}
 }
