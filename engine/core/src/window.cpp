@@ -28,7 +28,7 @@ namespace birb
 	window::window(const std::string& title, const vec2<int> dimensions)
 	:dimensions(dimensions)
 	{
-		event_bus::register_event_id(2, this); // Set window background clear color | float[3]
+		event_bus::register_event_id(event::set_window_background_clear_color, this); // Set window background clear color | float[3]
 
 		if (window_count != 0)
 			birb::log_fatal("There can only be one window at any given time");
@@ -91,7 +91,7 @@ namespace birb
 
 	window::~window()
 	{
-		event_bus::unregister_event_id(2, this);
+		event_bus::unregister_event_id(event::set_window_background_clear_color, this);
 
 		// If ImGui was initialize, quit it gracefully
 		if (window::imgui_initialized)
@@ -181,7 +181,7 @@ namespace birb
 				switch(engine_input_queue.front().key)
 				{
 					case birb::input::keycode::F1:
-						event_bus::send_event(1);
+						event_bus::send_event(event::toggle_wireframe_rendering_mode);
 						break;
 
 					case birb::input::keycode::ESCAPE:

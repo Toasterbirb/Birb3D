@@ -31,7 +31,7 @@ namespace editor
 					birb::event_data data;
 					data._float = { birb::shader::directional_ambient.x, birb::shader::directional_ambient.y, birb::shader::directional_ambient.z };
 
-					birb::event_bus::send_event(2, data);
+					birb::event_bus::send_event(birb::event::set_window_background_clear_color, data);
 				}
 			}
 

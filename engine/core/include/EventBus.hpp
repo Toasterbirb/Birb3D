@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Events.hpp"
+
 #include <array>
 #include <cstddef>
 

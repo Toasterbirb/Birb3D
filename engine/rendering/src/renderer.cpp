@@ -35,13 +35,13 @@ namespace birb
 {
 	renderer::renderer()
 	{
-		event_bus::register_event_id(1, this); // Toggle wireframe mode
+		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 	}
 
 	renderer::~renderer()
 	{
 		birb::log("Crushing the renderer");
-		event_bus::unregister_event_id(1, this);
+		event_bus::unregister_event_id(event::toggle_wireframe_rendering_mode, this);
 	}
 
 	void renderer::process_event(unsigned short event_id, const event_data& data)
