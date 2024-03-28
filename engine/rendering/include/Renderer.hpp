@@ -42,8 +42,6 @@ namespace birb
 
 	private:
 		scene* current_scene = nullptr;
-		unsigned int shader_program;
-		unsigned int VAO, VBO;
 		static inline bool wireframe_mode = false;
 		static inline bool backface_culling_enabled = false;
 
