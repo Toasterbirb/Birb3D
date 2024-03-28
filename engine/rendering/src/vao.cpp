@@ -1,3 +1,4 @@
+#include "Globals.hpp"
 #include "Profiling.hpp"
 #include "VAO.hpp"
 
@@ -13,6 +14,7 @@ namespace birb
 
 	vao::~vao()
 	{
+		assert(birb::opengl_initialized);
 		glDeleteVertexArrays(1, &id);
 	}
 

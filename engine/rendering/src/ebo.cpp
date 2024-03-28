@@ -1,4 +1,5 @@
 #include "EBO.hpp"
+#include "Globals.hpp"
 
 #include <cassert>
 #include <vector>
@@ -10,14 +11,23 @@ namespace birb
 		assert(!indices.empty() && "Empty index array");
 		assert(indices.size() < 33000 && "You might wanna check the index count on that model");
 
-		glGenBuffers(1, &id);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * indices.size(), indices.data(), GL_STATIC_DRAW);
+		load(indices.data(), indices.size());
 	}
 
 	ebo::~ebo()
 	{
+		assert(birb::opengl_initialized);
 		glDeleteBuffers(1, &id);
+	}
+
+	void ebo::load(const unsigned int* indices, const size_t size)
+	{
+		assert(id == 0);
+		assert(size > 0);
+
+		glGenBuffers(1, &id);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(float) * size, indices, GL_STATIC_DRAW);
 	}
 
 	void ebo::bind()

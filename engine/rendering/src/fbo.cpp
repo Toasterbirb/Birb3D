@@ -1,4 +1,5 @@
 #include "FBO.hpp"
+#include "Globals.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
 
@@ -22,6 +23,7 @@ namespace birb
 	fbo::~fbo()
 	{
 		assert(id != 0);
+		assert(birb::opengl_initialized);
 		glDeleteBuffers(1, &id);
 
 		render_buffer_object.reset();
@@ -45,6 +47,8 @@ namespace birb
 	void fbo::reload_frame_buffer_texture(const vec2<int>& dimensions)
 	{
 		PROFILER_SCOPE_RENDER_FN()
+
+		assert(birb::opengl_initialized);
 
 		// Texture
 		if (frame_buffer.id != 0)

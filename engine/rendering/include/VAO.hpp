@@ -13,7 +13,7 @@ namespace birb
 		~vao();
 
 		// Reference to the vertex array object
-		unsigned int id;
+		unsigned int id = 0;
 
 		void link_vbo(birb::vbo& vbo, unsigned int layout, unsigned int num_components, size_t stride, unsigned int offset);
 		void bind();

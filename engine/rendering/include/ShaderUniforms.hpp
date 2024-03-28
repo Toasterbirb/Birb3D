@@ -83,5 +83,10 @@ namespace birb
 			const static inline uniform specular("material", uniform_type::INT, "specular", false);
 			const static inline uniform shininess("material", uniform_type::FLOAT, "shininess", false);
 		}
+
+		namespace texture_units
+		{
+			const static inline uniform tex0("tex0", uniform_type::INT);
+		}
 	}
 }

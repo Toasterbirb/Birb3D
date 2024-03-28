@@ -1,3 +1,4 @@
+#include "Globals.hpp"
 #include "Image.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
@@ -91,6 +92,7 @@ namespace birb
 	texture::~texture()
 	{
 		assert(id != 0 && "Attempted to destruct a texture that wasn't initialized");
+		assert(birb::opengl_initialized);
 
 		glDeleteTextures(1, &id);
 	}

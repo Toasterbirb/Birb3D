@@ -1,3 +1,4 @@
+#include "Globals.hpp"
 #include "Logger.hpp"
 #include "Mesh.hpp"
 #include "Profiling.hpp"
@@ -20,6 +21,8 @@ namespace birb
 	void mesh::destroy()
 	{
 		birb::log("Destroying mesh (" + birb::ptr_to_str(this) + ")");
+
+		assert(birb::opengl_initialized);
 
 		assert(vao != 0);
 		assert(vbo != 0);

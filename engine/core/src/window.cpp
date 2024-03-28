@@ -1,7 +1,9 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 #include "EventBus.hpp"
+#include "Globals.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
+#include "ShaderCollection.hpp"
 #include "Window.hpp"
 
 #include <algorithm>
@@ -101,11 +103,18 @@ namespace birb
 			ImGui::DestroyContext();
 		}
 
+		// The shader collection needs to be cleared before destroying the OpenGL context
+		// Otherwise there will be a segmentation fault because the shaders in the
+		// static hashmap would outlive the window
+		shader_collection::wipe();
+
 		birb::log("Destroying the window");
 		glfwDestroyWindow(glfw_window);
 
 		birb::log("Terminating GLFW");
 		glfwTerminate();
+
+		opengl_initialized = false;
 	}
 
 	void window::process_event(unsigned short event_id, const event_data& data)
@@ -318,11 +327,6 @@ namespace birb
 	bool window::imgui_is_init()
 	{
 		return window::imgui_initialized;
-	}
-
-	bool window::opengl_is_init()
-	{
-		return window::opengl_initialized;
 	}
 
 	int window::monitor_refreshrate() const

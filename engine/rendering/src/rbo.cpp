@@ -1,5 +1,6 @@
-#include "RBO.hpp"
+#include "Globals.hpp"
 #include "Profiling.hpp"
+#include "RBO.hpp"
 
 #include <GL/gl.h>
 
@@ -22,6 +23,7 @@ namespace birb
 	rbo::~rbo()
 	{
 		assert(id != 0);
+		assert(birb::opengl_initialized);
 		glDeleteRenderbuffers(1, &id);
 	}
 }

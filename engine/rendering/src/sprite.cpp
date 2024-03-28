@@ -1,0 +1,22 @@
+#include "Profiling.hpp"
+#include "Sprite.hpp"
+
+namespace birb
+{
+	sprite::sprite(const std::string& file_path, color_format format)
+	{
+		PROFILER_SCOPE_RENDER_FN()
+
+		texture.load(file_path.c_str(), 0, format, 2);
+	}
+
+	sprite::sprite(const sprite& other)
+	{
+		this->texture.id = other.texture.id;
+	}
+
+	sprite::sprite(sprite& other)
+	{
+		this->texture.id = other.texture.id;
+	}
+}

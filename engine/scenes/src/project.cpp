@@ -1,4 +1,5 @@
 #include "Components.hpp"
+#include "Globals.hpp"
 #include "IO.hpp"
 #include "Model.hpp"
 #include "Project.hpp"
@@ -164,7 +165,7 @@ namespace birb
 
 	void project::load_project()
 	{
-		assert(window::opengl_is_init() && "OpenGL needs to have been initialized before projects can be loaded");
+		assert(birb::opengl_initialized && "OpenGL needs to have been initialized before projects can be loaded");
 		assert(project_loaded == false);
 		project_loaded = true;
 

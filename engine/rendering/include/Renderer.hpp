@@ -1,8 +1,10 @@
 #pragma once
 
+#include "EBO.hpp"
 #include "EventBus.hpp"
 #include "Scene.hpp"
 #include "VAO.hpp"
+#include "VBO.hpp"
 
 #include <entt.hpp>
 #include <glm/fwd.hpp>
@@ -48,5 +50,30 @@ namespace birb
 		// Variables for rendering statistics
 		unsigned int rendered_entities = 0;
 		unsigned int rendered_vertices = 0;
+
+		// -- Variables for sprite rendering -- //
+
+		// Vertices and texture coordinates for a square
+		static constexpr std::array<float, 4 * 3 + 4 * 2> square_vertices = {
+			// Vertex positions  // Texture coordinates
+			 0.5f,  0.5f, 0.0f,  1.0f, 1.0f, // Top right
+			 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, // Bottom right
+			-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, // Bottom left
+			-0.5f,  0.5f, 0.0f,  0.0f, 1.0f, // Top left
+		};
+
+		// Indices for creating a square from two triangles
+		static constexpr std::array<unsigned int, 6> square_indices = {
+			0, 1, 2,
+			0, 2, 3,
+		};
+
+		// The opengl buffers needed for sprites
+		//
+		// Some of these are declared as pointers because they
+		// don't have default constructors
+		vao sprite_vao;
+		std::shared_ptr<ebo> sprite_ebo;
+		std::shared_ptr<vbo> sprite_vbo;
 	};
 }

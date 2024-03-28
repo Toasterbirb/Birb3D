@@ -1,6 +1,7 @@
-#include "Shader.hpp"
+#include "Globals.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
+#include "Shader.hpp"
 #include "ShaderSource.hpp"
 
 #include <array>
@@ -57,6 +58,9 @@ namespace birb
 
 	shader::~shader()
 	{
+		assert(id != 0 && "Tried to destroy a shader that wasn't loaded");
+		assert(birb::opengl_initialized);
+
 		birb::log("Shader destroyed [" + vertex_shader_name + ", " + fragment_shader_name + "] (" + birb::ptr_to_str(this) + ")");
 		glDeleteProgram(this->id);
 	}
@@ -216,6 +220,8 @@ namespace birb
 		PROFILER_SCOPE_MISC_FN()
 
 		birb::log("Clearing shader cache");
+
+		assert(birb::opengl_initialized);
 
 		// Free all of the shaders
 		for (const std::pair<std::string, unsigned int> shader : shader_cache)
