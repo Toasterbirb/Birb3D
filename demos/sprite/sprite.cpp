@@ -9,6 +9,8 @@
 #include "Transform.hpp"
 #include "Window.hpp"
 
+#include <algorithm>
+
 int main(void)
 {
 	birb::window window("Sprite", birb::vec2<int>(1280, 720));
@@ -16,6 +18,8 @@ int main(void)
 	birb::timestep timestep;
 	birb::camera camera;
 	camera.movement_speed = 100;
+	camera.position.z = 45; // Move the camera back to make orthograhpics rendering work
+	camera.orthograhpic_scale = 0.5f;
 
 	birb::scene scene;
 	birb::renderer renderer;
@@ -25,19 +29,65 @@ int main(void)
 	birb::overlay::camera_info camera_info(camera);
 
 	{
-		birb::entity entity = scene.create_entity();
-
 		birb::sprite texture_sprite("texture_512.png", birb::color_format::RGB);
-		entity.add_component(texture_sprite);
 
-		birb::component::transform transform;
-		transform.position = { 100, 100, 0 };
-		transform.local_scale = { 200, 200, 1 };
-		entity.add_component(transform);
+		birb::entity entity = scene.create_entity();
+		birb::entity second_entity = scene.create_entity();
+
+		// Setup the first entity
+		{
+			birb::component::transform transform;
+			transform.position = { 100, 100, 0 };
+			transform.local_scale = { 100, 100, 1 };
+			entity.add_component(transform);
+			entity.add_component(texture_sprite);
+		}
+
+		// Setup the second entity
+		{
+			birb::component::transform transform;
+			transform.position = { 50, 0, 0 };
+			transform.local_scale = { 40, 40, 1 };
+			second_entity.add_component(transform);
+			second_entity.add_component(texture_sprite);
+		}
+
+		// Zooming thingie
+		float timer = 0.0f;
+		bool zoom_done = false;
 
 		while (!window.should_close())
 		{
-			camera.process_input(window, timestep);
+			// Cool zoom thing
+			if (camera.orthograhpic_scale > 0.2f && !zoom_done)
+			{
+				camera.orthograhpic_scale = std::lerp(camera.orthograhpic_scale, 0.2f, timer);
+				timer += timestep.deltatime();
+			}
+			else
+			{
+				zoom_done = true;
+			}
+
+			while (window.inputs_available())
+			{
+				birb::input input = window.next_input();
+
+				switch (input.key)
+				{
+					case (birb::input::keycode::SCROLLING):
+						camera.orthograhpic_scale -= input.offset.y * 0.01;
+						camera.orthograhpic_scale = std::clamp(camera.orthograhpic_scale, 0.001f, 4096.0f);
+						break;
+
+					default:
+						break;
+				}
+			}
+
+			// WASD movement with orthographic controls
+			camera.process_input_ortho(window, timestep);
+
 			window.forget_inputs();
 
 			window.clear();

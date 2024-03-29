@@ -30,6 +30,7 @@ namespace birb
 		glm::vec3 front_vec() const;
 		glm::vec3 right_vec() const;
 		void process_input(window& window, const timestep& timestep);
+		void process_input_ortho(window& window, const timestep& timestep);
 		void update_camera_vectors();
 
 		glm::vec3 position = { 0.0, 0.0, 0.0 };
@@ -43,6 +44,7 @@ namespace birb
 
 		float near_clip = 0.1f;
 		float far_clip = 100.0f;
+		float orthograhpic_scale = 1.0f;
 
 		bool editor_mode = false;
 		void zoom(float delta);

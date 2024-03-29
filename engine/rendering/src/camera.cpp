@@ -1,7 +1,6 @@
 #include "Camera.hpp"
 #include "Profiling.hpp"
 
-#include <array>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <imgui.h>
@@ -56,7 +55,9 @@ namespace birb
 				break;
 
 			case camera::projection_mode::orthographic:
-				projection = glm::ortho(0.0f, static_cast<float>(window_size.x), 0.0f, static_cast<float>(window_size.y), near_clip, far_clip);
+				float width = static_cast<float>(window_size.x) * orthograhpic_scale;
+				float height = static_cast<float>(window_size.y) * orthograhpic_scale;
+				projection = glm::ortho(0.0f, width, 0.0f, height, near_clip, far_clip);
 				break;
 		}
 
@@ -117,6 +118,23 @@ namespace birb
 		pitch = std::clamp(pitch, -89.0f, 89.0f);
 
 		update_camera_vectors();
+	}
+
+	void camera::process_input_ortho(window& window, const timestep& timestep)
+	{
+		PROFILER_SCOPE_INPUT_FN()
+
+		if (window.is_key_held(keybinds.left))
+			position.x -= movement_speed * timestep.deltatime();
+
+		if (window.is_key_held(keybinds.right))
+			position.x += movement_speed * timestep.deltatime();
+
+		if (window.is_key_held(keybinds.up))
+			position.y += movement_speed * timestep.deltatime();
+
+		if (window.is_key_held(keybinds.down))
+			position.y -= movement_speed * timestep.deltatime();
 	}
 
 	void camera::update_camera_vectors()
