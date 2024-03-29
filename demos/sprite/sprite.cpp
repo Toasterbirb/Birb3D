@@ -1,6 +1,7 @@
 #include "Camera.hpp"
 #include "CameraInfoOverlay.hpp"
 #include "Entity.hpp"
+#include "PerformanceOverlay.hpp"
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
 #include "Scene.hpp"
@@ -25,6 +26,7 @@ int main(void)
 	birb::renderer renderer;
 	renderer.set_scene(scene);
 
+	birb::overlay::performance performance_overlay(timestep);
 	birb::overlay::renderer_overlay render_overlay(renderer);
 	birb::overlay::camera_info camera_info(camera);
 
@@ -50,6 +52,23 @@ int main(void)
 			transform.local_scale = { 40, 40, 1 };
 			second_entity.add_component(transform);
 			second_entity.add_component(texture_sprite);
+		}
+
+		// Copy pasted entities
+		for (int i = 0; i < 32; ++i)
+		{
+			for (int j = 0; j < 32; ++j)
+			{
+				birb::entity ent = scene.create_entity();
+
+				birb::component::transform transform;
+				transform.position = { i * 16.0f, j * 16.0f, 1.0f };
+				transform.local_scale = { 8, 8, 1 };
+				transform.lock();
+
+				ent.add_component(transform);
+				ent.add_component(texture_sprite);
+			}
 		}
 
 		// Zooming thingie
@@ -92,6 +111,7 @@ int main(void)
 
 			window.clear();
 			renderer.draw_entities(camera.get_view_matrix(), camera.get_projection_matrix(birb::camera::projection_mode::orthographic, window.size()));
+			performance_overlay.draw();
 			render_overlay.draw();
 			camera_info.draw();
 			window.flip();

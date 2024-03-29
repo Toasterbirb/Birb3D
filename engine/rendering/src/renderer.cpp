@@ -9,6 +9,7 @@
 #include "Transform.hpp"
 #include "glm/fwd.hpp"
 
+#include <execution>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -112,6 +113,8 @@ namespace birb
 
 		// Render all models
 		{
+			PROFILER_SCOPE_RENDER("Render models")
+
 			const auto view = entity_registry.view<birb::model, birb::shader, birb::component::transform>();
 			for (const auto& ent : view)
 			{
@@ -145,6 +148,8 @@ namespace birb
 
 		// Render sprites
 		{
+			PROFILER_SCOPE_RENDER("Render sprites")
+
 			const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(TEXTURE_SHADER_NAME, TEXTURE_SHADER_NAME);
 
 			// Sprites should only have a singular texture, so we'll use the default
@@ -153,35 +158,48 @@ namespace birb
 
 			texture_shader->set(shader_uniforms::view, view_matrix);
 			texture_shader->set(shader_uniforms::projection, projection_matrix);
+			sprite_vao.bind();
 
 
 			const auto view = entity_registry.view<sprite, component::transform>();
+
+			// Calculate model matrices in parallel
+			std::vector<glm::mat4> model_matrices(std::distance(view.begin(), view.end()));
+
+			{
+				PROFILER_SCOPE_RENDER("Calculate transform model matrices")
+
+				std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(), [view](const auto& entity) {
+					return view.get<birb::component::transform>(entity).model_matrix();
+				});
+			}
+
+			size_t sprite_index = 0;
+			texture_shader->activate();
+			sprite_vao.bind();
+
 			for (const auto& ent : view)
 			{
-				// Update the model matrix and activate the shader
-				const component::transform& transform = view.get<birb::component::transform>(ent);
-				texture_shader->set(shader_uniforms::model, transform.model_matrix());
-				texture_shader->activate();
+				texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
+				view.get<sprite>(ent).texture->bind();
 
-				std::shared_ptr<texture> texture = view.get<sprite>(ent).texture;
-
-				sprite_vao.bind();
-				texture->bind();
-				draw_elements(sprite_vao, square_indices.size());
-
-				++rendered_entities;
-
-				// We can probably assume that each rectangle shaped sprite is
-				// equal to 4 vertices
-				rendered_vertices += 4;
+				// Since we are using the same vao for all of the sprites,
+				// we can just manually call glDrawElements without binding the vao for all of them
+				//
+				// This should speed things up a teeny tiny bit
+				glDrawElements(GL_TRIANGLES, square_indices.size(), GL_UNSIGNED_INT, 0);
 			}
+
+			// We can probably assume that each rectangle shaped sprite is
+			// equal to 4 vertices
+			rendered_vertices += 4 * model_matrices.size();
+
+			rendered_entities += model_matrices.size();
 		}
 	}
 
 	void renderer::draw_elements(vao& vao, size_t index_count)
 	{
-		PROFILER_SCOPE_RENDER_FN()
-
 		assert(vao.id != 0);
 		assert(index_count > 0 && "Unncessary call to draw_elements()");
 
@@ -191,8 +209,6 @@ namespace birb
 
 	void renderer::draw_arrays(vao& vao, size_t vert_count)
 	{
-		PROFILER_SCOPE_RENDER_FN()
-
 		assert(vao.id != 0);
 		assert(vert_count > 0 && "Unncessary call to draw_arrays()");
 

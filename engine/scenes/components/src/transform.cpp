@@ -32,6 +32,9 @@ namespace birb
 
 		glm::mat4 transform::model_matrix() const
 		{
+			if (is_locked)
+				return cached_model_matrix;
+
 			glm::mat4 model_matrix = glm::mat4(1.0f);
 			model_matrix = glm::translate(model_matrix, position.to_glm_vec());
 
@@ -43,6 +46,17 @@ namespace birb
 			model_matrix = glm::scale(model_matrix, local_scale.to_glm_vec());
 
 			return model_matrix;
+		}
+
+		void transform::lock()
+		{
+			cached_model_matrix = model_matrix();
+			is_locked = true;
+		}
+
+		void transform::unlock()
+		{
+			is_locked = false;
 		}
 	}
 }

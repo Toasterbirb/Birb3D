@@ -23,6 +23,19 @@ namespace birb
 
 			glm::mat4 model_matrix() const;
 
+			/**
+			 * @brief Lock the model matrix to the current value
+			 *
+			 * This can be used to improve performance with entities that
+			 * don't move or change their rotation / local_scale etc.
+			 */
+			void lock();
+
+			/**
+			 * @brief Enable model_matrix updates
+			 */
+			void unlock();
+
 			template<class Archive>
 			void serialize(Archive& ar)
 			{
@@ -31,6 +44,8 @@ namespace birb
 
 		private:
 			const std::string editor_header_name = "Transform";
+			glm::mat4 cached_model_matrix;
+			bool is_locked = false;
 		};
 	}
 }
