@@ -87,6 +87,8 @@ namespace birb
 		glGenerateMipmap(tex_type);
 
 		glBindTexture(tex_type, 0);
+
+		birb::log("Texture loaded [" + std::string(image_path) + "] (" + ptr_to_str(this) + ")");
 	}
 
 	texture::~texture()
@@ -94,7 +96,10 @@ namespace birb
 		assert(id != 0 && "Attempted to destruct a texture that wasn't initialized");
 		assert(birb::opengl_initialized);
 
+		birb::log("Texture destroyed (" + ptr_to_str(this) + ")");
+
 		glDeleteTextures(1, &id);
+		id = 0;
 	}
 
 	void texture::tex_unit(birb::shader& shader, const char* uniform, const unsigned int unit)

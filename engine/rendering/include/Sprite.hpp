@@ -2,7 +2,7 @@
 
 #include "Texture.hpp"
 
-#include <array>
+#include <memory>
 #include <string>
 
 namespace birb
@@ -14,6 +14,6 @@ namespace birb
 		sprite(const sprite& other);
 		sprite(sprite& other);
 
-		birb::texture texture;
+		std::shared_ptr<birb::texture> texture;
 	};
 }

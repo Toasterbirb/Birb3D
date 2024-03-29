@@ -163,10 +163,10 @@ namespace birb
 				texture_shader->set(shader_uniforms::model, transform.model_matrix());
 				texture_shader->activate();
 
-				texture& texture = view.get<sprite>(ent).texture;
+				std::shared_ptr<texture> texture = view.get<sprite>(ent).texture;
 
 				sprite_vao.bind();
-				texture.bind();
+				texture->bind();
 				draw_elements(sprite_vao, square_indices.size());
 
 				++rendered_entities;

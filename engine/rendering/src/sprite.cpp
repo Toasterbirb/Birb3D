@@ -7,16 +7,16 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		texture.load(file_path.c_str(), 0, format, 2);
+		texture = std::make_shared<birb::texture>(file_path.c_str(), 0, format, 2);
 	}
 
 	sprite::sprite(const sprite& other)
 	{
-		this->texture.id = other.texture.id;
+		this->texture = other.texture;
 	}
 
 	sprite::sprite(sprite& other)
 	{
-		this->texture.id = other.texture.id;
+		this->texture = other.texture;
 	}
 }
