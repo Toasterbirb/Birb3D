@@ -46,8 +46,8 @@ namespace birb
 		// Initialize the opengl buffers for sprite rendering
 		sprite_vao.bind();
 
-		sprite_vbo = std::make_shared<vbo>(square_vertices);
-		sprite_ebo = std::make_shared<ebo>(square_indices);
+		sprite_vbo = std::make_shared<vbo>(quad_vertices);
+		sprite_ebo = std::make_shared<ebo>(quad_indices);
 
 		constexpr unsigned int vertex_pos_layout = 0;
 		constexpr unsigned int texture_coord_layout = 1;
@@ -210,7 +210,7 @@ namespace birb
 				// we can just manually call glDrawElements without binding the vao for all of them
 				//
 				// This should speed things up a teeny tiny bit
-				glDrawElements(GL_TRIANGLES, square_indices.size(), GL_UNSIGNED_INT, 0);
+				glDrawElements(GL_TRIANGLES, quad_indices.size(), GL_UNSIGNED_INT, 0);
 			}
 
 			// We can probably assume that each rectangle shaped sprite is

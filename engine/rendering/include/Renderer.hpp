@@ -54,7 +54,7 @@ namespace birb
 		// -- Variables for sprite rendering -- //
 
 		// Vertices and texture coordinates for a square
-		static constexpr std::array<float, 4 * 3 + 4 * 2> square_vertices = {
+		static constexpr std::array<float, 4 * 3 + 4 * 2> quad_vertices = {
 			// Vertex positions  // Texture coordinates
 			 0.5f,  0.5f, 0.0f,  1.0f, 1.0f, // Top right
 			 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, // Bottom right
@@ -63,7 +63,7 @@ namespace birb
 		};
 
 		// Indices for creating a square from two triangles
-		static constexpr std::array<unsigned int, 6> square_indices = {
+		static constexpr std::array<unsigned int, 6> quad_indices = {
 			0, 1, 2,
 			0, 2, 3,
 		};
