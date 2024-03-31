@@ -16,6 +16,7 @@ Vendored dependencies that are included as submodules or directly in the reposit
 - [cereal](https://github.com/USCiLab/cereal)
 - [doctest](https://github.com/doctest/doctest)
 - [nlohmann::json](https://github.com/nlohmann/json)
+- [openal-soft](https://github.com/kcat/openal-soft)
 - [stb](https://github.com/nothings/stb)
 
 Optional dependencies:
