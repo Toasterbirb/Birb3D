@@ -109,6 +109,14 @@ else()
 	add_compile_definitions(MICROPROFILE_ENABLED=0)
 endif()
 
+# Build OpenAL
+set(ALSOFT_UTILS OFF CACHE BOOL "Build utility programs")
+set(ALSOFT_NO_CONFIG_UTIL ON CACHE BOOL "Disable building the alsoft-config utility")
+set(ALSOFT_EXAMPLES OFF CACHE BOOL "Build example programs")
+set(ALSOFT_INSTALL OFF CACHE BOOL "Install main library")
+add_subdirectory(vendor/openal-soft)
+include_directories(vendor/openal-soft/include)
+
 # Build with all kinds of warnings enabled because programmers usually don't
 # know what they are doing
 add_compile_options(-pedantic -Wall -Wextra -Wcast-align
