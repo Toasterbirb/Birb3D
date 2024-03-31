@@ -86,6 +86,7 @@ target_link_libraries(birb assimp glfw glad glm imgui microprofile openal)
 target_precompile_headers(birb
 	PUBLIC
 		<Logger.hpp>
+		<Profiling.hpp>
 		<cassert>
 
 	PRIVATE
