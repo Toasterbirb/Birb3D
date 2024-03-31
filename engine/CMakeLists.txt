@@ -112,15 +112,12 @@ target_precompile_headers(birb
 		<cassert>
 		<cereal/archives/binary.hpp>
 		<cereal/types/string.hpp>
-		<chrono>
 		<climits>
 		<cmath>
 		<cstddef>
 		<cstdint>
-		<ctime>
 		<deque>
 		<entt.hpp>
-		<filesystem>
 		<fstream>
 		<future>
 		<glm/fwd.hpp>
@@ -139,13 +136,9 @@ target_precompile_headers(birb
 		<nlohmann/json_fwd.hpp>
 		<numeric>
 		<queue>
-		<random>
 		<stb_image.h>
 		<stb_sprintf.h>
-		<string.h>
 		<string>
-		<sys/resource.h>
-		<thread>
 		<unordered_map>
 		<unordered_set>
 		<vector>
