@@ -86,6 +86,7 @@ target_link_libraries(birb assimp glfw glad glm imgui microprofile)
 target_precompile_headers(birb
 	PUBLIC
 		<Logger.hpp>
+		<cassert>
 
 	PRIVATE
 		# Headers that probably won't be changed that often
@@ -109,7 +110,6 @@ target_precompile_headers(birb
 		<assimp/mesh.h>
 		<assimp/postprocess.h>
 		<assimp/scene.h>
-		<cassert>
 		<cereal/archives/binary.hpp>
 		<cereal/types/string.hpp>
 		<climits>
