@@ -25,6 +25,21 @@ namespace birb
 	}
 
 	/**
+	 * @brief Print a red error message
+	 *
+	 * Example output:
+	 * 	[E] Value: 4
+	 *
+	 * @param label
+	 * @param data
+	 */
+	template<typename T>
+	static void log_error(const std::string& label, T data)
+	{
+		std::cout << "[E] " << label << ": " << data << "\n";
+	}
+
+	/**
 	 * @brief Print debug level information
 	 *
 	 * @param text Text to print

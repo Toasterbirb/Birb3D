@@ -34,6 +34,11 @@ file(GLOB ASSETS_SRC assets/src/*.cpp)
 target_sources(birb PRIVATE ${ASSETS_SRC})
 
 
+# Audio
+file(GLOB AUDIO_SRC audio/src/*.cpp)
+target_sources(birb PRIVATE ${AUDIO_SRC})
+
+
 # Rendering
 file(GLOB SHADER_SRC rendering/shaders/*.glsl)
 set(SHADER_SOURCE_HEADER

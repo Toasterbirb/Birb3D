@@ -28,12 +28,15 @@ if(CCACHE_FOUND)
 	message("> ccache was found, using it to speed up compiling")
 endif(CCACHE_FOUND)
 
-include_directories(./engine/core/include
+include_directories(
 	./engine/assets/include
+	./engine/audio/include
+	./engine/core/include
 	./engine/rendering/include
-	./engine/scenes/include
 	./engine/scenes/components/include
-	./engine/widgets/include)
+	./engine/scenes/include
+	./engine/widgets/include
+)
 
 # Include doctest
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vendor/doctest)
