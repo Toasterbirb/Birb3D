@@ -76,6 +76,10 @@ namespace birb
 		birb::asset::image texture(image_path, true);
 		this->dimensions = texture.dimensions;
 
+		// Calculate the aspect ratio from the texture size
+		_aspect_ratio = static_cast<float>(dimensions.x) / static_cast<float>(dimensions.y);
+		_aspect_ratio_reverse = static_cast<float>(dimensions.y) / static_cast<float>(dimensions.x);
+
 		glGenTextures(1, &id);
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(tex_type, id);
@@ -158,5 +162,15 @@ namespace birb
 	vec2<int> texture::size()
 	{
 		return dimensions;
+	}
+
+	float texture::aspect_ratio() const
+	{
+		return _aspect_ratio;
+	}
+
+	float texture::aspect_ratio_reverse() const
+	{
+		return _aspect_ratio_reverse;
 	}
 }

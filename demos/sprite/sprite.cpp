@@ -33,13 +33,16 @@ int main(void)
 	{
 		birb::sprite texture_sprite("texture_512.png", birb::color_format::RGB);
 
+		birb::sprite wide_texture_sprite("wide_texture_512x256.png", birb::color_format::RGB);
+		wide_texture_sprite.ignore_aspect_ratio = false;
+
 		birb::entity entity = scene.create_entity();
 		birb::entity second_entity = scene.create_entity();
 
 		// Setup the first entity
 		{
 			birb::component::transform transform;
-			transform.position = { 100, 100, 0 };
+			transform.position = { 100, 0, 0 };
 			transform.local_scale = { 100, 100, 1 };
 			entity.add_component(transform);
 			entity.add_component(texture_sprite);
@@ -48,27 +51,40 @@ int main(void)
 		// Setup the second entity
 		{
 			birb::component::transform transform;
-			transform.position = { 50, 0, 0 };
+			transform.position = { 100, 100.0f / 2.0f + 40.0f / 2.0f, 0 };
 			transform.local_scale = { 40, 40, 1 };
 			second_entity.add_component(transform);
 			second_entity.add_component(texture_sprite);
 		}
 
 		// Copy pasted entities
-		for (int i = 0; i < 32; ++i)
+		for (int i = 0; i < 8; ++i)
 		{
-			for (int j = 0; j < 32; ++j)
+			for (int j = 0; j < 8; ++j)
 			{
 				birb::entity ent = scene.create_entity();
 
 				birb::component::transform transform;
-				transform.position = { i * 16.0f, j * 16.0f, 1.0f };
+				transform.position = { i * 16.0f + 200, j * 16.0f, 1.0f };
 				transform.local_scale = { 8, 8, 1 };
 				transform.lock();
 
 				ent.add_component(transform);
 				ent.add_component(texture_sprite);
 			}
+		}
+
+		// Wide sprite
+		{
+			birb::entity wide = scene.create_entity();
+
+			birb::component::transform transform;
+			transform.position = { 140, 100.0f / 2.0f + 40.0f / 2.0f, 2.0f };
+			transform.local_scale = { 40.0f, 40.0f, 1.0f };
+			transform.rotation.z = 45;
+
+			wide.add_component(transform);
+			wide.add_component(wide_texture_sprite);
 		}
 
 		// Zooming thingie

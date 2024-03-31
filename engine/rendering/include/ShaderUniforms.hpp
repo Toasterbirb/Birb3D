@@ -88,5 +88,11 @@ namespace birb
 		{
 			const static inline uniform tex0("tex0", uniform_type::INT);
 		}
+
+		namespace texture
+		{
+			const static inline uniform aspect_ratio("aspect_ratio", uniform_type::FLOAT);
+			const static inline uniform aspect_ratio_reverse("aspect_ratio_reverse", uniform_type::FLOAT);
+		}
 	}
 }

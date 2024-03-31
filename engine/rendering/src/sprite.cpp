@@ -9,14 +9,4 @@ namespace birb
 
 		texture = std::make_shared<birb::texture>(file_path.c_str(), 0, format, 2);
 	}
-
-	sprite::sprite(const sprite& other)
-	{
-		this->texture = other.texture;
-	}
-
-	sprite::sprite(sprite& other)
-	{
-		this->texture = other.texture;
-	}
 }

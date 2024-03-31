@@ -42,6 +42,9 @@ namespace birb
 		 */
 		vec2<int> size();
 
+		float aspect_ratio() const;
+		float aspect_ratio_reverse() const;
+
 		static unsigned int texture_from_file(const std::string& path);
 
 	private:
@@ -49,5 +52,8 @@ namespace birb
 		unsigned int slot = 0;
 
 		vec2<int> dimensions; // Width and height of the texture
+
+		float _aspect_ratio = 1.0f;
+		float _aspect_ratio_reverse = 1.0f;
 	};
 }

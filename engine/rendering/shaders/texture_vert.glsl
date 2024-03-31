@@ -10,8 +10,11 @@ uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
+uniform float aspect_ratio;
+uniform float aspect_ratio_reverse;
+
 void main()
 {
-	gl_Position = projection * view * model * vec4(aPos, 1.0f);
+	gl_Position = projection * view * model * vec4(aPos.x / aspect_ratio_reverse, aPos.y / aspect_ratio, aPos.z, 1.0f);
 	texCoord = aTex;
 }
