@@ -114,6 +114,7 @@ namespace birb
 
 		assert(current_scene != nullptr);
 		assert(scene::scene_count() > 0);
+		assert(!buffers_flipped);
 
 		entt::registry& entity_registry = current_scene->registry;
 

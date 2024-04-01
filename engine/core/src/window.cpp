@@ -142,6 +142,7 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN()
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		buffers_flipped = false;
 	}
 
 	void window::flip()
@@ -162,6 +163,8 @@ namespace birb
 		// If ImGui was initialized, start a new frame
 		if (imgui_initialized)
 			new_imgui_frame();
+
+		buffers_flipped = true;
 	}
 
 	void window::poll()

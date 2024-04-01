@@ -16,4 +16,12 @@ namespace birb
 	 * init_imgui() is called
 	 */
 	inline bool imgui_initialized = false;
+
+	/**
+	 * @brief True if the front and back buffers have been flipped and clear() hasn't been called yet
+	 *
+	 * This variable gets set in birb::window when its methods
+	 * flip() and clear() are called
+	 */
+	inline bool buffers_flipped = false;
 }
