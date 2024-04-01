@@ -33,7 +33,7 @@ namespace birb
 	{
 		assert(!meshes.empty() && "Attempted to draw a model with no meshes");
 
-		for (unsigned int i = 0; i < meshes.size(); ++i)
+		for (size_t i = 0; i < meshes.size(); ++i)
 		{
 			meshes[i].draw(shader);
 		}
@@ -216,7 +216,7 @@ namespace birb
 		assert(scene != nullptr);
 
 		// Process all meshes in the node
-		for (unsigned int i = 0; i < node->mNumMeshes; ++i)
+		for (u32 i = 0; i < node->mNumMeshes; ++i)
 		{
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 			meshes.push_back(process_mesh(mesh, scene));
@@ -224,7 +224,7 @@ namespace birb
 		}
 
 		// Process the child nodes of the node
-		for (unsigned int i = 0; i < node->mNumChildren; ++i)
+		for (u32 i = 0; i < node->mNumChildren; ++i)
 		{
 			process_node(node->mChildren[i], scene);
 		}
@@ -238,11 +238,11 @@ namespace birb
 		assert(scene != nullptr);
 
 		std::vector<vertex> vertices;
-		std::vector<unsigned int> indices;
+		std::vector<u32> indices;
 		std::vector<mesh_texture> textures;
 
 		// Process vertices
-		for (unsigned int i = 0; i < ai_mesh->mNumVertices; ++i)
+		for (u32 i = 0; i < ai_mesh->mNumVertices; ++i)
 		{
 			vertex vertex;
 
@@ -272,10 +272,10 @@ namespace birb
 		}
 
 		// Process indices
-		for (unsigned int i = 0; i < ai_mesh->mNumFaces; ++i)
+		for (u32 i = 0; i < ai_mesh->mNumFaces; ++i)
 		{
 			aiFace face = ai_mesh->mFaces[i];
-			for (unsigned int j = 0; j < face.mNumIndices; ++j)
+			for (u32 j = 0; j < face.mNumIndices; ++j)
 				indices.push_back(face.mIndices[j]);
 		}
 
@@ -305,13 +305,13 @@ namespace birb
 
 		std::vector<mesh_texture> textures;
 
-		for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i)
+		for (u32 i = 0; i < mat->GetTextureCount(type); ++i)
 		{
 			aiString str;
 			mat->GetTexture(type, i, &str);
 
 			bool skip = false;
-			for (unsigned int j = 0; j < textures_loaded.size(); ++j)
+			for (size_t j = 0; j < textures_loaded.size(); ++j)
 			{
 				if (!std::strcmp(textures_loaded[j].path.data(), str.C_Str()))
 				{
@@ -336,7 +336,7 @@ namespace birb
 		return textures;
 	}
 
-	unsigned int model::vertex_count() const
+	u32 model::vertex_count() const
 	{
 		return vert_count;
 	}

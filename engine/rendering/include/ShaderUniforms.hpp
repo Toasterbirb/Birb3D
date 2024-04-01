@@ -26,7 +26,7 @@ namespace birb
 		std::string struct_var;
 		bool is_array = false;
 
-		std::string str(int index = -1) const
+		std::string str(i32 index = -1) const
 		{
 			std::string str = name;
 

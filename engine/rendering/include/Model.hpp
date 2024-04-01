@@ -29,7 +29,7 @@ namespace birb
 		void load_model_from_memory(const primitive_mesh mesh, const std::string& name = "unknown");
 		void destroy();
 
-		unsigned int vertex_count() const;
+		u32 vertex_count() const;
 
 		template<class Archive>
 		void serialize(Archive& ar)
@@ -60,7 +60,7 @@ namespace birb
 		// Files with this path don't exist
 		static inline const std::string null_path = "...";
 
-		unsigned int vert_count = 0;
+		u32 vert_count = 0;
 
 		// Editor stuff
 		std::string text_box_model_file_path = "";

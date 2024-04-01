@@ -15,7 +15,7 @@ namespace birb
 	namespace overlay
 	{
 		// There should only be a singular performance overlay at any point
-		static unsigned short perf_overlay_count = 0;
+		static u8 perf_overlay_count = 0;
 
 		performance::performance(timestep& ts) : ts(ts)
 		{
@@ -98,7 +98,7 @@ namespace birb
 				// Memory usage
 				//   Update the graph if the last value has changed
 				assert(!memory_history.empty() && "Empty memory history will cause an out-of-bounds read");
-				long memory_usage = resident_memory_usage();
+				i64 memory_usage = resident_memory_usage();
 				if (memory_history.at(memory_history.size() - 1) != memory_usage)
 				{
 					std::rotate(memory_history.begin(), memory_history.begin() + 1, memory_history.end());
@@ -148,7 +148,7 @@ namespace birb
 			std::fill(memory_history.begin(), memory_history.end(), 0);
 		}
 
-		long performance::resident_memory_usage() const
+		i64 performance::resident_memory_usage() const
 		{
 			struct rusage mem;
 			getrusage(pid, &mem);

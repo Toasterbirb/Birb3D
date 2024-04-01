@@ -24,7 +24,7 @@ namespace birb
 		~vbo();
 
 		// Reference to the vertex buffer object
-		unsigned int id = 0;
+		u32 id = 0;
 
 		void bind();
 		void unbind();

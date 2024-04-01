@@ -17,10 +17,10 @@ namespace birb
 	public:
 		texture() = default;
 		texture(const texture&) = delete;
-		texture(const char* image_path, const unsigned int slot, const color_format format, const unsigned short texture_dimension = 2);
+		texture(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension = 2);
 		~texture();
 
-		unsigned int id = 0;
+		u32 id = 0;
 
 		/**
 		 * @brief Create an empty OpenGL texture
@@ -29,29 +29,29 @@ namespace birb
 		 * It only initializes the texture and doesn't do any fancy things like
 		 * mipmapping and so on
 		 */
-		void create_empty(birb::vec2<int> dimensions);
+		void create_empty(birb::vec2<i32> dimensions);
 
-		void load(const char* image_path, const unsigned int slot, const color_format format, const unsigned short texture_dimension = 2);
+		void load(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension = 2);
 
-		void tex_unit(birb::shader& shader, const char* uniform = "tex0", const unsigned int unit = 0);
+		void tex_unit(birb::shader& shader, const char* uniform = "tex0", const u32 unit = 0);
 		void bind();
 		void unbind();
 
 		/**
 		 * @brief Get the width and height of the texture
 		 */
-		vec2<int> size();
+		vec2<i32> size();
 
 		float aspect_ratio() const;
 		float aspect_ratio_reverse() const;
 
-		static unsigned int texture_from_file(const std::string& path);
+		static u32 texture_from_file(const std::string& path);
 
 	private:
 		GLenum tex_type = GL_TEXTURE_2D;
-		unsigned int slot = 0;
+		u32 slot = 0;
 
-		vec2<int> dimensions; // Width and height of the texture
+		vec2<i32> dimensions; // Width and height of the texture
 
 		float _aspect_ratio = 1.0f;
 		float _aspect_ratio_reverse = 1.0f;

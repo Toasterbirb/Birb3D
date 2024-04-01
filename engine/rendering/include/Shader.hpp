@@ -38,10 +38,10 @@ namespace birb
 		~shader();
 
 		// Reference to the shader program
-		unsigned int id = 0;
+		u32 id = 0;
 
 		// Lighting constants
-		const static unsigned short point_light_count = 4;
+		const static u16 point_light_count = 4;
 
 		// Directional lighting
 		static inline vec3<float> directional_direction = { 0.2f, 0.2f, -0.7f };
@@ -74,15 +74,15 @@ namespace birb
 		bool has_uniform_var(const std::string& name) const;
 
 		// These functions are defined in shader_set_funcs.cpp instead of shader.cpp
-		void set(const uniform& uniform, int value, int index = -1);
-		void set(const uniform& uniform, float value, int index = -1);
-		void set(const uniform& uniform, const glm::vec3 value, int index = -1);
-		void set(const uniform& uniform, const glm::vec4 value, int index = -1);
-		void set(const uniform& uniform, const birb::vec3<float> value, int index = -1);
-		void set(const uniform& uniform, const glm::mat4 value, int index = -1);
-		void set(const uniform& uniform, const color value, int index = -1);
+		void set(const uniform& uniform, i32 value, i32 index = -1);
+		void set(const uniform& uniform, float value, i32 index = -1);
+		void set(const uniform& uniform, const glm::vec3 value, i32 index = -1);
+		void set(const uniform& uniform, const glm::vec4 value, i32 index = -1);
+		void set(const uniform& uniform, const birb::vec3<float> value, i32 index = -1);
+		void set(const uniform& uniform, const glm::mat4 value, i32 index = -1);
+		void set(const uniform& uniform, const color value, i32 index = -1);
 
-		void set_int(const std::string& name, const int value);
+		void set_int(const std::string& name, const i32 value);
 
 		void apply_color_material(const component::material& material);
 
@@ -118,7 +118,7 @@ namespace birb
 		// Try to add a new uniform location without caring if it exists or not
 		// The return value will be -1 if it didn't exist and something other than -1
 		// if it did exists
-		int try_add_uniform_location(const std::string& name);
+		i32 try_add_uniform_location(const std::string& name);
 
 		// Material helper functions and variables
 		void set_diffuse_color(const color& color);
@@ -126,8 +126,8 @@ namespace birb
 		void set_shininess(const float shininess);
 
 		void compile_shader(const std::string& vertex, const std::string& fragment);
-		void compile_errors(unsigned int shader, const std::string& type);
-		std::unordered_map<std::string, int> uniform_locations;
+		void compile_errors(u32 shader, const std::string& type);
+		std::unordered_map<std::string, i32> uniform_locations;
 
 		std::string vertex_shader_name = "NULL";
 		std::string fragment_shader_name = "NULL";

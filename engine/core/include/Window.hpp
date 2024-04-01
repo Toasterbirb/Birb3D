@@ -21,11 +21,11 @@ namespace birb
 		 * @param title Window title
 		 * @param dimensions Size of the window
 		 */
-		window(const std::string& title, const vec2<int> dimensions);
+		window(const std::string& title, const vec2<i32> dimensions);
 
 		~window();
 
-		void process_event(unsigned short event_id, const event_data& data) override;
+		void process_event(u16 event_id, const event_data& data) override;
 
 		/**
 		 * @brief Check if the window should be still kept open
@@ -37,7 +37,7 @@ namespace birb
 		/**
 		 * @return The current dimensions of the window
 		 */
-		vec2<int> size() const
+		vec2<i32> size() const
 		{
 			return dimensions;
 		}
@@ -139,7 +139,7 @@ namespace birb
 		/**
 		 * @return The refreshrate of the primary monitor
 		 */
-		int monitor_refreshrate() const;
+		i32 monitor_refreshrate() const;
 
 		/**
 		 * @brief Set the default background color
@@ -167,7 +167,7 @@ namespace birb
 		 * It will be kept up-to-date in the poll() function with the help
 		 * of window_size_callback()
 		 */
-		vec2<int> dimensions;
+		vec2<i32> dimensions;
 
 		static inline bool cursor_locked_to_window = false;
 
@@ -187,12 +187,12 @@ namespace birb
 		/**
 		 * @brief GLFW input callback function
 		 */
-		static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+		static void key_callback(GLFWwindow* window, i32 key, i32 scancode, i32 action, i32 mods);
 
 		/**
 		 * @brief GLFW mouse input callback function
 		 */
-		static void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+		static void mouse_button_callback(GLFWwindow* window, i32 button, i32 action, i32 mods);
 
 		/**
 		 * @brief GLFW mouse scrolling callback function
@@ -202,11 +202,11 @@ namespace birb
 		/**
 		 * @brief GLFW error callback function
 		 */
-		static void error_callback(int error, const char* description);
+		static void error_callback(i32 error, const char* description);
 
 		/**
 		 * @brief GLFW window resize callback function
 		 */
-		static void window_size_callback(GLFWwindow* window, int width, int height);
+		static void window_size_callback(GLFWwindow* window, i32 width, i32 height);
 	};
 }

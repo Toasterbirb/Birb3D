@@ -37,7 +37,7 @@ namespace editor
 
 			if (ImGui::CollapsingHeader("Point lights"))
 			{
-				for (unsigned int i = 0; i < birb::shader::point_light_count; ++i)
+				for (u16 i = 0; i < birb::shader::point_light_count; ++i)
 				{
 					std::string light_name = std::to_string(i) + " " + birb::shader::point_lights[i].name;
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.hpp"
+
 #include <iostream>
 #include <string>
 
@@ -66,7 +68,7 @@ namespace birb
 	 * @param text Error text to print
 	 * @param exit_code Exit code that will be used when quitting the program
 	 */
-	void log_fatal(const std::string& text, const int exit_code = 1);
+	void log_fatal(const std::string& text, const u8 exit_code = 1);
 
 	/**
 	 * @brief Helper function for converting 64-bit pointers to a string

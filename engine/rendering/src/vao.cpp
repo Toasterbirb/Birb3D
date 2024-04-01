@@ -18,7 +18,7 @@ namespace birb
 		glDeleteVertexArrays(1, &id);
 	}
 
-	void vao::link_vbo(birb::vbo& vbo, unsigned int layout, unsigned int num_components, size_t stride, unsigned int offset)
+	void vao::link_vbo(birb::vbo& vbo, u32 layout, u32 num_components, size_t stride, u32 offset)
 	{
 		PROFILER_SCOPE_RENDER_FN()
 

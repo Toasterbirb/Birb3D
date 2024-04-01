@@ -18,7 +18,7 @@ namespace birb
 		renderer(const renderer&) = delete;
 		~renderer();
 
-		void process_event(unsigned short event_id, const event_data& data) override;
+		void process_event(u16 event_id, const event_data& data) override;
 
 		void set_scene(scene& scene);
 
@@ -35,12 +35,12 @@ namespace birb
 		/**
 		 * @return The amount of entities rendered during last call to draw_entities()
 		 */
-		unsigned int rendered_entities_count() const;
+		u32 rendered_entities_count() const;
 
 		/**
 		 * @return The amount of vertices rendered during last call to draw_entities()
 		 */
-		unsigned int rendered_vertex_count() const;
+		u32 rendered_vertex_count() const;
 
 	private:
 		scene* current_scene = nullptr;
@@ -48,8 +48,8 @@ namespace birb
 		static inline bool backface_culling_enabled = false;
 
 		// Variables for rendering statistics
-		unsigned int rendered_entities = 0;
-		unsigned int rendered_vertices = 0;
+		u32 rendered_entities = 0;
+		u32 rendered_vertices = 0;
 
 		// -- Variables for sprite rendering -- //
 
@@ -63,7 +63,7 @@ namespace birb
 		};
 
 		// Indices for creating a square from two triangles
-		static constexpr std::array<unsigned int, 6> quad_indices = {
+		static constexpr std::array<u32, 6> quad_indices = {
 			0, 1, 2,
 			0, 2, 3,
 		};

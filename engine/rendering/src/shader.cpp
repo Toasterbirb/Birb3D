@@ -12,7 +12,7 @@
 namespace birb
 {
 	// Cache for compiled shaders
-	static std::unordered_map<std::string, unsigned int> shader_cache;
+	static std::unordered_map<std::string, u32> shader_cache;
 	static size_t shader_cache_hit_count = 0;
 
 	shader::shader()
@@ -75,7 +75,7 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN()
 
 		// Point lights
-		for (unsigned int i = 0; i < point_light_count; ++i)
+		for (u16 i = 0; i < point_light_count; ++i)
 		{
 			// Set the lights to black
 			set(shader_uniforms::point_lights::ambient,  vec3<float>( 0.0f, 0.0f, 0.0f ), i);
@@ -116,7 +116,7 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN()
 
 		// Point lights
-		for (unsigned int i = 0; i < point_light_count; ++i)
+		for (u16 i = 0; i < point_light_count; ++i)
 		{
 			set(shader_uniforms::point_lights::ambient,  point_lights.at(i).ambient, i);
 			set(shader_uniforms::point_lights::diffuse,  point_lights.at(i).diffuse, i);
@@ -135,7 +135,7 @@ namespace birb
 		return uniform_locations.contains(name);
 	}
 
-	void shader::set_int(const std::string& name, const int value)
+	void shader::set_int(const std::string& name, const i32 value)
 	{
 		assert(!name.empty());
 
@@ -224,7 +224,7 @@ namespace birb
 		assert(birb::opengl_initialized);
 
 		// Free all of the shaders
-		for (const std::pair<std::string, unsigned int> shader : shader_cache)
+		for (const std::pair<std::string, u32> shader : shader_cache)
 			glDeleteShader(shader.second);
 
 		shader_cache.clear();
@@ -249,12 +249,12 @@ namespace birb
 			birb::log_warn("Tried to add shader uniform that doesn't exist: " + name);
 	}
 
-	int shader::try_add_uniform_location(const std::string& name)
+	i32 shader::try_add_uniform_location(const std::string& name)
 	{
 		assert(!name.empty() && "Empty uniform name");
 
 		// Don't fetch the uniform location if its already in the hashmap
-		int location = -1;
+		i32 location = -1;
 
 		if (!uniform_locations.contains(name))
 		{
@@ -299,7 +299,7 @@ namespace birb
 
 			birb::log("Compiling shader [" + vertex + ", " + fragment + "] (" + birb::ptr_to_str(this) + ")");
 
-			unsigned int vertex_shader = 0;
+			u32 vertex_shader = 0;
 			if (!shader_cache.contains(vertex_name))
 			{
 				vertex_shader = glCreateShader(GL_VERTEX_SHADER);
@@ -318,7 +318,7 @@ namespace birb
 			}
 			assert(vertex_shader != 0);
 
-			unsigned int fragment_shader = 0;
+			u32 fragment_shader = 0;
 			if (!shader_cache.contains(fragment_name))
 			{
 				fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -345,11 +345,11 @@ namespace birb
 		}
 	}
 
-	void shader::compile_errors(unsigned int shader, const std::string& type)
+	void shader::compile_errors(u32 shader, const std::string& type)
 	{
-		constexpr int LOG_BUFFER_SIZE = 1024;
+		constexpr i32 LOG_BUFFER_SIZE = 1024;
 
-		int has_compiled = true;
+		i32 has_compiled = true;
 		char info_log[LOG_BUFFER_SIZE];
 		if (type != "PROGRAM")
 		{

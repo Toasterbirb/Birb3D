@@ -12,8 +12,8 @@ namespace birb
 			~image();
 
 			unsigned char* data;
-			vec2<int> dimensions;
-			int color_channels;
+			vec2<i32> dimensions;
+			i32 color_channels;
 		};
 	}
 }

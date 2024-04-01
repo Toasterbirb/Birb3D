@@ -19,7 +19,7 @@ namespace birb
 		std::cerr << "\033[31m[E] " << text << "\033[0m\n";
 	}
 
-	void log_fatal(const std::string& text, const int exit_code)
+	void log_fatal(const std::string& text, const u8 exit_code)
 	{
 		std::cerr << "\033[31mFATAL ERROR: " << text << "\033[0m\n";
 		exit(exit_code);
@@ -27,7 +27,7 @@ namespace birb
 
 	std::string ptr_to_str(const void* ptr)
 	{
-		constexpr unsigned int buf_size = 18;
+		constexpr u8 buf_size = 18;
 		char buf[buf_size];
 		stbsp_snprintf(buf, buf_size, "%p", ptr);
 		return "0x" + std::string(buf);

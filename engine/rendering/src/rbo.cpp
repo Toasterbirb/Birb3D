@@ -6,7 +6,7 @@
 
 namespace birb
 {
-	rbo::rbo(const vec2<int>& dimensions)
+	rbo::rbo(const vec2<i32>& dimensions)
 	{
 		PROFILER_SCOPE_RENDER_FN()
 

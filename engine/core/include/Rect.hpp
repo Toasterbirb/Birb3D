@@ -52,12 +52,12 @@ namespace birb
 		 * @warning  The converted rect will be constructed with no rounding and thus
 		 * any floating point values will get floored.
 		 *
-		 * @return A new rect constructed as \ref birb::rect<int>
+		 * @return A new rect constructed as \ref birb::rect<i32>
 		 */
-		constexpr rect<int> to_int() const
+		constexpr rect<i32> to_int() const
 		{
-			static_assert(!std::is_same<int, T>::value, "Unnecessary conversion from rect<int> to rect<int>");
-			return rect<int>(x, y, w, h);
+			static_assert(!std::is_same<i32, T>::value, "Unnecessary conversion from rect<i32> to rect<i32>");
+			return rect<i32>(x, y, w, h);
 		}
 
 		/**

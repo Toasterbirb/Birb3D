@@ -11,18 +11,20 @@ namespace birb
 
 	union event_data
 	{
-		std::array<bool, event_data_size / sizeof(bool)> _bool;
-		std::array<char, event_data_size / sizeof(char)> _char;
-		std::array<int, event_data_size / sizeof(int)> _int;
-		std::array<float, event_data_size / sizeof(float)> _float;
-		std::array<double, event_data_size / sizeof(double)> _double;
-		std::array<long, event_data_size / sizeof(long)> _long;
+		std::array<i8,		event_data_size / sizeof(i8)>		_i8;
+		std::array<i16,		event_data_size / sizeof(i16)>		_i16;
+		std::array<i32,		event_data_size / sizeof(i32)>		_i32;
+		std::array<i64,		event_data_size / sizeof(i64)>		_i64;
+		std::array<bool,	event_data_size / sizeof(bool)>		_bool;
+		std::array<char,	event_data_size / sizeof(char)>		_char;
+		std::array<float,	event_data_size / sizeof(float)>	_float;
+		std::array<double,	event_data_size / sizeof(double)>	_double;
 	};
 
 	// Interface that all objects that deal with events should inherit from
 	struct event_obj
 	{
-		virtual void process_event(unsigned short event_id, const event_data& data) = 0;
+		virtual void process_event(u16 event_id, const event_data& data) = 0;
 	};
 
 	/**
@@ -40,7 +42,7 @@ namespace birb
 		 * @param event_id Identifier for the event
 		 * @param obj Pointer to the object that will receive the event
 		 */
-		void register_event_id(unsigned short event_id, event_obj* obj);
+		void register_event_id(u16 event_id, event_obj* obj);
 
 		/**
 		 * @brief Unregister an object from an event ID
@@ -48,17 +50,17 @@ namespace birb
 		 * @param event_id Identifier for the event
 		 * @param obj Pointer to the object that will be removed from the event ID registry
 		 */
-		void unregister_event_id(unsigned short event_id, event_obj* obj);
+		void unregister_event_id(u16 event_id, event_obj* obj);
 
 		/**
 		 * @brief Send an event to all event objects that have subscribed to the given ID
 		 */
-		void send_event(unsigned short event_id);
+		void send_event(u16 event_id);
 
 		/**
 		 * @brief Send an event and data to all event objects that have subscribed to the given ID
 		 */
-		void send_event(unsigned short event_id, const event_data& data);
+		void send_event(u16 event_id, const event_data& data);
 
 		/**
 		 * @brief Clear the registry of all event ids and object pointers

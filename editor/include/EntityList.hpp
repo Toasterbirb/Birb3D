@@ -19,7 +19,7 @@ namespace editor
 
 	private:
 		birb::scene& scene;
-		unsigned int counter = 0;
+		u32 counter = 0;
 		birb::random rng;
 
 		entt::entity default_entity(std::string name);
@@ -30,7 +30,7 @@ namespace editor
 		std::string fragment_shader_name_list_str;
 		const std::string default_vert_shader_name_str = "default";
 		const std::string default_frag_shader_name_str = "default_color";
-		unsigned short default_vertex_shader_index = 0;
-		unsigned short default_fragment_shader_index = 0;
+		u16 default_vertex_shader_index = 0;
+		u16 default_fragment_shader_index = 0;
 	};
 }

@@ -44,7 +44,7 @@ namespace birb
 		return glm::lookAt(position, position + front, up);
 	}
 
-	glm::mat4 camera::get_projection_matrix(camera::projection_mode mode, vec2<int> window_size) const
+	glm::mat4 camera::get_projection_matrix(camera::projection_mode mode, vec2<i32> window_size) const
 	{
 		glm::mat4 projection;
 

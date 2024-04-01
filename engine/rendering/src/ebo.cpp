@@ -6,7 +6,7 @@
 
 namespace birb
 {
-	ebo::ebo(const std::vector<unsigned int>& indices)
+	ebo::ebo(const std::vector<u32>& indices)
 	{
 		assert(!indices.empty() && "Empty index array");
 		assert(indices.size() < 33000 && "You might wanna check the index count on that model");
@@ -20,7 +20,7 @@ namespace birb
 		glDeleteBuffers(1, &id);
 	}
 
-	void ebo::load(const unsigned int* indices, const size_t size)
+	void ebo::load(const u32* indices, const size_t size)
 	{
 		assert(id == 0);
 		assert(size > 0);

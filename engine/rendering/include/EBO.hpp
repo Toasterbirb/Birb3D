@@ -9,10 +9,10 @@ namespace birb
 	class ebo
 	{
 	public:
-		explicit ebo(const std::vector<unsigned int>& indices);
+		explicit ebo(const std::vector<u32>& indices);
 
 		template<size_t N>
-		explicit ebo(const std::array<unsigned int, N>& indices)
+		explicit ebo(const std::array<u32, N>& indices)
 		{
 			static_assert(N != 0, "Empty index array");
 			static_assert(N < 33000, "You might wanna check the index count on that model");
@@ -24,12 +24,12 @@ namespace birb
 		~ebo();
 
 		// Reference to the element array buffer
-		unsigned int id = 0;
+		u32 id = 0;
 
 		void bind();
 		void unbind();
 
 	private:
-		void load(const unsigned int* indices, const size_t size);
+		void load(const u32* indices, const size_t size);
 	};
 }

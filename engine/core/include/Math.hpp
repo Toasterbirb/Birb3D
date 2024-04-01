@@ -16,7 +16,7 @@ namespace birb
 	 * @return Rounded value
 	 */
 	template<typename T>
-	constexpr double round(T value, int decimal_points)
+	constexpr double round(T value, i8 decimal_points)
 	{
 		/* How this thing works:
 		 * 1. Multiply the value with 10 ^ decimal points. This will leave the needed values before the decimal point

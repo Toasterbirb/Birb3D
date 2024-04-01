@@ -12,13 +12,13 @@
 
 namespace birb
 {
-	texture::texture(const char* image_path, const unsigned int slot, const color_format format, const unsigned short texture_dimension)
+	texture::texture(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension)
 	:slot(slot)
 	{
 		this->load(image_path, slot, format, texture_dimension);
 	}
 
-	void texture::create_empty(birb::vec2<int> dimensions)
+	void texture::create_empty(birb::vec2<i32> dimensions)
 	{
 		assert(id == 0 && "Memory leak");
 		assert(dimensions.x > 0);
@@ -35,7 +35,7 @@ namespace birb
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	}
 
-	void texture::load(const char* image_path, const unsigned int slot, const color_format format, const unsigned short texture_dimension)
+	void texture::load(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension)
 	{
 		PROFILER_SCOPE_IO("Texture loading")
 
@@ -106,7 +106,7 @@ namespace birb
 		id = 0;
 	}
 
-	void texture::tex_unit(birb::shader& shader, const char* uniform, const unsigned int unit)
+	void texture::tex_unit(birb::shader& shader, const char* uniform, const u32 unit)
 	{
 		assert(id != 0 && "Texture needs to be initialized at this point");
 
@@ -128,7 +128,7 @@ namespace birb
 		glBindTexture(tex_type, 0);
 	}
 
-	unsigned int texture::texture_from_file(const std::string& path)
+	u32 texture::texture_from_file(const std::string& path)
 	{
 		PROFILER_SCOPE_IO_FN()
 
@@ -141,7 +141,7 @@ namespace birb
 		assert(image.dimensions.y != 0);
 		assert(image.color_channels != 0);
 
-		unsigned int id;
+		u32 id;
 
 		glGenTextures(1, &id);
 		glActiveTexture(GL_TEXTURE0);
@@ -159,7 +159,7 @@ namespace birb
 		return id;
 	}
 
-	vec2<int> texture::size()
+	vec2<i32> texture::size()
 	{
 		return dimensions;
 	}

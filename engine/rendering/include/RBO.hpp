@@ -7,10 +7,12 @@ namespace birb
 	class rbo
 	{
 	public:
-		explicit rbo(const vec2<int>& dimensions);
+		explicit rbo(const vec2<i32>& dimensions);
+		rbo(rbo&) = delete;
+		rbo(const rbo&) = delete;
 		~rbo();
 
 	private:
-		unsigned int id = 0;
+		u32 id = 0;
 	};
 }

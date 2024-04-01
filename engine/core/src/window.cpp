@@ -19,7 +19,7 @@
 namespace birb
 {
 	// How many windows have been created so far. This should NEVER be more than 1
-	static unsigned short window_count = 0;
+	static u8 window_count = 0;
 
 	// Input queue for the game/application
 	static std::queue<input> input_queue;
@@ -27,7 +27,7 @@ namespace birb
 	// Input queue for engine reserved key inputs
 	static std::queue<input> engine_input_queue;
 
-	window::window(const std::string& title, const vec2<int> dimensions)
+	window::window(const std::string& title, const vec2<i32> dimensions)
 	:dimensions(dimensions)
 	{
 		event_bus::register_event_id(event::set_window_background_clear_color, this); // Set window background clear color | float[3]
@@ -117,7 +117,7 @@ namespace birb
 		opengl_initialized = false;
 	}
 
-	void window::process_event(unsigned short event_id, const event_data& data)
+	void window::process_event(u16 event_id, const event_data& data)
 	{
 		switch (event_id)
 		{
@@ -329,7 +329,7 @@ namespace birb
 		return window::imgui_initialized;
 	}
 
-	int window::monitor_refreshrate() const
+	i32 window::monitor_refreshrate() const
 	{
 		const GLFWvidmode* vid_mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 		return vid_mode->refreshRate;
@@ -375,7 +375,7 @@ namespace birb
 			held_down_keys.erase(input.key);
 	}
 
-	void window::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+	void window::key_callback(GLFWwindow* window, i32 key, i32 scancode, i32 action, i32 mods)
 	{
 		input new_input {
 			.scancode	= scancode,
@@ -408,7 +408,7 @@ namespace birb
 		}
 	}
 
-	void window::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
+	void window::mouse_button_callback(GLFWwindow* window, i32 button, i32 action, i32 mods)
 	{
 		input new_input {
 			.scancode	= 0,
@@ -441,12 +441,12 @@ namespace birb
 		input_queue.push(new_input);
 	}
 
-	void window::error_callback(int error, const char* description)
+	void window::error_callback(i32 error, const char* description)
 	{
 		birb::log_error("GLFW error [" + std::to_string(error) + "]: " + std::string(description));
 	}
 
-	void window::window_size_callback(GLFWwindow* window, int width, int height)
+	void window::window_size_callback(GLFWwindow* window, i32 width, i32 height)
 	{
 		window::window_size_changed = true;
 	}

@@ -18,13 +18,13 @@ namespace editor
 
 		void draw() override;
 		bool is_window_hovered() const;
-		birb::vec2<int> dimensions() const;
+		birb::vec2<i32> dimensions() const;
 
 		birb::renderer renderer;
 		birb::camera camera;
 
 	private:
-		birb::vec2<int> last_viewport_size = {1280, 720};
+		birb::vec2<i32> last_viewport_size = {1280, 720};
 		birb::fbo fbo;
 
 		birb::scene& scene;

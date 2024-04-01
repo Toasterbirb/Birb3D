@@ -102,7 +102,7 @@ namespace birb
 		double _deltatime = 0.001;
 
 		// Framebudget usage of the previous frame
-		static constexpr unsigned short framebudget_sample_count = 64;
+		static constexpr u16 framebudget_sample_count = 64;
 		std::deque<double> framebudget_history;
 	};
 }

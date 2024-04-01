@@ -37,6 +37,15 @@ static_assert(sizeof(unsigned short) == sizeof(GLushort));
 static_assert(sizeof(size_t) == sizeof(GLsizeiptr));
 static_assert(sizeof(intptr_t) == sizeof(GLintptr));
 
+static_assert(sizeof(i8) == sizeof(GLchar));
+static_assert(sizeof(i16) == sizeof(GLshort));
+static_assert(sizeof(i32) == sizeof(GLint));
+static_assert(sizeof(i64) == sizeof(GLint64));
+static_assert(sizeof(u8) == sizeof(GLchar));
+static_assert(sizeof(u16) == sizeof(GLushort));
+static_assert(sizeof(u32) == sizeof(GLuint));
+static_assert(sizeof(u64) == sizeof(GLuint64));
+
 namespace birb
 {
 	renderer::renderer()
@@ -49,16 +58,16 @@ namespace birb
 		sprite_vbo = std::make_shared<vbo>(quad_vertices);
 		sprite_ebo = std::make_shared<ebo>(quad_indices);
 
-		constexpr unsigned int vertex_pos_layout = 0;
-		constexpr unsigned int texture_coord_layout = 1;
+		constexpr u32 vertex_pos_layout = 0;
+		constexpr u32 texture_coord_layout = 1;
 
-		constexpr unsigned int vertex_component_count = 3;
-		constexpr unsigned int texture_coord_component_count = 2;
+		constexpr u32 vertex_component_count = 3;
+		constexpr u32 texture_coord_component_count = 2;
 
-		constexpr unsigned int vertex_offset = 0;
-		constexpr unsigned int texture_coord_offset = vertex_component_count;
+		constexpr u32 vertex_offset = 0;
+		constexpr u32 texture_coord_offset = vertex_component_count;
 
-		constexpr unsigned int stride = 5;
+		constexpr u32 stride = 5;
 
 		sprite_vao.link_vbo(*sprite_vbo,
 				vertex_pos_layout,
@@ -83,7 +92,7 @@ namespace birb
 		event_bus::unregister_event_id(event::toggle_wireframe_rendering_mode, this);
 	}
 
-	void renderer::process_event(unsigned short event_id, const event_data& data)
+	void renderer::process_event(u16 event_id, const event_data& data)
 	{
 		switch (event_id)
 		{
@@ -276,12 +285,12 @@ namespace birb
 		return backface_culling_enabled;
 	}
 
-	unsigned int renderer::rendered_entities_count() const
+	u32 renderer::rendered_entities_count() const
 	{
 		return rendered_entities;
 	}
 
-	unsigned int renderer::rendered_vertex_count() const
+	u32 renderer::rendered_vertex_count() const
 	{
 		return rendered_vertices;
 	}

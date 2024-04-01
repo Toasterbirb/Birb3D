@@ -7,7 +7,7 @@
 
 namespace birb
 {
-	static int current_scene_count = 0;
+	static i16 current_scene_count = 0;
 
 	scene::scene()
 	{
@@ -50,7 +50,7 @@ namespace birb
 		return false;
 	}
 
-	int scene::scene_count()
+	i16 scene::scene_count()
 	{
 		return current_scene_count;
 	}

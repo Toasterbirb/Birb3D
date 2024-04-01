@@ -152,7 +152,7 @@ namespace birb
 			SCROLLING = 349,
 		};
 
-		int scancode, mods;
+		i32 scancode, mods;
 		keycode key;
 		action state;
 

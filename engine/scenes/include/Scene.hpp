@@ -40,7 +40,7 @@ namespace birb
 			return registry.get<T>(entity);
 		}
 
-		static int scene_count();
+		static i16 scene_count();
 
 	private:
 	};

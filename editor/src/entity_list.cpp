@@ -43,14 +43,14 @@ namespace editor
 			return default_vert_shader_name_str == name;
 		});
 		assert(vert_it != vert_shader_names.end() && "Default vertex shader doesn't exist in ShaderSource.hpp");
-		assert(vert_it - vert_shader_names.begin() < std::numeric_limits<unsigned short>::max());
+		assert(vert_it - vert_shader_names.begin() < std::numeric_limits<u16>::max());
 		default_vertex_shader_index = vert_it - vert_shader_names.begin();
 
 		auto frag_it = std::find_if(frag_shader_names.begin(), frag_shader_names.end(), [this](const std::string& name){
 			return default_frag_shader_name_str == name;
 		});
 		assert(frag_it != frag_shader_names.end() && "Default fragment shader doesn't exist in ShaderSource.hpp");
-		assert(frag_it - frag_shader_names.begin() < std::numeric_limits<unsigned short>::max());
+		assert(frag_it - frag_shader_names.begin() < std::numeric_limits<u16>::max());
 		default_fragment_shader_index = frag_it - frag_shader_names.begin();
 	}
 
@@ -105,8 +105,8 @@ namespace editor
 				if (ImGui::BeginMenu("Model"))
 				{
 					static std::string model_file_path;
-					static int selected_vert_index = default_vertex_shader_index;
-					static int selected_frag_index = default_fragment_shader_index;
+					static i32 selected_vert_index = default_vertex_shader_index;
+					static i32 selected_frag_index = default_fragment_shader_index;
 
 					ImGui::InputText("Name", &name);
 					ImGui::InputText("File path", &model_file_path);

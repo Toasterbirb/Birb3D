@@ -100,7 +100,7 @@ namespace birb
 		return true;
 	}
 
-	unsigned int sound_file::buffer()
+	u32 sound_file::buffer()
 	{
 		return audio_buffer;
 	}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Types.hpp"
 #include "Vector.hpp"
 
 #include <random>
@@ -23,19 +24,19 @@ namespace birb
 		/**
 		 * @brief Construct a random number generator with a set seed
 		 */
-		explicit random(unsigned int seed);
+		explicit random(u32 seed);
 
 		/**
 		 * @brief Change the seed of the random number engine
 		 *
 		 * @param seed
 		 */
-		void seed(unsigned int seed);
+		void seed(u32 seed);
 
 		/**
 		 * @brief Get the next random number from the random number engine
 		 */
-		unsigned long next();
+		u64 next();
 
 		/**
 		 * @brief Generate a random integer value between min and max (inclusive)
@@ -70,9 +71,9 @@ namespace birb
 			return value;
 		}
 
-		vec2<int> range_vec2_int(int min, int max)
+		vec2<i32> range_vec2_int(i32 min, i32 max)
 		{
-			return vec2<int>(range(min, max), range(min, max));
+			return vec2<i32>(range(min, max), range(min, max));
 		}
 
 		template<typename T>
@@ -81,9 +82,9 @@ namespace birb
 			return vec2<T>(range_float(min, max), range_float(min, max));
 		}
 
-		vec3<int> range_vec3_int(int min, int max)
+		vec3<i32> range_vec3_int(i32 min, i32 max)
 		{
-			return vec3<int>(range(min, max), range(min, max), range(min, max));
+			return vec3<i32>(range(min, max), range(min, max), range(min, max));
 		}
 
 		template<typename T>
@@ -97,7 +98,7 @@ namespace birb
 
 		// This counter is meant to help with repeated calls to creating
 		// new instances of the random class
-		static inline unsigned int counter = 0;
+		static inline u32 counter = 0;
 		static inline std::mutex counter_mutex;
 	};
 }

@@ -96,7 +96,7 @@ namespace birb
 
 		// Point lights
 		nlohmann::json point_lights;
-		for (unsigned short i = 0; i < shader::point_light_count; ++i)
+		for (u16 i = 0; i < shader::point_light_count; ++i)
 		{
 			nlohmann::json point_light;
 			point_light["name"] = shader::point_lights[i].name;
@@ -222,7 +222,7 @@ namespace birb
 			shader::directional_diffuse		= json_to_vec3<float>(directional_light_json["diffuse"]);
 			shader::directional_specular	= json_to_vec3<float>(directional_light_json["specular"]);
 
-			for (unsigned short i = 0; i < shader::point_light_count; ++i)
+			for (u16 i = 0; i < shader::point_light_count; ++i)
 			{
 				nlohmann::json& point_light = point_light_json[i];
 

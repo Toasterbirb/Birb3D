@@ -11,7 +11,7 @@
 
 namespace birb
 {
-	mesh::mesh(const std::vector<vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<mesh_texture>& textures)
+	mesh::mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures)
 	:vertices(vertices), indices(indices), textures(textures)
 	{
 		setup_mesh();
@@ -39,10 +39,10 @@ namespace birb
 
 		assert(shader.id != 0);
 
-		unsigned int diffuse_nr = 1;
-		unsigned int specular_nr = 1;
+		u32 diffuse_nr = 1;
+		u32 specular_nr = 1;
 
-		for (unsigned int i = 0; i < textures.size(); ++i)
+		for (size_t i = 0; i < textures.size(); ++i)
 		{
 			glActiveTexture(GL_TEXTURE0 + i);
 
@@ -87,7 +87,7 @@ namespace birb
 
 		// Bind the EBO and setup the indices
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(u32), &indices[0], GL_STATIC_DRAW);
 
 		// -- Load data into the currently bound VBO, I think ... --
 

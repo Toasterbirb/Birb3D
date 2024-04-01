@@ -49,10 +49,10 @@ namespace birb
 		// Convert from any type to integer
 		//
 		// No rounding is done and floating point values will get floored
-		constexpr vec2<int> to_int() const
+		constexpr vec2<i32> to_int() const
 		{
-			static_assert(!std::is_same<int, T>::value, "Unnecessary conversion from vec2<int> to vec2<int>");
-			return vec2<int>(x, y);
+			static_assert(!std::is_same<i32, T>::value, "Unnecessary conversion from vec2<i32> to vec2<i32>");
+			return vec2<i32>(x, y);
 		}
 
 		// Convert from any type to float
@@ -214,10 +214,10 @@ namespace birb
 		// Convert from any type to integer
 		//
 		// No rounding is done and floating point values will get floored
-		constexpr vec3<int> to_int() const
+		constexpr vec3<i32> to_int() const
 		{
-			static_assert(!std::is_same<int, T>::value, "Unnecessary conversion from vec3<int> to vec3<int>");
-			return vec3<int>(x, y, z);
+			static_assert(!std::is_same<i32, T>::value, "Unnecessary conversion from vec3<i32> to vec3<i32>");
+			return vec3<i32>(x, y, z);
 		}
 
 		// Convert from any type to float

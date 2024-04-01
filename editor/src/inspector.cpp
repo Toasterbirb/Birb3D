@@ -54,11 +54,11 @@ namespace editor
 				ImGui::Separator();
 				ImGui::Spacing();
 
-				int current_component_type = -1;
+				i32 current_component_type = -1;
 				if (ImGui::Combo("Component type", &current_component_type, component_type_str.c_str()))
 				{
 					assert(current_component_type >= 0);
-					assert(current_component_type < static_cast<int>(component_names.size()) && "Malformed component_type_str or a buffer overflow");
+					assert(current_component_type < static_cast<i32>(component_names.size()) && "Malformed component_type_str or a buffer overflow");
 
 					// Add the new component
 					switch (component_names[current_component_type].second)

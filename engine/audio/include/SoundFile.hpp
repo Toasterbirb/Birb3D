@@ -26,16 +26,16 @@ namespace birb
 		/**
 		 * @brief Returns the OpenAL audio buffer
 		 */
-		unsigned int buffer();
+		u32 buffer();
 
 	private:
 		SF_INFO sfinfo;
 		ALenum format;
 		sf_count_t frame_count;
-		ALsizei byte_count;
-		ALuint audio_buffer = 0;
+		size_t byte_count;
+		u32 audio_buffer = 0;
 
-		int splblockalign = 0;
-		int byteblockalign = 0;
+		i32 splblockalign = 0;
+		i32 byteblockalign = 0;
 	};
 }

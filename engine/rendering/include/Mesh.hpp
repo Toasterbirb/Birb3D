@@ -15,7 +15,7 @@ namespace birb
 
 	struct mesh_texture
 	{
-		unsigned int id;
+		u32 id;
 		std::string type;
 		std::string path;
 	};
@@ -23,18 +23,18 @@ namespace birb
 	class mesh
 	{
 	public:
-		mesh(const std::vector<vertex>& vertices, const std::vector<unsigned int>& indices, const std::vector<mesh_texture>& textures);
+		mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures);
 		void destroy();
 
 		void draw(shader& shader);
 
 		std::vector<vertex> vertices;
-		std::vector<unsigned int> indices;
+		std::vector<u32> indices;
 		std::vector<mesh_texture> textures;
 
 	private:
 		void setup_mesh();
 
-		unsigned int vao, vbo, ebo;
+		u32 vao, vbo, ebo;
 	};
 }

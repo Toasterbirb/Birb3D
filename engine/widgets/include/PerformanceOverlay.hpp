@@ -23,13 +23,13 @@ namespace birb
 			const char* collapsing_menu_name = "";
 
 #ifdef BIRB_PLATFORM_LINUX
-			int pid; // Our process ID
+			i32 pid; // Our process ID
 
 			// Fill the memory history array with zeroes and get the PID
 			void setup_memory_history();
 
 			// Get resident memory usage in megabytes
-			long resident_memory_usage() const;
+			i64 resident_memory_usage() const;
 
 			std::array<float, 16> memory_history;
 #endif

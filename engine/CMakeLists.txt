@@ -92,6 +92,7 @@ target_precompile_headers(birb
 	PUBLIC
 		<Logger.hpp>
 		<Profiling.hpp>
+		<Types.hpp>
 		<cassert>
 
 	PRIVATE

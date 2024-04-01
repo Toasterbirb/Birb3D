@@ -8,7 +8,7 @@
 
 namespace birb
 {
-	fbo::fbo(const vec2<int>& dimensions)
+	fbo::fbo(const vec2<i32>& dimensions)
 	{
 		glGenFramebuffers(1, &id);
 		reload_frame_buffer_texture(dimensions);
@@ -44,7 +44,7 @@ namespace birb
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
-	void fbo::reload_frame_buffer_texture(const vec2<int>& dimensions)
+	void fbo::reload_frame_buffer_texture(const vec2<i32>& dimensions)
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
@@ -82,7 +82,7 @@ namespace birb
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.id, 0);
 	}
 
-	void fbo::setup_rbo(vec2<int> dimensions)
+	void fbo::setup_rbo(vec2<i32> dimensions)
 	{
 		PROFILER_SCOPE_RENDER_FN()
 

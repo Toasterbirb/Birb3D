@@ -97,9 +97,9 @@ namespace birb
 				return false;
 			}
 
-			std::vector<std::uint8_t> bson = nlohmann::json::to_bson(json);
+			std::vector<u8> bson = nlohmann::json::to_bson(json);
 
-			for (std::uint8_t byte : bson)
+			for (u8 byte : bson)
 				file << byte << std::endl;
 
 			file.close();

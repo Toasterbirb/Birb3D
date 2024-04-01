@@ -36,7 +36,7 @@ namespace editor
 			{
 				if (window_size.x != last_viewport_size.x || window_size.y != last_viewport_size.y)
 				{
-					last_viewport_size = birb::vec2<int>(window_size.x, window_size.y);
+					last_viewport_size = birb::vec2<i32>(window_size.x, window_size.y);
 					fbo.reload_frame_buffer_texture(last_viewport_size);
 				}
 
@@ -44,7 +44,7 @@ namespace editor
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				glEnable(GL_DEPTH_TEST);
 
-				renderer.draw_entities(camera.get_view_matrix(), camera.get_projection_matrix(birb::camera::projection_mode::perspective, birb::vec2<int>(window_size.x, window_size.y)));
+				renderer.draw_entities(camera.get_view_matrix(), camera.get_projection_matrix(birb::camera::projection_mode::perspective, birb::vec2<i32>(window_size.x, window_size.y)));
 			}
 			fbo.unbind();
 
@@ -54,7 +54,7 @@ namespace editor
 		ImGui::End();
 	}
 
-	birb::vec2<int> viewport::dimensions() const
+	birb::vec2<i32> viewport::dimensions() const
 	{
 		return last_viewport_size;
 	}

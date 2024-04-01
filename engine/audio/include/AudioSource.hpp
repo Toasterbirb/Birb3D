@@ -16,6 +16,6 @@ namespace birb
 		bool is_playing() const;
 
 	private:
-		unsigned int source = 0;
+		u32 source = 0;
 	};
 }

@@ -30,7 +30,7 @@
 int main(int argc, char** argv)
 {
 
-	birb::window window("Birb3D editor", birb::vec2<int>(1920, 1080));
+	birb::window window("Birb3D editor", birb::vec2<i32>(1920, 1080));
 	window.init_imgui();
 
 	birb::project project;
