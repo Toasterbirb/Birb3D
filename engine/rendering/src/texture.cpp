@@ -5,10 +5,14 @@
 #include "Texture.hpp"
 #include "Vector.hpp"
 
+#include <cassert>
+#include <glad/gl.h>
+#include <stb_image.h>
 #include <string>
 
-#include <cassert>
-#include <stb_image.h>
+static_assert(GL_TEXTURE_1D == 3552);
+static_assert(GL_TEXTURE_2D == 3553);
+static_assert(GL_TEXTURE_3D == 32879);
 
 namespace birb
 {

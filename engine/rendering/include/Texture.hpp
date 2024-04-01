@@ -3,13 +3,18 @@
 #include "Shader.hpp"
 #include "Vector.hpp"
 
-#include <glad/gl.h>
-
 namespace birb
 {
 	enum class color_format
 	{
 		RGB, RGBA
+	};
+
+	enum class texture_type
+	{
+		TEX_1D = 3552,
+		TEX_2D = 3553,
+		TEX_3D = 32879,
 	};
 
 	class texture
@@ -48,7 +53,7 @@ namespace birb
 		static u32 texture_from_file(const std::string& path);
 
 	private:
-		GLenum tex_type = GL_TEXTURE_2D;
+		i32 tex_type = static_cast<i32>(texture_type::TEX_2D);
 		u32 slot = 0;
 
 		vec2<i32> dimensions; // Width and height of the texture
