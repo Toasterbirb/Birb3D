@@ -247,3 +247,11 @@ TEST_CASE("vec3 operator overloads")
 	vec_e /= vec_f;
 	CHECK(vec_e == birb::vec3<int>(1, 2, 1));
 }
+
+TEST_CASE("vec3 from vec2")
+{
+	birb::vec3<i32> vec = birb::vec2<i32>(1, 2);
+	CHECK(vec.x == 1);
+	CHECK(vec.y == 2);
+	CHECK(vec.z == 0);
+}

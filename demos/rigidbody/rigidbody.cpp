@@ -33,7 +33,7 @@ int main(void)
 
 	birb::sprite cube_sprite(cube_path, birb::color_format::RGB);
 	birb::sprite floor_sprite(floor_path, birb::color_format::RGB);
-	floor_sprite.aspect_ratio_lock = birb::sprite::aspect_ratio_lock::height;
+	floor_sprite.ignore_aspect_ratio = true;
 
 	birb::entity cube = scene.create_entity();
 	cube.add_component(cube_sprite);
@@ -60,7 +60,7 @@ int main(void)
 	{
 		birb::component::transform transform;
 		transform.position = { 128.0f, 64.0f, 0.0f };
-		transform.local_scale = { 256.0f, 64.0f, 1.0f };
+		transform.local_scale = floor_sprite.texture->size().to_float() / 4.0f;
 		floor.add_component(transform);
 
 		birb::collider::box box;
