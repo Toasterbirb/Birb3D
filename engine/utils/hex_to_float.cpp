@@ -1,3 +1,4 @@
+#include "Types.hpp"
 #include "Color.hpp"
 
 #include <string.h>
