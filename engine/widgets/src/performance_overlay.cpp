@@ -2,7 +2,7 @@
 #include "Math.hpp"
 #include "PerformanceOverlay.hpp"
 #include "Profiling.hpp"
-#include "Window.hpp"
+#include "Globals.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -51,6 +51,8 @@ namespace birb
 		void performance::draw()
 		{
 			PROFILER_SCOPE_RENDER_FN()
+
+			assert(imgui_initialized);
 
 			float frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());

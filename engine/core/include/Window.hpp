@@ -132,11 +132,6 @@ namespace birb
 		void init_imgui();
 
 		/**
-		 * @brief Check if ImGui has been initialized
-		 */
-		static bool imgui_is_init();
-
-		/**
 		 * @return The refreshrate of the primary monitor
 		 */
 		i32 monitor_refreshrate() const;
@@ -176,7 +171,6 @@ namespace birb
 		 */
 		bool force_should_quit = false;
 
-		static inline bool imgui_initialized = false;
 		void new_imgui_frame();
 
 		// Static variables for callback functions

@@ -96,7 +96,7 @@ namespace birb
 		event_bus::unregister_event_id(event::set_window_background_clear_color, this);
 
 		// If ImGui was initialize, quit it gracefully
-		if (window::imgui_initialized)
+		if (imgui_initialized)
 		{
 			ImGui_ImplOpenGL3_Shutdown();
 			ImGui_ImplGlfw_Shutdown();
@@ -149,7 +149,7 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN()
 		/* If ImGui has been initialized, let it draw its
 		 * stuff before swapping the buffers */
-		if (window::imgui_initialized)
+		if (imgui_initialized)
 		{
 			PROFILER_SCOPE_RENDER("ImGui render");
 			ImGui::Render();
@@ -160,7 +160,7 @@ namespace birb
 		MicroProfileFlip(nullptr);
 
 		// If ImGui was initialized, start a new frame
-		if (window::imgui_initialized)
+		if (imgui_initialized)
 			new_imgui_frame();
 	}
 
@@ -283,7 +283,7 @@ namespace birb
 		ImGui_ImplGlfw_InitForOpenGL(glfw_window, true);
 		ImGui_ImplOpenGL3_Init();
 
-		window::imgui_initialized = true;
+		imgui_initialized = true;
 
 		// Change some colors following the kanagawa.nvim colorscheme
 		const ImVec4 focus_color(0.329412f, 0.329412f, 0.427451f, 1.0f);
@@ -322,11 +322,6 @@ namespace birb
 
 		// Start the first ImGui frame
 		new_imgui_frame();
-	}
-
-	bool window::imgui_is_init()
-	{
-		return window::imgui_initialized;
 	}
 
 	i32 window::monitor_refreshrate() const

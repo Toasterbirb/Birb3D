@@ -1,6 +1,9 @@
 #include "Profiling.hpp"
 #include "RendererOverlay.hpp"
-#include "imgui.h"
+#include "Globals.hpp"
+
+#include <imgui.h>
+#include <cassert>
 
 namespace birb
 {
@@ -20,6 +23,7 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER_FN()
 
+			assert(imgui_initialized);
 
 			bool p_open = false;
 
