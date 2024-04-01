@@ -1,5 +1,5 @@
 #include "WidgetBase.hpp"
-#include "Window.hpp"
+#include "Globals.hpp"
 
 #include <cassert>
 
@@ -7,7 +7,7 @@ namespace birb
 {
 	void widget_base::setup_overlay()
 	{
-		assert(window::imgui_is_init() && "Overlays require ImGui to be initialized");
+		assert(imgui_initialized && "Overlays require ImGui to be initialized");
 
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_pos = viewport->WorkPos;

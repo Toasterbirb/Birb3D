@@ -1,3 +1,4 @@
+#include "Globals.hpp"
 #include "Logger.hpp"
 #include "Material.hpp"
 #include "Model.hpp"
@@ -7,7 +8,6 @@
 #include "ShaderCollection.hpp"
 #include "Sprite.hpp"
 #include "Transform.hpp"
-#include "glm/fwd.hpp"
 
 #include <execution>
 #include <glm/glm.hpp>
@@ -114,7 +114,7 @@ namespace birb
 
 		assert(current_scene != nullptr);
 		assert(scene::scene_count() > 0);
-		assert(!buffers_flipped);
+		assert(!buffers_flipped && "Tried to draw entities after the buffers were already flipped");
 
 		entt::registry& entity_registry = current_scene->registry;
 

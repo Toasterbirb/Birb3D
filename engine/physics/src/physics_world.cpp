@@ -10,7 +10,7 @@ namespace birb
 
 	void physics_world::set_scene(scene& scene)
 	{
-		assert(scene::scene_count > 0);
+		assert(scene::scene_count() > 0);
 		current_scene = &scene;
 	}
 
