@@ -6,8 +6,6 @@
 #include "ShaderUniforms.hpp"
 #include "Vector.hpp"
 
-#include <cassert>
-#include <glad/gl.h>
 #include <glm/fwd.hpp>
 #include <string>
 #include <unordered_map>

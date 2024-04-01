@@ -6,6 +6,7 @@
 
 #include <array>
 #include <cassert>
+#include <glad/gl.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 
