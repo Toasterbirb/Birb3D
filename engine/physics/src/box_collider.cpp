@@ -34,6 +34,13 @@ namespace birb
 			update_min_max_values();
 		}
 
+		void box::set_position_and_size(const component::transform& transform)
+		{
+			this->position = transform.position;
+			this->size = transform.local_scale;
+			update_min_max_values();
+		}
+
 		vec3<float> box::min() const
 		{
 			return _min;

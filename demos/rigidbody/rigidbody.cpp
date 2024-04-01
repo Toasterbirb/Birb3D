@@ -51,7 +51,7 @@ int main(void)
 		cube.add_component(gravity);
 
 		birb::collider::box box;
-		box.set_position_and_size(transform.position, transform.local_scale);
+		box.set_position_and_size(transform);
 		cube.add_component(box);
 	}
 
@@ -64,7 +64,7 @@ int main(void)
 		floor.add_component(transform);
 
 		birb::collider::box box;
-		box.set_position_and_size(transform.position, transform.local_scale);
+		box.set_position_and_size(transform);
 		floor.add_component(box);
 	}
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Transform.hpp"
 #include "Vector.hpp"
 
 namespace birb
@@ -19,6 +20,7 @@ namespace birb
 			void set_position(const vec3<float>& position);
 			void set_size(const vec3<float>& size);
 			void set_position_and_size(const vec3<float>& position, const vec3<float>& size);
+			void set_position_and_size(const component::transform& transform);
 
 			// Bounding box values used for collision math
 			vec3<float> min() const;
