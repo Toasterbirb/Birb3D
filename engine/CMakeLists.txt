@@ -3,6 +3,7 @@ include_directories(rendering/shaders)
 
 add_library(birb)
 add_subdirectory(physics)
+add_subdirectory(widgets)
 
 set(IMGUI_PATH "${PROJECT_SOURCE_DIR}/vendor/imgui")
 set(DEPENDENCY_HEADERS
@@ -26,6 +27,7 @@ set(DEPENDENCY_HEADERS
 
 target_include_directories(birb PUBLIC ${DEPENDENCY_HEADERS})
 target_include_directories(physics PUBLIC ${DEPENDENCY_HEADERS})
+target_include_directories(widgets PUBLIC ${DEPENDENCY_HEADERS})
 
 # Engine core
 set(CORE_INC core/include)
@@ -84,10 +86,6 @@ target_include_directories(birb PUBLIC
 	"${PROJECT_SOURCE_DIR}/engine/scenes/components/include")
 
 
-# Widgets
-file(GLOB WIDGET_SRC widgets/src/*.cpp)
-target_sources(birb PRIVATE ${WIDGET_SRC})
-
 
 target_link_libraries(birb
 	assimp
@@ -99,6 +97,7 @@ target_link_libraries(birb
 	openal
 
 	physics
+	widgets
 )
 
 target_precompile_headers(birb
