@@ -1,3 +1,4 @@
+#include "BoxCollider.hpp"
 #include "Camera.hpp"
 #include "Components.hpp"
 #include "Entity.hpp"
@@ -32,6 +33,7 @@ int main(void)
 
 	birb::sprite cube_sprite(cube_path, birb::color_format::RGB);
 	birb::sprite floor_sprite(floor_path, birb::color_format::RGB);
+	floor_sprite.aspect_ratio_lock = birb::sprite::aspect_ratio_lock::height;
 
 	birb::entity cube = scene.create_entity();
 	cube.add_component(cube_sprite);
@@ -47,6 +49,10 @@ int main(void)
 
 		birb::physics_forces::gravity gravity;
 		cube.add_component(gravity);
+
+		birb::collider::box box;
+		box.set_position_and_size(transform.position, transform.local_scale);
+		cube.add_component(box);
 	}
 
 	birb::entity floor = scene.create_entity();
@@ -56,11 +62,20 @@ int main(void)
 		transform.position = { 128.0f, 64.0f, 0.0f };
 		transform.local_scale = { 256.0f, 64.0f, 1.0f };
 		floor.add_component(transform);
+
+		birb::collider::box box;
+		box.set_position_and_size(transform.position, transform.local_scale);
+		floor.add_component(box);
 	}
 
+	i32 counter = 0;
 	while (!window.should_close())
 	{
 		world.tick(timestep.deltatime());
+
+		std::vector<entt::entity> collisions = world.collides_with(cube);
+		if (!collisions.empty())
+			birb::log("Collision", counter++);
 
 		window.clear();
 		renderer.draw_entities(camera.get_view_matrix(), camera.get_projection_matrix(birb::camera::projection_mode::orthographic, window.size()));

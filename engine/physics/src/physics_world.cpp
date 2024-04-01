@@ -1,3 +1,4 @@
+#include "BoxCollider.hpp"
 #include "GravityForce.hpp"
 #include "PhysicsWorld.hpp"
 #include "Rigidbody.hpp"
@@ -32,6 +33,38 @@ namespace birb
 			// Update the position and velocity stuff
 			rigidbody.update(deltatime);
 			transform.position = rigidbody.position;
+
+			// Update colliders
+			collider::box* box = registry.try_get<collider::box>(entity);
+			if (box)
+				box->set_position(transform.position);
 		}
+	}
+
+	std::vector<entt::entity> physics_world::collides_with(const birb::entity& entity)
+	{
+		return collides_with(entity.entt());
+	}
+
+	std::vector<entt::entity> physics_world::collides_with(const entt::entity& entity)
+	{
+		std::vector<entt::entity> colliding_entities;
+
+		entt::registry& registry = current_scene->registry;
+		assert(registry.try_get<collider::box>(entity) && "Tried to check collision with an entity that doesn't have a box collider on it");
+		collider::box& target_collider = registry.get<collider::box>(entity);
+
+		const auto view = registry.view<collider::box>();
+		for (const auto& collider_entity : view)
+		{
+			// The entity shouldn't collide with itself
+			if (entity == collider_entity)
+				continue;
+
+			if (target_collider.collides_with(view.get<collider::box>(collider_entity)))
+				colliding_entities.push_back(collider_entity);
+		}
+
+		return colliding_entities;
 	}
 }

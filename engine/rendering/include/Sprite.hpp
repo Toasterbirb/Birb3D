@@ -21,6 +21,6 @@ namespace birb
 		{
 			width, height
 		};
-		aspect_ratio_lock aspect_ratio_lock = sprite::aspect_ratio_lock::width;
+		aspect_ratio_lock aspect_ratio_lock = sprite::aspect_ratio_lock::height;
 	};
 }

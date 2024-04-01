@@ -14,4 +14,9 @@ namespace birb
 	{
 
 	}
+
+	entt::entity entity::entt() const
+	{
+		return entt_entity;
+	}
 }

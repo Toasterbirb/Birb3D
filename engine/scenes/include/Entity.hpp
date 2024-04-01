@@ -24,6 +24,8 @@ namespace birb
 			return parent_scene->get_component<T>(entt_entity);
 		}
 
+		entt::entity entt() const;
+
 	private:
 		scene* parent_scene;
 		entt::entity entt_entity;
