@@ -2,7 +2,7 @@
 include_directories(rendering/shaders)
 
 add_library(birb)
-add_library(physics STATIC)
+add_subdirectory(physics)
 
 set(IMGUI_PATH "${PROJECT_SOURCE_DIR}/vendor/imgui")
 set(DEPENDENCY_HEADERS
@@ -68,11 +68,6 @@ add_custom_command(
 file(GLOB RENDER_SRC rendering/src/*.cpp)
 target_sources(birb PRIVATE ${RENDER_SRC} ${SHADER_SOURCE_HEADER} ${OBJ_SRC_HEADER})
 target_include_directories(birb PUBLIC assets/primitive)
-
-# Physics
-file (GLOB PHYSICS_SRC physics/src/*.cpp)
-target_sources(physics PRIVATE ${PHYSICS_SRC})
-target_include_directories(physics PUBLIC physics/include)
 
 # Scenes and ECS
 file(GLOB COMPONENT_HEADERS "${PROJECT_SOURCE_DIR}/engine/scenes/components/include/*.hpp")
@@ -167,14 +162,6 @@ target_precompile_headers(birb
 		<unordered_map>
 		<unordered_set>
 		<vector>
-)
-
-target_precompile_headers(physics
-	PUBLIC
-		<Logger.hpp>
-		<Profiling.hpp>
-		<Types.hpp>
-		<cassert>
 )
 
 
