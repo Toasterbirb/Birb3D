@@ -6,6 +6,7 @@
 #include "Window.hpp"
 
 #include <glm/fwd.hpp>
+#include <glm/glm.hpp>
 
 namespace birb
 {

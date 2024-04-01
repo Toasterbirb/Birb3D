@@ -2,26 +2,30 @@
 include_directories(rendering/shaders)
 
 add_library(birb)
+add_library(physics STATIC)
 
-# Include stb libraries
-target_include_directories(birb PUBLIC ${PROJECT_SOURCE_DIR}/vendor/stb)
-
-# Include EnTT
-target_include_directories(birb PUBLIC ${PROJECT_SOURCE_DIR}/vendor/entt/single_include/entt)
-
-# Include cereal
-target_include_directories(birb PUBLIC ${PROJECT_SOURCE_DIR}/vendor/cereal/include)
-
-# Include nlohmann::json
-target_include_directories(birb PUBLIC ${PROJECT_SOURCE_DIR}/vendor/json/include)
-
-# Include dear imgui
 set(IMGUI_PATH "${PROJECT_SOURCE_DIR}/vendor/imgui")
-target_include_directories(birb PUBLIC
+set(DEPENDENCY_HEADERS
+	# stb libraries
+	${PROJECT_SOURCE_DIR}/vendor/stb
+
+	# EnTT
+	${PROJECT_SOURCE_DIR}/vendor/entt/single_include/entt
+
+	# cereal
+	${PROJECT_SOURCE_DIR}/vendor/cereal/include
+
+	# nlohmann::json
+	${PROJECT_SOURCE_DIR}/vendor/json/include
+
+	# dear imgui
 	${IMGUI_PATH}
 	${IMGUI_PATH}/backends
 	${IMGUI_PATH}/misc/cpp
 )
+
+target_include_directories(birb PUBLIC ${DEPENDENCY_HEADERS})
+target_include_directories(physics PUBLIC ${DEPENDENCY_HEADERS})
 
 # Engine core
 set(CORE_INC core/include)
@@ -65,6 +69,10 @@ file(GLOB RENDER_SRC rendering/src/*.cpp)
 target_sources(birb PRIVATE ${RENDER_SRC} ${SHADER_SOURCE_HEADER} ${OBJ_SRC_HEADER})
 target_include_directories(birb PUBLIC assets/primitive)
 
+# Physics
+file (GLOB PHYSICS_SRC physics/src/*.cpp)
+target_sources(physics PRIVATE ${PHYSICS_SRC})
+target_include_directories(physics PUBLIC physics/include)
 
 # Scenes and ECS
 file(GLOB COMPONENT_HEADERS "${PROJECT_SOURCE_DIR}/engine/scenes/components/include/*.hpp")
@@ -86,7 +94,17 @@ file(GLOB WIDGET_SRC widgets/src/*.cpp)
 target_sources(birb PRIVATE ${WIDGET_SRC})
 
 
-target_link_libraries(birb assimp glfw glad glm imgui microprofile openal)
+target_link_libraries(birb
+	assimp
+	glfw
+	glad
+	glm
+	imgui
+	microprofile
+	openal
+
+	physics
+)
 
 target_precompile_headers(birb
 	PUBLIC
@@ -149,6 +167,14 @@ target_precompile_headers(birb
 		<unordered_map>
 		<unordered_set>
 		<vector>
+)
+
+target_precompile_headers(physics
+	PUBLIC
+		<Logger.hpp>
+		<Profiling.hpp>
+		<Types.hpp>
+		<cassert>
 )
 
 

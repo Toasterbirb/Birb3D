@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.hpp"
+
 #include <array>
 #include <cassert>
 #include <cmath>
