@@ -22,7 +22,7 @@ namespace birb
 		std::vector<entt::entity> collides_with(const entt::entity& entity);
 
 	private:
-		scene* current_scene;
+		scene* current_scene = nullptr;
 
 	};
 }

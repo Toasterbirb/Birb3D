@@ -16,6 +16,8 @@ namespace birb
 
 	void physics_world::tick(double deltatime)
 	{
+		assert(current_scene != nullptr && "Current scene has not been set");
+
 		entt::registry& registry = current_scene->registry;
 
 		// Get all rigidbodies
@@ -48,6 +50,8 @@ namespace birb
 
 	std::vector<entt::entity> physics_world::collides_with(const entt::entity& entity)
 	{
+		assert(current_scene != nullptr && "Current scene has not been set");
+
 		std::vector<entt::entity> colliding_entities;
 
 		entt::registry& registry = current_scene->registry;
