@@ -22,6 +22,7 @@ namespace birb
 		void set_mass_infinite();
 
 		void add_force(const vec3<float> force);
+		vec3<float> current_force() const;
 
 		void update(const float deltatime);
 

@@ -50,4 +50,9 @@ namespace birb
 		// s = s0 + vt (+ 0.5at^2 is ignored for performance reasons)
 		position = position + velocity * deltatime;
 	}
+
+	vec3<float> rigidbody::current_force() const
+	{
+		return force_accumulator;
+	}
 }
