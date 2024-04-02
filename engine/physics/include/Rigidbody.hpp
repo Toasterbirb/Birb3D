@@ -26,7 +26,7 @@ namespace birb
 		void update(const float deltatime);
 
 	private:
-		float inverse_mass;
+		float inverse_mass = 1.0f;
 		vec3<float> force_accumulator;
 	};
 }
