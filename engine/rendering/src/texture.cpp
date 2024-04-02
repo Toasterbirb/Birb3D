@@ -91,7 +91,7 @@ namespace birb
 		glTexParameteri(tex_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(tex_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTexImage2D(tex_type, 0, GL_RGB, texture.dimensions.x, texture.dimensions.y, 0, gl_color_format, GL_UNSIGNED_BYTE, texture.data);
+		glTexImage2D(tex_type, 0, gl_color_format, texture.dimensions.x, texture.dimensions.y, 0, gl_color_format, GL_UNSIGNED_BYTE, texture.data);
 		glGenerateMipmap(tex_type);
 
 		glBindTexture(tex_type, 0);
