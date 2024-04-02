@@ -3,6 +3,7 @@
 #include "Scene.hpp"
 
 #include <entt.hpp>
+#include <type_traits>
 
 namespace birb
 {
@@ -15,6 +16,7 @@ namespace birb
 		template<typename T>
 		void add_component(const T& component)
 		{
+			static_assert(!std::is_same<T, birb::entity>::value, "You shouldn't need to use birb::entity as a component");
 			parent_scene->add_component(entt_entity, component);
 		}
 
