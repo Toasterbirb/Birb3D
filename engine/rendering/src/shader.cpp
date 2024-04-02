@@ -247,7 +247,7 @@ namespace birb
 		assert(!name.empty() && "Empty uniform name");
 
 		if (try_add_uniform_location(name) == -1)
-			birb::log_warn("Tried to add shader uniform that doesn't exist: " + name);
+			birb::log_fatal("Tried to add shader uniform that doesn't exist: " + name + " [" + vertex_shader_name + ", " + fragment_shader_name + "] (" + ptr_to_str(this) + ")");
 	}
 
 	i32 shader::try_add_uniform_location(const std::string& name)
