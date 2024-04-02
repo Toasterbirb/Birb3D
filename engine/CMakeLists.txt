@@ -1,7 +1,7 @@
 # Include shader source code
 include_directories(rendering/shaders)
 
-add_library(birb)
+add_library(birb STATIC)
 add_subdirectory(physics)
 add_subdirectory(widgets)
 
@@ -95,6 +95,7 @@ target_link_libraries(birb
 	imgui
 	microprofile
 	openal
+	sndfile
 
 	physics
 	widgets
