@@ -295,4 +295,17 @@ namespace birb
 	{
 		return rendered_vertices;
 	}
+
+	void renderer::opt_blend(const bool enabled) const
+	{
+		if (enabled)
+		{
+			glEnable(GL_BLEND);
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		}
+		else
+		{
+			glDisable(GL_BLEND);
+		}
+	}
 }

@@ -42,6 +42,15 @@ namespace birb
 		 */
 		u32 rendered_vertex_count() const;
 
+		///////////////////////
+		// Renderer settings //
+		///////////////////////
+
+		/**
+		 * @brief OpenGL alpha blending
+		 */
+		void opt_blend(const bool enabled) const;
+
 	private:
 		scene* current_scene = nullptr;
 		static inline bool wireframe_mode = false;
