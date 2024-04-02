@@ -298,6 +298,8 @@ namespace birb
 
 	void renderer::opt_blend(const bool enabled) const
 	{
+		assert(opengl_initialized);
+
 		if (enabled)
 		{
 			glEnable(GL_BLEND);
