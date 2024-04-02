@@ -19,6 +19,10 @@ namespace birb
 		void bind();
 		void unbind();
 
+#ifndef NDEBUG
+		u32 d_total_vbo_vert_count = 0;
+#endif
+
 	private:
 
 	};

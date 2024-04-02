@@ -12,6 +12,8 @@
 #include "Vector.hpp"
 #include "Window.hpp"
 
+#include "BoxCollider.hpp"
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -44,6 +46,10 @@ int main(void)
 	transform.position.z = -4.0f;
 	transform.rotation.y = 45.0f;
 	suzanne.add_component(transform);
+
+	birb::collider::box box_collider;
+	box_collider.set_position_and_size(transform);
+	suzanne.add_component(box_collider);
 
 	birb::shader shader("default", "default_color");
 	shader.reset_lights();

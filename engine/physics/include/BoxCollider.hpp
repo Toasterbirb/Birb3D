@@ -22,6 +22,9 @@ namespace birb
 			void set_position_and_size(const vec3<float>& position, const vec3<float>& size);
 			void set_position_and_size(const component::transform& transform);
 
+			vec3<float> size() const;
+			vec3<float> position() const;
+
 			// Bounding box values used for collision math
 			vec3<float> min() const;
 			vec3<float> max() const;
@@ -29,8 +32,8 @@ namespace birb
 		private:
 			void update_min_max_values();
 
-			vec3<float> size;
-			vec3<float> position;
+			vec3<float> _size;
+			vec3<float> _position;
 
 			// Cached min and max values
 			vec3<float> _min;

@@ -17,28 +17,38 @@ namespace birb
 
 		void box::set_position(const vec3<float>& position)
 		{
-			this->position = position;
+			this->_position = position;
 			update_min_max_values();
 		}
 
 		void box::set_size(const vec3<float>& size)
 		{
-			this->size = size;
+			this->_size = size;
 			update_min_max_values();
 		}
 
 		void box::set_position_and_size(const vec3<float>& position, const vec3<float>& size)
 		{
-			this->position = position;
-			this->size = size;
+			this->_position = position;
+			this->_size = size;
 			update_min_max_values();
 		}
 
 		void box::set_position_and_size(const component::transform& transform)
 		{
-			this->position = transform.position;
-			this->size = transform.local_scale;
+			this->_position = transform.position;
+			this->_size = transform.local_scale;
 			update_min_max_values();
+		}
+
+		vec3<float> box::size() const
+		{
+			return _size;
+		}
+
+		vec3<float> box::position() const
+		{
+			return _position;
 		}
 
 		vec3<float> box::min() const
@@ -53,13 +63,13 @@ namespace birb
 
 		void box::update_min_max_values()
 		{
-			_min.x = position.x - (size.x / 2.0f);
-			_min.y = position.y - (size.y / 2.0f);
-			_min.z = position.z - (size.z / 2.0f);
+			_min.x = _position.x - (_size.x / 2.0f);
+			_min.y = _position.y - (_size.y / 2.0f);
+			_min.z = _position.z - (_size.z / 2.0f);
 
-			_max.x = position.x + (size.x / 2.0f);
-			_max.y = position.y + (size.y / 2.0f);
-			_max.z = position.z + (size.z / 2.0f);
+			_max.x = _position.x + (_size.x / 2.0f);
+			_max.y = _position.y + (_size.y / 2.0f);
+			_max.z = _position.z + (_size.z / 2.0f);
 		}
 	}
 }

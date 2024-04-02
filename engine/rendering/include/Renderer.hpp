@@ -2,6 +2,7 @@
 
 #include "EBO.hpp"
 #include "EventBus.hpp"
+#include "Material.hpp"
 #include "Scene.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
@@ -32,6 +33,8 @@ namespace birb
 		static void set_backface_culling(bool state);
 		static bool is_backface_culling_enabled();
 
+		void toggle_debug_view();
+
 		/**
 		 * @return The amount of entities rendered during last call to draw_entities()
 		 */
@@ -55,12 +58,71 @@ namespace birb
 		scene* current_scene = nullptr;
 		static inline bool wireframe_mode = false;
 		static inline bool backface_culling_enabled = false;
+		bool debug_view_enabled = false;
 
 		// Variables for rendering statistics
 		u32 rendered_entities = 0;
 		u32 rendered_vertices = 0;
 
-		// -- Variables for sprite rendering -- //
+		/////////////////////////////////
+		// Variables for debug drawing //
+		/////////////////////////////////
+
+		// Cube coords found from here
+		// https://learnopengl.com/code_viewer.php?code=getting-started/cube_vertices
+		static constexpr float collider_cube_size_offset = 0.001f;
+		static constexpr std::array<float, 36 * 3> cube_vertices = {
+			-0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f, -0.5f,
+			 0.5f,  0.5f, -0.5f,
+			 0.5f,  0.5f, -0.5f,
+			-0.5f,  0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+
+			-0.5f, -0.5f,  0.5f,
+			 0.5f, -0.5f,  0.5f,
+			 0.5f,  0.5f,  0.5f,
+			 0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
+
+			-0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f, -0.5f,
+			-0.5f, -0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+
+			 0.5f,  0.5f,  0.5f,
+			 0.5f,  0.5f, -0.5f,
+			 0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f,  0.5f,
+			 0.5f,  0.5f,  0.5f,
+
+			-0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f, -0.5f,
+			 0.5f, -0.5f,  0.5f,
+			 0.5f, -0.5f,  0.5f,
+			-0.5f, -0.5f,  0.5f,
+			-0.5f, -0.5f, -0.5f,
+
+			-0.5f,  0.5f, -0.5f,
+			 0.5f,  0.5f, -0.5f,
+			 0.5f,  0.5f,  0.5f,
+			 0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f,  0.5f,
+			-0.5f,  0.5f, -0.5f,
+		};
+
+		color collider_debug_color;
+		vao collider_debug_vao;
+		std::shared_ptr<vbo> collider_debug_vbo;
+
+
+		////////////////////////////////////
+		// Variables for sprite rendering //
+		////////////////////////////////////
 
 		// Vertices and texture coordinates for a square
 		static constexpr std::array<float, 4 * 3 + 4 * 2> quad_vertices = {

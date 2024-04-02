@@ -26,6 +26,11 @@ namespace birb
 		assert(num_components != 0 && "Invalid amount of components");
 		assert(stride != 0 && "Invalid stride");
 
+#ifndef NDEBUG
+		assert(vbo.d_vert_count % stride == 0 && "Invalid stride");
+		d_total_vbo_vert_count += (vbo.d_vert_count / stride) * num_components;
+#endif
+
 		vbo.bind();
 
 		glVertexAttribPointer(layout, num_components, GL_FLOAT, GL_FALSE, stride * sizeof(float), reinterpret_cast<void*>(offset * sizeof(float)));

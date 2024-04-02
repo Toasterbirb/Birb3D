@@ -28,6 +28,10 @@ namespace birb
 		glGenBuffers(1, &id);
 		glBindBuffer(GL_ARRAY_BUFFER, id);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, vertices, GL_STATIC_DRAW);
+
+#ifndef NDEBUG
+		d_vert_count = size;
+#endif
 	}
 
 	void vbo::bind()

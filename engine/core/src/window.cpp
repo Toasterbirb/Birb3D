@@ -196,6 +196,10 @@ namespace birb
 						event_bus::send_event(event::toggle_wireframe_rendering_mode);
 						break;
 
+					case birb::input::keycode::F3:
+						event_bus::send_event(event::toggle_debug_view);
+						break;
+
 					case birb::input::keycode::ESCAPE:
 						unlock_cursor_from_window();
 						break;
@@ -390,6 +394,10 @@ namespace birb
 		switch (new_input.key)
 		{
 			case (input::keycode::F1):
+				engine_input_queue.push(new_input);
+				break;
+
+			case (input::keycode::F3):
 				engine_input_queue.push(new_input);
 				break;
 

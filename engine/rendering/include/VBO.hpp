@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.hpp"
+
 #include <array>
 #include <vector>
 
@@ -28,6 +30,10 @@ namespace birb
 
 		void bind();
 		void unbind();
+
+#ifndef NDEBUG
+		u32 d_vert_count = 0;
+#endif
 
 	private:
 		void load(const float* vertices, const size_t size);

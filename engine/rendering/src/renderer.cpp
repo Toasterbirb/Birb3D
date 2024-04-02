@@ -9,6 +9,9 @@
 #include "Sprite.hpp"
 #include "Transform.hpp"
 
+// Debug drawing dependencies
+#include "BoxCollider.hpp"
+
 #include <execution>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -51,6 +54,7 @@ namespace birb
 	renderer::renderer()
 	{
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
+		event_bus::register_event_id(event::toggle_debug_view, this);
 
 		// Initialize the opengl buffers for sprite rendering
 		sprite_vao.bind();
@@ -84,20 +88,35 @@ namespace birb
 		sprite_vao.unbind();
 		sprite_vbo->unbind();
 		sprite_ebo->unbind();
+
+		// Initialize things for the collider debug cube
+		collider_debug_color = 0xC34043;
+
+		collider_debug_vao.bind();
+
+		collider_debug_vbo = std::make_shared<vbo>(cube_vertices);
+		collider_debug_vao.link_vbo(*collider_debug_vbo, 0, 3, 3, 0);
+		collider_debug_vao.unbind();
+		collider_debug_vbo->unbind();
 	}
 
 	renderer::~renderer()
 	{
 		birb::log("Crushing the renderer");
 		event_bus::unregister_event_id(event::toggle_wireframe_rendering_mode, this);
+		event_bus::unregister_event_id(event::toggle_debug_view, this);
 	}
 
 	void renderer::process_event(u16 event_id, const event_data& data)
 	{
 		switch (event_id)
 		{
-			case 1:
+			case event::toggle_wireframe_rendering_mode:
 				toggle_wireframe();
+				break;
+
+			case event::toggle_debug_view:
+				toggle_debug_view();
 				break;
 		}
 	}
@@ -229,6 +248,40 @@ namespace birb
 
 			rendered_entities += model_matrices.size();
 		}
+
+
+		// If debug drawing is not enabled, we can stop drawing stuff here
+		if (!debug_view_enabled)
+			return;
+
+		///////////////////
+		// Debug drawing //
+		///////////////////
+
+		// Draw box colliders
+		{
+			const std::shared_ptr<shader> debug_shader = shader_collection::get_shader("color", "color");
+			debug_shader->set(shader_uniforms::view, projection_matrix);
+			debug_shader->set(shader_uniforms::projection, projection_matrix);
+			debug_shader->set(shader_uniforms::color, collider_debug_color);
+
+			const auto view = entity_registry.view<collider::box>();
+			for (const auto& entity : view)
+			{
+				const collider::box& box = view.get<collider::box>(entity);
+				component::transform transform;
+				transform.position = box.position();
+				transform.local_scale = box.size();
+				transform.local_scale.x += collider_cube_size_offset;
+				transform.local_scale.y += collider_cube_size_offset;
+				transform.local_scale.z += collider_cube_size_offset;
+
+				debug_shader->set(shader_uniforms::model, transform.model_matrix());
+				debug_shader->activate();
+
+				draw_arrays(collider_debug_vao, cube_vertices.size());
+			}
+		}
 	}
 
 	void renderer::draw_elements(vao& vao, size_t index_count)
@@ -244,6 +297,10 @@ namespace birb
 	{
 		assert(vao.id != 0);
 		assert(vert_count > 0 && "Unncessary call to draw_arrays()");
+
+#ifndef NDEBUG
+		assert(vao.d_total_vbo_vert_count == vert_count && "Something has gone wrong with VBO linking");
+#endif
 
 		vao.bind();
 		glDrawArrays(GL_TRIANGLES, 0, vert_count);
@@ -284,6 +341,16 @@ namespace birb
 	bool renderer::is_backface_culling_enabled()
 	{
 		return backface_culling_enabled;
+	}
+
+	void renderer::toggle_debug_view()
+	{
+		debug_view_enabled = !debug_view_enabled;
+
+		if (!debug_view_enabled)
+			birb::log("Toggling debug view off");
+		else
+			birb::log("Toggling debug view on");
 	}
 
 	u32 renderer::rendered_entities_count() const
