@@ -24,7 +24,7 @@ namespace birb
 
 		assert(vbo.id != 0);
 		assert(num_components != 0 && "Invalid amount of components");
-		assert(stride != 0 && "Invalid stride");
+		assert(stride != 0 && stride >= num_components && "Invalid stride");
 
 #ifndef NDEBUG
 		assert(vbo.d_vert_count % stride == 0 && "Invalid stride");

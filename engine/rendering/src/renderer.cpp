@@ -49,6 +49,9 @@ static_assert(sizeof(u16) == sizeof(GLushort));
 static_assert(sizeof(u32) == sizeof(GLuint));
 static_assert(sizeof(u64) == sizeof(GLuint64));
 
+static_assert(static_cast<GLenum>(birb::renderer::gl_primitive::triangles) == GL_TRIANGLES);
+static_assert(static_cast<GLenum>(birb::renderer::gl_primitive::lines) == GL_LINES);
+
 namespace birb
 {
 	renderer::renderer()
@@ -284,16 +287,16 @@ namespace birb
 		}
 	}
 
-	void renderer::draw_elements(vao& vao, size_t index_count)
+	void renderer::draw_elements(vao& vao, size_t index_count, gl_primitive primitive)
 	{
 		assert(vao.id != 0);
 		assert(index_count > 0 && "Unncessary call to draw_elements()");
 
 		vao.bind();
-		glDrawElements(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0);
+		glDrawElements(static_cast<GLenum>(primitive), index_count, GL_UNSIGNED_INT, 0);
 	}
 
-	void renderer::draw_arrays(vao& vao, size_t vert_count)
+	void renderer::draw_arrays(vao& vao, size_t vert_count, gl_primitive primitive)
 	{
 		assert(vao.id != 0);
 		assert(vert_count > 0 && "Unncessary call to draw_arrays()");
@@ -303,7 +306,7 @@ namespace birb
 #endif
 
 		vao.bind();
-		glDrawArrays(GL_TRIANGLES, 0, vert_count);
+		glDrawArrays(static_cast<GLenum>(primitive), 0, vert_count);
 	}
 
 	void renderer::toggle_wireframe()

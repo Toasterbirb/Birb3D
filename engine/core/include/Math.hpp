@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector.hpp"
+
 #include <cmath>
 #include <deque>
 #include <numeric>
@@ -52,5 +54,31 @@ namespace birb
 
 		T total = std::accumulate(data.begin(), data.end(), 0.0);
 		return total / data.size();
+	}
+
+	/**
+	 * @brief Calculate the centerpoint between two 3D vectors
+	 */
+	template<typename T>
+	constexpr vec3<T> center(vec3<T> a, vec3<T> b)
+	{
+		return vec3<T>(
+				(a.x + b.x) / 2.0,
+				(a.y + b.y) / 2.0,
+				(a.z + b.z) / 2.0
+			);
+	}
+
+	/**
+	 * @brief Calculate the distance between two 3D vectors
+	 */
+	template<typename T>
+	constexpr T vec_distance(vec3<T> a, vec3<T> b)
+	{
+		return std::sqrt(
+				std::pow(b.x - a.x, 2) +
+				std::pow(b.y - a.y, 2) +
+				std::pow(b.z - a.z, 2)
+			);
 	}
 }

@@ -19,13 +19,19 @@ namespace birb
 		renderer(const renderer&) = delete;
 		~renderer();
 
+		enum class gl_primitive
+		{
+			lines = 1,
+			triangles = 4,
+		};
+
 		void process_event(u16 event_id, const event_data& data) override;
 
 		void set_scene(scene& scene);
 
 		void draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix);
-		void draw_elements(vao& vao, size_t index_count);
-		void draw_arrays(vao& vao, size_t vert_count);
+		void draw_elements(vao& vao, size_t index_count, gl_primitive primitive = renderer::gl_primitive::triangles);
+		void draw_arrays(vao& vao, size_t vert_count, gl_primitive primitive = renderer::gl_primitive::triangles);
 
 		static void toggle_wireframe();
 		static bool is_wireframe_enabled();

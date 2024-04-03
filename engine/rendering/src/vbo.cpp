@@ -6,12 +6,12 @@
 
 namespace birb
 {
-	vbo::vbo(const std::vector<float>& vertices)
+	vbo::vbo(const std::vector<float>& vertices, const bool static_draw)
 	{
 		assert(!vertices.empty() && "Empty vertex array");
 		assert(vertices.size() < 33000 && "You might wanna check the vert count on that model");
 
-		load(vertices.data(), vertices.size());
+		load(vertices.data(), vertices.size(), static_draw);
 	}
 
 	vbo::~vbo()
@@ -20,14 +20,18 @@ namespace birb
 		glDeleteBuffers(1, &id);
 	}
 
-	void vbo::load(const float* vertices, const size_t size)
+	void vbo::load(const float* vertices, const size_t size, const bool static_draw)
 	{
 		assert(id == 0);
 		assert(size > 0);
 
 		glGenBuffers(1, &id);
 		glBindBuffer(GL_ARRAY_BUFFER, id);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, vertices, GL_STATIC_DRAW);
+
+		if (static_draw)
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, vertices, GL_STATIC_DRAW);
+		else
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * size, vertices, GL_DYNAMIC_DRAW);
 
 #ifndef NDEBUG
 		d_vert_count = size;
