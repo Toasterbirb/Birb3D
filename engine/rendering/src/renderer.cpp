@@ -62,8 +62,8 @@ namespace birb
 		// Initialize the opengl buffers for sprite rendering
 		sprite_vao.bind();
 
-		sprite_vbo = std::make_shared<vbo>(quad_vertices);
-		sprite_ebo = std::make_shared<ebo>(quad_indices);
+		sprite_vbo = std::make_unique<vbo>(quad_vertices);
+		sprite_ebo = std::make_unique<ebo>(quad_indices);
 
 		constexpr u32 vertex_pos_layout = 0;
 		constexpr u32 texture_coord_layout = 1;
@@ -97,7 +97,7 @@ namespace birb
 
 		collider_debug_vao.bind();
 
-		collider_debug_vbo = std::make_shared<vbo>(cube_vertices);
+		collider_debug_vbo = std::make_unique<vbo>(cube_vertices);
 		collider_debug_vao.link_vbo(*collider_debug_vbo, 0, 3, 3, 0);
 		collider_debug_vao.unbind();
 		collider_debug_vbo->unbind();

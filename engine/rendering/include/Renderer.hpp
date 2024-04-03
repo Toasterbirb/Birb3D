@@ -123,7 +123,7 @@ namespace birb
 
 		color collider_debug_color;
 		vao collider_debug_vao;
-		std::shared_ptr<vbo> collider_debug_vbo;
+		std::unique_ptr<vbo> collider_debug_vbo;
 
 
 		////////////////////////////////////
@@ -150,7 +150,7 @@ namespace birb
 		// Some of these are declared as pointers because they
 		// don't have default constructors
 		vao sprite_vao;
-		std::shared_ptr<ebo> sprite_ebo;
-		std::shared_ptr<vbo> sprite_vbo;
+		std::unique_ptr<ebo> sprite_ebo;
+		std::unique_ptr<vbo> sprite_vbo;
 	};
 }
