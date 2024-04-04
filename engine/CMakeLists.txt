@@ -2,6 +2,7 @@
 include_directories(rendering/shaders)
 
 add_library(birb STATIC)
+add_subdirectory(audio)
 add_subdirectory(physics)
 add_subdirectory(widgets)
 
@@ -26,6 +27,7 @@ set(DEPENDENCY_HEADERS
 )
 
 target_include_directories(birb PUBLIC ${DEPENDENCY_HEADERS})
+target_include_directories(audio PUBLIC ${DEPENDENCY_HEADERS})
 target_include_directories(physics PUBLIC ${DEPENDENCY_HEADERS})
 target_include_directories(widgets PUBLIC ${DEPENDENCY_HEADERS})
 
@@ -38,11 +40,6 @@ target_sources(birb PRIVATE ${CORE_SRC})
 # Asset management
 file(GLOB ASSETS_SRC assets/src/*.cpp)
 target_sources(birb PRIVATE ${ASSETS_SRC})
-
-
-# Audio
-file(GLOB AUDIO_SRC audio/src/*.cpp)
-target_sources(birb PRIVATE ${AUDIO_SRC})
 
 
 # Rendering
@@ -94,9 +91,8 @@ target_link_libraries(birb
 	glm
 	imgui
 	microprofile
-	openal
-	sndfile
 
+	audio
 	physics
 	widgets
 )

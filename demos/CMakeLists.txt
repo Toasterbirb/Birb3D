@@ -1,4 +1,4 @@
-add_subdirectory(audio)
+add_subdirectory(audio_player)
 add_subdirectory(empty_window)
 add_subdirectory(imgui)
 add_subdirectory(lighting)
