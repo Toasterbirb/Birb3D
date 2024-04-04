@@ -2,10 +2,12 @@
 
 #include "EBO.hpp"
 #include "EventBus.hpp"
+#include "FBO.hpp"
 #include "Material.hpp"
 #include "Scene.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
+#include "Window.hpp"
 
 #include <entt.hpp>
 #include <glm/fwd.hpp>
@@ -28,6 +30,13 @@ namespace birb
 		void process_event(u16 event_id, const event_data& data) override;
 
 		void set_scene(scene& scene);
+
+		/**
+		 * @brief Set the window for post-processing purposes
+		 *
+		 * The window needs to be set before post-processing can be enabled
+		 */
+		void set_window(birb::window& window);
 
 		void draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix);
 		void draw_elements(vao& vao, size_t index_count, gl_primitive primitive = renderer::gl_primitive::triangles);
@@ -59,6 +68,11 @@ namespace birb
 		 * @brief OpenGL alpha blending
 		 */
 		void opt_blend(const bool enabled) const;
+
+		/**
+		 * @brief Post-processing render pass
+		 */
+		void opt_post_process(const bool enabled);
 
 	private:
 		scene* current_scene = nullptr;
@@ -152,5 +166,27 @@ namespace birb
 		vao sprite_vao;
 		std::unique_ptr<ebo> sprite_ebo;
 		std::unique_ptr<vbo> sprite_vbo;
+
+
+		/////////////////////
+		// Post-processing //
+		/////////////////////
+
+		static constexpr std::array<float, 4 * 3 + 4 * 2> fullscreen_quad_vertices = {
+			// Vertex positions  // Texture coordinates
+			 1.0f,  1.0f, 0.0f,  1.0f, 1.0f, // Top right
+			 1.0f, -1.0f, 0.0f,  1.0f, 0.0f, // Bottom right
+			-1.0f, -1.0f, 0.0f,  0.0f, 0.0f, // Bottom left
+			-1.0f,  1.0f, 0.0f,  0.0f, 1.0f, // Top left
+		};
+
+		vao post_processing_vao;
+		std::unique_ptr<vbo> post_processing_vbo;
+		// No need for ebo because we can reuse the sprite ebo
+
+		bool post_processing_enabled = false;
+		std::unique_ptr<birb::fbo> post_processing_fbo;
+		birb::window* window = nullptr;
+		vec2<i32> old_window_dimensions;
 	};
 }

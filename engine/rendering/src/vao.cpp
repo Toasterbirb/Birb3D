@@ -39,6 +39,14 @@ namespace birb
 		vbo.unbind();
 	}
 
+	void vao::link_ebo(birb::ebo& ebo)
+	{
+		assert(!has_ebo && "There's already an EBO linked to this VAO");
+
+		ebo.bind();
+		has_ebo = true;
+	}
+
 	void vao::bind()
 	{
 		glBindVertexArray(id);
@@ -47,5 +55,10 @@ namespace birb
 	void vao::unbind()
 	{
 		glBindVertexArray(0);
+	}
+
+	bool vao::contains_ebo() const
+	{
+		return has_ebo;
 	}
 }

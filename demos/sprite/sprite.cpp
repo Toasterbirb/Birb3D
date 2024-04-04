@@ -25,6 +25,8 @@ int main(void)
 	birb::scene scene;
 	birb::renderer renderer;
 	renderer.set_scene(scene);
+	renderer.set_window(window);
+	renderer.opt_post_process(true);
 
 	birb::overlay::performance performance_overlay(timestep);
 	birb::overlay::renderer_overlay render_overlay(renderer);

@@ -101,6 +101,18 @@ namespace birb
 		collider_debug_vao.link_vbo(*collider_debug_vbo, 0, 3, 3, 0);
 		collider_debug_vao.unbind();
 		collider_debug_vbo->unbind();
+
+
+		// Initialize things for post-processing
+		post_processing_fbo = std::make_unique<fbo>(vec2<i32>(1920, 720));
+		post_processing_vbo = std::make_unique<vbo>(fullscreen_quad_vertices);
+
+		post_processing_vao.bind();
+		post_processing_vao.link_ebo(*sprite_ebo);
+		post_processing_vao.link_vbo(*post_processing_vbo, 0, 3, 5, 0);
+		post_processing_vao.link_vbo(*post_processing_vbo, 1, 2, 5, 3);
+		post_processing_vao.unbind();
+		sprite_ebo->unbind();
 	}
 
 	renderer::~renderer()
@@ -130,6 +142,11 @@ namespace birb
 		current_scene = &scene;
 	}
 
+	void renderer::set_window(birb::window& window)
+	{
+		this->window = &window;
+	}
+
 	void renderer::draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix)
 	{
 		PROFILER_SCOPE_RENDER_FN()
@@ -137,6 +154,21 @@ namespace birb
 		assert(current_scene != nullptr);
 		assert(scene::scene_count() > 0);
 		assert(!buffers_flipped && "Tried to draw entities after the buffers were already flipped");
+
+		// Bind the post-processing frame buffer and update its dimensions if needed
+		if (post_processing_enabled)
+		{
+			if (window->size() != old_window_dimensions)
+			{
+				post_processing_fbo->reload_frame_buffer_texture(window->size());
+				old_window_dimensions = window->size();
+			}
+
+			post_processing_fbo->bind();
+
+			// The FBO needs to be cleared separately
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		}
 
 		entt::registry& entity_registry = current_scene->registry;
 
@@ -253,6 +285,28 @@ namespace birb
 		}
 
 
+		/////////////////////
+		// Post-processing //
+		/////////////////////
+
+		// Unbind the framebuffer object and draw the scene into a texture
+		if (post_processing_enabled)
+		{
+			post_processing_fbo->unbind();
+
+			std::shared_ptr<shader> post_shader = shader_collection::get_shader("post_process", "post_process");
+			post_shader->activate();
+			post_processing_fbo->frame_buffer_texture().bind();
+			glDisable(GL_DEPTH_TEST);
+			draw_elements(post_processing_vao, quad_indices.size());
+			glEnable(GL_DEPTH_TEST);
+			post_processing_fbo->frame_buffer_texture().unbind();
+		}
+
+		/*****************************************************************************/
+		/* Nothing will be rendered after this point if debug drawing is not enabled */
+		/*****************************************************************************/
+
 		// If debug drawing is not enabled, we can stop drawing stuff here
 		if (!debug_view_enabled)
 			return;
@@ -290,6 +344,7 @@ namespace birb
 	void renderer::draw_elements(vao& vao, size_t index_count, gl_primitive primitive)
 	{
 		assert(vao.id != 0);
+		assert(vao.contains_ebo());
 		assert(index_count > 0 && "Unncessary call to draw_elements()");
 
 		vao.bind();
@@ -379,5 +434,11 @@ namespace birb
 		{
 			glDisable(GL_BLEND);
 		}
+	}
+
+	void renderer::opt_post_process(const bool enabled)
+	{
+		assert(window != nullptr && "The window needs to be set before post-processing can be enabled");
+		post_processing_enabled = enabled;
 	}
 }
