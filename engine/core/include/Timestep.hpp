@@ -13,8 +13,6 @@ namespace birb
 		 * refreshrate of the primary monitor
 		 */
 		timestep();
-		timestep(timestep&) = delete;
-		timestep(const timestep&) = delete;
 
 		/**
 		 * @brief Construct a timestep with a custom target FPS
