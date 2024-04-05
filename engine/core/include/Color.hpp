@@ -109,6 +109,11 @@ namespace birb
 			return { &r, &g, &b, &a };
 		}
 
+		vec3<float> to_vec3()
+		{
+			return vec3<float>(r, g, b);
+		}
+
 		constexpr bool operator==(const color& other) const
 		{
 			return 	(this->r == other.r
