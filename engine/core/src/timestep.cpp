@@ -85,6 +85,11 @@ namespace birb
 		return _deltatime;
 	}
 
+	float timestep::deltatime_float() const
+	{
+		return static_cast<float>(_deltatime);
+	}
+
 	double timestep::fps() const
 	{
 		assert(_deltatime != 0 && "Zero division");

@@ -44,6 +44,11 @@ namespace birb
 		double deltatime() const;
 
 		/**
+		 * @return The duration of the previous frame as a float
+		 */
+		float deltatime_float() const;
+
+		/**
 		 * @brief Get the current FPS
 		 *
 		 * The framerate will be calculated from the frametime, so due to
