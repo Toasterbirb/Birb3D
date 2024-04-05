@@ -7,6 +7,9 @@
 
 namespace birb
 {
+	template <class T>
+	struct vec3;
+
 	struct color
 	{
 		float r; ///< red
@@ -109,10 +112,7 @@ namespace birb
 			return { &r, &g, &b, &a };
 		}
 
-		vec3<float> to_vec3()
-		{
-			return vec3<float>(r, g, b);
-		}
+		vec3<float> to_vec3();
 
 		constexpr bool operator==(const color& other) const
 		{
