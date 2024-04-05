@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Shader.hpp"
+#include "ShaderRef.hpp"
 
 #include <memory>
 #include <string>
@@ -12,6 +13,14 @@ namespace birb
 	{
 	public:
 		~shader_collection();
+
+		/**
+		 * @brief Get a reference to a shader built from the given shader source names
+		 *
+		 * If the shader hasn't been compiled yet when its requested for,
+		 * it'll get compiled once and after that it can be re-used
+		 */
+		static std::shared_ptr<shader> get_shader(const shader_ref& ref);
 
 		/**
 		 * @brief Get a reference to a shader built from the given shader source names

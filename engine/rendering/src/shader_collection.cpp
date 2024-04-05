@@ -16,6 +16,11 @@ namespace birb
 		assert(shader_storage.empty() && "The shader collection needs to be wiped manually before it runs out of scope");
 	}
 
+	std::shared_ptr<shader> shader_collection::get_shader(const shader_ref& ref)
+	{
+		return get_shader(ref.vertex, ref.fragment);
+	}
+
 	std::shared_ptr<shader> shader_collection::get_shader(const std::string& vertex, const std::string& fragment)
 	{
 		assert(!vertex.empty());
