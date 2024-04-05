@@ -14,7 +14,7 @@ namespace birb
 		class performance : public widget_base
 		{
 		public:
-			explicit performance(timestep& ts);
+			explicit performance(const timestep& ts);
 			performance(timestep& ts, const char* collapsing_menu);
 			~performance();
 			void draw() override;
@@ -36,7 +36,7 @@ namespace birb
 
 			// Reference to the timestep used in the gameloop
 			// This is used to get frametime data
-			timestep& ts;
+			const timestep& ts;
 
 			std::array<char, 12> overlay_text_buffer;
 		};

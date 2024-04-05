@@ -17,7 +17,7 @@ namespace birb
 		// There should only be a singular performance overlay at any point
 		static u8 perf_overlay_count = 0;
 
-		performance::performance(timestep& ts) : ts(ts)
+		performance::performance(const timestep& ts) : ts(ts)
 		{
 			if (perf_overlay_count != 0)
 				birb::log_warn("Spawning multiple performance overlays is unnecessary");
@@ -53,6 +53,7 @@ namespace birb
 			PROFILER_SCOPE_RENDER_FN()
 
 			assert(imgui_initialized);
+			assert(!ts.frametime_history.empty());
 
 			float frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
