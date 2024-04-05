@@ -34,6 +34,9 @@ namespace birb
 		void process_input_ortho(window& window, const timestep& timestep);
 		void update_camera_vectors();
 
+		bool keyboard_controls_enabled = true;
+		bool mouse_controls_enabled = true;
+
 		glm::vec3 position = { 0.0, 0.0, 0.0 };
 
 		float yaw = -90.0f;

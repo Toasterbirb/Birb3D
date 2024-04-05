@@ -78,40 +78,46 @@ namespace birb
 		PROFILER_SCOPE_INPUT_FN()
 
 		// Keyboard input
-		if (window.is_key_held(keybinds.up))
-			position += front * static_cast<float>(timestep.deltatime()) * movement_speed;
-
-		if (window.is_key_held(keybinds.left))
-			position -= right * static_cast<float>(timestep.deltatime()) * movement_speed;
-
-		if (window.is_key_held(keybinds.down))
-			position -= front * static_cast<float>(timestep.deltatime()) * movement_speed;
-
-		if (window.is_key_held(keybinds.right))
-			position += right * static_cast<float>(timestep.deltatime()) * movement_speed;
-
-		// Skip processing mouse input if the cursor isn't locked to the window
-		// (unless editor mode is active, though with that require mouse3 to be held down)
-		if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && !first_mouse_delta_after_lock)
+		if (keyboard_controls_enabled)
 		{
-			// Calculate cursor positions
-			birb::vec2<double> new_cursor_pos = window.cursor_pos();
-			birb::vec2<double> cursor_delta = new_cursor_pos - prev_cursor_pos;
-			prev_cursor_pos = new_cursor_pos;
+			if (window.is_key_held(keybinds.up))
+				position += front * static_cast<float>(timestep.deltatime()) * movement_speed;
 
-			yaw += cursor_delta.x * mouse_sensitivity;
-			pitch -= cursor_delta.y * mouse_sensitivity;
+			if (window.is_key_held(keybinds.left))
+				position -= right * static_cast<float>(timestep.deltatime()) * movement_speed;
+
+			if (window.is_key_held(keybinds.down))
+				position -= front * static_cast<float>(timestep.deltatime()) * movement_speed;
+
+			if (window.is_key_held(keybinds.right))
+				position += right * static_cast<float>(timestep.deltatime()) * movement_speed;
 		}
-		else if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && first_mouse_delta_after_lock)
-		{
-			// Ignore the first mouse click after locking
-			prev_cursor_pos = window.cursor_pos();
 
-			first_mouse_delta_after_lock = false;
-		}
-		else
+		if (mouse_controls_enabled)
 		{
-			first_mouse_delta_after_lock = true;
+			// Skip processing mouse input if the cursor isn't locked to the window
+			// (unless editor mode is active, though with that require mouse3 to be held down)
+			if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && !first_mouse_delta_after_lock)
+			{
+				// Calculate cursor positions
+				birb::vec2<double> new_cursor_pos = window.cursor_pos();
+				birb::vec2<double> cursor_delta = new_cursor_pos - prev_cursor_pos;
+				prev_cursor_pos = new_cursor_pos;
+
+				yaw += cursor_delta.x * mouse_sensitivity;
+				pitch -= cursor_delta.y * mouse_sensitivity;
+			}
+			else if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && first_mouse_delta_after_lock)
+			{
+				// Ignore the first mouse click after locking
+				prev_cursor_pos = window.cursor_pos();
+
+				first_mouse_delta_after_lock = false;
+			}
+			else
+			{
+				first_mouse_delta_after_lock = true;
+			}
 		}
 
 		pitch = std::clamp(pitch, -89.0f, 89.0f);
