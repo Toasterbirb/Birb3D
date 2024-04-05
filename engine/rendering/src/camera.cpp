@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include "Math.hpp"
 #include "Profiling.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -147,14 +148,11 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN()
 
 		// Calculate the front vector
-		front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-		front.y = sin(glm::radians(pitch));
-		front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-		front = glm::normalize(front);
+		front = birb::view_vector::front(pitch, yaw);
 
 		// Update the right and up vectors
-		right = glm::normalize(glm::cross(front, world_up));
-		up = glm::normalize(glm::cross(right, front));
+		right = birb::view_vector::right(front, world_up);
+		up = birb::view_vector::up(right, front);
 	}
 
 	void camera::zoom(float delta)

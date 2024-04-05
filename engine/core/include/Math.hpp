@@ -4,6 +4,8 @@
 
 #include <cmath>
 #include <deque>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <numeric>
 #include <vector>
 
@@ -80,5 +82,12 @@ namespace birb
 				std::pow(b.y - a.y, 2) +
 				std::pow(b.z - a.z, 2)
 			);
+	}
+
+	namespace view_vector
+	{
+		glm::vec3 front(const float pitch, const float yaw);
+		glm::vec3 right(const glm::vec3& front, const glm::vec3& world_up);
+		glm::vec3 up(const glm::vec3& right, const glm::vec3& front);
 	}
 }
