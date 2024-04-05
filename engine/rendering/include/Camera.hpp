@@ -42,6 +42,9 @@ namespace birb
 		float yaw = -90.0f;
 		float pitch = 0.0f;
 
+		bool lock_yaw = false;
+		bool lock_pitch = false;
+
 		float movement_speed = 10.0f;
 		float mouse_sensitivity = 0.1f;
 		float fov = 45.0f;

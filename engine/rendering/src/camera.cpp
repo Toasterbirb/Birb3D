@@ -105,8 +105,11 @@ namespace birb
 				birb::vec2<double> cursor_delta = new_cursor_pos - prev_cursor_pos;
 				prev_cursor_pos = new_cursor_pos;
 
-				yaw += cursor_delta.x * mouse_sensitivity;
-				pitch -= cursor_delta.y * mouse_sensitivity;
+				if (!lock_yaw)
+					yaw += cursor_delta.x * mouse_sensitivity;
+
+				if (!lock_pitch)
+					pitch -= cursor_delta.y * mouse_sensitivity;
 			}
 			else if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && first_mouse_delta_after_lock)
 			{
