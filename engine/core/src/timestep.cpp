@@ -112,10 +112,5 @@ namespace birb
 		target_frametime = 1.0 / target_fps;
 		assert(target_frametime != 0 && "Target frametime of zero will cause a zero division");
 
-		// Update the frametime history size to fit one second worth of frametime data
-		constexpr double min_frametime_history_size = 16;
-		constexpr double max_frametime_history_size = 240;
-		frametime_history.resize(std::clamp(target_fps, min_frametime_history_size, max_frametime_history_size));
-		assert(frametime_history.size() > 1);
 	}
 }

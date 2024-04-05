@@ -1,7 +1,7 @@
 #pragma once
 
+#include <array>
 #include <deque>
-#include <vector>
 
 namespace birb
 {
@@ -70,10 +70,12 @@ namespace birb
 		 */
 		double framebudget() const;
 
+		static constexpr u8 frametime_history_size = 240;
+
 		/**
 		 * @brief Frametime history for the past second (up-to 240 fps)
 		 */
-		std::vector<float> frametime_history;
+		std::array<float, frametime_history_size> frametime_history = {1};
 
 		/**
 		 * @brief Set a new target framerate during runtime
@@ -103,6 +105,8 @@ namespace birb
 
 		// Target frametime (milliseconds per frame)
 		double target_frametime = 16.7;
+
+		u16 current_frametime_history_size = 1;
 
 		double _deltatime = 0.001;
 

@@ -21,6 +21,15 @@ TEST_CASE("Rounding with specified accuracy")
 	CHECK(birb::round(value4, -1) == 0);
 }
 
+TEST_CASE("Calculate the average value of a std::array")
+{
+	std::array<int, 5> int_vals = {1, 2, 3, 4, 5};
+	CHECK(birb::average(int_vals) == 3);
+
+	std::array<float, 2> float_vals = {1.2f, 3.2f};
+	CHECK(birb::average(float_vals) == 2.2f);
+}
+
 TEST_CASE("Calculate the average value of a std::vector")
 {
 	std::vector<int> int_vals = {1, 2, 3, 4, 5};
