@@ -8,6 +8,7 @@
 #include "ShaderCollection.hpp"
 #include "ShaderRef.hpp"
 #include "Sprite.hpp"
+#include "State.hpp"
 #include "Transform.hpp"
 
 // Debug drawing dependencies
@@ -188,6 +189,11 @@ namespace birb
 			const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::component::transform>();
 			for (const auto& ent : view)
 			{
+				// Check if the entity should be skipped because its not active
+				const component::state* state = entity_registry.try_get<component::state>(ent);
+				if (state && !state->active)
+					continue;
+
 				// Get the shader we'll be using for drawing the meshes of the model
 				shader_ref& shader_reference = view.get<birb::shader_ref>(ent);
 				std::shared_ptr<shader> shader = shader_collection::get_shader(shader_reference.vertex, shader_reference.fragment);
