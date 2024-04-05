@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Transform.hpp"
 #include "Vector.hpp"
 
 #include <cmath>
@@ -86,6 +87,7 @@ namespace birb
 
 	namespace view_vector
 	{
+		glm::vec3 front(const component::transform& transform);
 		glm::vec3 front(const float pitch, const float yaw);
 		glm::vec3 right(const glm::vec3& front, const glm::vec3& world_up);
 		glm::vec3 up(const glm::vec3& right, const glm::vec3& front);

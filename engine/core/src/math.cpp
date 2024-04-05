@@ -4,6 +4,11 @@ namespace birb
 {
 	namespace view_vector
 	{
+		glm::vec3 front(const component::transform& transform)
+		{
+			return front(transform.rotation.x, transform.rotation.y);
+		}
+
 		glm::vec3 front(const float pitch, const float yaw)
 		{
 			return glm::normalize(glm::vec3(
