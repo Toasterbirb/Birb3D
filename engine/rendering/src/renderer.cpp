@@ -6,6 +6,7 @@
 #include "Renderer.hpp"
 #include "Shader.hpp"
 #include "ShaderCollection.hpp"
+#include "ShaderRef.hpp"
 #include "Sprite.hpp"
 #include "Transform.hpp"
 
@@ -23,6 +24,7 @@
 #include <entt.hpp>
 #include <glad/gl.h>
 #include <memory>
+#include <unordered_set>
 
 #define TEXTURE_SHADER_NAME "texture"
 
@@ -175,36 +177,47 @@ namespace birb
 		rendered_entities = 0;
 		rendered_vertices = 0;
 
+		// Store shaders that have some specific uniforms updated already
+		// to avoid duplicate uniform updates
+		std::unordered_set<u32> uniforms_updated;
+
 		// Render all models
 		{
 			PROFILER_SCOPE_RENDER("Render models")
 
-			const auto view = entity_registry.view<birb::model, birb::shader, birb::component::transform>();
+			const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::component::transform>();
 			for (const auto& ent : view)
 			{
 				// Get the shader we'll be using for drawing the meshes of the model
-				shader& shader = view.get<birb::shader>(ent);
+				shader_ref& shader_reference = view.get<birb::shader_ref>(ent);
+				std::shared_ptr<shader> shader = shader_collection::get_shader(shader_reference.vertex, shader_reference.fragment);
+
 				assert(shader.id != 0 && "Tried to use an invalid shader for rendering");
 
 				const birb::component::transform& transform = view.get<birb::component::transform>(ent);
 
-				shader.set(shader_uniforms::model, transform.model_matrix());
-				shader.set(shader_uniforms::view, view_matrix);
-				shader.set(shader_uniforms::projection, projection_matrix);
-
 				// Make sure the lighting is up-to-date
-				shader.update_directional_light();
-				shader.update_point_lights();
+				if (!uniforms_updated.contains(shader->id))
+				{
+					shader->set(shader_uniforms::view, view_matrix);
+					shader->set(shader_uniforms::projection, projection_matrix);
+
+					shader->update_directional_light();
+					shader->update_point_lights();
+					uniforms_updated.insert(shader->id);
+				}
+
+				shader->set(shader_uniforms::model, transform.model_matrix());
 
 				// Apply the material component on the shader if it has any
 				// TODO: Make this work with textures too
 				const birb::component::material* material = entity_registry.try_get<birb::component::material>(ent);
 				if (material != nullptr)
-					shader.apply_color_material(*material);
+					shader->apply_color_material(*material);
 
 				// Draw the model
 				assert(view.get<birb::model>(ent).vertex_count() != 0 && "Tried to render a model with no vertices");
-				view.get<birb::model>(ent).draw(shader);
+				view.get<birb::model>(ent).draw(*shader);
 				++rendered_entities;
 				rendered_vertices += view.get<birb::model>(ent).vertex_count();
 			}
@@ -302,6 +315,8 @@ namespace birb
 			glEnable(GL_DEPTH_TEST);
 			post_processing_fbo->frame_buffer_texture().unbind();
 		}
+
+		frame_id_counter++;
 
 		/*****************************************************************************/
 		/* Nothing will be rendered after this point if debug drawing is not enabled */

@@ -84,6 +84,9 @@ namespace birb
 		u32 rendered_entities = 0;
 		u32 rendered_vertices = 0;
 
+		// Counter used for avoiding unnecessary shader calculations
+		u32 frame_id_counter = 0;
+
 		/////////////////////////////////
 		// Variables for debug drawing //
 		/////////////////////////////////
