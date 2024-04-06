@@ -2,6 +2,7 @@
 #include "GravityForce.hpp"
 #include "PhysicsWorld.hpp"
 #include "Rigidbody.hpp"
+#include "State.hpp"
 #include "Transform.hpp"
 
 namespace birb
@@ -63,6 +64,11 @@ namespace birb
 		{
 			// The entity shouldn't collide with itself
 			if (entity == collider_entity)
+				continue;
+
+			// Skip the entity if it's state is set to disabled
+			const birb::component::state* state = registry.try_get<birb::component::state>(collider_entity);
+			if (state && !state->active)
 				continue;
 
 			if (target_collider.collides_with(view.get<collider::box>(collider_entity)))
