@@ -52,7 +52,7 @@ int main(int argc, char** argv)
 	editor::entity_list entity_list(scene);
 	editor::inspector inspector(scene);
 	editor::viewport_camera viewport_camera(game_viewport);
-	editor::world world(window);
+	birb::world world(window);
 	editor::debugging debugging;
 	editor::main_menu_bar main_menu_bar(project, game_viewport);
 	editor::project_manager project_manager(project, game_viewport);

@@ -1,11 +1,11 @@
 #pragma once
 
-#include "EditorWindow.hpp"
+#include "WidgetBase.hpp"
 #include "Window.hpp"
 
-namespace editor
+namespace birb
 {
-	class world : public editor_window
+	class world : public widget_base
 	{
 	public:
 		explicit world(birb::window& window);

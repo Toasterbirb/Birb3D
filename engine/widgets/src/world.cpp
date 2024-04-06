@@ -7,7 +7,7 @@
 #include <imgui_stdlib.h>
 #include <stb_sprintf.h>
 
-namespace editor
+namespace birb
 {
 	world::world(birb::window& window) : window(window) {}
 
