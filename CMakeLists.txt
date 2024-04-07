@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-option(BIRB_WINDOWS "Disable Linux specific things")
+option(BIRB_WINDOWS "Disable Linux specific things" OFF)
 option(BIRB_PROFILER "Enable the profiling with microprofile" ON)
 
 # Check if birb3d is being built as part of a game project
