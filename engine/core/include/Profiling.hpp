@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef MICROPROFILE_ENABLED == 1
+#if MICROPROFILE_ENABLED == 1
 #include <microprofile.h>
 #endif
 
