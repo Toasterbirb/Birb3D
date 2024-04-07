@@ -120,7 +120,7 @@ int main(void)
 
 
 	/** Camera stuff **/
-	birb::camera camera({0.0f, 0.0f, 3.0f});
+	birb::camera camera(birb::vec3<float>(0.0f, 0.0f, 3.0f));
 	birb::overlay::camera_info camera_widget(camera);
 
 

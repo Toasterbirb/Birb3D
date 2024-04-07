@@ -43,7 +43,7 @@ int main(void)
 	birb::timestep timestep;
 	birb::overlay::performance perf_widget(timestep);
 
-	birb::camera camera({0.0f, 0.0f, -3.0f});
+	birb::camera camera(birb::vec3<float>(0.0f, 0.0f, -3.0f));
 	window.lock_cursor_to_window();
 	camera.process_input(window, timestep);
 	camera.yaw = 90;
