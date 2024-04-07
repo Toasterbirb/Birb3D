@@ -1,5 +1,8 @@
 #pragma once
+
+#ifdef MICROPROFILE_ENABLED == 1
 #include <microprofile.h>
+#endif
 
 #define PROFILER_SCOPE_RENDER(NAME) MICROPROFILE_SCOPEI("Rendering", NAME, MP_LIGHTGREEN);
 #define PROFILER_SCOPE_RENDER_FN() MICROPROFILE_SCOPEI("Rendering", __PRETTY_FUNCTION__, MP_LIGHTGREEN);

@@ -8,7 +8,6 @@
 #include <cassert>
 #include <imgui.h>
 #include <stb_sprintf.h>
-#include <sys/resource.h>
 
 namespace birb
 {

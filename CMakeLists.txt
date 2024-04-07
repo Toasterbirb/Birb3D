@@ -17,7 +17,19 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 endif()
 
 if (BIRB_WINDOWS)
+	message("> Windows compatibility mode enabled")
 	add_definitions(-DBIRB_PLATFORM_WINDOWS)
+
+	# Disable the profiler on windows
+	set(BIRB_PROFILER OFF CACHE BOOL "Enable the profiling with microprofile")
+
+	# Disable linux specific stuff
+	set(ALSOFT_BACKEND_PIPEWIRE OFF CACHE BOOL "Enable PipeWire backend")
+	set(ALSOFT_BACKEND_PULSEAUDIO OFF CACHE BOOL "Enable PulseAudio backend")
+	set(ALSOFT_BACKEND_ALSA OFF CACHE BOOL "Enable ALSA backend")
+	set(ALSOFT_BACKEND_OSS OFF CACHE BOOL "Enable OSS backend")
+	set(ALSOFT_BACKEND_SOLARIS OFF CACHE BOOL "Enable Solaris backend")
+	set(WIN32 ON CACHE BOOL "Enable Win32 backend")
 else()
 	add_definitions(-DBIRB_PLATFORM_LINUX)
 endif()
@@ -104,9 +116,9 @@ include_directories("${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm")
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/glm")
 
 # Build microprofile
-add_subdirectory(vendor/microprofile)
-include_directories(vendor/microprofile)
 if (BIRB_PROFILER)
+	add_subdirectory(vendor/microprofile)
+	include_directories(vendor/microprofile)
 	add_compile_definitions(MICROPROFILE_ENABLED=1)
 else()
 	add_compile_definitions(MICROPROFILE_ENABLED=0)

@@ -7,10 +7,6 @@
 #include <GLFW/glfw3.h>
 #include <chrono>
 #include <thread>
-#include <microprofile.h>
-
-#define PROFILER_GROUP "Timestep"
-#define PROFILER_COLOR MP_LIGHTGREEN
 
 namespace birb
 {

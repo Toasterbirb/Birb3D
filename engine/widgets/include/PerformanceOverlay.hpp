@@ -5,7 +5,10 @@
 
 #include <array>
 #include <string>
+
+#ifdef BIRB_PLATFORM_LINUX
 #include <sys/resource.h>
+#endif
 
 namespace birb
 {
