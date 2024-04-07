@@ -1,7 +1,12 @@
 add_library(audio STATIC)
 file(GLOB AUDIO_SRC src/*.cpp)
 target_sources(audio PRIVATE ${AUDIO_SRC})
-target_link_libraries(audio openal sndfile birb)
+
+if (NOT BIRB_STATIC)
+	target_link_libraries(audio openal sndfile birb)
+else()
+	target_link_libraries(audio birb)
+endif()
 
 target_precompile_headers(audio
 	PUBLIC

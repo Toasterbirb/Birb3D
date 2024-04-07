@@ -9,6 +9,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 option(BIRB_WINDOWS "Disable Linux specific things" OFF)
 option(BIRB_PROFILER "Enable the profiling with microprofile" ON)
+option(BIRB_STATIC "Use static linking" OFF)
 
 # Check if birb3d is being built as part of a game project
 set(GAME_PROJECT ON)
@@ -32,6 +33,11 @@ if (BIRB_WINDOWS)
 	set(WIN32 ON CACHE BOOL "Enable Win32 backend")
 else()
 	add_definitions(-DBIRB_PLATFORM_LINUX)
+endif()
+
+if (BIRB_STATIC)
+	set(LIBTYPE STATIC CACHE BOOL "Enable static linking for OpenAL-soft")
+	add_definitions(-DAL_LIBTYPE_STATIC)
 endif()
 
 find_program(CCACHE_FOUND ccache)
@@ -88,7 +94,7 @@ add_subdirectory("${GLFW_PATH}")
 
 # Build ImGui
 set(IMGUI_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
-add_library(imgui
+add_library(imgui STATIC
 	${IMGUI_PATH}/imgui.cpp
 	${IMGUI_PATH}/imgui_demo.cpp
 	${IMGUI_PATH}/imgui_draw.cpp
