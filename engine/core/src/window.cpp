@@ -16,6 +16,10 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
+#if MICROPROFILE_ENABLED == 1
+#include <microprofile.h>
+#endif
+
 namespace birb
 {
 	// How many windows have been created so far. This should NEVER be more than 1
@@ -158,7 +162,10 @@ namespace birb
 		}
 
 		glfwSwapBuffers(glfw_window);
+
+#if MICROPROFILE_ENABLED == 1
 		MicroProfileFlip(nullptr);
+#endif
 
 		// If ImGui was initialized, start a new frame
 		if (imgui_initialized)

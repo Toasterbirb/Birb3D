@@ -2,7 +2,10 @@
 
 #if MICROPROFILE_ENABLED == 1
 #include <microprofile.h>
-#endif
+
+//////////////////////////
+// Microprofile enabled //
+//////////////////////////
 
 #define PROFILER_SCOPE_RENDER(NAME) MICROPROFILE_SCOPEI("Rendering", NAME, MP_LIGHTGREEN);
 #define PROFILER_SCOPE_RENDER_FN() MICROPROFILE_SCOPEI("Rendering", __PRETTY_FUNCTION__, MP_LIGHTGREEN);
@@ -18,3 +21,26 @@
 
 #define PROFILER_SCOPE_MISC(NAME) MICROPROFILE_SCOPEI("Misc.", NAME, MP_LIGHTYELLOW);
 #define PROFILER_SCOPE_MISC_FN() MICROPROFILE_SCOPEI("Misc.", __PRETTY_FUNCTION__, MP_LIGHTYELLOW);
+
+#else
+
+///////////////////////////
+// Microprofile disabled //
+///////////////////////////
+
+#define PROFILER_SCOPE_RENDER(NAME)
+#define PROFILER_SCOPE_RENDER_FN()
+
+#define PROFILER_SCOPE_IO(NAME)
+#define PROFILER_SCOPE_IO_FN()
+
+#define PROFILER_SCOPE_INPUT(NAME)
+#define PROFILER_SCOPE_INPUT_FN()
+
+#define PROFILER_SCOPE_AUDIO(NAME)
+#define PROFILER_SCOPE_AUDIO_FN()
+
+#define PROFILER_SCOPE_MISC(NAME)
+#define PROFILER_SCOPE_MISC_FN()
+
+#endif

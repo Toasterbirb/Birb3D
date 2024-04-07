@@ -90,12 +90,15 @@ target_link_libraries(birb
 	glad
 	glm
 	imgui
-	microprofile
 
 	audio
 	physics
 	widgets
 )
+
+if (BIRB_PROFILER)
+	target_link_libraries(birb microprofile)
+endif()
 
 target_precompile_headers(birb
 	PUBLIC
@@ -147,7 +150,6 @@ target_precompile_headers(birb
 		<imgui_impl_opengl3.h>
 		<imgui_stdlib.h>
 		<iostream>
-		<microprofile.h>
 		<nlohmann/json.hpp>
 		<nlohmann/json_fwd.hpp>
 		<numeric>
