@@ -97,6 +97,13 @@ namespace birb
 			);
 	}
 
+	namespace noise
+	{
+		float perlin(float x, float y, float z, u8 seed = 0);
+		float perlin(vec2<float> position, u8 seed = 0);
+		float perlin(vec3<float> position, u8 seed = 0);
+	}
+
 	namespace view_vector
 	{
 		glm::vec3 front(const component::transform& transform);
