@@ -8,6 +8,7 @@
 #include <assimp/material.h>
 #include <assimp/mesh.h>
 #include <assimp/scene.h>
+#include <memory>
 #include <string>
 
 namespace birb
@@ -44,8 +45,8 @@ namespace birb
 		mesh process_mesh(aiMesh* ai_mesh, const aiScene* scene);
 		std::vector<mesh_texture> load_material_textures(aiMaterial* mat, aiTextureType type, std::string type_name);
 
-		std::vector<mesh_texture> textures_loaded;
-		std::vector<mesh> meshes;
+		std::shared_ptr<std::vector<mesh_texture>> textures_loaded;
+		std::shared_ptr<std::vector<mesh>> meshes;
 		std::string directory;
 		std::string file_path;
 

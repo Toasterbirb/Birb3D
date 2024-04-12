@@ -18,10 +18,15 @@
 namespace birb
 {
 	model::model()
-	{}
+	{
+		textures_loaded = std::make_shared<std::vector<mesh_texture>>();
+		meshes = std::make_shared<std::vector<mesh>>();
+	}
 
 	model::model(const std::string& path)
 	{
+		textures_loaded = std::make_shared<std::vector<mesh_texture>>();
+		meshes = std::make_shared<std::vector<mesh>>();
 		load_model(path);
 	}
 
@@ -31,11 +36,11 @@ namespace birb
 
 	void model::draw(shader& shader)
 	{
-		assert(!meshes.empty() && "Attempted to draw a model with no meshes");
+		assert(!meshes->empty() && "Attempted to draw a model with no meshes");
 
-		for (size_t i = 0; i < meshes.size(); ++i)
+		for (size_t i = 0; i < meshes->size(); ++i)
 		{
-			meshes[i].draw(shader);
+			meshes->at(i).draw(shader);
 		}
 	}
 
@@ -47,8 +52,8 @@ namespace birb
 
 		ImGui::BeginTable("Model info", 2);
 		{
-			draw_info_table_row("Meshes", meshes.size());
-			draw_info_table_row("Textures loaded", textures_loaded.size());
+			draw_info_table_row("Meshes", meshes->size());
+			draw_info_table_row("Textures loaded", textures_loaded->size());
 			draw_info_table_row("File path", file_path);
 			draw_info_table_row("Directory", directory);
 		}
@@ -56,16 +61,16 @@ namespace birb
 
 		if (ImGui::TreeNode("Meshes"))
 		{
-			for (size_t i = 0; i < meshes.size(); ++i)
+			for (size_t i = 0; i < meshes->size(); ++i)
 			{
 				const std::string node_name = "Mesh " + std::to_string(i);
 				if (ImGui::TreeNode(node_name.c_str()))
 				{
 					const std::string table_name = "Mesh " + std::to_string(i) + " info";
 					ImGui::BeginTable(table_name.c_str(), 2);
-					draw_info_table_row("Vertices", meshes.at(i).vertices.size());
-					draw_info_table_row("Indices", meshes.at(i).indices.size());
-					draw_info_table_row("Textures", meshes.at(i).textures.size());
+					draw_info_table_row("Vertices", meshes->at(i).vertices.size());
+					draw_info_table_row("Indices", meshes->at(i).indices.size());
+					draw_info_table_row("Textures", meshes->at(i).textures.size());
 					ImGui::EndTable();
 					ImGui::TreePop();
 				}
@@ -198,13 +203,13 @@ namespace birb
 
 	void model::destroy()
 	{
-		textures_loaded.clear();
+		textures_loaded->clear();
 
 		// Destroy meshes manually
-		for (birb::mesh mesh : meshes)
+		for (birb::mesh& mesh : *meshes)
 			mesh.destroy();
 
-		meshes.clear();
+		meshes->clear();
 		directory = "";
 		vert_count = 0;
 		birb::log("Model destroyed: " + file_path);
@@ -219,7 +224,7 @@ namespace birb
 		for (u32 i = 0; i < node->mNumMeshes; ++i)
 		{
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-			meshes.push_back(process_mesh(mesh, scene));
+			meshes->push_back(process_mesh(mesh, scene));
 			vert_count += mesh->mNumVertices;
 		}
 
@@ -311,11 +316,11 @@ namespace birb
 			mat->GetTexture(type, i, &str);
 
 			bool skip = false;
-			for (size_t j = 0; j < textures_loaded.size(); ++j)
+			for (size_t j = 0; j < textures_loaded->size(); ++j)
 			{
-				if (!std::strcmp(textures_loaded[j].path.data(), str.C_Str()))
+				if (!std::strcmp(textures_loaded->at(j).path.data(), str.C_Str()))
 				{
-					textures.push_back(textures_loaded[j]);
+					textures.push_back(textures_loaded->at(j));
 					skip = true;
 					break;
 				}
@@ -329,7 +334,7 @@ namespace birb
 				texture.path = str.C_Str();
 
 				textures.push_back(texture);
-				textures_loaded.push_back(texture);
+				textures_loaded->push_back(texture);
 			}
 		}
 
