@@ -68,8 +68,7 @@ int main(void)
 				transform.rotation.y = 45.0f;
 				suzanne.add_component(transform);
 
-				birb::collider::box box_collider;
-				box_collider.set_position_and_size(transform);
+				birb::collider::box box_collider(transform);
 				suzanne.add_component(box_collider);
 
 				suzanne.add_component(shader_reference);

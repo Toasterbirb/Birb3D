@@ -6,6 +6,12 @@ namespace birb
 	{
 		box::box() {}
 
+		box::box(const component::transform& transform)
+		:_size(transform.local_scale), _position(transform.position)
+		{
+			update_min_max_values();
+		}
+
 		bool box::collides_with(const box& box)
 		{
 			// AABB algorithm

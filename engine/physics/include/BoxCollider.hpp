@@ -11,6 +11,7 @@ namespace birb
 		{
 		public:
 			box();
+			explicit box(const component::transform& transform);
 			~box() = default;
 			box(const box&) = default;
 			box(box&) = default;
