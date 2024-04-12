@@ -14,7 +14,7 @@ namespace birb
 	timer::~timer()
 	{
 		if (!is_stopped)
-			stop();
+			stop(false);
 	}
 
 	void timer::reset()
@@ -23,10 +23,13 @@ namespace birb
 		start = glfwGetTime();
 	}
 
-	void timer::stop()
+	double timer::stop(const bool quiet)
 	{
 		const double duration = glfwGetTime() - start;
 		is_stopped = true;
+
+		if (quiet)
+			return duration;
 
 		if (duration > 1.0)
 			std::cout << name << ": " << duration << "s\n";
@@ -36,5 +39,7 @@ namespace birb
 			std::cout << name << ": " << duration * 1000000.0 << "µs\n";
 		else
 			std::cout << name << ": " << duration * 1000000000.0 << "ns\n";
+
+		return duration;
 	}
 }

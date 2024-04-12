@@ -11,7 +11,7 @@ namespace birb
 		timer(timer&) = default;
 
 		void reset();
-		void stop();
+		double stop(const bool quiet = false);
 
 	private:
 		const std::string name;
