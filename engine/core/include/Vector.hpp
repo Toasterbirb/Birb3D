@@ -242,6 +242,11 @@ namespace birb
 			return glm::vec3(x, y, z);
 		}
 
+		constexpr operator glm::vec3() const
+		{
+			return glm::vec3(x, y, z);
+		}
+
 		constexpr bool operator==(const vec3 other) const
 		{
 			return (this->x == other.x && this->y == other.y && this->z == other.z);
