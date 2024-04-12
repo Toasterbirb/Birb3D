@@ -46,14 +46,14 @@ namespace birb
 	std::string timer::format_time(const double seconds)
 	{
 		if (seconds > 1.0)
-			return std::to_string(seconds) + "s\n";
+			return std::to_string(seconds) + "s";
 
 		if (seconds > 0.001)
-			return std::to_string(seconds * 1000.0) + "ms\n";
+			return std::to_string(seconds * 1000.0) + "ms";
 
 		if (seconds > 0.000001)
-			return std::to_string(seconds * 1000000.0) + "µs\n";
+			return std::to_string(seconds * 1000000.0) + "µs";
 
-		return std::to_string(seconds * 1000000000.0) + "ns\n";
+		return std::to_string(seconds * 1000000000.0) + "ns";
 	}
 }
