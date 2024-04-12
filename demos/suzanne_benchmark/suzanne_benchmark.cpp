@@ -2,6 +2,7 @@
 #include "CameraInfoOverlay.hpp"
 #include "Components.hpp"
 #include "Entity.hpp"
+#include "Math.hpp"
 #include "Model.hpp"
 #include "PerformanceOverlay.hpp"
 #include "Renderer.hpp"
@@ -16,6 +17,7 @@
 
 #include "BoxCollider.hpp"
 
+#include <array>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -49,6 +51,8 @@ int main(void)
 	birb::shader_collection::get_shader(shader_reference.vertex, shader_reference.fragment)->reset_lights();
 	// shader.reset_lights();
 
+	std::array<std::array<double, suzanne_count>, suzanne_count> suzanne_entity_construction_duration_arr;
+
 	{
 		birb::timer entity_timer("Entity construction");
 
@@ -56,6 +60,8 @@ int main(void)
 		{
 			for (u16 j = 0; j < suzanne_count; ++j)
 			{
+				birb::timer construction_timer;
+
 				birb::entity suzanne = scene.create_entity();
 
 				suzanne.add_component(suzanne_model);
@@ -75,9 +81,14 @@ int main(void)
 
 				birb::component::material material({ 0.2f, 0.3f, 0.4f }, { 0.9f, 0.8f, 0.7f }, 32);
 				suzanne.add_component(material);
+
+				suzanne_entity_construction_duration_arr[i][j] = construction_timer.stop(true);
 			}
 		}
 	}
+
+	const double average_entity_construction_duration = birb::average(suzanne_entity_construction_duration_arr);
+	std::cout << "Average entity construction: " << birb::timer::format_time(average_entity_construction_duration) << "\n";
 
 	// Reset camera rotation
 	camera.process_input(window, timestep);
