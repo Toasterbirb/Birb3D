@@ -30,6 +30,17 @@ TEST_CASE("Calculate the average value of a std::array")
 	CHECK(birb::average(float_vals) == 2.2f);
 }
 
+TEST_CASE("Calculate the average value of a 2D std::array")
+{
+	std::array<std::array<float, 3>, 3> values = {
+		std::array<float, 3>{ 1.0f, 2.0f, 3.0 },
+		std::array<float, 3>{ 2.0f, 3.0f, 4.0 },
+		std::array<float, 3>{ 3.0f, 4.0f, 5.0 },
+	};
+
+	CHECK(birb::average(values) == 3.0f);
+}
+
 TEST_CASE("Calculate the average value of a std::vector")
 {
 	std::vector<int> int_vals = {1, 2, 3, 4, 5};

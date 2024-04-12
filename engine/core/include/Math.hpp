@@ -44,6 +44,23 @@ namespace birb
 	}
 
 	/**
+	 * @brief Calculate the average value of a 2D array
+	 */
+	template<typename T, size_t N, size_t M>
+	constexpr T average(std::array<std::array<T, N>, M> data)
+	{
+		static_assert(N > 0);
+		static_assert(M > 0);
+
+		T total = 0;
+
+		for (size_t i = 0; i < M; ++i)
+			total += std::accumulate(data[i].begin(), data[i].end(), 0.0);
+
+		return total / (N * M);
+	}
+
+	/**
 	 * @brief Calculate the average value of a vector
 	 */
 	template<typename T>
