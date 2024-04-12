@@ -30,7 +30,11 @@ namespace birb
 
 		if (duration > 1.0)
 			std::cout << name << ": " << duration << "s\n";
-		else
+		else if (duration > 0.001)
 			std::cout << name << ": " << duration * 1000.0 << "ms\n";
+		else if (duration > 0.000001)
+			std::cout << name << ": " << duration * 1000000.0 << "µs\n";
+		else
+			std::cout << name << ": " << duration * 1000000000.0 << "ns\n";
 	}
 }
