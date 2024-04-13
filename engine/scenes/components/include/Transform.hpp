@@ -43,7 +43,7 @@ namespace birb
 			}
 
 		private:
-			const std::string editor_header_name = "Transform";
+			static inline const std::string editor_header_name = "Transform";
 			glm::mat4 cached_model_matrix;
 			bool is_locked = false;
 		};

@@ -66,7 +66,7 @@ namespace birb
 		}
 
 	private:
-		const std::string editor_header_name = "Camera";
+		static inline const std::string editor_header_name = "Camera";
 		vec2<double> prev_cursor_pos;
 
 		// Ignore the first mouse delta after the window is clicked

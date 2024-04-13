@@ -107,7 +107,7 @@ namespace birb
 		}
 
 	private:
-		const std::string editor_header_name = "Shader";
+		static inline const std::string editor_header_name = "Shader";
 
 		// Calls try_add_uniform_location but prints out a warning if the uniform
 		// doesn't exist

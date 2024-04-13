@@ -26,7 +26,7 @@ namespace birb
 			}
 
 		private:
-			const std::string editor_header_name = "Material";
+			static inline const std::string editor_header_name = "Material";
 		};
 	}
 }

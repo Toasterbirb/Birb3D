@@ -39,7 +39,7 @@ namespace birb
 		}
 
 	private:
-		const std::string editor_header_name = "Model";
+		static inline const std::string editor_header_name = "Model";
 
 		void process_node(aiNode* node, const aiScene* scene);
 		mesh process_mesh(aiMesh* ai_mesh, const aiScene* scene);
