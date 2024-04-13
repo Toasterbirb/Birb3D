@@ -196,7 +196,7 @@ namespace birb
 
 				// Get the shader we'll be using for drawing the meshes of the model
 				shader_ref& shader_reference = view.get<birb::shader_ref>(ent);
-				std::shared_ptr<shader> shader = shader_collection::get_shader(shader_reference.vertex, shader_reference.fragment);
+				std::shared_ptr<shader> shader = shader_collection::get_shader(*shader_reference.vertex, *shader_reference.fragment);
 
 				assert(shader->id != 0 && "Tried to use an invalid shader for rendering");
 

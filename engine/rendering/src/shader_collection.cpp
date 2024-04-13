@@ -18,7 +18,7 @@ namespace birb
 
 	std::shared_ptr<shader> shader_collection::get_shader(const shader_ref& ref)
 	{
-		return get_shader(ref.vertex, ref.fragment);
+		return get_shader(*ref.vertex, *ref.fragment);
 	}
 
 	std::shared_ptr<shader> shader_collection::get_shader(const std::string& vertex, const std::string& fragment)
