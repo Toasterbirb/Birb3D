@@ -1,6 +1,12 @@
 #pragma once
 #define GLFW_INCLUDE_NONE
 
+#ifdef BIRB_PLATFORM_WINDOWS
+#ifndef GLFW_DLL
+#define GLFW_DLL
+#endif
+#endif
+
 #include "Color.hpp"
 #include "EventBus.hpp"
 #include "Input.hpp"

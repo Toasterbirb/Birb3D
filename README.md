@@ -15,6 +15,7 @@ Vendored dependencies that are included as submodules or directly in the reposit
 - [assimp](https://github.com/assimp/assimp)
 - [cereal](https://github.com/USCiLab/cereal)
 - [doctest](https://github.com/doctest/doctest)
+- [libsndfile](https://github.com/libsndfile/libsndfile)
 - [nlohmann::json](https://github.com/nlohmann/json)
 - [openal-soft](https://github.com/kcat/openal-soft)
 - [stb](https://github.com/nothings/stb)
@@ -37,6 +38,27 @@ make -j$(nproc) test
 ```
 
 You can also build the documentation with `make docs`
+
+#### Cross-compilation
+To target the Windows platform, you can build a game project with the following commands (assuming Birb3D is a sub-project and symlinked at the root of the game project)
+```sh
+mkdir build_win
+cmake .. -DBIRB_STATIC=ON -DBIRB_WINDOWS=ON -DBIRB_PROFILER=OFF -DCMAKE_TOOLCHAIN_FILE=../Birb3D/x86_64-w64-mingw32.cmake -DCMAKE_CXX_FLAGS="-std=c++20 -static -static-libstdc++"
+make -j$(nproc)
+```
+
+Some DLL files may need to be moved around to fix any missing DLL errors that may appear. A release build script might be made in the future to automate this process.
+
+> **Warning**
+> Building the engine by itself for Windows will not be supported officially and you may face DLL errors when trying to run the built executables. An effort will be made though to keep the project building with mingw to keep the cross-compiling of games functional
+
+To build the Birb3D project itself, you need to adjust the file paths a bit
+```sh
+mkdir build_win
+cmake .. -DBIRB_WINDOWS=ON -DBIRB_PROFILER=OFF -DCMAKE_TOOLCHAIN_FILE=../x86_64-w64-mingw32.cmake -DCMAKE_CXX_FLAGS="-std=c++20"
+make -j$(nproc)
+```
+
 
 ## Installation
 To install Birb3D to /usr/local/bin, run the following command

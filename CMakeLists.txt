@@ -30,13 +30,23 @@ if (BIRB_WINDOWS)
 	set(ALSOFT_BACKEND_ALSA OFF CACHE BOOL "Enable ALSA backend")
 	set(ALSOFT_BACKEND_OSS OFF CACHE BOOL "Enable OSS backend")
 	set(ALSOFT_BACKEND_SOLARIS OFF CACHE BOOL "Enable Solaris backend")
+	set(ALSOFT_RTKIT OFF CACHE BOOL "Enable rtkit")
+
 	set(WIN32 ON CACHE BOOL "Enable Win32 backend")
+
+	set(GLFW_BUILD_WIN32 ON CACHE BOOL "Build support for Win32")
+	set(GLFW_BUILD_X11 OFF CACHE BOOL "Build support for X11")
+	set(GLFW_BUILD_WAYLAND OFF CACHE BOOL "Build support for wayland")
+
+	# Use the glfw toolchain file
+	set(CMAKE_TOOLCHAIN_FILE ${CMAKE_CURRENT_SOURCE_DIR}/vendor/glfw/CMake/x86_64-w64-mingw32.cmake)
 else()
 	add_definitions(-DBIRB_PLATFORM_LINUX)
 endif()
 
 if (BIRB_STATIC)
 	set(LIBTYPE STATIC CACHE BOOL "Enable static linking for OpenAL-soft")
+	set(GLFW_LIBRARY_TYPE STATIC CACHE BOOL "Use static linking with glfw")
 	add_definitions(-DAL_LIBTYPE_STATIC)
 endif()
 
@@ -109,6 +119,7 @@ target_include_directories(imgui PUBLIC
 	${IMGUI_PATH}/backends
 	${IMGUI_PATH}/misc/cpp
 )
+target_link_libraries(imgui glfw)
 
 
 # Build glad
@@ -138,11 +149,20 @@ set(ALSOFT_INSTALL OFF CACHE BOOL "Install main library")
 add_subdirectory(vendor/openal-soft)
 include_directories(vendor/openal-soft/include)
 
+# Build libsndfile
+set(ENABLE_EXTERNAL_LIBS OFF CACHE BOOL "Enable FLAC, Vorbis, and Opus codecs")
+set(ENABLE_MPEG OFF CACHE BOOL "Enable MPEG codecs")
+set(BUILD_PROGRAMS OFF CACHE BOOL "Build programs")
+set(BUILD_EXAMPLES OFF CACHE BOOL "Build examples")
+set(ENABLE_CPACK OFF CACHE BOOL "Enable CPack support")
+add_subdirectory(vendor/libsndfile)
+include_directories(vendor/libsndfile/include)
+
 # Build with all kinds of warnings enabled because programmers usually don't
 # know what they are doing
 add_compile_options(-pedantic -Wall -Wextra -Wcast-align
 	-Wdisabled-optimization -Wformat=2
-	-Winit-self -Wlogical-op -Wmissing-declarations -Wmissing-include-dirs
+	-Winit-self -Wlogical-op -Wmissing-declarations
 	-Werror -Wno-unused)
 
 # Build the engine library

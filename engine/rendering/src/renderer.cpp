@@ -34,11 +34,19 @@
 static_assert(sizeof(double) == sizeof(GLdouble));
 static_assert(sizeof(float) == sizeof(GLfloat));
 static_assert(sizeof(int) == sizeof(GLint));
+#ifdef BIRB_PLATFORM_LINUX
 static_assert(sizeof(long int) == sizeof(GLint64));
+#else
+#pragma message "WARNING: long int != GLint64 with mingw"
+#endif
 static_assert(sizeof(short) == sizeof(GLshort));
 static_assert(sizeof(std::byte) == sizeof(GLbyte));
 static_assert(sizeof(unsigned int) == sizeof(GLuint));
+#ifdef BIRB_PLATFORM_LINUX
 static_assert(sizeof(unsigned long int) == sizeof(GLuint64));
+#else
+#pragma message "WARNING: unsigned long int != GLint64 with mingw"
+#endif
 static_assert(sizeof(unsigned short) == sizeof(GLushort));
 static_assert(sizeof(size_t) == sizeof(GLsizeiptr));
 static_assert(sizeof(intptr_t) == sizeof(GLintptr));

@@ -1,6 +1,7 @@
 *.o
 .cache
 build/
+build_win/
 engine/rendering/shaders/ShaderSource.hpp
 playground/playground.cpp
 engine/scenes/include/Components.hpp
