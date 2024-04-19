@@ -1,6 +1,7 @@
 #include "SoundFile.hpp"
 
 #include <AL/alext.h>
+#include <climits>
 #include <memory>
 
 static_assert(sizeof(int) == sizeof(ALint));
