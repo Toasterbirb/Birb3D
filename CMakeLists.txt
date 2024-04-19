@@ -2,11 +2,11 @@ cmake_minimum_required(VERSION 3.12)
 
 project(Birb3D)
 
-set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+option(BIRB_CXX23 "Enable C++23 features" ON)
 option(BIRB_WINDOWS "Disable Linux specific things" OFF)
 option(BIRB_PROFILER "Enable the profiling with microprofile" ON)
 option(BIRB_STATIC "Use static linking" OFF)
@@ -14,6 +14,15 @@ option(BIRB_EDITOR "Build the editor project" ON)
 option(BIRB_DEMOS "Build demo projects" ON)
 option(BIRB_TESTS "Build unit tests" ON)
 option(BIRB_PLAYGROUND "Build the playground project" OFF)
+
+if (BIRB_CXX23)
+	message("> Building with C++23 features")
+	set(CMAKE_CXX_STANDARD 23)
+else()
+	message("> Building with C++20 features")
+	message("> - Fixed width floating point types will fall back to generic types")
+	set(CMAKE_CXX_STANDARD 20)
+endif()
 
 # Check if birb3d is being built as part of a game project
 set(GAME_PROJECT ON)

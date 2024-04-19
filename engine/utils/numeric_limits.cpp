@@ -6,8 +6,8 @@
 template<typename T>
 void print_limit(const std::string_view& name)
 {
-	constexpr i64 min_value = std::numeric_limits<T>().min();
-	constexpr u64 max_value = std::numeric_limits<T>().max();
+	constexpr long double min_value = std::numeric_limits<T>().min();
+	constexpr long double max_value = std::numeric_limits<T>().max();
 	std::cout << name << ":\t" << min_value << " -> " << max_value << "\n";
 }
 
@@ -22,5 +22,11 @@ int main(void)
 	print_limit<u16>("u16");
 	print_limit<u32>("u32");
 	print_limit<u64>("u64");
+	std::cout << "\n";
+	print_limit<f16>("f16");
+	print_limit<f32>("f32");
+	print_limit<f64>("f64");
+	print_limit<bf16>("bf16");
+
 	return 0;
 }

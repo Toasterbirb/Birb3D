@@ -58,6 +58,9 @@ static_assert(sizeof(u16) == sizeof(GLushort));
 static_assert(sizeof(u32) == sizeof(GLuint));
 static_assert(sizeof(u64) == sizeof(GLuint64));
 
+static_assert(sizeof(f32) == sizeof(GLfloat));
+static_assert(sizeof(f64) == sizeof(GLdouble));
+
 static_assert(static_cast<GLenum>(birb::renderer::gl_primitive::triangles) == GL_TRIANGLES);
 static_assert(static_cast<GLenum>(birb::renderer::gl_primitive::lines) == GL_LINES);
 
