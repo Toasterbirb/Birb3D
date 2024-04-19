@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+option(BIRB_RELEASE "Build a release build with all vendored dependencies" OFF)
 option(BIRB_CXX23 "Enable C++23 features" ON)
 option(BIRB_WINDOWS "Disable Linux specific things" OFF)
 option(BIRB_PROFILER "Enable the profiling with microprofile" ON)
@@ -14,6 +15,8 @@ option(BIRB_EDITOR "Build the editor project" ON)
 option(BIRB_DEMOS "Build demo projects" ON)
 option(BIRB_TESTS "Build unit tests" ON)
 option(BIRB_PLAYGROUND "Build the playground project" OFF)
+
+include(vendor/assimp/cmake-modules/Findassimp.cmake)
 
 if (BIRB_CXX23)
 	message("> Building with C++23 features")
@@ -82,29 +85,32 @@ include_directories(
 # Include doctest
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vendor/doctest)
 
+find_package(assimp)
 # Build assimp
+if (NOT assimp_FOUND OR BIRB_RELEASE)
 # Disable some features that aren't needed
-set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "Build the assimp test suite")
-set(ASSIMP_INSTALL OFF CACHE BOOL "Disable this if you want to use assimp as a submodule.")
-set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT OFF CACHE BOOL "Build assimp with all importers enabled.")
-set(ASSIMP_BUILD_ALL_EXPORTERS_BY_DEFAULT OFF CACHE BOOL "Build assimp with all exporters enabled.")
-set(ASSIMP_NO_EXPORT ON CACHE BOOL "Disable Assimp's export functionality.")
-set(ASSIMP_BUILD_ASSIMP_VIEW OFF CACHE BOOL "Build Assimp view tool")
+	set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "Build the assimp test suite")
+	set(ASSIMP_INSTALL OFF CACHE BOOL "Disable this if you want to use assimp as a submodule.")
+	set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT OFF CACHE BOOL "Build assimp with all importers enabled.")
+	set(ASSIMP_BUILD_ALL_EXPORTERS_BY_DEFAULT OFF CACHE BOOL "Build assimp with all exporters enabled.")
+	set(ASSIMP_NO_EXPORT ON CACHE BOOL "Disable Assimp's export functionality.")
+	set(ASSIMP_BUILD_ASSIMP_VIEW OFF CACHE BOOL "Build Assimp view tool")
 
-# Enable the needed file formats
-set(ASSIMP_BUILD_OBJ_IMPORTER ON CACHE BOOL "Build support for .obj files")
-set(ASSIMP_BUILD_FBX_IMPORTER ON CACHE BOOL "Build support for .fbx files")
-set(ASSIMP_BUILD_BLEND_IMPORTER ON CACHE BOOL "Build support for .blend files")
+	# Enable the needed file formats
+	set(ASSIMP_BUILD_OBJ_IMPORTER ON CACHE BOOL "Build support for .obj files")
+	set(ASSIMP_BUILD_FBX_IMPORTER ON CACHE BOOL "Build support for .fbx files")
+	set(ASSIMP_BUILD_BLEND_IMPORTER ON CACHE BOOL "Build support for .blend files")
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vendor/assimp/include)
+	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vendor/assimp/include)
 
-if (GAME_PROJECT)
-	include_directories(${CMAKE_BINARY_DIR}/Birb3D/vendor/assimp/include)
-else()
-	include_directories(${CMAKE_BINARY_DIR}/vendor/assimp/include)
+	if (GAME_PROJECT)
+		include_directories(${CMAKE_BINARY_DIR}/Birb3D/vendor/assimp/include)
+	else()
+		include_directories(${CMAKE_BINARY_DIR}/vendor/assimp/include)
+	endif()
+
+	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/assimp)
 endif()
-
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/assimp)
 
 # Build GLFW
 set(GLFW_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/glfw")
@@ -156,7 +162,7 @@ endif()
 
 # Build OpenAL
 find_package(OpenAL)
-if (NOT OpenAL_FOUND)
+if (NOT OpenAL_FOUND OR BIRB_RELEASE)
 	set(ALSOFT_UTILS OFF CACHE BOOL "Build utility programs")
 	set(ALSOFT_NO_CONFIG_UTIL ON CACHE BOOL "Disable building the alsoft-config utility")
 	set(ALSOFT_EXAMPLES OFF CACHE BOOL "Build example programs")
