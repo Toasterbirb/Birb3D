@@ -6,6 +6,7 @@
 #include "Material.hpp"
 #include "Scene.hpp"
 #include "ShaderRef.hpp"
+#include "Types.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
 #include "Window.hpp"
