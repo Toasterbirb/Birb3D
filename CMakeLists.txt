@@ -10,6 +10,10 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(BIRB_WINDOWS "Disable Linux specific things" OFF)
 option(BIRB_PROFILER "Enable the profiling with microprofile" ON)
 option(BIRB_STATIC "Use static linking" OFF)
+option(BIRB_EDITOR "Build the editor project" ON)
+option(BIRB_DEMOS "Build demo projects" ON)
+option(BIRB_TESTS "Build unit tests" ON)
+option(BIRB_PLAYGROUND "Build the playground project" OFF)
 
 # Check if birb3d is being built as part of a game project
 set(GAME_PROJECT ON)
@@ -171,17 +175,25 @@ add_subdirectory(engine)
 # Skip building demos, editor, tests and the playground project if Birb3D is being
 # built as part of a game project
 if (NOT GAME_PROJECT)
-	# Build the editor
-	add_subdirectory(editor)
+	if (BIRB_EDITOR)
+		# Build the editor
+		add_subdirectory(editor)
+	endif()
 
-	# Build demos
-	add_subdirectory(demos)
+	if (BIRB_DEMOS)
+		# Build demos
+		add_subdirectory(demos)
+	endif()
 
-	# Build tests
-	add_subdirectory(tests)
+	if (BIRB_TESTS)
+		# Build tests
+		add_subdirectory(tests)
+	endif()
 
-	# Build the playground project
-	add_subdirectory(playground)
+	if (BIRB_PLAYGROUND)
+		# Build the playground project
+		add_subdirectory(playground)
+	endif()
 endif()
 
 # Build documentation
