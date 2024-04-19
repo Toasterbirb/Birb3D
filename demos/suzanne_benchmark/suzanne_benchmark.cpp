@@ -72,6 +72,7 @@ int main(void)
 
 				transform.position.z = -4.0f;
 				transform.rotation.y = 45.0f;
+				transform.lock();
 				suzanne.add_component(transform);
 
 				birb::collider::box box_collider(transform);
