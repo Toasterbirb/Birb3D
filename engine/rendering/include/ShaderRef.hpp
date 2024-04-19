@@ -1,7 +1,8 @@
 #pragma once
 
+#include "Types.hpp"
+
 #include <cassert>
-#include <memory>
 #include <string>
 
 namespace birb
@@ -13,18 +14,27 @@ namespace birb
 			assert(!vertex.empty());
 			assert(!fragment.empty());
 
-			this->vertex = std::make_shared<std::string>(vertex);
-			this->fragment = std::make_shared<std::string>(fragment);
+			this->vertex = std::hash<std::string>{}(vertex);
+			this->fragment = std::hash<std::string>{}(fragment);
+
+			// Some hash combination thing found from cppreference
+			hash = this->vertex ^ (this->fragment << 1);
 		}
 
-		/**
-		 * @brief Name of the vertex shader
-		 */
-		std::shared_ptr<std::string> vertex;
 
 		/**
-		 * @brief Name of the fragment shader
+		 * @brief A hash generated from the vertex and fragment shader names
 		 */
-		std::shared_ptr<std::string> fragment;
+		u64 hash = 0;
+
+		/**
+		 * @brief A hash for identify the vertex shader
+		 */
+		u64 vertex;
+
+		/**
+		 * @brief A hash for identifying the fragment
+		 */
+		u64 fragment;
 	};
 }

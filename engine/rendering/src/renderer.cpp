@@ -27,8 +27,6 @@
 #include <memory>
 #include <unordered_set>
 
-#define TEXTURE_SHADER_NAME "texture"
-
 // Make sure that all of the datatypes are of correct size
 // so that they work correctly with OpenGL
 static_assert(sizeof(double) == sizeof(GLdouble));
@@ -66,6 +64,7 @@ static_assert(static_cast<GLenum>(birb::renderer::gl_primitive::lines) == GL_LIN
 namespace birb
 {
 	renderer::renderer()
+	:debug_shader_ref("color", "color"), texture_shader_ref("texture", "texture"), post_processing_shader_ref("post_process", "post_process")
 	{
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::register_event_id(event::toggle_debug_view, this);
@@ -204,7 +203,7 @@ namespace birb
 
 				// Get the shader we'll be using for drawing the meshes of the model
 				shader_ref& shader_reference = view.get<birb::shader_ref>(ent);
-				std::shared_ptr<shader> shader = shader_collection::get_shader(*shader_reference.vertex, *shader_reference.fragment);
+				std::shared_ptr<shader> shader = shader_collection::get_shader(shader_reference);
 
 				assert(shader->id != 0 && "Tried to use an invalid shader for rendering");
 
@@ -241,7 +240,7 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER("Render sprites")
 
-			const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(TEXTURE_SHADER_NAME, TEXTURE_SHADER_NAME);
+			const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
 
 			// Sprites should only have a singular texture, so we'll use the default
 			// tex0 texture unit
@@ -321,7 +320,7 @@ namespace birb
 		{
 			post_processing_fbo->unbind();
 
-			std::shared_ptr<shader> post_shader = shader_collection::get_shader("post_process", "post_process");
+			std::shared_ptr<shader> post_shader = shader_collection::get_shader(post_processing_shader_ref);
 			post_shader->activate();
 			post_processing_fbo->frame_buffer_texture().bind();
 			glDisable(GL_DEPTH_TEST);
@@ -346,7 +345,7 @@ namespace birb
 
 		// Draw box colliders
 		{
-			const std::shared_ptr<shader> debug_shader = shader_collection::get_shader("color", "color");
+			const std::shared_ptr<shader> debug_shader = shader_collection::get_shader(debug_shader_ref);
 			debug_shader->set(shader_uniforms::view, projection_matrix);
 			debug_shader->set(shader_uniforms::projection, projection_matrix);
 			debug_shader->set(shader_uniforms::color, collider_debug_color);

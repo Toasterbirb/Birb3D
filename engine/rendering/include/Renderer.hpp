@@ -5,6 +5,7 @@
 #include "FBO.hpp"
 #include "Material.hpp"
 #include "Scene.hpp"
+#include "ShaderRef.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
 #include "Window.hpp"
@@ -91,6 +92,8 @@ namespace birb
 		// Variables for debug drawing //
 		/////////////////////////////////
 
+		shader_ref debug_shader_ref;
+
 		// Cube coords found from here
 		// https://learnopengl.com/code_viewer.php?code=getting-started/cube_vertices
 		static constexpr float collider_cube_size_offset = 0.001f;
@@ -147,6 +150,8 @@ namespace birb
 		// Variables for sprite rendering //
 		////////////////////////////////////
 
+		shader_ref texture_shader_ref;
+
 		// Vertices and texture coordinates for a square
 		static constexpr std::array<float, 4 * 3 + 4 * 2> quad_vertices = {
 			// Vertex positions  // Texture coordinates
@@ -174,6 +179,8 @@ namespace birb
 		/////////////////////
 		// Post-processing //
 		/////////////////////
+
+		shader_ref post_processing_shader_ref;
 
 		static constexpr std::array<float, 4 * 3 + 4 * 2> fullscreen_quad_vertices = {
 			// Vertex positions  // Texture coordinates
