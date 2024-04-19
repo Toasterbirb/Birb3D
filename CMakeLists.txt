@@ -15,6 +15,9 @@ option(BIRB_DEMOS "Build demo projects" ON)
 option(BIRB_TESTS "Build unit tests" ON)
 option(BIRB_PLAYGROUND "Build the playground project" OFF)
 
+# Vendoring settings
+option(BIRB_VENDOR_OPENAL "Build the OpenAL library from source" ON)
+
 if (BIRB_CXX23)
 	message("> Building with C++23 features")
 	set(CMAKE_CXX_STANDARD 23)
@@ -155,12 +158,16 @@ else()
 endif()
 
 # Build OpenAL
-set(ALSOFT_UTILS OFF CACHE BOOL "Build utility programs")
-set(ALSOFT_NO_CONFIG_UTIL ON CACHE BOOL "Disable building the alsoft-config utility")
-set(ALSOFT_EXAMPLES OFF CACHE BOOL "Build example programs")
-set(ALSOFT_INSTALL OFF CACHE BOOL "Install main library")
-add_subdirectory(vendor/openal-soft)
-include_directories(vendor/openal-soft/include)
+if (BIRB_VENDOR_OPENAL)
+	set(ALSOFT_UTILS OFF CACHE BOOL "Build utility programs")
+	set(ALSOFT_NO_CONFIG_UTIL ON CACHE BOOL "Disable building the alsoft-config utility")
+	set(ALSOFT_EXAMPLES OFF CACHE BOOL "Build example programs")
+	set(ALSOFT_INSTALL OFF CACHE BOOL "Install main library")
+	add_subdirectory(vendor/openal-soft)
+	include_directories(vendor/openal-soft/include)
+else()
+	find_package(OpenAL REQUIRED)
+endif()
 
 # Build libsndfile
 set(ENABLE_EXTERNAL_LIBS OFF CACHE BOOL "Enable FLAC, Vorbis, and Opus codecs")
