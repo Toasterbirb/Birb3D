@@ -234,7 +234,7 @@ namespace birb
 
 				shader::point_lights[i].position = json_to_vec3<float>(point_light["position"]);
 
-				nlohmann::json& attenuation = point_light["attenuation"];
+				const nlohmann::json& attenuation = point_light["attenuation"];
 				shader::point_lights[i].attenuation_constant = attenuation["constant"];
 				shader::point_lights[i].attenuation_linear = attenuation["linear"];
 				shader::point_lights[i].attenuation_quadratic = attenuation["quadratic"];
