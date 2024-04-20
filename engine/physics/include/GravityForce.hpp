@@ -9,10 +9,10 @@ namespace birb
 		struct gravity : public force
 		{
 			void update_force(rigidbody& rigidbody) override;
-			vec3<float> gravity = { 0.0f, earth_gravity, 0.0f };
+			vec3<f32> gravity = { 0.0f, earth_gravity, 0.0f };
 
 			// Constants
-			constexpr static float earth_gravity = -9.81f;
+			constexpr static f32 earth_gravity = -9.81f;
 		};
 	}
 }

@@ -13,7 +13,7 @@ namespace birb
 		glUniform1i(uniform_locations.at(uniform.str(index)), value);
 	}
 
-	void shader::set(const uniform& uniform, float value, i32 index)
+	void shader::set(const uniform& uniform, f32 value, i32 index)
 	{
 		assert(!uniform.name.empty());
 		assert(uniform.type == uniform_type::FLOAT);
@@ -46,7 +46,7 @@ namespace birb
 		glUniform4f(uniform_locations.at(uniform.str(index)), value.x, value.y, value.z, value.w);
 	}
 
-	void shader::set(const uniform& uniform, const birb::vec3<float> value, i32 index)
+	void shader::set(const uniform& uniform, const birb::vec3<f32> value, i32 index)
 	{
 		assert(!uniform.name.empty());
 		assert(uniform.type == uniform_type::BIRB_VEC3_FLOAT);

@@ -12,10 +12,10 @@ namespace birb
 
 	struct color
 	{
-		float r; ///< red
-		float g; ///< green
-		float b; ///< blue
-		float a; ///< alpha
+		f32 r; ///< red
+		f32 g; ///< green
+		f32 b; ///< blue
+		f32 a; ///< alpha
 
 		/**
 		 * @brief Construct a color with all values set to zero
@@ -33,7 +33,7 @@ namespace birb
 		 * @param b blue
 		 * @param a alpha
 		 */
-		constexpr color(float r, float g, float b, float a = 1.0f) : r(r), g(g), b(b), a(a) {}
+		constexpr color(f32 r, f32 g, f32 b, f32 a = 1.0f) : r(r), g(g), b(b), a(a) {}
 
 		/**
 		 * @brief Construct a color from floating point values
@@ -46,7 +46,7 @@ namespace birb
 		 * @param b blue
 		 * @param a alpha
 		 */
-		constexpr color(double r, double g, double b, double a = 1.0) : r(r), g(g), b(b), a(a) {}
+		constexpr color(f64 r, f64 g, f64 b, f64 a = 1.0) : r(r), g(g), b(b), a(a) {}
 
 		/**
 		 * @brief Construct a color from integer values
@@ -66,7 +66,7 @@ namespace birb
 			assert(b >= 0 && b <= 255);
 			assert(a >= 0 && a <= 255);
 
-			constexpr float reverse_division = 1 / 255.0f;
+			constexpr f32 reverse_division = 1 / 255.0f;
 			this->r = r * reverse_division;
 			this->g = g * reverse_division;
 			this->b = b * reverse_division;
@@ -83,7 +83,7 @@ namespace birb
 		color(i32 hex)
 		:a(1.0f)
 		{
-			constexpr float reverse_division = 1 / 255.0f;
+			constexpr f32 reverse_division = 1 / 255.0f;
 			this->r = ((hex & 0xff0000) >> 16) * reverse_division;
 			this->g = ((hex & 0xff00) >> 8) * reverse_division;
 			this->b = (hex & 0xff) * reverse_division;
@@ -102,17 +102,17 @@ namespace birb
 				"]";
 		}
 
-		std::array<float*, 3> to_ptr_array()
+		std::array<f32*, 3> to_ptr_array()
 		{
 			return { &r, &g, &b };
 		}
 
-		std::array<float*, 4> to_ptr_array_alpha()
+		std::array<f32*, 4> to_ptr_array_alpha()
 		{
 			return { &r, &g, &b, &a };
 		}
 
-		vec3<float> to_vec3();
+		vec3<f32> to_vec3();
 
 		constexpr bool operator==(const color& other) const
 		{

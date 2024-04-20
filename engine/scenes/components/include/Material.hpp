@@ -11,13 +11,13 @@ namespace birb
 		{
 		public:
 			material();
-			material(const color& diffuse, const color& specular, float shininess = 32);
+			material(const color& diffuse, const color& specular, f32 shininess = 32);
 
 			void draw_editor_ui() override;
 			std::string collapsing_header_name() const override;
 
 			color diffuse, specular;
-			float shininess;
+			f32 shininess;
 
 			template<class Archive>
 			void serialize(Archive& ar)

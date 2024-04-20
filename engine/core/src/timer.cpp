@@ -23,9 +23,9 @@ namespace birb
 		start = glfwGetTime();
 	}
 
-	double timer::stop(const bool quiet)
+	f64 timer::stop(const bool quiet)
 	{
-		const double duration = glfwGetTime() - start;
+		const f64 duration = glfwGetTime() - start;
 		is_stopped = true;
 
 		if (quiet)
@@ -43,7 +43,7 @@ namespace birb
 		return duration;
 	}
 
-	std::string timer::format_time(const double seconds)
+	std::string timer::format_time(const f64 seconds)
 	{
 		if (seconds > 1.0)
 			return std::to_string(seconds) + "s";

@@ -97,8 +97,8 @@ namespace birb
 
 		// Cube coords found from here
 		// https://learnopengl.com/code_viewer.php?code=getting-started/cube_vertices
-		static constexpr float collider_cube_size_offset = 0.001f;
-		static constexpr std::array<float, 36 * 3> cube_vertices = {
+		static constexpr f32 collider_cube_size_offset = 0.001f;
+		static constexpr std::array<f32, 36 * 3> cube_vertices = {
 			-0.5f, -0.5f, -0.5f,
 			 0.5f, -0.5f, -0.5f,
 			 0.5f,  0.5f, -0.5f,
@@ -154,7 +154,7 @@ namespace birb
 		shader_ref texture_shader_ref;
 
 		// Vertices and texture coordinates for a square
-		static constexpr std::array<float, 4 * 3 + 4 * 2> quad_vertices = {
+		static constexpr std::array<f32, 4 * 3 + 4 * 2> quad_vertices = {
 			// Vertex positions  // Texture coordinates
 			 0.5f,  0.5f, 0.0f,  1.0f, 1.0f, // Top right
 			 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, // Bottom right
@@ -183,7 +183,7 @@ namespace birb
 
 		shader_ref post_processing_shader_ref;
 
-		static constexpr std::array<float, 4 * 3 + 4 * 2> fullscreen_quad_vertices = {
+		static constexpr std::array<f32, 4 * 3 + 4 * 2> fullscreen_quad_vertices = {
 			// Vertex positions  // Texture coordinates
 			 1.0f,  1.0f, 0.0f,  1.0f, 1.0f, // Top right
 			 1.0f, -1.0f, 0.0f,  1.0f, 0.0f, // Bottom right

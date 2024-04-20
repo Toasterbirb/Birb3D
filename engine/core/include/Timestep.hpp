@@ -19,7 +19,7 @@ namespace birb
 		 *
 		 * @param target_fps The amount of frames per second that the game tries to maintain
 		 */
-		explicit timestep(double target_fps);
+		explicit timestep(f64 target_fps);
 
 		/**
 		 * @brief End a gameloop iteration and start a new one
@@ -36,17 +36,17 @@ namespace birb
 		/**
 		 * @return Time passed since startup in seconds
 		 */
-		double time_since_startup() const;
+		f64 time_since_startup() const;
 
 		/**
 		 * @return The duration of the previous frame
 		 */
-		double deltatime() const;
+		f64 deltatime() const;
 
 		/**
 		 * @return The duration of the previous frame as a float
 		 */
-		float deltatime_float() const;
+		f32 deltatime_float() const;
 
 		/**
 		 * @brief Get the current FPS
@@ -57,7 +57,7 @@ namespace birb
 		 *
 		 * @return Amount of frames rendered per second at the time of calling
 		 */
-		double fps() const;
+		f64 fps() const;
 
 		/**
 		 * @brief Calculate the portion of framebudget used
@@ -68,21 +68,21 @@ namespace birb
 		 *
 		 * @return Framebudget usage as a percentage value
 		 */
-		double framebudget() const;
+		f64 framebudget() const;
 
 		static constexpr u8 frametime_history_size = 240;
 
 		/**
 		 * @brief Frametime history for the past second (up-to 240 fps)
 		 */
-		std::array<float, frametime_history_size> frametime_history = {1};
+		std::array<f32, frametime_history_size> frametime_history = {1};
 
 		/**
 		 * @brief Set a new target framerate during runtime
 		 *
 		 * @param target_fps New target framerate as frames per second
 		 */
-		void set_target_fps(double target_fps);
+		void set_target_fps(f64 target_fps);
 
 		/**
 		 * @brief If set to true, the target FPS will be ignored
@@ -97,21 +97,21 @@ namespace birb
 		 */
 		void setup_history_arrays();
 
-		double frame_start = 0.0;
-		double frame_end = 0.0;
+		f64 frame_start = 0.0;
+		f64 frame_end = 0.0;
 
 		// Target FPS (frames per second)
-		double target_fps = 60.0;
+		f64 target_fps = 60.0;
 
 		// Target frametime (milliseconds per frame)
-		double target_frametime = 16.7;
+		f64 target_frametime = 16.7;
 
 		u16 current_frametime_history_size = 1;
 
-		double _deltatime = 0.001;
+		f64 _deltatime = 0.001;
 
 		// Framebudget usage of the previous frame
 		static constexpr u16 framebudget_sample_count = 64;
-		std::deque<double> framebudget_history;
+		std::deque<f64> framebudget_history;
 	};
 }

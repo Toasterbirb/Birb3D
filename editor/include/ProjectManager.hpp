@@ -17,6 +17,6 @@ namespace editor
 		birb::project& project;
 		editor::viewport& viewport;
 
-		double last_save = 0;
+		f64 last_save = 0;
 	};
 }

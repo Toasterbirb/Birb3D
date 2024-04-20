@@ -16,13 +16,13 @@ namespace birb
 		update_camera_vectors();
 	}
 
-	camera::camera(vec3<float> position) : position(position.to_glm_vec())
+	camera::camera(vec3<f32> position) : position(position.to_glm_vec())
 	{
 		world_up = up;
 		update_camera_vectors();
 	}
 
-	camera::camera(vec3<float> position, float yaw, float pitch)
+	camera::camera(vec3<f32> position, f32 yaw, f32 pitch)
 	:position(position.to_glm_vec()), yaw(yaw), pitch(pitch)
 	{
 		world_up = up;
@@ -51,12 +51,12 @@ namespace birb
 		switch (mode)
 		{
 			case camera::projection_mode::perspective:
-				projection = glm::perspective(glm::radians(fov), static_cast<float>(window_size.x) / static_cast<float>(window_size.y), near_clip, far_clip);
+				projection = glm::perspective(glm::radians(fov), static_cast<f32>(window_size.x) / static_cast<f32>(window_size.y), near_clip, far_clip);
 				break;
 
 			case camera::projection_mode::orthographic:
-				float width = static_cast<float>(window_size.x) * orthograhpic_scale;
-				float height = static_cast<float>(window_size.y) * orthograhpic_scale;
+				f32 width = static_cast<f32>(window_size.x) * orthograhpic_scale;
+				f32 height = static_cast<f32>(window_size.y) * orthograhpic_scale;
 				projection = glm::ortho(0.0f, width, 0.0f, height, near_clip, far_clip);
 				break;
 		}
@@ -82,16 +82,16 @@ namespace birb
 		if (keyboard_controls_enabled)
 		{
 			if (window.is_key_held(keybinds.up))
-				position += front * static_cast<float>(timestep.deltatime()) * movement_speed;
+				position += front * static_cast<f32>(timestep.deltatime()) * movement_speed;
 
 			if (window.is_key_held(keybinds.left))
-				position -= right * static_cast<float>(timestep.deltatime()) * movement_speed;
+				position -= right * static_cast<f32>(timestep.deltatime()) * movement_speed;
 
 			if (window.is_key_held(keybinds.down))
-				position -= front * static_cast<float>(timestep.deltatime()) * movement_speed;
+				position -= front * static_cast<f32>(timestep.deltatime()) * movement_speed;
 
 			if (window.is_key_held(keybinds.right))
-				position += right * static_cast<float>(timestep.deltatime()) * movement_speed;
+				position += right * static_cast<f32>(timestep.deltatime()) * movement_speed;
 		}
 
 		if (mouse_controls_enabled)
@@ -101,8 +101,8 @@ namespace birb
 			if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && !first_mouse_delta_after_lock)
 			{
 				// Calculate cursor positions
-				birb::vec2<double> new_cursor_pos = window.cursor_pos();
-				birb::vec2<double> cursor_delta = new_cursor_pos - prev_cursor_pos;
+				birb::vec2<f64> new_cursor_pos = window.cursor_pos();
+				birb::vec2<f64> cursor_delta = new_cursor_pos - prev_cursor_pos;
 				prev_cursor_pos = new_cursor_pos;
 
 				if (!lock_yaw)
@@ -158,7 +158,7 @@ namespace birb
 		up = birb::view_vector::up(right, front);
 	}
 
-	void camera::zoom(float delta)
+	void camera::zoom(f32 delta)
 	{
 		position += front * delta;
 	}

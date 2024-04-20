@@ -18,7 +18,7 @@ namespace birb
 		/**
 		 * @brief Set window background clear color
 		 *
-		 * data: float[3]
+		 * data: f32[3]
 		 */
 		constexpr u16 set_window_background_clear_color = 2;
 

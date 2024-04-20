@@ -18,7 +18,7 @@ namespace editor
 
 			// Position slider
 			{
-				std::array<float, 3> camera_position_arr = { game_viewport.camera.position.x, game_viewport.camera.position.y, game_viewport.camera.position.z };
+				std::array<f32, 3> camera_position_arr = { game_viewport.camera.position.x, game_viewport.camera.position.y, game_viewport.camera.position.z };
 				ImGui::DragFloat3("Position", camera_position_arr.data(), 0.2f);
 
 				// Apply the position array
@@ -27,7 +27,7 @@ namespace editor
 
 			// Rotation sliders
 			{
-				std::array<float, 2> camera_rotation_arr = { game_viewport.camera.pitch, game_viewport.camera.yaw };
+				std::array<f32, 2> camera_rotation_arr = { game_viewport.camera.pitch, game_viewport.camera.yaw };
 				ImGui::DragFloat2("Rotation", camera_rotation_arr.data(), 1.0f, 0.0f, 0.0f, "%.3f");
 
 				// Apply the rotation array

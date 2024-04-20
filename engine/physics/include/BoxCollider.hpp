@@ -18,27 +18,27 @@ namespace birb
 
 			bool collides_with(const box& box);
 
-			void set_position(const vec3<float>& position);
-			void set_size(const vec3<float>& size);
-			void set_position_and_size(const vec3<float>& position, const vec3<float>& size);
+			void set_position(const vec3<f32>& position);
+			void set_size(const vec3<f32>& size);
+			void set_position_and_size(const vec3<f32>& position, const vec3<f32>& size);
 			void set_position_and_size(const component::transform& transform);
 
-			vec3<float> size() const;
-			vec3<float> position() const;
+			vec3<f32> size() const;
+			vec3<f32> position() const;
 
 			// Bounding box values used for collision math
-			vec3<float> min() const;
-			vec3<float> max() const;
+			vec3<f32> min() const;
+			vec3<f32> max() const;
 
 		private:
 			void update_min_max_values();
 
-			vec3<float> _size;
-			vec3<float> _position;
+			vec3<f32> _size;
+			vec3<f32> _position;
 
 			// Cached min and max values
-			vec3<float> _min;
-			vec3<float> _max;
+			vec3<f32> _min;
+			vec3<f32> _max;
 		};
 	}
 }

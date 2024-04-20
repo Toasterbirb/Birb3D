@@ -21,14 +21,14 @@ namespace birb
 	 * @return Rounded value
 	 */
 	template<typename T>
-	constexpr double round(T value, i8 decimal_points)
+	constexpr f64 round(T value, i8 decimal_points)
 	{
 		/* How this thing works:
 		 * 1. Multiply the value with 10 ^ decimal points. This will leave the needed values before the decimal point
 		 * 2. Round to integer
 		 * 3. Divide the value with 10 ^ decimal points to get the desired rounded decimal value
 		 * */
-		return std::round(value * std::pow(10, decimal_points)) / static_cast<double>(std::pow(10, decimal_points));
+		return std::round(value * std::pow(10, decimal_points)) / static_cast<f64>(std::pow(10, decimal_points));
 	}
 
 	/**
@@ -116,15 +116,15 @@ namespace birb
 
 	namespace noise
 	{
-		float perlin(float x, float y, float z, u8 seed = 0);
-		float perlin(vec2<float> position, u8 seed = 0);
-		float perlin(vec3<float> position, u8 seed = 0);
+		f32 perlin(f32 x, f32 y, f32 z, u8 seed = 0);
+		f32 perlin(vec2<f32> position, u8 seed = 0);
+		f32 perlin(vec3<f32> position, u8 seed = 0);
 	}
 
 	namespace view_vector
 	{
 		glm::vec3 front(const component::transform& transform);
-		glm::vec3 front(const float pitch, const float yaw);
+		glm::vec3 front(const f32 pitch, const f32 yaw);
 		glm::vec3 right(const glm::vec3& front, const glm::vec3& world_up);
 		glm::vec3 up(const glm::vec3& right, const glm::vec3& front);
 	}

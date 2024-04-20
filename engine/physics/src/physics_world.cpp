@@ -15,7 +15,7 @@ namespace birb
 		current_scene = &scene;
 	}
 
-	void physics_world::tick(double deltatime)
+	void physics_world::tick(f64 deltatime)
 	{
 		assert(current_scene != nullptr && "Current scene has not been set");
 

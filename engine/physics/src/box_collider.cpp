@@ -21,19 +21,19 @@ namespace birb
 					(this->min().z <= box.max().z && this->max().z >= box.min().z);
 		}
 
-		void box::set_position(const vec3<float>& position)
+		void box::set_position(const vec3<f32>& position)
 		{
 			this->_position = position;
 			update_min_max_values();
 		}
 
-		void box::set_size(const vec3<float>& size)
+		void box::set_size(const vec3<f32>& size)
 		{
 			this->_size = size;
 			update_min_max_values();
 		}
 
-		void box::set_position_and_size(const vec3<float>& position, const vec3<float>& size)
+		void box::set_position_and_size(const vec3<f32>& position, const vec3<f32>& size)
 		{
 			this->_position = position;
 			this->_size = size;
@@ -47,22 +47,22 @@ namespace birb
 			update_min_max_values();
 		}
 
-		vec3<float> box::size() const
+		vec3<f32> box::size() const
 		{
 			return _size;
 		}
 
-		vec3<float> box::position() const
+		vec3<f32> box::position() const
 		{
 			return _position;
 		}
 
-		vec3<float> box::min() const
+		vec3<f32> box::min() const
 		{
 			return _min;
 		}
 
-		vec3<float> box::max() const
+		vec3<f32> box::max() const
 		{
 			return _max;
 		}

@@ -113,7 +113,7 @@ namespace birb
 		/**
 		 * @brief Get the current mouse cursor position
 		 */
-		vec2<double> cursor_pos();
+		vec2<f64> cursor_pos();
 
 		/**
 		 * @brief Hide the cursor and lock it into the window
@@ -197,7 +197,7 @@ namespace birb
 		/**
 		 * @brief GLFW mouse scrolling callback function
 		 */
-		static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+		static void scroll_callback(GLFWwindow* window, f64 xoffset, f64 yoffset);
 
 		/**
 		 * @brief GLFW error callback function

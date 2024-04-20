@@ -103,7 +103,7 @@ int main(int argc, char** argv)
 									if (window.is_key_held(birb::input::keycode::LEFT_SHIFT))
 										game_viewport.camera.position.y += input.offset.y * viewport_camera.camera_scroll_strength;
 									else if (window.is_key_held(birb::input::keycode::LEFT_CONTROL))
-										game_viewport.camera.position += (static_cast<float>(input.offset.y * viewport_camera.camera_scroll_strength) * game_viewport.camera.right_vec());
+										game_viewport.camera.position += (static_cast<f32>(input.offset.y * viewport_camera.camera_scroll_strength) * game_viewport.camera.right_vec());
 									else
 										game_viewport.camera.zoom(input.offset.y * viewport_camera.camera_scroll_strength);
 								}

@@ -38,7 +38,7 @@ namespace birb
 		}
 
 		// Returns the magnitude of the vector
-        constexpr float magnitude() const
+        constexpr f32 magnitude() const
 		{
 			return std::sqrt((x * x) + (y * y));
 		}
@@ -59,10 +59,10 @@ namespace birb
 		}
 
 		// Convert from any type to float
-		constexpr vec2<float> to_float() const
+		constexpr vec2<f32> to_float() const
 		{
-			static_assert(!std::is_same<float, T>::value, "Unnecessary conversion from vec2<float> to vec2<float>");
-			return vec2<float>(x, y);
+			static_assert(!std::is_same<f32, T>::value, "Unnecessary conversion from vec2<f32> to vec2<f32>");
+			return vec2<f32>(x, y);
 		}
 
 		std::array<T*, 2> to_ptr_array()
@@ -205,7 +205,7 @@ namespace birb
 		}
 
 		/// Returns the magnitude of the vector
-        constexpr float magnitude() const
+        constexpr f32 magnitude() const
 		{
 			return std::sqrt((x * x) + (y * y) + (z * z));
 		}
@@ -226,10 +226,10 @@ namespace birb
 		}
 
 		// Convert from any type to float
-		constexpr vec3<float> to_float() const
+		constexpr vec3<f32> to_float() const
 		{
-			static_assert(!std::is_same<float, T>::value, "Unnecessary conversion from vec3<float> to vec3<float>");
-			return vec3<float>(x, y, z);
+			static_assert(!std::is_same<f32, T>::value, "Unnecessary conversion from vec3<f32> to vec3<f32>");
+			return vec3<f32>(x, y, z);
 		}
 
 		std::array<T*, 3> to_ptr_array()

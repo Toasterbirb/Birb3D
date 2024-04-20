@@ -11,10 +11,10 @@ namespace birb
 	class vbo
 	{
 	public:
-		explicit vbo(const std::vector<float>& vertices, const bool static_draw = true);
+		explicit vbo(const std::vector<f32>& vertices, const bool static_draw = true);
 
 		template<size_t N>
-		explicit vbo(const std::array<float, N>& vertices, const bool static_draw = true)
+		explicit vbo(const std::array<f32, N>& vertices, const bool static_draw = true)
 		{
 			static_assert(N != 0, "Empty vertex array");
 			static_assert(N < 33000, "You might wanna check the vert count on that model");
@@ -36,6 +36,6 @@ namespace birb
 #endif
 
 	private:
-		void load(const float* vertices, const size_t size, const bool static_draw);
+		void load(const f32* vertices, const size_t size, const bool static_draw);
 	};
 }

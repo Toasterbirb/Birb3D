@@ -33,7 +33,7 @@ namespace birb
 
 		vbo.bind();
 
-		glVertexAttribPointer(layout, num_components, GL_FLOAT, GL_FALSE, stride * sizeof(float), reinterpret_cast<void*>(offset * sizeof(float)));
+		glVertexAttribPointer(layout, num_components, GL_FLOAT, GL_FALSE, stride * sizeof(f32), reinterpret_cast<void*>(offset * sizeof(f32)));
 		glEnableVertexAttribArray(layout);
 
 		vbo.unbind();

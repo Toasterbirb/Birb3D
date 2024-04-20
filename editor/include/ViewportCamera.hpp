@@ -11,7 +11,7 @@ namespace editor
 		explicit viewport_camera(viewport& viewport);
 		void draw() override;
 
-		float camera_scroll_strength = 0.5f;
+		f32 camera_scroll_strength = 0.5f;
 
 	private:
 		editor::viewport& game_viewport;

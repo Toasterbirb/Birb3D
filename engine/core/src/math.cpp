@@ -6,17 +6,17 @@ namespace birb
 {
 	namespace noise
 	{
-		float perlin(float x, float y, float z, u8 seed)
+		f32 perlin(f32 x, f32 y, f32 z, u8 seed)
 		{
 			return stb_perlin_noise3_seed(x, y, z, 0, 0, 0, seed);
 		}
 
-		float perlin(vec2<float> position, u8 seed)
+		f32 perlin(vec2<f32> position, u8 seed)
 		{
 			return stb_perlin_noise3_seed(position.x, position.y, 0, 0, 0, 0, seed);
 		}
 
-		float perlin(vec3<float> position, u8 seed)
+		f32 perlin(vec3<f32> position, u8 seed)
 		{
 			return stb_perlin_noise3_seed(position.x, position.y, position.z, 0, 0, 0, seed);
 		}
@@ -29,7 +29,7 @@ namespace birb
 			return front(transform.rotation.x, transform.rotation.y);
 		}
 
-		glm::vec3 front(const float pitch, const float yaw)
+		glm::vec3 front(const f32 pitch, const f32 yaw)
 		{
 			return glm::normalize(glm::vec3(
 				cos(glm::radians(yaw)) * cos(glm::radians(pitch)),

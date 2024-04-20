@@ -54,9 +54,9 @@ namespace birb
 			assert(imgui_initialized);
 			assert(!ts.frametime_history.empty());
 
-			float frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
-			float frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
-			float average_frametime = birb::average(ts.frametime_history);
+			f32 frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
+			f32 frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
+			f32 average_frametime = birb::average(ts.frametime_history);
 
 			assert(frametime_min != 0 && "Zero division");
 			assert(frametime_max != 0 && "Zero division");
@@ -107,7 +107,7 @@ namespace birb
 					memory_history.at(memory_history.size() - 1) = memory_usage;
 				}
 
-				float memory_max = *std::max_element(memory_history.begin(), memory_history.end());
+				f32 memory_max = *std::max_element(memory_history.begin(), memory_history.end());
 
 				stbsp_snprintf(overlay_text_buffer.data(), overlay_text_buffer.size(), "%lu MB", memory_usage);
 

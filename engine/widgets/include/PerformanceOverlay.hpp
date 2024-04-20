@@ -34,7 +34,7 @@ namespace birb
 			// Get resident memory usage in megabytes
 			i64 resident_memory_usage() const;
 
-			std::array<float, 16> memory_history;
+			std::array<f32, 16> memory_history;
 #endif
 
 			// Reference to the timestep used in the gameloop

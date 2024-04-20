@@ -153,7 +153,7 @@ namespace birb
 		{
 			nlohmann::json& camera_json = project_json["camera"];
 
-			camera.position				= json_to_vec3<float>(camera_json["position"]).to_glm_vec();
+			camera.position				= json_to_vec3<f32>(camera_json["position"]).to_glm_vec();
 			camera.yaw					= camera_json["yaw"];
 			camera.pitch				= camera_json["pitch"];
 			camera.movement_speed		= camera_json["movement_speed"];
@@ -217,10 +217,10 @@ namespace birb
 			nlohmann::json& directional_light_json = lighting_json["directional"];
 			nlohmann::json& point_light_json = lighting_json["point"];
 
-			shader::directional_direction	= json_to_vec3<float>(directional_light_json["direction"]);
-			shader::directional_ambient		= json_to_vec3<float>(directional_light_json["ambient"]);
-			shader::directional_diffuse		= json_to_vec3<float>(directional_light_json["diffuse"]);
-			shader::directional_specular	= json_to_vec3<float>(directional_light_json["specular"]);
+			shader::directional_direction	= json_to_vec3<f32>(directional_light_json["direction"]);
+			shader::directional_ambient		= json_to_vec3<f32>(directional_light_json["ambient"]);
+			shader::directional_diffuse		= json_to_vec3<f32>(directional_light_json["diffuse"]);
+			shader::directional_specular	= json_to_vec3<f32>(directional_light_json["specular"]);
 
 			for (u16 i = 0; i < shader::point_light_count; ++i)
 			{
@@ -228,11 +228,11 @@ namespace birb
 
 				shader::point_lights[i].name = point_light["name"];
 
-				shader::point_lights[i].ambient = json_to_vec3<float>(point_light["ambient"]);
-				shader::point_lights[i].diffuse = json_to_vec3<float>(point_light["diffuse"]);
-				shader::point_lights[i].specular = json_to_vec3<float>(point_light["specular"]);
+				shader::point_lights[i].ambient = json_to_vec3<f32>(point_light["ambient"]);
+				shader::point_lights[i].diffuse = json_to_vec3<f32>(point_light["diffuse"]);
+				shader::point_lights[i].specular = json_to_vec3<f32>(point_light["specular"]);
 
-				shader::point_lights[i].position = json_to_vec3<float>(point_light["position"]);
+				shader::point_lights[i].position = json_to_vec3<f32>(point_light["position"]);
 
 				const nlohmann::json& attenuation = point_light["attenuation"];
 				shader::point_lights[i].attenuation_constant = attenuation["constant"];

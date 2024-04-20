@@ -41,7 +41,7 @@ namespace birb
 		 *
 		 * @return 2D-point at the center of the rect
 		 */
-		constexpr vec2<float> center_point() const
+		constexpr vec2<f32> center_point() const
 		{
 			return {x + w / 2.0f, y + h / 2.0f};
 		}
@@ -65,10 +65,10 @@ namespace birb
 		 *
 		 * @return A new rect constructed as \ref birb::rect<float>
 		 */
-		constexpr rect<float> to_float() const
+		constexpr rect<f32> to_float() const
 		{
-			static_assert(!std::is_same<float, T>::value, "Unnecessary conversion from rect<float> to rect<float>");
-			return rect<float>(x, y, w, h);
+			static_assert(!std::is_same<f32, T>::value, "Unnecessary conversion from rect<f32> to rect<f32>");
+			return rect<f32>(x, y, w, h);
 		}
 
 		constexpr bool operator==(const rect& other) const

@@ -16,8 +16,8 @@ namespace editor
 
 		ImGui::Begin("Project");
 		{
-			double now = glfwGetTime();
-			double duration = now - last_save;
+			f64 now = glfwGetTime();
+			f64 duration = now - last_save;
 
 			std::string time_text = "";
 			if (duration > 60)

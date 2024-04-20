@@ -47,8 +47,8 @@ namespace birb
 		 */
 		vec2<i32> size();
 
-		float aspect_ratio() const;
-		float aspect_ratio_reverse() const;
+		f32 aspect_ratio() const;
+		f32 aspect_ratio_reverse() const;
 
 		static u32 texture_from_file(const std::string& path);
 
@@ -58,7 +58,7 @@ namespace birb
 
 		vec2<i32> dimensions; // Width and height of the texture
 
-		float _aspect_ratio = 1.0f;
-		float _aspect_ratio_reverse = 1.0f;
+		f32 _aspect_ratio = 1.0f;
+		f32 _aspect_ratio_reverse = 1.0f;
 	};
 }

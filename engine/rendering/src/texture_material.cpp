@@ -3,7 +3,7 @@
 
 namespace birb
 {
-	texture_material::texture_material(const std::string& diffuse_map, const std::string& specular_map, float shininess)
+	texture_material::texture_material(const std::string& diffuse_map, const std::string& specular_map, f32 shininess)
 	:shininess(shininess)
 	{
 		assert(!diffuse_map.empty());

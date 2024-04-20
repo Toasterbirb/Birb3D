@@ -21,7 +21,7 @@ namespace birb
 		setup_history_arrays();
 	}
 
-	timestep::timestep(double target_fps)
+	timestep::timestep(f64 target_fps)
 	{
 		frame_end = glfwGetTime();
 		frame_start = glfwGetTime();
@@ -43,8 +43,8 @@ namespace birb
 	void timestep::step()
 	{
 		PROFILER_SCOPE_RENDER_FN()
-		double current_time = glfwGetTime();
-		double delay_time = target_frametime - (current_time - frame_start);
+		f64 current_time = glfwGetTime();
+		f64 delay_time = target_frametime - (current_time - frame_start);
 
 		_deltatime = current_time - frame_end;
 		frame_end = current_time;
@@ -64,40 +64,40 @@ namespace birb
 		if (delay_time > 0 && !disable_fps_cap)
 		{
 			PROFILER_SCOPE_RENDER("Do nothing");
-			std::chrono::duration<double> delay_duration(delay_time);
+			std::chrono::duration<f64> delay_duration(delay_time);
 			std::this_thread::sleep_for(delay_duration);
 		}
 
 		frame_start = glfwGetTime();
 	}
 
-	double timestep::time_since_startup() const
+	f64 timestep::time_since_startup() const
 	{
 		return glfwGetTime();
 	}
 
-	double timestep::deltatime() const
+	f64 timestep::deltatime() const
 	{
 		return _deltatime;
 	}
 
-	float timestep::deltatime_float() const
+	f32 timestep::deltatime_float() const
 	{
-		return static_cast<float>(_deltatime);
+		return static_cast<f32>(_deltatime);
 	}
 
-	double timestep::fps() const
+	f64 timestep::fps() const
 	{
 		assert(_deltatime != 0 && "Zero division");
 		return 1.0 / _deltatime;
 	}
 
-	double timestep::framebudget() const
+	f64 timestep::framebudget() const
 	{
 		return birb::average_deque(framebudget_history);
 	}
 
-	void timestep::set_target_fps(double target_fps)
+	void timestep::set_target_fps(f64 target_fps)
 	{
 		assert(target_fps != 0 && "Zero division");
 		assert(target_fps > 0 && "Target FPS below zero is not valid");

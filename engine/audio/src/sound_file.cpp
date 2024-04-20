@@ -68,7 +68,7 @@ namespace birb
 		}
 
 		// Allocate a buffer for the sound file
-		std::unique_ptr<float, free_delete> file_buffer(static_cast<float*>(malloc(sfinfo.frames / splblockalign * byteblockalign)));
+		std::unique_ptr<f32, free_delete> file_buffer(static_cast<f32*>(malloc(sfinfo.frames / splblockalign * byteblockalign)));
         frame_count = sf_readf_float(sndfile, file_buffer.get(), sfinfo.frames);
 		assert(alGetError() == AL_NO_ERROR);
 		log("Frame count", frame_count);

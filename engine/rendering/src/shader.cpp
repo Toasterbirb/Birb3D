@@ -79,12 +79,12 @@ namespace birb
 		for (u16 i = 0; i < point_light_count; ++i)
 		{
 			// Set the lights to black
-			set(shader_uniforms::point_lights::ambient,  vec3<float>( 0.0f, 0.0f, 0.0f ), i);
-			set(shader_uniforms::point_lights::diffuse,  vec3<float>( 0.0f, 0.0f, 0.0f ), i);
-			set(shader_uniforms::point_lights::specular, vec3<float>( 0.0f, 0.0f, 0.0f ), i);
+			set(shader_uniforms::point_lights::ambient,  vec3<f32>( 0.0f, 0.0f, 0.0f ), i);
+			set(shader_uniforms::point_lights::diffuse,  vec3<f32>( 0.0f, 0.0f, 0.0f ), i);
+			set(shader_uniforms::point_lights::specular, vec3<f32>( 0.0f, 0.0f, 0.0f ), i);
 
 			// Set the position to zero
-			set(shader_uniforms::point_lights::position, vec3<float>(0.0f, 0.0f, 0.0f), i);
+			set(shader_uniforms::point_lights::position, vec3<f32>(0.0f, 0.0f, 0.0f), i);
 
 			// Keep the attenuation values
 			set(shader_uniforms::point_lights::constant, 1.0f, i);
@@ -156,7 +156,7 @@ namespace birb
 		set(shader_uniforms::material_color::specular, color);
 	}
 
-	void shader::set_shininess(const float shininess)
+	void shader::set_shininess(const f32 shininess)
 	{
 		set(shader_uniforms::material_color::shininess, shininess);
 	}

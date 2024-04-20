@@ -11,14 +11,14 @@ namespace birb
 
 	union event_data
 	{
-		std::array<i8,		event_data_size / sizeof(i8)>		_i8;
-		std::array<i16,		event_data_size / sizeof(i16)>		_i16;
-		std::array<i32,		event_data_size / sizeof(i32)>		_i32;
-		std::array<i64,		event_data_size / sizeof(i64)>		_i64;
-		std::array<bool,	event_data_size / sizeof(bool)>		_bool;
-		std::array<char,	event_data_size / sizeof(char)>		_char;
-		std::array<float,	event_data_size / sizeof(float)>	_float;
-		std::array<double,	event_data_size / sizeof(double)>	_double;
+		std::array<i8,		event_data_size / sizeof(i8)>	_i8;
+		std::array<i16,		event_data_size / sizeof(i16)>	_i16;
+		std::array<i32,		event_data_size / sizeof(i32)>	_i32;
+		std::array<i64,		event_data_size / sizeof(i64)>	_i64;
+		std::array<f32,		event_data_size / sizeof(f32)>	_f32;
+		std::array<f64,		event_data_size / sizeof(f64)>	_f64;
+		std::array<bool,	event_data_size / sizeof(bool)>	_bool;
+		std::array<char,	event_data_size / sizeof(char)>	_char;
 	};
 
 	// Interface that all objects that deal with events should inherit from

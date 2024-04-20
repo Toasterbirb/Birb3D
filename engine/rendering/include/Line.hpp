@@ -11,7 +11,7 @@ namespace birb
 	class line
 	{
 	public:
-		line(vec3<float> a, vec3<float> b);
+		line(vec3<f32> a, vec3<f32> b);
 		~line() = default;
 		line(const line&) = default;
 		line(line&) = default;
@@ -19,8 +19,8 @@ namespace birb
 	private:
 		void update_verts();
 
-		std::array<float, 6> vertices;
-		vec3<float> point_a, point_b;
+		std::array<f32, 6> vertices;
+		vec3<f32> point_a, point_b;
 		component::transform transform;
 
 		std::shared_ptr<birb::vbo> vbo;

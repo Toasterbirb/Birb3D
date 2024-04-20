@@ -16,7 +16,7 @@ namespace birb
 		physics_world(physics_world&) = default;
 
 		void set_scene(scene& scene);
-		void tick(double deltatime);
+		void tick(f64 deltatime);
 
 		std::vector<entt::entity> collides_with(const birb::entity& entity);
 		std::vector<entt::entity> collides_with(const entt::entity& entity);

@@ -15,15 +15,15 @@ namespace birb
 	struct point_light
 	{
 		std::string name = "";
-		vec3<float> ambient = { 0.0f, 0.0f, 0.0f };
-		vec3<float> diffuse = { 0.0f, 0.0f, 0.0f };
-		vec3<float> specular = { 0.0f, 0.0f, 0.0f };
+		vec3<f32> ambient = { 0.0f, 0.0f, 0.0f };
+		vec3<f32> diffuse = { 0.0f, 0.0f, 0.0f };
+		vec3<f32> specular = { 0.0f, 0.0f, 0.0f };
 
-		vec3<float> position = { 0.0f, 0.0f, 0.0f };
+		vec3<f32> position = { 0.0f, 0.0f, 0.0f };
 
-		float attenuation_constant = 1.0f;
-		float attenuation_linear = 0.09f;
-		float attenuation_quadratic = 0.032f;
+		f32 attenuation_constant = 1.0f;
+		f32 attenuation_linear = 0.09f;
+		f32 attenuation_quadratic = 0.032f;
 	};
 
 	class shader : editor_component
@@ -42,10 +42,10 @@ namespace birb
 		const static u16 point_light_count = 4;
 
 		// Directional lighting
-		static inline vec3<float> directional_direction = { 0.2f, 0.2f, -0.7f };
-		static inline vec3<float> directional_ambient = { 0.2f, 0.2f, 0.2f };
-		static inline vec3<float> directional_diffuse = { 1.0f, 1.0f, 1.0f };
-		static inline vec3<float> directional_specular = { 1.0f, 1.0f, 1.0f };
+		static inline vec3<f32> directional_direction = { 0.2f, 0.2f, -0.7f };
+		static inline vec3<f32> directional_ambient = { 0.2f, 0.2f, 0.2f };
+		static inline vec3<f32> directional_diffuse = { 1.0f, 1.0f, 1.0f };
+		static inline vec3<f32> directional_specular = { 1.0f, 1.0f, 1.0f };
 
 		// Point lights
 		static inline std::array<point_light, point_light_count> point_lights;
@@ -73,10 +73,10 @@ namespace birb
 
 		// These functions are defined in shader_set_funcs.cpp instead of shader.cpp
 		void set(const uniform& uniform, i32 value, i32 index = -1);
-		void set(const uniform& uniform, float value, i32 index = -1);
+		void set(const uniform& uniform, f32 value, i32 index = -1);
 		void set(const uniform& uniform, const glm::vec3 value, i32 index = -1);
 		void set(const uniform& uniform, const glm::vec4 value, i32 index = -1);
-		void set(const uniform& uniform, const birb::vec3<float> value, i32 index = -1);
+		void set(const uniform& uniform, const birb::vec3<f32> value, i32 index = -1);
 		void set(const uniform& uniform, const glm::mat4 value, i32 index = -1);
 		void set(const uniform& uniform, const color value, i32 index = -1);
 
@@ -121,7 +121,7 @@ namespace birb
 		// Material helper functions and variables
 		void set_diffuse_color(const color& color);
 		void set_specular_color(const color& color);
-		void set_shininess(const float shininess);
+		void set_shininess(const f32 shininess);
 
 		void compile_shader(const std::string& vertex, const std::string& fragment);
 		void compile_errors(u32 shader, const std::string& type);

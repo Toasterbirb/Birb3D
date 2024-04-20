@@ -8,7 +8,7 @@ namespace birb
 	:position(transform.position)
 	{}
 
-	float rigidbody::mass() const
+	f32 rigidbody::mass() const
 	{
 		if (inverse_mass == 0)
 			return INFINITY;
@@ -16,9 +16,9 @@ namespace birb
 		return 1.0f / inverse_mass;
 	}
 
-	void rigidbody::set_mass(float mass)
+	void rigidbody::set_mass(f32 mass)
 	{
-		constexpr float lower_limit = 0.0001;
+		constexpr f32 lower_limit = 0.0001;
 
 		if (mass < lower_limit)
 			inverse_mass = 1.0f / lower_limit;
@@ -31,12 +31,12 @@ namespace birb
 		inverse_mass = 0.0f;
 	}
 
-	void rigidbody::add_force(const vec3<float> force)
+	void rigidbody::add_force(const vec3<f32> force)
 	{
 		force_accumulator += force;
 	}
 
-	void rigidbody::update(const float deltatime)
+	void rigidbody::update(const f32 deltatime)
 	{
 		// F = ma --> a = F / m (mass is inversed)
 		acceleration = force_accumulator * inverse_mass;
@@ -51,7 +51,7 @@ namespace birb
 		position = position + velocity * deltatime;
 	}
 
-	vec3<float> rigidbody::current_force() const
+	vec3<f32> rigidbody::current_force() const
 	{
 		return force_accumulator;
 	}

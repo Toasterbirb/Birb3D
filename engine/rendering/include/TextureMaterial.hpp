@@ -7,11 +7,11 @@ namespace birb
 	class texture_material
 	{
 	public:
-		texture_material(const std::string& diffuse_map, const std::string& specular_map, float shininess);
+		texture_material(const std::string& diffuse_map, const std::string& specular_map, f32 shininess);
 
 		void apply_to_shader(shader& shader);
 
-		float shininess;
+		f32 shininess;
 
 	private:
 		texture diffuse, specular;

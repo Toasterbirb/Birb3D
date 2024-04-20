@@ -36,7 +36,7 @@ namespace birb
 				ImGui::Text("Window size: [%d, %d]", window.size().x, window.size().y);
 				ImGui::Text("Monitor refreshrate: %d", window.monitor_refreshrate());
 
-				birb::vec2<double> cursor_pos = window.cursor_pos();
+				birb::vec2<f64> cursor_pos = window.cursor_pos();
 				ImGui::Text("Cursor position: [%.1lf, %.1lf]", cursor_pos.x, cursor_pos.y);
 			}
 

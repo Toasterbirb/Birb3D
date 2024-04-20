@@ -8,7 +8,7 @@ namespace birb
 		:diffuse(0x112233), specular(0x112233), shininess(32)
 		{}
 
-		material::material(const color& diffuse, const color& specular, float shininess)
+		material::material(const color& diffuse, const color& specular, f32 shininess)
 		:diffuse(diffuse), specular(specular), shininess(shininess)
 		{}
 

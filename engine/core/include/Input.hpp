@@ -159,12 +159,12 @@ namespace birb
 		/**
 		 * @brief Mouse click positions
 		 */
-		vec2<double> pos;
+		vec2<f64> pos;
 
 		/**
 		 * @brief Scrolling offsets
 		 */
-		vec2<double> offset;
+		vec2<f64> offset;
 	};
 
 	struct directional_keys

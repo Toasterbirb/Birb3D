@@ -14,8 +14,8 @@ namespace birb
 	{
 	public:
 		camera();
-		explicit camera(vec3<float> position);
-		camera(vec3<float> position, float yaw, float pitch);
+		explicit camera(vec3<f32> position);
+		camera(vec3<f32> position, f32 yaw, f32 pitch);
 
 		void draw_editor_ui() override;
 		std::string collapsing_header_name() const override;
@@ -39,22 +39,22 @@ namespace birb
 
 		glm::vec3 position = { 0.0, 0.0, 0.0 };
 
-		float yaw = -90.0f;
-		float pitch = 0.0f;
+		f32 yaw = -90.0f;
+		f32 pitch = 0.0f;
 
 		bool lock_yaw = false;
 		bool lock_pitch = false;
 
-		float movement_speed = 10.0f;
-		float mouse_sensitivity = 0.1f;
-		float fov = 45.0f;
+		f32 movement_speed = 10.0f;
+		f32 mouse_sensitivity = 0.1f;
+		f32 fov = 45.0f;
 
-		float near_clip = 0.1f;
-		float far_clip = 100.0f;
-		float orthograhpic_scale = 1.0f;
+		f32 near_clip = 0.1f;
+		f32 far_clip = 100.0f;
+		f32 orthograhpic_scale = 1.0f;
 
 		bool editor_mode = false;
-		void zoom(float delta);
+		void zoom(f32 delta);
 
 		// Keybinds
 		directional_keys keybinds;
@@ -67,7 +67,7 @@ namespace birb
 
 	private:
 		static inline const std::string editor_header_name = "Camera";
-		vec2<double> prev_cursor_pos;
+		vec2<f64> prev_cursor_pos;
 
 		// Ignore the first mouse delta after the window is clicked
 		// to lock the mouse to avoid a big jump in view

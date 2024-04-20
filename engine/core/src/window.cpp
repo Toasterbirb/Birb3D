@@ -34,7 +34,7 @@ namespace birb
 	window::window(const std::string& title, const vec2<i32> dimensions)
 	:dimensions(dimensions)
 	{
-		event_bus::register_event_id(event::set_window_background_clear_color, this); // Set window background clear color | float[3]
+		event_bus::register_event_id(event::set_window_background_clear_color, this); // Set window background clear color | f32[3]
 
 		if (window_count != 0)
 			birb::log_fatal("There can only be one window at any given time");
@@ -126,7 +126,7 @@ namespace birb
 		switch (event_id)
 		{
 			case 2:
-				set_background_color({data._float[0], data._float[1], data._float[2]});
+				set_background_color({data._f32[0], data._f32[1], data._f32[2]});
 				break;
 		}
 	}
@@ -245,17 +245,17 @@ namespace birb
 		std::swap(input_queue, empty_queue);
 	}
 
-	vec2<double> window::cursor_pos()
+	vec2<f64> window::cursor_pos()
 	{
-		vec2<double> pos;
+		vec2<f64> pos;
 
 		glfwGetCursorPos(glfw_window, &pos.x, &pos.y);
 
 		if (!cursor_locked_to_window)
 		{
 			// Clamp mouse coords to window size
-			pos.x = std::clamp(pos.x, 0.0, static_cast<double>(dimensions.x));
-			pos.y = std::clamp(pos.y, 0.0, static_cast<double>(dimensions.y));
+			pos.x = std::clamp(pos.x, 0.0, static_cast<f64>(dimensions.x));
+			pos.y = std::clamp(pos.y, 0.0, static_cast<f64>(dimensions.y));
 		}
 
 		return pos;
@@ -391,8 +391,8 @@ namespace birb
 			.mods		= mods,
 			.key		= static_cast<input::keycode>(key),
 			.state		= static_cast<input::action>(action),
-			.pos		= vec2<double>(-1, -1),
-			.offset		= vec2<double>(0,0),
+			.pos		= vec2<f64>(-1, -1),
+			.offset		= vec2<f64>(0,0),
 		};
 
 		update_held_down_keys(new_input);
@@ -428,8 +428,8 @@ namespace birb
 			.mods		= mods,
 			.key		= static_cast<input::keycode>(button),
 			.state		= static_cast<input::action>(action),
-			.pos		= vec2<double>(0,0),
-			.offset		= vec2<double>(0,0),
+			.pos		= vec2<f64>(0,0),
+			.offset		= vec2<f64>(0,0),
 		};
 
 		update_held_down_keys(new_input);
@@ -440,15 +440,15 @@ namespace birb
 		input_queue.push(new_input);
 	}
 
-	void window::scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+	void window::scroll_callback(GLFWwindow* window, f64 xoffset, f64 yoffset)
 	{
 		input new_input {
 			.scancode	= 0,
 			.mods		= 0,
 			.key		= input::keycode::SCROLLING,
 			.state		= input::action::KEY_DOWN,
-			.pos		= vec2<double>(0,0),
-			.offset		= vec2<double>(xoffset, yoffset),
+			.pos		= vec2<f64>(0,0),
+			.offset		= vec2<f64>(xoffset, yoffset),
 		};
 
 		input_queue.push(new_input);

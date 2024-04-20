@@ -29,8 +29,8 @@
 
 // Make sure that all of the datatypes are of correct size
 // so that they work correctly with OpenGL
-static_assert(sizeof(double) == sizeof(GLdouble));
-static_assert(sizeof(float) == sizeof(GLfloat));
+static_assert(sizeof(f64) == sizeof(GLdouble));
+static_assert(sizeof(f32) == sizeof(GLfloat));
 static_assert(sizeof(int) == sizeof(GLint));
 #ifdef BIRB_PLATFORM_LINUX
 static_assert(sizeof(long int) == sizeof(GLint64));
@@ -57,9 +57,6 @@ static_assert(sizeof(u8) == sizeof(GLchar));
 static_assert(sizeof(u16) == sizeof(GLushort));
 static_assert(sizeof(u32) == sizeof(GLuint));
 static_assert(sizeof(u64) == sizeof(GLuint64));
-
-static_assert(sizeof(f32) == sizeof(GLfloat));
-static_assert(sizeof(f64) == sizeof(GLdouble));
 
 static_assert(static_cast<GLenum>(birb::renderer::gl_primitive::triangles) == GL_TRIANGLES);
 static_assert(static_cast<GLenum>(birb::renderer::gl_primitive::lines) == GL_LINES);

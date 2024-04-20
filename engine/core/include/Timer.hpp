@@ -11,7 +11,7 @@ namespace birb
 		timer(timer&) = default;
 
 		void reset();
-		double stop(const bool quiet = false);
+		f64 stop(const bool quiet = false);
 
 
 		/**
@@ -19,11 +19,11 @@ namespace birb
 		 *
 		 * Supports seconds, milliseconds, microseconds and nanoseconds
 		 */
-		static std::string format_time(const double seconds);
+		static std::string format_time(const f64 seconds);
 
 	private:
 		const std::string name;
-		double start = 0.0;
+		f64 start = 0.0;
 		bool is_stopped = false;
 	};
 }
