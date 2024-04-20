@@ -8,7 +8,7 @@ namespace birb
 	class rigidbody
 	{
 	public:
-		rigidbody(const component::transform& transform);
+		explicit rigidbody(const component::transform& transform);
 		~rigidbody() = default;
 		rigidbody(const rigidbody&) = default;
 		rigidbody(rigidbody&) = default;
