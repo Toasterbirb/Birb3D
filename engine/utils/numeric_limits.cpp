@@ -21,6 +21,8 @@ void print_limit_float(const std::string_view& name)
 
 int main(void)
 {
+	print_limit<bool>("bool");
+	std::cout << "\n";
 	print_limit<i8>("i8");
 	print_limit<i16>("i16");
 	print_limit<i32>("i32");
