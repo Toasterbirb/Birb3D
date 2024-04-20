@@ -31,17 +31,9 @@ int main(void)
 	print_limit<u32>("u32");
 	print_limit<u64>("u64");
 	std::cout << "\n";
-	print_limit_float<f16>("f16");
 	print_limit_float<f32>("f32");
 	print_limit_float<f64>("f64");
-
-	// Testing for the size of f128 doesn't work directly
-	// so use the equivalent long double instead
-	// (assuming that they are the same size)
-	static_assert(sizeof(f128) == sizeof(long double));
-	print_limit_float<long double>("f128");
-
-	print_limit_float<bf16>("bf16");
+	print_limit_float<f128>("f128");
 
 	return 0;
 }

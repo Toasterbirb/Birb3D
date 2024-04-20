@@ -46,7 +46,7 @@ int main(void)
 	birb::model suzanne_model("suzanne.obj");
 
 	constexpr u16 suzanne_count = 50;
-	constexpr f16 position_offset = 4;
+	constexpr f32 position_offset = 4;
 	birb::shader_ref shader_reference("default", "default_color");
 	birb::shader_collection::get_shader(shader_reference)->reset_lights();
 	// shader.reset_lights();
