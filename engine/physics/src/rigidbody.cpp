@@ -1,6 +1,6 @@
 #include "Rigidbody.hpp"
 
-#include <limits>
+#include <cmath>
 
 namespace birb
 {
@@ -11,7 +11,7 @@ namespace birb
 	float rigidbody::mass() const
 	{
 		if (inverse_mass == 0)
-			return std::numeric_limits<float>().max();
+			return INFINITY;
 
 		return 1.0f / inverse_mass;
 	}
