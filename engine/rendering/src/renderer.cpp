@@ -188,13 +188,13 @@ namespace birb
 		rendered_entities = 0;
 		rendered_vertices = 0;
 
-		// Store shaders that have some specific uniforms updated already
-		// to avoid duplicate uniform updates
-		std::unordered_set<u32> uniforms_updated;
-
 		// Render all models
 		{
 			PROFILER_SCOPE_RENDER("Render models")
+
+			// Store shaders that have some specific uniforms updated already
+			// to avoid duplicate uniform updates
+			std::unordered_set<u32> uniforms_updated;
 
 			const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::component::transform>();
 			for (const auto& ent : view)
