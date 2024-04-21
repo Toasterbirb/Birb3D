@@ -14,5 +14,7 @@ typedef float f32;
 typedef double f64;
 typedef long double f128;
 
+typedef float floatymcfloatface;
+
 static_assert(sizeof(f32) == sizeof(i32));
 static_assert(sizeof(f64) == sizeof(i64));
