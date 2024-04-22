@@ -6,6 +6,9 @@ TLDR: Another never ending hobbyist game engine project
 
 Visit the [wiki](http://birbgitfh224rep6tmdofmr6qlo6wx43umqzt3hjubnncr55sdlfmtad.onion/toasterbirb/Birb3D/wiki) for more documentation.
 
+> **Note**
+> To access the wiki, you may need to use the [Tor browser](https://www.torproject.org/) or some other alternative way to browse .onion sites
+
 ## Building
 Build the project with cmake by running the following commands
 ```sh
