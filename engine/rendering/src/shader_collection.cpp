@@ -2,6 +2,7 @@
 #include "ShaderCollection.hpp"
 #include "ShaderSource.hpp"
 
+#include <array>
 #include <cassert>
 
 namespace birb
@@ -15,6 +16,28 @@ namespace birb
 		// The window should call the wipe() function before destroying itself
 		// but this assert is here just in case
 		assert(shader_storage.empty() && "The shader collection needs to be wiped manually before it runs out of scope");
+	}
+
+	void shader_collection::precompile_basic_shaders()
+	{
+		// Make sure, that the shader source names have been hashed
+		hash_shader_source_names();
+
+		birb::log("Precompiling shaders...");
+
+		const std::array<shader_ref, 6> precompiled_shaders = {
+			shader_ref("color", "color"),
+			shader_ref("texture", "texture"),
+			shader_ref("post_process", "post_process"),
+			shader_ref("default", "default"),
+			shader_ref("default", "default_color"),
+			shader_ref("vertex_color", "vertex_color"),
+		};
+
+		for (const shader_ref& ref : precompiled_shaders)
+			compile_shader(ref);
+
+		birb::log("Shader precompiling finished!");
 	}
 
 	shader_ref shader_collection::register_shader(const std::string& vertex, const std::string& fragment)
@@ -50,6 +73,21 @@ namespace birb
 		assert(!vertex_shader_hashes.empty());
 		assert(!fragment_shader_hashes.empty());
 
+		// Compile the shader and return a reference to it
+		return compile_shader(ref);
+	}
+
+	void shader_collection::wipe()
+	{
+		shader_storage.clear();
+	}
+
+	std::shared_ptr<shader> shader_collection::compile_shader(const shader_ref& ref)
+	{
+		assert(!vertex_shader_hashes.empty() && "Vertex names need to be hashed before shaders can be compiled");
+		assert(!fragment_shader_hashes.empty() && "Vertex names need to be hashed before shaders can be compiled");
+		assert(!shader_storage.contains(ref.hash) && "Tried to compile and store a shader to the collection that has already been compiled previously");
+
 		// Get the names of the shaders
 		const std::string& vertex_name = vertex_shader_hashes.at(ref.vertex);
 		const std::string& fragment_name = fragment_shader_hashes.at(ref.fragment);
@@ -57,18 +95,9 @@ namespace birb
 		// Compile the shader and store it
 		std::shared_ptr<shader> new_shader = std::make_shared<shader>(vertex_name, fragment_name);
 		assert(new_shader->id != 0 && "Something went wrong with shader compiling");
-
 		shader_storage[ref.hash] = new_shader;
 
-		birb::log("Shader [" + vertex_name + ", " + fragment_name + "] (" + ptr_to_str(new_shader.get()) + ") stored to the shader collection");
-
-		// Return the newly compiled shader
-		return shader_storage[ref.hash];
-	}
-
-	void shader_collection::wipe()
-	{
-		shader_storage.clear();
+		return new_shader;
 	}
 
 	void shader_collection::hash_shader_source_names()

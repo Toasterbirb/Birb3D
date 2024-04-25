@@ -14,6 +14,11 @@ namespace birb
 		~shader_collection();
 
 		/**
+		 * @brief Compile often used shaders
+		 */
+		static void precompile_basic_shaders();
+
+		/**
 		 * @brief Add a new custom shader to the shader collection
 		 *
 		 * This function will add the hashes of the vertex and fragment shader
@@ -41,6 +46,13 @@ namespace birb
 		static void wipe();
 
 	private:
+		/**
+		 * @brief Compile a new shader and return a shared pointer to it
+		 *
+		 * This function will also cache the shader to the shader collection
+		 */
+		static std::shared_ptr<shader> compile_shader(const shader_ref& ref);
+
 		static void hash_shader_source_names();
 
 		static inline std::unordered_map<u64, std::shared_ptr<shader>> shader_storage;

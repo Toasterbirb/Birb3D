@@ -123,6 +123,9 @@ namespace birb
 		post_processing_vao.link_vbo(*post_processing_vbo, 1, 2, 5, 3);
 		post_processing_vao.unbind();
 		sprite_ebo->unbind();
+
+		// Precompile shaders
+		shader_collection::precompile_basic_shaders();
 	}
 
 	renderer::~renderer()
