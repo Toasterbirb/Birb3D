@@ -124,8 +124,12 @@ namespace birb
 		post_processing_vao.unbind();
 		sprite_ebo->unbind();
 
-		// Precompile shaders
+		// Precompile shaders in release builds
+#ifdef NDEBUG
 		shader_collection::precompile_basic_shaders();
+#else
+		birb::log_warn("Shader precompiling is disabled in debug builds");
+#endif
 	}
 
 	renderer::~renderer()
