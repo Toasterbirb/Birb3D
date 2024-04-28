@@ -25,6 +25,12 @@ namespace birb
 		private:
 			const char* collapsing_menu_name = "";
 
+			// Reference to the timestep used in the gameloop
+			// This is used to get frametime data
+			const timestep& ts;
+
+			std::array<char, 12> overlay_text_buffer;
+
 #ifdef BIRB_PLATFORM_LINUX
 			i32 pid; // Our process ID
 
@@ -36,12 +42,6 @@ namespace birb
 
 			std::array<f32, 16> memory_history;
 #endif
-
-			// Reference to the timestep used in the gameloop
-			// This is used to get frametime data
-			const timestep& ts;
-
-			std::array<char, 12> overlay_text_buffer;
 		};
 	}
 }
