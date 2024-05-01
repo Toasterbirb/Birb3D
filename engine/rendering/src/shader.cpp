@@ -1,8 +1,11 @@
+#include "Color.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
+#include "Material.hpp"
 #include "Profiling.hpp"
 #include "Shader.hpp"
 #include "ShaderSource.hpp"
+#include "ShaderUniforms.hpp"
 
 #include <array>
 #include <cassert>

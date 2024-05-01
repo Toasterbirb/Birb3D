@@ -1,10 +1,11 @@
 #pragma once
 
 #include "EditorWindow.hpp"
-#include "Viewport.hpp"
 
 namespace editor
 {
+	class viewport;
+
 	class viewport_camera : public editor_window
 	{
 	public:

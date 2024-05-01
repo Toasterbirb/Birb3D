@@ -1,6 +1,5 @@
 #pragma once
 
-#include "RBO.hpp"
 #include "Texture.hpp"
 #include "Vector.hpp"
 
@@ -8,6 +7,8 @@
 
 namespace birb
 {
+	class rbo;
+
 	class fbo
 	{
 	public:

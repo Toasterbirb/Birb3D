@@ -13,6 +13,7 @@
 #include "EBO.hpp"
 #include "PerformanceOverlay.hpp"
 #include "Shader.hpp"
+#include "ShaderUniforms.hpp"
 #include "Texture.hpp"
 #include "Timestep.hpp"
 #include "VAO.hpp"

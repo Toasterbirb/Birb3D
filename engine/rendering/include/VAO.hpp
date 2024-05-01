@@ -1,10 +1,12 @@
 #pragma once
 
-#include "EBO.hpp"
-#include "VBO.hpp"
+#include "Types.hpp"
 
 namespace birb
 {
+	class ebo;
+	class vbo;
+
 	// Vertex array object
 	class vao
 	{

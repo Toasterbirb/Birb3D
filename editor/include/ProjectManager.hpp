@@ -1,11 +1,16 @@
 #pragma once
 
 #include "EditorWindow.hpp"
-#include "Project.hpp"
-#include "Viewport.hpp"
+
+namespace birb
+{
+	class project;
+}
 
 namespace editor
 {
+	class viewport;
+
 	class project_manager : public editor_window
 	{
 	public:

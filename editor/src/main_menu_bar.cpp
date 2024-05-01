@@ -1,4 +1,6 @@
 #include "MainMenuBar.hpp"
+#include "Project.hpp"
+#include "Viewport.hpp"
 
 namespace editor
 {

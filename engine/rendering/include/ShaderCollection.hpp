@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Shader.hpp"
-#include "ShaderRef.hpp"
-
 #include <memory>
 #include <unordered_map>
 
 namespace birb
 {
+	class shader;
+	struct shader_ref;
+
 	class shader_collection
 	{
 	public:

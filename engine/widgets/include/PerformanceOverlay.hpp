@@ -1,10 +1,8 @@
 #pragma once
 
-#include "Timestep.hpp"
 #include "WidgetBase.hpp"
 
 #include <array>
-#include <string>
 
 #ifdef BIRB_PLATFORM_LINUX
 #include <sys/resource.h>
@@ -12,6 +10,8 @@
 
 namespace birb
 {
+	class timestep;
+
 	namespace overlay
 	{
 		class performance : public widget_base

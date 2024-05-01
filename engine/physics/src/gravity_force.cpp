@@ -1,4 +1,5 @@
 #include "GravityForce.hpp"
+#include "Rigidbody.hpp"
 #include "Vector.hpp"
 
 namespace birb

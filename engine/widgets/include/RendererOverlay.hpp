@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Renderer.hpp"
 #include "WidgetBase.hpp"
 
 namespace birb
 {
+	class renderer;
+
 	namespace overlay
 	{
 		class renderer_overlay : public widget_base

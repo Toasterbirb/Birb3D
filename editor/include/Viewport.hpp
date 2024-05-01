@@ -4,10 +4,14 @@
 #include "EditorWindow.hpp"
 #include "FBO.hpp"
 #include "Renderer.hpp"
-#include "Scene.hpp"
-#include "Timestep.hpp"
 #include "Vector.hpp"
-#include "Window.hpp"
+
+namespace birb
+{
+	class scene;
+	class timestep;
+	class window;
+}
 
 namespace editor
 {

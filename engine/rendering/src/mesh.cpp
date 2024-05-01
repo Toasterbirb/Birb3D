@@ -2,6 +2,7 @@
 #include "Logger.hpp"
 #include "Mesh.hpp"
 #include "Profiling.hpp"
+#include "Shader.hpp"
 
 #include <cassert>
 #include <climits>

@@ -1,5 +1,6 @@
 #include "Line.hpp"
 #include "Math.hpp"
+#include "VBO.hpp"
 
 namespace birb
 {

@@ -1,5 +1,6 @@
-#include "TextureMaterial.hpp"
 #include "Profiling.hpp"
+#include "ShaderUniforms.hpp"
+#include "TextureMaterial.hpp"
 
 namespace birb
 {

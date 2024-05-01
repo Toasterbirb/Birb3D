@@ -1,4 +1,5 @@
 #include "Profiling.hpp"
+#include "Window.hpp"
 #include "WindowInfoOverlay.hpp"
 
 namespace birb

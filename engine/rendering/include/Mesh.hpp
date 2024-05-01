@@ -1,11 +1,11 @@
 #pragma once
 
-#include "Shader.hpp"
-
 #include <vector>
 
 namespace birb
 {
+	class shader;
+
 	struct vertex
 	{
 		glm::vec3 position;

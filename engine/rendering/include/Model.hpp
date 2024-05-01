@@ -1,7 +1,6 @@
 #pragma once
 
 #include "EditorComponent.hpp"
-#include "Mesh.hpp"
 #include "PrimitiveMeshes.hpp"
 #include "Shader.hpp"
 
@@ -13,6 +12,9 @@
 
 namespace birb
 {
+	class mesh;
+	struct mesh_texture;
+
 	class model : public editor_component
 	{
 	public:

@@ -1,6 +1,7 @@
-#include "Profiling.hpp"
-#include "RendererOverlay.hpp"
 #include "Globals.hpp"
+#include "Profiling.hpp"
+#include "Renderer.hpp"
+#include "RendererOverlay.hpp"
 
 #include <imgui.h>
 #include <cassert>

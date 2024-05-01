@@ -1,5 +1,7 @@
 #include "Logger.hpp"
+#include "Shader.hpp"
 #include "ShaderCollection.hpp"
+#include "ShaderRef.hpp"
 #include "ShaderSource.hpp"
 
 #include <array>

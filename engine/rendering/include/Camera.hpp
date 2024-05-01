@@ -1,7 +1,6 @@
 #pragma once
 
 #include "EditorComponent.hpp"
-#include "Timestep.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
 
@@ -10,6 +9,8 @@
 
 namespace birb
 {
+	class timestep;
+
 	class camera : editor_component
 	{
 	public:

@@ -1,10 +1,14 @@
 #pragma once
 
-#include "Transform.hpp"
 #include "Vector.hpp"
 
 namespace birb
 {
+	namespace component
+	{
+		class transform;
+	}
+
 	namespace collider
 	{
 		class box

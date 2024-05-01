@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Vector.hpp"
-
 namespace birb
 {
+	template <class T>
+	struct vec2;
+
 	class rbo
 	{
 	public:

@@ -1,5 +1,7 @@
 #include "Profiling.hpp"
+#include "Project.hpp"
 #include "ProjectManager.hpp"
+#include "Viewport.hpp"
 
 #include <GLFW/glfw3.h>
 #include <cmath>

@@ -1,6 +1,8 @@
+#include "Color.hpp"
 #include "EventBus.hpp"
 #include "Profiling.hpp"
 #include "Shader.hpp"
+#include "Window.hpp"
 #include "World.hpp"
 
 #include <imgui.h>

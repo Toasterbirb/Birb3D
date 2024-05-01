@@ -1,5 +1,6 @@
 #include "Profiling.hpp"
 #include "Sprite.hpp"
+#include "Texture.hpp"
 
 namespace birb
 {

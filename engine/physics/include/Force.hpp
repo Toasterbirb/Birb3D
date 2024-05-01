@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Rigidbody.hpp"
-
 namespace birb
 {
+	class rigidbody;
+
 	class force
 	{
 	public:

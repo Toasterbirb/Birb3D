@@ -1,6 +1,9 @@
 #include "FBO.hpp"
 #include "Profiling.hpp"
+#include "Scene.hpp"
+#include "Timestep.hpp"
 #include "Viewport.hpp"
+#include "Window.hpp"
 
 #include <glad/gl.h>
 #include <glm/glm.hpp>

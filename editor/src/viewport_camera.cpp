@@ -1,7 +1,7 @@
 #include "Profiling.hpp"
 #include "Viewport.hpp"
+#include "Viewport.hpp"
 #include "ViewportCamera.hpp"
-#include "Window.hpp"
 
 namespace editor
 {

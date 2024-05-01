@@ -1,7 +1,9 @@
 #include "BoxCollider.hpp"
+#include "Entity.hpp"
 #include "GravityForce.hpp"
 #include "PhysicsWorld.hpp"
 #include "Rigidbody.hpp"
+#include "Scene.hpp"
 #include "State.hpp"
 #include "Transform.hpp"
 

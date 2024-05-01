@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Types.hpp"
+
+#include <string>
+
 namespace birb
 {
 	class timer

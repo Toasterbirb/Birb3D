@@ -1,12 +1,13 @@
 #pragma once
 
-#include "Entity.hpp"
-#include "Scene.hpp"
-
+#include <entt.hpp>
 #include <vector>
 
 namespace birb
 {
+	class entity;
+	class scene;
+
 	class physics_world
 	{
 	public:

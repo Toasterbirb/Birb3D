@@ -1,13 +1,14 @@
 #pragma once
 
 #include "Transform.hpp"
-#include "VBO.hpp"
 
 #include <array>
 #include <memory>
 
 namespace birb
 {
+	class vbo;
+
 	class line
 	{
 	public:

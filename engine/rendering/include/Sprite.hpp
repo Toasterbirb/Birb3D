@@ -1,12 +1,14 @@
 #pragma once
 
-#include "Texture.hpp"
+#include "ColorFormat.hpp"
 
 #include <memory>
 #include <string>
 
 namespace birb
 {
+	class texture;
+
 	struct sprite
 	{
 		explicit sprite(const std::string& file_path, color_format format = color_format::RGBA);

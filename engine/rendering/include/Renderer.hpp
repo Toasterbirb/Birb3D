@@ -1,21 +1,22 @@
 #pragma once
 
-#include "EBO.hpp"
+#include "Color.hpp"
 #include "EventBus.hpp"
 #include "FBO.hpp"
-#include "Material.hpp"
-#include "Scene.hpp"
 #include "ShaderRef.hpp"
 #include "Types.hpp"
 #include "VAO.hpp"
-#include "VBO.hpp"
-#include "Window.hpp"
 
 #include <entt.hpp>
 #include <glm/fwd.hpp>
 
 namespace birb
 {
+	class ebo;
+	class scene;
+	class vbo;
+	class window;
+
 	class renderer : public event_obj
 	{
 	public:

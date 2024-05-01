@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Camera.hpp"
 #include "WidgetBase.hpp"
 
 namespace birb
 {
+	class camera;
+
 	namespace overlay
 	{
 		class camera_info : public widget_base

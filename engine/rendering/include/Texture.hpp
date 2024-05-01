@@ -1,15 +1,11 @@
 #pragma once
 
+#include "ColorFormat.hpp"
 #include "Shader.hpp"
 #include "Vector.hpp"
 
 namespace birb
 {
-	enum class color_format
-	{
-		RGB, RGBA
-	};
-
 	enum class texture_type
 	{
 		TEX_1D = 3552,

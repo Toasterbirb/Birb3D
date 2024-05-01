@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Force.hpp"
+#include "Vector.hpp"
 
 namespace birb
 {

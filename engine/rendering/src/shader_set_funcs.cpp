@@ -1,4 +1,5 @@
 #include "Shader.hpp"
+#include "ShaderUniforms.hpp"
 
 namespace birb
 {

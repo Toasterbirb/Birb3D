@@ -1,6 +1,8 @@
+#include "EBO.hpp"
 #include "Globals.hpp"
 #include "Profiling.hpp"
 #include "VAO.hpp"
+#include "VBO.hpp"
 
 #include <cassert>
 #include <glad/gl.h>

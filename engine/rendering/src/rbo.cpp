@@ -1,6 +1,7 @@
 #include "Globals.hpp"
 #include "Profiling.hpp"
 #include "RBO.hpp"
+#include "Vector.hpp"
 
 #include <GL/gl.h>
 

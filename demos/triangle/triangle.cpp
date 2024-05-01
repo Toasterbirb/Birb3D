@@ -7,12 +7,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "EBO.hpp"
 #include "PerformanceOverlay.hpp"
-#include "Timestep.hpp"
 #include "Shader.hpp"
+#include "ShaderUniforms.hpp"
+#include "Timestep.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
-#include "EBO.hpp"
 
 int main(void)
 {

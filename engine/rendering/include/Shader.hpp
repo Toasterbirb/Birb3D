@@ -1,9 +1,6 @@
 #pragma once
 
-#include "Color.hpp"
 #include "EditorComponent.hpp"
-#include "Material.hpp"
-#include "ShaderUniforms.hpp"
 #include "Vector.hpp"
 
 #include <glm/fwd.hpp>
@@ -12,6 +9,14 @@
 
 namespace birb
 {
+	struct color;
+	struct uniform;
+
+	namespace component
+	{
+		struct material;
+	}
+
 	struct point_light
 	{
 		std::string name = "";

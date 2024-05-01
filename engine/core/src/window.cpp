@@ -1,4 +1,5 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
+
 #include "EventBus.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"

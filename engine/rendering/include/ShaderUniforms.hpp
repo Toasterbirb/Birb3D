@@ -26,20 +26,7 @@ namespace birb
 		std::string struct_var;
 		bool is_array = false;
 
-		std::string str(i32 index = -1) const
-		{
-			std::string str = name;
-
-			assert((!is_array && index == -1) || (is_array && index >= 0));
-
-			if (is_array)
-				str += "[" + std::to_string(index) + "]";
-
-			if (!struct_var.empty())
-				str += "." + struct_var;
-
-			return str;
-		}
+		std::string str(i32 index = -1) const;
 	};
 
 	namespace shader_uniforms

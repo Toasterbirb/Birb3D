@@ -2,6 +2,7 @@
 #include "Globals.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
+#include "RBO.hpp"
 
 #include <cassert>
 #include <glad/gl.h>

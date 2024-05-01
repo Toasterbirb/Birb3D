@@ -1,7 +1,8 @@
-#include "Window.hpp"
-#include "Timestep.hpp"
-#include "PerformanceOverlay.hpp"
 #include "CameraInfoOverlay.hpp"
+#include "PerformanceOverlay.hpp"
+#include "ShaderUniforms.hpp"
+#include "Timestep.hpp"
+#include "Window.hpp"
 
 #include <algorithm>
 #include <execution>
