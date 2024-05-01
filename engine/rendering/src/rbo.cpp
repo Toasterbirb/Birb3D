@@ -3,7 +3,7 @@
 #include "RBO.hpp"
 #include "Vector.hpp"
 
-#include <GL/gl.h>
+#include <glad/gl.h>
 
 namespace birb
 {

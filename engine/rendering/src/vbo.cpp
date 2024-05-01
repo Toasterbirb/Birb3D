@@ -2,6 +2,7 @@
 #include "VBO.hpp"
 
 #include <cassert>
+#include <glad/gl.h>
 #include <vector>
 
 namespace birb

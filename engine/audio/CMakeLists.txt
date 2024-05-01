@@ -12,10 +12,12 @@ else()
 	target_link_libraries(audio birb)
 endif()
 
-target_precompile_headers(audio
-	PUBLIC
-		<Logger.hpp>
-		<Profiling.hpp>
-		<Types.hpp>
-		<cassert>
-)
+if (NOT BIRB_DISTCC)
+	target_precompile_headers(audio
+		PUBLIC
+			<Logger.hpp>
+			<Profiling.hpp>
+			<Types.hpp>
+			<cassert>
+	)
+endif()

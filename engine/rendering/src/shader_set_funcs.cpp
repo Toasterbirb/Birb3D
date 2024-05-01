@@ -1,5 +1,10 @@
+#include "Color.hpp"
 #include "Shader.hpp"
 #include "ShaderUniforms.hpp"
+
+#include <glad/gl.h>
+#include <glm/ext.hpp>
+#include <glm/glm.hpp>
 
 namespace birb
 {

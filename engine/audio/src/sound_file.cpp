@@ -1,6 +1,9 @@
+#include "Logger.hpp"
+#include "Profiling.hpp"
 #include "SoundFile.hpp"
 
 #include <AL/alext.h>
+#include <cassert>
 #include <climits>
 #include <memory>
 

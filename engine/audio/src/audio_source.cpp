@@ -1,6 +1,8 @@
 #include "AudioSource.hpp"
+#include "Profiling.hpp"
 
 #include <AL/al.h>
+#include <cassert>
 
 namespace birb
 {

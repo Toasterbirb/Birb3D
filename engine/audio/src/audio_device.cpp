@@ -1,5 +1,8 @@
 #include "AudioDevice.hpp"
+#include "Logger.hpp"
+#include "Profiling.hpp"
 
+#include <cassert>
 #include <sndfile.h>
 
 static inline bool alc_is_init = false;

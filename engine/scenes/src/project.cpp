@@ -1,6 +1,7 @@
 #include "Components.hpp"
 #include "Globals.hpp"
 #include "IO.hpp"
+#include "Logger.hpp"
 #include "Model.hpp"
 #include "Project.hpp"
 #include "ProjectJsonKeys.hpp"

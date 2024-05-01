@@ -1,6 +1,9 @@
 #pragma once
 
+#include "Types.hpp"
+
 #include <entt.hpp>
+#include <string>
 
 namespace birb
 {

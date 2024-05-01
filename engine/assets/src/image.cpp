@@ -2,6 +2,8 @@
 #include "Logger.hpp"
 #include "Profiling.hpp"
 
+#include <stb_image.h>
+
 namespace birb
 {
 	namespace asset

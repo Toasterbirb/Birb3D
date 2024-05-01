@@ -1,4 +1,7 @@
 #include "AudioPlayer.hpp"
+#include "Profiling.hpp"
+
+#include <cassert>
 
 namespace birb
 {

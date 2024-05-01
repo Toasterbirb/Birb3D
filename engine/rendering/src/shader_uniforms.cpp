@@ -1,5 +1,7 @@
 #include "ShaderUniforms.hpp"
 
+#include <cassert>
+
 namespace birb
 {
 	std::string uniform::str(i32 index) const

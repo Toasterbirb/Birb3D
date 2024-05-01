@@ -15,6 +15,8 @@ option(BIRB_EDITOR "Build the editor project" ON)
 option(BIRB_DEMOS "Build demo projects" ON)
 option(BIRB_TESTS "Build unit tests" ON)
 option(BIRB_PLAYGROUND "Build the playground project" OFF)
+option(BIRB_DISTCC "Use distcc and ccache (if available) for compiling. Also
+disables precompiled headers" OFF)
 
 include(vendor/assimp/cmake-modules/Findassimp.cmake)
 
@@ -58,10 +60,20 @@ if (BIRB_STATIC)
 endif()
 
 find_program(CCACHE_FOUND ccache)
-if(CCACHE_FOUND)
+find_program(DISTCC_FOUND distcc)
+
+if (DISTCC_FOUND AND NOT BIRB_DISTCC)
+	message("distcc was found, but it won't be used since BIRB_DISTCC is set
+	to OFF")
+endif()
+
+if(CCACHE_FOUND AND NOT BIRB_DISTCC)
 	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
 	message("> ccache was found, using it to speed up compiling")
-endif(CCACHE_FOUND)
+elseif (CCACHE_FOUND AND DISTCC_FOUND AND BIRB_DISTCC)
+	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "ccache distcc")
+	message("> ccache and distcc were found, using them to speed up compiling")
+endif()
 
 include_directories(
 	./engine/assets/include

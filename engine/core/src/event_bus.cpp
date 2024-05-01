@@ -1,6 +1,7 @@
 #include "EventBus.hpp"
 #include "Logger.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <unordered_map>
 #include <vector>

@@ -3,6 +3,7 @@
 #include "Components.hpp"
 #include "Entity.hpp"
 #include "GravityForce.hpp"
+#include "Logger.hpp"
 #include "PhysicsWorld.hpp"
 #include "Renderer.hpp"
 #include "Rigidbody.hpp"

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.hpp"
+
 #include <AL/al.h>
 #include <sndfile.h>
 #include <string>
