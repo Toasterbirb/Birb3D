@@ -37,6 +37,9 @@ int main(void)
 	birb::scene scene;
 	renderer.set_scene(scene);
 
+	// Allocate debug windows
+	renderer.debug.alloc_world(window);
+
 	birb::entity suzanne = scene.create_entity();
 
 	birb::model suzanne_model("suzanne.obj");
@@ -75,7 +78,7 @@ int main(void)
 				switch (input.key)
 				{
 					case (birb::input::keycode::MOUSE_1):
-						window.lock_cursor_to_window();
+						// window.lock_cursor_to_window();
 						break;
 
 					default:

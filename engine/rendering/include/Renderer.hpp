@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Color.hpp"
+#include "DebugView.hpp"
 #include "EventBus.hpp"
 #include "FBO.hpp"
 #include "ShaderRef.hpp"
@@ -51,6 +52,7 @@ namespace birb
 		static void set_backface_culling(bool state);
 		static bool is_backface_culling_enabled();
 
+		debug_view debug;
 		void toggle_debug_view();
 
 		/**

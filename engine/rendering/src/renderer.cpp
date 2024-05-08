@@ -354,6 +354,9 @@ namespace birb
 		// Debug drawing //
 		///////////////////
 
+		// Draw the debug view
+		debug.draw();
+
 		// Draw box colliders
 		{
 			const std::shared_ptr<shader> debug_shader = shader_collection::get_shader(debug_shader_ref);
