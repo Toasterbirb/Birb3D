@@ -31,7 +31,10 @@ namespace birb
 
 			std::array<char, 12> overlay_text_buffer;
 
-#ifdef BIRB_PLATFORM_LINUX
+
+			// -----------------------------------------------------------------
+			// --- Linux specific stuff, should be ignored in Windows builds ---
+			// -----------------------------------------------------------------
 			i32 pid; // Our process ID
 
 			// Fill the memory history array with zeroes and get the PID
@@ -41,7 +44,7 @@ namespace birb
 			i64 resident_memory_usage() const;
 
 			std::array<f32, 16> memory_history;
-#endif
+			// -----------------------------------------------------------------
 		};
 	}
 }
