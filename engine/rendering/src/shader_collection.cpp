@@ -44,6 +44,8 @@ namespace birb
 
 	shader_ref shader_collection::register_shader(const std::string& vertex, const std::string& fragment)
 	{
+		hash_shader_source_names();
+
 		assert(!vertex.empty());
 		assert(!fragment.empty());
 
@@ -54,8 +56,6 @@ namespace birb
 		// Add the hashes to the shader collection
 		vertex_shader_hashes[ref.vertex] = vertex;
 		fragment_shader_hashes[ref.fragment] = fragment;
-
-		FIXME("Make the shader class aware of shaders outside of the built-in shader source code collection")
 
 		return ref;
 	}
@@ -91,6 +91,8 @@ namespace birb
 		assert(!shader_storage.contains(ref.hash) && "Tried to compile and store a shader to the collection that has already been compiled previously");
 
 		// Get the names of the shaders
+		assert(vertex_shader_hashes.contains(ref.vertex) && "Tried to compile a non-existent vertex shader. Maybe you forgot to register it?");
+		assert(fragment_shader_hashes.contains(ref.fragment) && "Tried to compile a non-existent fragment shader. Maybe you forgot to register it?");
 		const std::string& vertex_name = vertex_shader_hashes.at(ref.vertex);
 		const std::string& fragment_name = fragment_shader_hashes.at(ref.fragment);
 
@@ -104,6 +106,11 @@ namespace birb
 
 	void shader_collection::hash_shader_source_names()
 	{
+		// Skip shader source name hashing if they have already
+		// been hashed earlier
+		if (builtin_shaders_hashed)
+			return;
+
 		birb::log("Hashing shader names");
 
 		// Hash vertex shader names
@@ -121,5 +128,7 @@ namespace birb
 			birb::log("frag:" + std::to_string(hash) + " -> " + frag);
 			fragment_shader_hashes[hash] = frag;
 		}
+
+		builtin_shaders_hashed = true;
 	}
 }

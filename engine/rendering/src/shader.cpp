@@ -9,6 +9,7 @@
 
 #include <array>
 #include <cassert>
+#include <filesystem>
 #include <glad/gl.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
@@ -18,6 +19,9 @@ namespace birb
 	// Cache for compiled shaders
 	static std::unordered_map<std::string, u32> shader_cache;
 	static size_t shader_cache_hit_count = 0;
+
+	static const std::string missing_shader_vert = "default_vert";
+	static const std::string missing_shader_frag = "missing_shader_frag";
 
 	shader::shader()
 	{}
@@ -219,6 +223,11 @@ namespace birb
 		return shader_src_frag_names;
 	}
 
+	bool shader::is_missing() const
+	{
+		return _is_missing;
+	}
+
 	void shader::clear_shader_cache()
 	{
 		PROFILER_SCOPE_MISC_FN()
@@ -249,8 +258,10 @@ namespace birb
 	{
 		assert(!name.empty() && "Empty uniform name");
 
-		if (try_add_uniform_location(name) == -1)
-			birb::log_fatal("Tried to add shader uniform that doesn't exist: " + name + " [" + vertex_shader_name + ", " + fragment_shader_name + "] (" + ptr_to_str(this) + ")");
+		i32 location = try_add_uniform_location(name);
+
+		if (location == -1 && !is_missing())
+			birb::log_warn("Tried to add shader uniform that doesn't exist: " + name + " [" + vertex_shader_name + ", " + fragment_shader_name + "] (" + ptr_to_str(this) + ")");
 	}
 
 	i32 shader::try_add_uniform_location(const std::string& name)
@@ -264,9 +275,7 @@ namespace birb
 		{
 			activate();
 			location = glGetUniformLocation(id, name.c_str());
-
-			if (location != -1)
-				uniform_locations[name] = location;
+			uniform_locations[name] = location;
 		}
 		else
 		{
@@ -274,6 +283,24 @@ namespace birb
 		}
 
 		return location;
+	}
+
+	std::string shader::load_shader_src(const std::string& shader_name) const
+	{
+		assert(!shader_src_search_paths.empty() && "Tried to find shader source code with an empty search path array");
+
+		const std::string file_name = shader_name + ".glsl";
+
+		for (const std::string& path : shader_src_search_paths)
+		{
+			const std::string file_path = path + '/' + file_name;
+			if (std::filesystem::exists(file_path))
+				return io::read_file(file_path);
+		}
+
+		birb::log_error("External shader file [" + shader_name + "] could not be found");
+
+		return "";
 	}
 
 	void shader::compile_shader(const std::string& vertex, const std::string& fragment)
@@ -285,14 +312,53 @@ namespace birb
 		assert(vertex_shader_name == vertex && "Bug in the shader constructor");
 		assert(fragment_shader_name == fragment && "Bug in shader the constructor");
 
-		const std::string vertex_name = vertex + "_vert";
-		const std::string fragment_name = fragment + "_frag";
+		std::string vertex_name = vertex + "_vert";
+		std::string fragment_name = fragment + "_frag";
 
-		assert(birb::shader_src.contains(vertex_name) && "Tried to use a vertex shader that wasn't in the pregenerated header");
-		assert(birb::shader_src.contains(fragment_name) && "Tried to use a fragment shader that wasn't in the pregenerated header");
+		std::string vertex_src, fragment_src;
 
-		const std::string& vertex_src = birb::shader_src.at(vertex_name);
-		const std::string& fragment_src = birb::shader_src.at(fragment_name);
+		// Get the vertex shader source code
+		if (birb::shader_src.contains(vertex_name))
+		{
+			vertex_src = birb::shader_src.at(vertex_name);
+		}
+		else
+		{
+			assert(!shader_src_search_paths.empty() && "shader_src_search_paths is empty, but an external vertex shader was requested");
+			vertex_src = load_shader_src(vertex_name);
+		}
+
+		// Get the fragment shader source code
+		if (birb::shader_src.contains(fragment_name))
+		{
+			fragment_src = birb::shader_src.at(fragment_name);
+		}
+		else
+		{
+			assert(!shader_src_search_paths.empty() && "shader_src_search_paths is empty, but an external fragment shader was requested");
+			fragment_src = load_shader_src(fragment_name);
+		}
+
+		// In case no shaders got loaded for either vertex or fragment shaders,
+		// use the "missing shader" -shader
+		if (vertex_src.empty() || fragment_src.empty())
+		{
+			assert(shader_src.contains(missing_shader_vert));
+			assert(shader_src.contains(missing_shader_frag));
+
+			vertex_shader_name = "missing";
+			fragment_shader_name = "missing";
+			_is_missing = true;
+
+			vertex_name = missing_shader_vert;
+			fragment_name = missing_shader_frag;
+
+			vertex_src = shader_src.at(missing_shader_vert);
+			fragment_src = shader_src.at(missing_shader_frag);
+		}
+
+		assert(!vertex_src.empty());
+		assert(!fragment_src.empty());
 
 		const char* vertex_src_c_str = vertex_src.c_str();
 		const char* fragment_src_c_str = fragment_src.c_str();

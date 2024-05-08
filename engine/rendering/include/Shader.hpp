@@ -92,10 +92,22 @@ namespace birb
 		void draw_editor_ui() override;
 		std::string collapsing_header_name() const override;
 
-		// Shader source code related functions
+		// Shader source code related stuff
 		void compile();
 		static std::vector<std::string> vertex_shader_name_list();
 		static std::vector<std::string> fragment_shader_name_list();
+
+		/**
+		 * @brief Directories that get checked for shader source code
+		 *
+		 * This variable gets used when a shader needs to be compiled
+		 * but the source code for it hasn't been built into the engine
+		 *
+		 * The directory paths are relative to the working directory
+		 */
+		static inline std::vector<std::string> shader_src_search_paths;
+
+		bool is_missing() const;
 
 		// Shader caching
 		static void clear_shader_cache();
@@ -127,6 +139,9 @@ namespace birb
 		void set_diffuse_color(const color& color);
 		void set_specular_color(const color& color);
 		void set_shininess(const f32 shininess);
+
+		std::string load_shader_src(const std::string& shader_name) const;
+		bool _is_missing = false;
 
 		void compile_shader(const std::string& vertex, const std::string& fragment);
 		void compile_errors(u32 shader, const std::string& type);

@@ -30,7 +30,7 @@ namespace birb
 		 *
 		 * @return A shader reference to the registered shader
 		 */
-		shader_ref register_shader(const std::string& vertex, const std::string& fragment);
+		static shader_ref register_shader(const std::string& vertex, const std::string& fragment);
 
 		/**
 		 * @brief Get a reference to a shader built from the given shader source names
@@ -54,6 +54,9 @@ namespace birb
 		static std::shared_ptr<shader> compile_shader(const shader_ref& ref);
 
 		static void hash_shader_source_names();
+
+		// Have the builtin shaders been hashed yet
+		static inline bool builtin_shaders_hashed = false;
 
 		static inline std::unordered_map<u64, std::shared_ptr<shader>> shader_storage;
 		static inline std::unordered_map<u64, std::string> vertex_shader_hashes;
