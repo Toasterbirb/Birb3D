@@ -107,7 +107,7 @@ if (NOT assimp_FOUND OR BIRB_RELEASE)
 	include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vendor/assimp/include)
 
 	if (GAME_PROJECT)
-		include_directories(${CMAKE_BINARY_DIR}/Birb3D/vendor/assimp/include)
+		include_directories(${CMAKE_BINARY_DIR}/birb3d/vendor/assimp/include)
 	else()
 		include_directories(${CMAKE_BINARY_DIR}/vendor/assimp/include)
 	endif()
