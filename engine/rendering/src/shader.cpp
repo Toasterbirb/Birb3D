@@ -29,6 +29,9 @@ namespace birb
 	shader::shader(const std::string& shader_name)
 	:vertex_shader_name(shader_name), fragment_shader_name(shader_name)
 	{
+		static_assert(shader_type::vertex == GL_VERTEX_SHADER);
+		static_assert(shader_type::fragment == GL_FRAGMENT_SHADER);
+
 		static_assert(point_light_count > 0);
 		static_assert(point_light_count < 8192, "Arbitrary limitation, but you are probably doing something wrong");
 
@@ -287,6 +290,13 @@ namespace birb
 
 	std::string shader::load_shader_src(const std::string& shader_name) const
 	{
+		assert(!shader_name.empty());
+
+		// Try to fetch the shader from builtin shaders
+		if (shader_src.contains(shader_name))
+			return shader_src.at(shader_name);
+
+		// Resort to loading external shaders
 		assert(!shader_src_search_paths.empty() && "Tried to find shader source code with an empty search path array");
 
 		const std::string file_name = shader_name + ".glsl";
@@ -317,27 +327,9 @@ namespace birb
 
 		std::string vertex_src, fragment_src;
 
-		// Get the vertex shader source code
-		if (birb::shader_src.contains(vertex_name))
-		{
-			vertex_src = birb::shader_src.at(vertex_name);
-		}
-		else
-		{
-			assert(!shader_src_search_paths.empty() && "shader_src_search_paths is empty, but an external vertex shader was requested");
-			vertex_src = load_shader_src(vertex_name);
-		}
-
-		// Get the fragment shader source code
-		if (birb::shader_src.contains(fragment_name))
-		{
-			fragment_src = birb::shader_src.at(fragment_name);
-		}
-		else
-		{
-			assert(!shader_src_search_paths.empty() && "shader_src_search_paths is empty, but an external fragment shader was requested");
-			fragment_src = load_shader_src(fragment_name);
-		}
+		// Fetch source code for the shaders
+		vertex_src = load_shader_src(vertex_name);
+		fragment_src = load_shader_src(fragment_name);
 
 		// In case no shaders got loaded for either vertex or fragment shaders,
 		// use the "missing shader" -shader
@@ -369,77 +361,90 @@ namespace birb
 
 			birb::log("Compiling shader [" + vertex + ", " + fragment + "] (" + birb::ptr_to_str(this) + ")");
 
-			u32 vertex_shader = 0;
-			if (!shader_cache.contains(vertex_name))
-			{
-				vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-				glShaderSource(vertex_shader, 1, &vertex_src_c_str, NULL);
-				glCompileShader(vertex_shader);
-				compile_errors(vertex_shader, "VERTEX");
-
-				shader_cache[vertex_name] = vertex_shader;
-				birb::log("Shader program cached: " + vertex_name + " (" + std::to_string(vertex_shader) + ")");
-			}
-			else
-			{
-				vertex_shader = shader_cache.at(vertex_name);
-				shader_cache_hit_count++;
-				birb::log("Loaded shader from cache: " + vertex_name + " (" + std::to_string(vertex_shader) + ")");
-			}
+			u32 vertex_shader = compile_gl_shader_program(vertex_name, vertex_src_c_str, shader_type::vertex);
 			assert(vertex_shader != 0);
 
-			u32 fragment_shader = 0;
-			if (!shader_cache.contains(fragment_name))
-			{
-				fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-				glShaderSource(fragment_shader, 1, &fragment_src_c_str, NULL);
-				glCompileShader(fragment_shader);
-				compile_errors(fragment_shader, "FRAGMENT");
-
-				shader_cache[fragment_name] = fragment_shader;
-				shader_cache_hit_count++;
-				birb::log("Shader program cached: " + fragment_name + " (" + std::to_string(fragment_shader) + ")");
-			}
-			else
-			{
-				fragment_shader = shader_cache.at(fragment_name);
-				birb::log("Loaded shader from cache: " + fragment_name + " (" + std::to_string(fragment_shader) + ")");
-			}
+			u32 fragment_shader = compile_gl_shader_program(fragment_name, fragment_src_c_str, shader_type::fragment);
 			assert(fragment_shader != 0);
 
 			this->id = glCreateProgram();
 			glAttachShader(this->id, vertex_shader);
 			glAttachShader(this->id, fragment_shader);
 			glLinkProgram(this->id);
-			compile_errors(id, "PROGRAM");
+			compile_errors(id, shader_type::program);
 		}
 	}
 
-	void shader::compile_errors(u32 shader, const std::string& type)
+	u32 shader::compile_gl_shader_program(const std::string& shader_name, const char* shader_src, const shader_type type)
+	{
+		u32 shader_id = 0;
+
+		if (shader_cache.contains(shader_name))
+		{
+			shader_id = shader_cache.at(shader_name);
+			shader_cache_hit_count++;
+			birb::log("Loaded shader from cache: " + shader_name + " (" + std::to_string(shader_id) + ")");
+			return shader_id;
+		}
+
+		shader_id = glCreateShader(type);
+		glShaderSource(shader_id, 1, &shader_src, NULL);
+		glCompileShader(shader_id);
+		compile_errors(shader_id, type);
+
+		shader_cache[shader_name] = shader_id;
+		birb::log("Shader program cached: " + shader_name + " (" + std::to_string(shader_id) + ")");
+		return shader_id;
+	}
+
+	std::string shader::shader_type_to_str(const shader_type type) const
+	{
+		switch (type)
+		{
+			case program:
+				return "PROGRAM";
+				break;
+
+			case vertex:
+				return "VERTEX";
+				break;
+
+			case fragment:
+				return "FRAGMENT";
+				break;
+		}
+
+		assert(0 && "Unhandled shader type name");
+		return "NULL";
+	}
+
+	void shader::compile_errors(u32 shader, const shader_type type)
 	{
 		constexpr i32 LOG_BUFFER_SIZE = 1024;
 
 		i32 has_compiled = true;
 		char info_log[LOG_BUFFER_SIZE];
-		if (type != "PROGRAM")
+
+		// Handle errors for shader compiling
+		if (type != shader_type::program)
 		{
 			glGetShaderiv(shader, GL_COMPILE_STATUS, &has_compiled);
 
 			if (has_compiled == false)
 			{
 				glGetShaderInfoLog(shader, LOG_BUFFER_SIZE, NULL, info_log);
-				birb::log_error("Shader failed to compile: " + type + " | " + info_log);
+				birb::log_error(shader_type_to_str(type) + "shader failed to compile:" + info_log);
 			}
-		}
-		else
-		{
-			glGetProgramiv(shader, GL_COMPILE_STATUS, &has_compiled);
 
-			if (has_compiled == false)
-			{
-				glGetProgramInfoLog(shader, LOG_BUFFER_SIZE, NULL, info_log);
-				birb::log_error("Shader failed to link: " + type + " | " + info_log);
-			}
+			return;
+		}
+
+		// Handle errors for shader program linking
+		glGetProgramiv(shader, GL_COMPILE_STATUS, &has_compiled);
+		if (has_compiled == false)
+		{
+			glGetProgramInfoLog(shader, LOG_BUFFER_SIZE, NULL, info_log);
+			birb::log_error("Shader program failed to link:", info_log);
 		}
 	}
 }

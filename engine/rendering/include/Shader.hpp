@@ -143,8 +143,18 @@ namespace birb
 		std::string load_shader_src(const std::string& shader_name) const;
 		bool _is_missing = false;
 
+		// OpenGL shader type enums as integers
+		enum shader_type
+		{
+			program = 0,
+			vertex = 35633,
+			fragment = 35632,
+		};
+
 		void compile_shader(const std::string& vertex, const std::string& fragment);
-		void compile_errors(u32 shader, const std::string& type);
+		u32 compile_gl_shader_program(const std::string& shader_name, const char* shader_src, const shader_type type);
+		std::string shader_type_to_str(const shader_type type) const;
+		void compile_errors(u32 shader, const shader_type type);
 		std::unordered_map<std::string, i32> uniform_locations;
 
 		std::string vertex_shader_name = "NULL";
