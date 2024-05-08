@@ -29,7 +29,6 @@
 
 int main(int argc, char** argv)
 {
-
 	birb::window window("Birb3D editor", birb::vec2<i32>(1920, 1080));
 	window.init_imgui();
 
@@ -50,7 +49,7 @@ int main(int argc, char** argv)
 	game_viewport.camera.editor_mode = true;
 
 	editor::entity_list entity_list(scene);
-	editor::inspector inspector(scene);
+	birb::inspector inspector(scene);
 	editor::viewport_camera viewport_camera(game_viewport);
 	birb::world world(window);
 	editor::debugging debugging;
@@ -141,6 +140,7 @@ int main(int argc, char** argv)
 			debugging.draw();
 			entity_list.draw();
 			game_viewport.draw();
+			inspector.set_selected(entity_list.selected_entity);
 			inspector.draw();
 			main_menu_bar.draw();
 			perf_widget.draw();

@@ -1,20 +1,31 @@
 #pragma once
 
 #include "Components.hpp"
-#include "EditorWindow.hpp"
+#include "WidgetBase.hpp"
 #include "Scene.hpp"
 
-namespace editor
+#include <entt.hpp>
+
+namespace birb
 {
-	class inspector : public editor_window
+	class inspector : public widget_base
 	{
 	public:
 		explicit inspector(birb::scene& scene);
+
+		void set_selected(entt::entity& entity);
+
+
+		/**
+		 * @brief Draw editor specific stuff
+		 */
+		bool editor_mode = false;
 
 		void draw() override;
 
 	private:
 		birb::scene& scene;
+		entt::entity selected_entity;
 
 		enum class component_type
 		{

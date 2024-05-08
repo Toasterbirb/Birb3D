@@ -1,13 +1,12 @@
 #include "Camera.hpp"
-#include "Components.hpp"
-#include "EntityList.hpp"
+#include "EntityEditor.hpp"
 #include "Inspector.hpp"
 #include "Model.hpp"
 #include "Profiling.hpp"
 
 #include <imgui.h>
 
-namespace editor
+namespace birb
 {
 	inspector::inspector(birb::scene& scene) : scene(scene)
 	{
@@ -18,14 +17,17 @@ namespace editor
 			component_type_str += component_names.at(i).first + '\0';
 	}
 
+	void inspector::set_selected(entt::entity& entity)
+	{
+		selected_entity = entity;
+	}
+
 	void inspector::draw()
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
 		ImGui::Begin("Inspector");
 		{
-			entt::entity& selected_entity = editor::entity_list::selected_entity;
-
 			if (selected_entity != entt::null)
 			{
 				namespace cmp = birb::component;
@@ -40,8 +42,8 @@ namespace editor
 				if (scene.is_duplicate_entity_info_name(reg.get<cmp::info>(selected_entity).name, selected_entity))
 					reg.get<cmp::info>(selected_entity).name = previous_name;
 
-				if (reg.get<cmp::info>(selected_entity).name == entity_list::new_entity_menu_text)
-					reg.get<cmp::info>(selected_entity).name += '_';
+				// if (reg.get<cmp::info>(selected_entity).name == entity_list::new_entity_menu_text)
+				// 	reg.get<cmp::info>(selected_entity).name += '_';
 
 				// Draw UI components for entities in a specific order
 				birb::editor_component::try_draw_ui<cmp::transform>(reg, selected_entity);
@@ -49,6 +51,11 @@ namespace editor
 				birb::editor_component::try_draw_ui<cmp::material>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::model>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::camera>(reg, selected_entity);
+
+				// Draw only editor specific stuff after this point
+#ifdef BIRB_EDITOR
+				if (!editor_mode)
+					return;
 
 				ImGui::Spacing();
 				ImGui::Separator();
@@ -87,6 +94,7 @@ namespace editor
 					reg.destroy(selected_entity);
 					editor::entity_list::selected_entity = entt::null;
 				}
+#endif
 			}
 		}
 		ImGui::End();

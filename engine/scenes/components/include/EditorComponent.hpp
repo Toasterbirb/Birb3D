@@ -22,11 +22,14 @@ namespace birb
 				if (ImGui::CollapsingHeader(component->collapsing_header_name().c_str()))
 				{
 					component->draw_editor_ui();
+
+#ifdef BIRB_EDITOR
 					ImGui::Spacing();
 					ImGui::Separator();
 					ImGui::Spacing();
 					if (ImGui::Button("Delete"))
 						registry.remove<T>(entity);
+#endif
 				}
 			}
 		}

@@ -2,6 +2,7 @@
 #include "CameraInfoOverlay.hpp"
 #include "Components.hpp"
 #include "Entity.hpp"
+#include "Info.hpp"
 #include "Model.hpp"
 #include "PerformanceOverlay.hpp"
 #include "Random.hpp"
@@ -39,8 +40,13 @@ int main(void)
 
 	// Allocate debug windows
 	renderer.debug.alloc_world(window);
+	renderer.debug.alloc_entity_editor(scene);
 
 	birb::entity suzanne = scene.create_entity();
+
+	birb::component::info suzanne_info;
+	suzanne_info.name = "Suzanne";
+	suzanne.add_component(suzanne_info);
 
 	birb::model suzanne_model("suzanne.obj");
 	suzanne.add_component(suzanne_model);

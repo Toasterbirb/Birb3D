@@ -1,12 +1,13 @@
 #pragma once
 
 #include "World.hpp"
+#include "EntityEditor.hpp"
 
 #include <memory>
 
 namespace birb
 {
-	class world;
+	class scene;
 	class window;
 
 	class debug_view
@@ -20,9 +21,11 @@ namespace birb
 		void draw();
 
 		// Widget allocators
+		void alloc_entity_editor(scene& scene);
 		void alloc_world(window& window);
 
 	private:
 		std::unique_ptr<birb::world> world;
+		std::unique_ptr<birb::entity_editor> entity_inspector;
 	};
 }
