@@ -16,6 +16,11 @@ namespace birb
 		time_left = duration;
 	}
 
+	void timer::end()
+	{
+		time_left = 0;
+	}
+
 	bool timer::done()
 	{
 		return time_left <= 0;

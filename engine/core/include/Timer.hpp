@@ -16,6 +16,11 @@ namespace birb
 		void reset();
 
 		/**
+		 * @brief Skip straight to the end of the timer
+		 */
+		void end();
+
+		/**
 		 * @return True if time remaining is <= 0
 		 */
 		bool done();
