@@ -10,7 +10,7 @@
 #include "Scene.hpp"
 #include "ShaderCollection.hpp"
 #include "ShaderRef.hpp"
-#include "Timer.hpp"
+#include "Stopwatch.hpp"
 #include "Timestep.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
@@ -54,13 +54,13 @@ int main(void)
 	std::array<std::array<double, suzanne_count>, suzanne_count> suzanne_entity_construction_duration_arr;
 
 	{
-		birb::timer entity_timer("Entity construction");
+		birb::stopwatch entity_timer("Entity construction");
 
 		for (u16 i = 0; i < suzanne_count; ++i)
 		{
 			for (u16 j = 0; j < suzanne_count; ++j)
 			{
-				birb::timer construction_timer;
+				birb::stopwatch construction_timer;
 
 				birb::entity suzanne = scene.create_entity();
 
@@ -89,7 +89,7 @@ int main(void)
 	}
 
 	const double average_entity_construction_duration = birb::average(suzanne_entity_construction_duration_arr);
-	std::cout << "Average entity construction: " << birb::timer::format_time(average_entity_construction_duration) << "\n";
+	std::cout << "Average entity construction: " << birb::stopwatch::format_time(average_entity_construction_duration) << "\n";
 
 	// Reset camera rotation
 	camera.process_input(window, timestep);
@@ -104,11 +104,11 @@ int main(void)
 		{
 			birb::input input = window.next_input();
 
-			if (input.state == birb::input::action::KEY_DOWN)
+			if (input.state == birb::input::action::key_down)
 			{
 				switch (input.key)
 				{
-					case (birb::input::keycode::MOUSE_1):
+					case (birb::input::keycode::mouse_1):
 						window.lock_cursor_to_window();
 						break;
 

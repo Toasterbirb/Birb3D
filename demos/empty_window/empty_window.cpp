@@ -15,13 +15,13 @@ int main(void)
 		while (window.inputs_available())
 		{
 			birb::input cur_input = window.next_input();
-			if (cur_input.key == birb::input::keycode::ESCAPE && cur_input.state == birb::input::action::KEY_DOWN)
+			if (cur_input.key == birb::input::keycode::escape && cur_input.state == birb::input::action::key_down)
 			{
 				birb::log("Quitting...");
 				window.quit();
 			}
 
-			if (cur_input.key == birb::input::keycode::MOUSE_LEFT && cur_input.state == birb::input::action::KEY_DOWN)
+			if (cur_input.key == birb::input::keycode::mouse_left && cur_input.state == birb::input::action::key_down)
 				birb::log("Mouse click at " + cur_input.pos.to_string());
 		}
 

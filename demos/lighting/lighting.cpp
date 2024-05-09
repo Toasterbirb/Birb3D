@@ -172,11 +172,11 @@ int main(void)
 			birb::input input = window.next_input();
 			switch (input.key)
 			{
-				case birb::input::keycode::ESCAPE:
+				case birb::input::keycode::escape:
 					window.unlock_cursor_from_window();
 					break;
 
-				case birb::input::keycode::MOUSE_1:
+				case birb::input::keycode::mouse_1:
 					window.lock_cursor_to_window();
 					break;
 
@@ -184,11 +184,11 @@ int main(void)
 					break;
 			}
 
-			if (input.state == birb::input::action::KEY_DOWN)
+			if (input.state == birb::input::action::key_down)
 			{
 				switch (input.key)
 				{
-					case birb::input::keycode::R:
+					case birb::input::keycode::r:
 						randomize_positions(cube_positions);
 						break;
 

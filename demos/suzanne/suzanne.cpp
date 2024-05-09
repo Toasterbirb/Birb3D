@@ -79,11 +79,11 @@ int main(void)
 		{
 			birb::input input = window.next_input();
 
-			if (input.state == birb::input::action::KEY_DOWN)
+			if (input.state == birb::input::action::key_down)
 			{
 				switch (input.key)
 				{
-					case (birb::input::keycode::MOUSE_1):
+					case (birb::input::keycode::mouse_1):
 						// window.lock_cursor_to_window();
 						break;
 

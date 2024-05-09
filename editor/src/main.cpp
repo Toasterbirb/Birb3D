@@ -90,18 +90,18 @@ int main(int argc, char** argv)
 			{
 				birb::input input = window.next_input();
 
-				if (input.state == birb::input::action::KEY_DOWN)
+				if (input.state == birb::input::action::key_down)
 				{
 					switch (input.key)
 					{
-						case birb::input::keycode::SCROLLING:
+						case birb::input::keycode::scrolling:
 							{
 								// Scroll the viewport view only if we are hoving over it
 								if (game_viewport.is_window_hovered())
 								{
-									if (window.is_key_held(birb::input::keycode::LEFT_SHIFT))
+									if (window.is_key_held(birb::input::keycode::left_shift))
 										game_viewport.camera.position.y += input.offset.y * viewport_camera.camera_scroll_strength;
-									else if (window.is_key_held(birb::input::keycode::LEFT_CONTROL))
+									else if (window.is_key_held(birb::input::keycode::left_control))
 										game_viewport.camera.position += (static_cast<f32>(input.offset.y * viewport_camera.camera_scroll_strength) * game_viewport.camera.right_vec());
 									else
 										game_viewport.camera.zoom(input.offset.y * viewport_camera.camera_scroll_strength);

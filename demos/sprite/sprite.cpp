@@ -112,7 +112,7 @@ int main(void)
 
 				switch (input.key)
 				{
-					case (birb::input::keycode::SCROLLING):
+					case (birb::input::keycode::scrolling):
 						camera.orthograhpic_scale -= input.offset.y * 0.01;
 						camera.orthograhpic_scale = std::clamp(camera.orthograhpic_scale, 0.001f, 4096.0f);
 						break;
