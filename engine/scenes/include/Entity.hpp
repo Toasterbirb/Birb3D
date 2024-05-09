@@ -17,6 +17,7 @@ namespace birb
 		void add_component(const T& component)
 		{
 			static_assert(!std::is_same<T, birb::entity>::value, "You shouldn't need to use birb::entity as a component");
+			assert(!has_component<T>() && "An entity can only have a singular instance of each component type");
 			parent_scene->add_component(entt_entity, component);
 		}
 
