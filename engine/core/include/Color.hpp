@@ -82,7 +82,7 @@ namespace birb
 		 *
 		 * @param hex Hex encoded RGB value (i.e. 0xFF00FF)
 		 */
-		color(i32 hex)
+		constexpr color(i32 hex)
 		:a(1.0f)
 		{
 			constexpr f32 reverse_division = 1 / 255.0f;
