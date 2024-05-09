@@ -196,19 +196,19 @@ namespace birb
 		while (!engine_input_queue.empty())
 		{
 			// Key down events
-			if (engine_input_queue.front().state == input::action::KEY_DOWN)
+			if (engine_input_queue.front().state == input::action::key_down)
 			{
 				switch(engine_input_queue.front().key)
 				{
-					case birb::input::keycode::F1:
+					case birb::input::keycode::f1:
 						event_bus::send_event(event::toggle_wireframe_rendering_mode);
 						break;
 
-					case birb::input::keycode::F3:
+					case birb::input::keycode::f3:
 						event_bus::send_event(event::toggle_debug_view);
 						break;
 
-					case birb::input::keycode::ESCAPE:
+					case birb::input::keycode::escape:
 						unlock_cursor_from_window();
 						break;
 
@@ -379,9 +379,9 @@ namespace birb
 	void window::update_held_down_keys(const birb::input& input)
 	{
 		// Keep the "held down keys" list up-to-date
-		if (input.state == birb::input::action::KEY_DOWN)
+		if (input.state == birb::input::action::key_down)
 			held_down_keys.insert(input.key);
-		else if (input.state == birb::input::action::KEY_UP)
+		else if (input.state == birb::input::action::key_up)
 			held_down_keys.erase(input.key);
 	}
 
@@ -401,17 +401,17 @@ namespace birb
 		// Handle reserved keybindings
 		switch (new_input.key)
 		{
-			case (input::keycode::F1):
+			case (input::keycode::f1):
 				engine_input_queue.push(new_input);
 				break;
 
-			case (input::keycode::F3):
+			case (input::keycode::f3):
 				engine_input_queue.push(new_input);
 				break;
 
 			// Process the escape key as engine input and also add it to the
 			// game input queue
-			case (input::keycode::ESCAPE):
+			case (input::keycode::escape):
 				engine_input_queue.push(new_input);
 				input_queue.push(new_input);
 				break;
@@ -446,8 +446,8 @@ namespace birb
 		input new_input {
 			.scancode	= 0,
 			.mods		= 0,
-			.key		= input::keycode::SCROLLING,
-			.state		= input::action::KEY_DOWN,
+			.key		= input::keycode::scrolling,
+			.state		= input::action::key_down,
 			.pos		= vec2<f64>(0,0),
 			.offset		= vec2<f64>(xoffset, yoffset),
 		};

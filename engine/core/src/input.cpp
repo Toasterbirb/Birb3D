@@ -10,25 +10,25 @@ namespace birb
 
 	void directional_keys::reset()
 	{
-		up		= birb::input::keycode::W;
-		down	= birb::input::keycode::S;
-		left	= birb::input::keycode::A;
-		right	= birb::input::keycode::D;
+		up		= birb::input::keycode::w;
+		down	= birb::input::keycode::s;
+		left	= birb::input::keycode::a;
+		right	= birb::input::keycode::d;
 	}
 
 	void directional_keys::vim_preset()
 	{
-		up		= birb::input::keycode::K;
-		down	= birb::input::keycode::J;
-		left	= birb::input::keycode::H;
-		right	= birb::input::keycode::L;
+		up		= birb::input::keycode::k;
+		down	= birb::input::keycode::j;
+		left	= birb::input::keycode::h;
+		right	= birb::input::keycode::l;
 	}
 
 	void directional_keys::arrow_key_preset()
 	{
-		up		= birb::input::keycode::UP;
-		down	= birb::input::keycode::DOWN;
-		left	= birb::input::keycode::LEFT;
-		right	= birb::input::keycode::RIGHT;
+		up		= birb::input::keycode::up;
+		down	= birb::input::keycode::down;
+		left	= birb::input::keycode::left;
+		right	= birb::input::keycode::right;
 	}
 }

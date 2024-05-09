@@ -99,7 +99,7 @@ namespace birb
 		{
 			// Skip processing mouse input if the cursor isn't locked to the window
 			// (unless editor mode is active, though with that require mouse3 to be held down)
-			if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && !first_mouse_delta_after_lock)
+			if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::mouse_3))) && !first_mouse_delta_after_lock)
 			{
 				// Calculate cursor positions
 				birb::vec2<f64> new_cursor_pos = window.cursor_pos();
@@ -112,7 +112,7 @@ namespace birb
 				if (!lock_pitch)
 					pitch -= cursor_delta.y * mouse_sensitivity;
 			}
-			else if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::MOUSE_3))) && first_mouse_delta_after_lock)
+			else if ((window::is_cursor_locked_to_window() || (editor_mode && window.is_key_held(input::keycode::mouse_3))) && first_mouse_delta_after_lock)
 			{
 				// Ignore the first mouse click after locking
 				prev_cursor_pos = window.cursor_pos();
