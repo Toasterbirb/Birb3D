@@ -23,6 +23,7 @@ namespace birb
 		std::string name = "Scene";
 
 		birb::entity create_entity();
+		void destroy_entity(const entt::entity& entity);
 		bool is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity = entt::null);
 
 		template<typename T>

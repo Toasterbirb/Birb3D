@@ -27,6 +27,12 @@ namespace birb
 		return birb::entity(this, entt_entity);
 	}
 
+	void scene::destroy_entity(const entt::entity& entity)
+	{
+		assert(registry.valid(entity) && "Attempted to destroy an invalid entity");
+		registry.destroy(entity);
+	}
+
 	bool scene::is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity)
 	{
 		ASSERT(!name.empty());

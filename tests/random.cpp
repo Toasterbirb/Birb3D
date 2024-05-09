@@ -115,3 +115,71 @@ TEST_CASE("Random vectors")
 	CHECK(rnd_vec3_float.z >= 3.0f);
 	CHECK(rnd_vec3_float.z <= 7.0f);
 }
+
+TEST_CASE("Shuffle a vector of integers")
+{
+	constexpr u8 value_count = 128;
+	std::vector<u8> ints_original;
+	std::vector<u8> ints;
+
+	for (u8 i = 0; i < value_count; ++i)
+		ints_original.push_back(i);
+
+	birb::random rng(42);
+
+	ints = rng.shuffle(ints_original);
+
+	CHECK_FALSE(ints == ints_original);
+}
+
+TEST_CASE("Shuffle a vector of integers in-place")
+{
+	constexpr u8 value_count = 128;
+	std::vector<u8> ints_original;
+	std::vector<u8> ints;
+
+	for (u8 i = 0; i < value_count; ++i)
+		ints_original.push_back(i);
+
+	ints = ints_original;
+	CHECK(ints == ints_original);
+
+	birb::random rng(42);
+	rng.shuffle_in_place(ints);
+
+	CHECK_FALSE(ints == ints_original);
+}
+
+TEST_CASE("Shuffle an array of integers")
+{
+	constexpr u8 value_count = 128;
+	std::array<u8, value_count> ints_original;
+	std::array<u8, value_count> ints;
+
+	for (u8 i = 0; i < value_count; ++i)
+		ints_original.at(i) = i;
+
+	birb::random rng(42);
+
+	ints = rng.shuffle(ints_original);
+
+	CHECK_FALSE(ints == ints_original);
+}
+
+TEST_CASE("Shuffle an array of integers in-place")
+{
+	constexpr u8 value_count = 128;
+	std::array<u8, value_count> ints_original;
+	std::array<u8, value_count> ints;
+
+	for (u8 i = 0; i < value_count; ++i)
+		ints_original.at(i) = i;
+
+	ints = ints_original;
+	CHECK(ints == ints_original);
+
+	birb::random rng(42);
+	rng.shuffle_in_place(ints);
+
+	CHECK_FALSE(ints == ints_original);
+}

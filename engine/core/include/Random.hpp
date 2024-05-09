@@ -4,8 +4,9 @@
 #include "Types.hpp"
 #include "Vector.hpp"
 
-#include <random>
+#include <algorithm>
 #include <mutex>
+#include <random>
 #include <type_traits>
 
 namespace birb
@@ -92,6 +93,32 @@ namespace birb
 		vec3<T> range_vec3_float(T min, T max)
 		{
 			return vec3<T>(range_float(min, max), range_float(min, max), range_float(min, max));
+		}
+
+		template<typename T>
+		std::vector<T> shuffle(std::vector<T> vec)
+		{
+			std::shuffle(vec.begin(), vec.end(), rng_engine);
+			return vec;
+		}
+
+		template<typename T>
+		void shuffle_in_place(std::vector<T>& vec)
+		{
+			std::shuffle(vec.begin(), vec.end(), rng_engine);
+		}
+
+		template<typename T, size_t N>
+		std::array<T, N> shuffle(std::array<T, N> arr)
+		{
+			std::shuffle(arr.begin(), arr.end(), rng_engine);
+			return arr;
+		}
+
+		template<typename T, size_t N>
+		void shuffle_in_place(std::array<T, N>& arr)
+		{
+			std::shuffle(arr.begin(), arr.end(), rng_engine);
 		}
 
 	private:
