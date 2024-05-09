@@ -26,6 +26,12 @@ namespace birb
 			return parent_scene->get_component<T>(entt_entity);
 		}
 
+		template<typename T>
+		bool has_component()
+		{
+			return parent_scene->registry.try_get<T>(entt_entity);
+		}
+
 		entt::entity entt() const;
 
 	private:
