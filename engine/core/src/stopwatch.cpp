@@ -1,29 +1,29 @@
-#include "Timer.hpp"
+#include "Stopwatch.hpp"
 
 #include <GLFW/glfw3.h>
 #include <iostream>
 
 namespace birb
 {
-	timer::timer(const std::string& name)
+	stopwatch::stopwatch(const std::string& name)
 	:name(name)
 	{
 		start = glfwGetTime();
 	}
 
-	timer::~timer()
+	stopwatch::~stopwatch()
 	{
 		if (!is_stopped)
 			stop(false);
 	}
 
-	void timer::reset()
+	void stopwatch::reset()
 	{
 		is_stopped = false;
 		start = glfwGetTime();
 	}
 
-	f64 timer::stop(const bool quiet)
+	f64 stopwatch::stop(const bool quiet)
 	{
 		const f64 duration = glfwGetTime() - start;
 		is_stopped = true;
@@ -43,7 +43,7 @@ namespace birb
 		return duration;
 	}
 
-	std::string timer::format_time(const f64 seconds)
+	std::string stopwatch::format_time(const f64 seconds)
 	{
 		if (seconds > 1.0)
 			return std::to_string(seconds) + "s";

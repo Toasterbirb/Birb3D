@@ -6,13 +6,13 @@
 
 namespace birb
 {
-	class timer
+	class stopwatch
 	{
 	public:
-		explicit timer(const std::string& name = "Timer");
-		~timer();
-		timer(const timer&) = default;
-		timer(timer&) = default;
+		explicit stopwatch(const std::string& name = "Stopwatch");
+		~stopwatch();
+		stopwatch(const stopwatch&) = default;
+		stopwatch(stopwatch&) = default;
 
 		void reset();
 		f64 stop(const bool quiet = false);
