@@ -63,8 +63,7 @@ find_program(CCACHE_FOUND ccache)
 find_program(DISTCC_FOUND distcc)
 
 if (DISTCC_FOUND AND NOT BIRB_DISTCC)
-	message("distcc was found, but it won't be used since BIRB_DISTCC is set
-	to OFF")
+	message("distcc was found, but it won't be used since BIRB_DISTCC is set to OFF")
 endif()
 
 if(CCACHE_FOUND AND NOT BIRB_DISTCC)

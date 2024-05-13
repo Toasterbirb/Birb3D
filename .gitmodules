@@ -38,3 +38,6 @@
 [submodule "vendor/libsndfile"]
 	path = vendor/libsndfile
 	url = https://github.com/libsndfile/libsndfile
+[submodule "vendor/cpptrace"]
+	path = vendor/cpptrace
+	url = https://github.com/jeremy-rifkin/cpptrace
