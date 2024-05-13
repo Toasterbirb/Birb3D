@@ -76,7 +76,7 @@ int main(void)
 
 		std::vector<entt::entity> collisions = world.collides_with(cube);
 		if (!collisions.empty())
-			birb::log("Collision", counter++);
+			birb::log("Collision: ", counter++);
 
 		window.clear();
 		renderer.draw_entities(camera.get_view_matrix(), camera.get_projection_matrix(birb::camera::projection_mode::orthographic, window.size()));

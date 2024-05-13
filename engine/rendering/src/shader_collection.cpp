@@ -117,7 +117,7 @@ namespace birb
 		for (std::string vert : shader_src_vert_names)
 		{
 			u64 hash = std::hash<std::string>{}(vert);
-			birb::log("vert:" + std::to_string(hash) + " -> " + vert);
+			birb::log("vert: ", hash, " -> ", vert);
 			vertex_shader_hashes[hash] = vert;
 		}
 
@@ -125,7 +125,7 @@ namespace birb
 		for (std::string frag : shader_src_frag_names)
 		{
 			u64 hash = std::hash<std::string>{}(frag);
-			birb::log("frag:" + std::to_string(hash) + " -> " + frag);
+			birb::log("frag: ", hash, " -> ", frag);
 			fragment_shader_hashes[hash] = frag;
 		}
 

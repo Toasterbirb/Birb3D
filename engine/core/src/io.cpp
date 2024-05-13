@@ -21,7 +21,7 @@ namespace birb
 			std::ifstream file;
 			file.open(path, std::ios::in);
 			if (!file.is_open())
-				birb::log_fatal("Can't open a file at " + path);
+				birb::log_fatal(2, "Can't open a file at " + path);
 
 			std::string file_contents;
 

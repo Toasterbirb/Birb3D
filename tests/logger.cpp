@@ -4,8 +4,8 @@
 TEST_CASE("Logging")
 {
 	birb::log("Logging test");
-	birb::log("Some number", 10);
-	birb::log_warn("Warning test");
-	birb::log_error("Error test");
+	birb::log("Some number: ", 10, ", hello ", "world");
+	birb::log_warn("Warning test: ", 0);
+	birb::log_error("Error test: ", 42);
 	FIXME("Fixme test");
 }

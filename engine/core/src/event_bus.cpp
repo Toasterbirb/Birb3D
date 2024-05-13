@@ -16,7 +16,7 @@ namespace birb
 		{
 			assert(obj != nullptr && "Can register event_id for a null pointer");
 
-			birb::log("Event ID " + std::to_string(event_id) + " registered to " + birb::ptr_to_str(obj));
+			birb::log("Event ID ", event_id, " registered to ", birb::ptr_to_str(obj));
 
 			event_bus_registry[event_id].push_back(obj);
 		}
@@ -25,7 +25,7 @@ namespace birb
 		{
 			assert(obj != nullptr && "Can unregister event_id for a null pointer");
 
-			birb::log("Event ID " + std::to_string(event_id) + " unregistered for " + birb::ptr_to_str(obj));
+			birb::log("Event ID ", event_id, " unregistered for ", birb::ptr_to_str(obj));
 
 			std::vector<event_obj*>& event_objs = event_bus_registry.at(event_id);
 			event_objs.erase(std::remove_if(event_objs.begin(), event_objs.end(),
@@ -47,7 +47,7 @@ namespace birb
 			// Drop events that have no subscribers
 			if (!event_bus_registry.contains(event_id))
 			{
-				birb::log_warn("Tried to send an event with an ID (" + std::to_string(event_id) + ") that no one has registered");
+				birb::log_warn("Tried to send an event with an ID (", event_id, ") that no one has registered");
 				return;
 			}
 

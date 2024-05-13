@@ -14,61 +14,52 @@ namespace birb
 	/**
 	 * @brief Print debug level information
 	 *
-	 * Example output:
-	 * 	[L] Value: 4
-	 *
-	 * @param label
-	 * @param data
+	 * @param args Text to print
 	 */
-	template<typename T>
-	static void log(const std::string& label, T data)
+	template<class... Args>
+	void log(Args... args)
 	{
-		std::cout << "[L] " << label << ": " << data << "\n";
+		std::cout << "[L] ";
+		(std::cout << ... << args) << "\n";
 	}
-
-	/**
-	 * @brief Print a red error message
-	 *
-	 * Example output:
-	 * 	[E] Value: 4
-	 *
-	 * @param label
-	 * @param data
-	 */
-	template<typename T>
-	static void log_error(const std::string& label, T data)
-	{
-		std::cout << "[E] " << label << ": " << data << "\n";
-	}
-
-	/**
-	 * @brief Print debug level information
-	 *
-	 * @param text Text to print
-	 */
-	void log(const std::string& text);
 
 	/**
 	 * @brief Print a yellow warning message
 	 *
-	 * @param text Warning text to print
+	 * @param args Warning text to print
 	 */
-	void log_warn(const std::string& text);
+	template<class... Args>
+	void log_warn(Args... args)
+	{
+		std::cout << "\033[33m[W] ";
+		(std::cout << ... << args) << "\033[0m\n";
+	}
 
 	/**
 	 * @brief Print a red error message
 	 *
-	 * @param text Error text to print
+	 * @param args Error text to print
 	 */
-	void log_error(const std::string& text);
+	template<class... Args>
+	void log_error(Args... args)
+	{
+		std::cerr << "\033[31m[E] ";
+		(std::cerr << ... << args) << "\033[0m\n";
+	}
 
 	/**
 	 * @brief Print a fatal error and crash the program
 	 *
-	 * @param text Error text to print
 	 * @param exit_code Exit code that will be used when quitting the program
+	 * @param args Error text to print
 	 */
-	void log_fatal(const std::string& text, const u8 exit_code = 1);
+	template<class... Args>
+	void log_fatal(const u8 exit_code, Args... args)
+	{
+		std::cerr << "\033[31mFATAL ERROR: ";
+		(std::cerr << ... << args) << "\033[0m\n";
+		exit(exit_code);
+	}
 
 	/**
 	 * @brief Helper function for converting 64-bit pointers to a string

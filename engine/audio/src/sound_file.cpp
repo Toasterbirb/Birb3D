@@ -40,7 +40,7 @@ namespace birb
 
 		assert(!file_path.empty());
 
-		log("Loading sound file", file_path);
+		log("Loading sound file: ", file_path);
 
 		SNDFILE* sndfile = sf_open(file_path.c_str(), SFM_READ, &sfinfo);
 
@@ -61,7 +61,7 @@ namespace birb
         byteblockalign = sfinfo.channels * 4;
 		format = AL_FORMAT_STEREO_FLOAT32;
 
-		log("Channel count", sfinfo.channels);
+		log("Channel count: ", sfinfo.channels);
 		assert(sfinfo.channels == 2 && "Channel count of two required for now");
 
 		if(sfinfo.frames / splblockalign > static_cast<sf_count_t>(INT_MAX / byteblockalign))
@@ -74,7 +74,7 @@ namespace birb
 		std::unique_ptr<f32, free_delete> file_buffer(static_cast<f32*>(malloc(sfinfo.frames / splblockalign * byteblockalign)));
         frame_count = sf_readf_float(sndfile, file_buffer.get(), sfinfo.frames);
 		assert(alGetError() == AL_NO_ERROR);
-		log("Frame count", frame_count);
+		log("Frame count: ", frame_count);
 
 		if (frame_count < 1)
 		{
@@ -87,7 +87,7 @@ namespace birb
 		// Load the audio into a buffer
 		audio_buffer = 0;
 		alGenBuffers(1, &audio_buffer);
-		log("Block align", splblockalign);
+		log("Block align: ", splblockalign);
 		assert(splblockalign == 1 && "Only block alignment of one is supported at the moment");
 		alBufferData(audio_buffer, format, file_buffer.get(), byte_count, sfinfo.samplerate);
 		sf_close(sndfile);
@@ -95,7 +95,7 @@ namespace birb
 		ALenum err = alGetError();
 		if(err != AL_NO_ERROR)
 		{
-			log_error("OpenAL Error: %s\n", alGetString(err));
+			log_error("OpenAL Error: ", alGetString(err));
 			if(audio_buffer && alIsBuffer(audio_buffer))
 				alDeleteBuffers(1, &audio_buffer);
 			return false;

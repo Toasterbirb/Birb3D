@@ -28,7 +28,7 @@ namespace birb
 		else
 		{
 			if ((error = alGetError()) != AL_NO_ERROR)
-				birb::log_error("alcDevice", error);
+				birb::log_error("alcDevice ", error);
 
 			return;
 		}

@@ -208,7 +208,7 @@ namespace birb
 
 
 					default:
-						birb::log_fatal("Unsupported project version: " + std::to_string(version));
+						birb::log_fatal(1, "Unsupported project version: ", version);
 						break;
 				}
 			}

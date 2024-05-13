@@ -26,7 +26,7 @@ namespace editor
 					char filename[max_filename_len];
 					FILE* file = popen("zenity --file-selection", "r");
 					assert(fgets(filename, max_filename_len, file) != nullptr);
-					birb::log("File name", filename);
+					birb::log("File name: ", filename);
 				}
 
 				if (ImGui::MenuItem("Save"))

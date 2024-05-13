@@ -96,7 +96,7 @@ namespace birb
 
 		glBindTexture(tex_type, 0);
 
-		birb::log("Texture loaded [" + std::string(image_path) + "] (" + ptr_to_str(this) + ")");
+		birb::log("Texture loaded [", image_path, "] (", ptr_to_str(this), ")");
 	}
 
 	texture::~texture()

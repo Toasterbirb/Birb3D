@@ -359,7 +359,7 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER("Shader compiling")
 
-			birb::log("Compiling shader [" + vertex + ", " + fragment + "] (" + birb::ptr_to_str(this) + ")");
+			birb::log("Compiling shader [", vertex, ", ", fragment, "] (", birb::ptr_to_str(this), ")");
 
 			u32 vertex_shader = compile_gl_shader_program(vertex_name, vertex_src_c_str, shader_type::vertex);
 			assert(vertex_shader != 0);
@@ -383,7 +383,7 @@ namespace birb
 		{
 			shader_id = shader_cache.at(shader_name);
 			shader_cache_hit_count++;
-			birb::log("Loaded shader from cache: " + shader_name + " (" + std::to_string(shader_id) + ")");
+			birb::log("Loaded shader from cache: ", shader_name, " (", shader_id, ")");
 			return shader_id;
 		}
 
@@ -393,7 +393,7 @@ namespace birb
 		compile_errors(shader_id, type);
 
 		shader_cache[shader_name] = shader_id;
-		birb::log("Shader program cached: " + shader_name + " (" + std::to_string(shader_id) + ")");
+		birb::log("Shader program cached: ", shader_name, " (", shader_id, ")");
 		return shader_id;
 	}
 

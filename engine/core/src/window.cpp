@@ -38,7 +38,7 @@ namespace birb
 		event_bus::register_event_id(event::set_window_background_clear_color, this); // Set window background clear color | f32[3]
 
 		if (window_count != 0)
-			birb::log_fatal("There can only be one window at any given time");
+			birb::log_fatal(1, "There can only be one window at any given time");
 
 		assert(!title.empty() && "Empty window title");
 		assert(dimensions.x > 0 && "Invalid window width");
@@ -51,7 +51,7 @@ namespace birb
 		// Initialize the glfw library
 		birb::log("Initializing GLFW");
 		if (!glfwInit())
-			birb::log_fatal("Can't initialize GLFW");
+			birb::log_fatal(1, "Can't initialize GLFW");
 
 		// Set some hints
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -64,7 +64,7 @@ namespace birb
 		if (!glfw_window)
 		{
 			glfwTerminate();
-			birb::log_fatal("Can't create a new GLFW window");
+			birb::log_fatal(1, "Can't create a new GLFW window");
 		}
 
 		// Set GLFW callback functions
@@ -457,7 +457,7 @@ namespace birb
 
 	void window::error_callback(i32 error, const char* description)
 	{
-		birb::log_error("GLFW error [" + std::to_string(error) + "]: " + std::string(description));
+		birb::log_error("GLFW error [", error, "]: ", description);
 	}
 
 	void window::window_size_callback(GLFWwindow* window, i32 width, i32 height)

@@ -148,7 +148,7 @@ namespace birb
 
 			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 			{
-				birb::log_error("assimp error: " + std::string(importer.GetErrorString()));
+				birb::log_error("assimp error: ", importer.GetErrorString());
 				return;
 			}
 
@@ -175,7 +175,7 @@ namespace birb
 
 		assert(primitive_mesh_data.contains(mesh) && "Mesh was not found from primitive mesh data hashmap");
 
-		birb::log("Loading a model from memory", name);
+		birb::log("Loading a model from memory: ", name);
 
 		this->mesh_data_index = mesh;
 		this->mesh_data_name = name;
@@ -186,7 +186,7 @@ namespace birb
 
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-			birb::log_error("assimp error: " + std::string(importer.GetErrorString()));
+			birb::log_error("assimp error: ", importer.GetErrorString());
 			return;
 		}
 
