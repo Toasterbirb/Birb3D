@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Assert.hpp"
 #include "Types.hpp"
 
 #include <array>
-#include <cassert>
 #include <iostream>
 #include <string>
 
@@ -63,10 +63,10 @@ namespace birb
 		 */
 		color(i32 r, i32 g, i32 b, i32 a = 255)
 		{
-			assert(r >= 0 && r <= 255);
-			assert(g >= 0 && r <= 255);
-			assert(b >= 0 && b <= 255);
-			assert(a >= 0 && a <= 255);
+			ASSERT(r >= 0 && r <= 255);
+			ASSERT(g >= 0 && r <= 255);
+			ASSERT(b >= 0 && b <= 255);
+			ASSERT(a >= 0 && a <= 255);
 
 			constexpr f32 reverse_division = 1 / 255.0f;
 			this->r = r * reverse_division;

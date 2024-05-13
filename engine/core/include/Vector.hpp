@@ -1,9 +1,9 @@
 #pragma once
 
+#include "Assert.hpp"
 #include "Types.hpp"
 
 #include <array>
-#include <cassert>
 #include <cmath>
 #include <string>
 #include <iostream>
@@ -33,7 +33,7 @@ namespace birb
 		/// Returns the normalization of the vector
         constexpr vec2<T> normalized() const
 		{
-			assert(magnitude() != 0 && "Zero division");
+			ASSERT_MSG(magnitude() != 0, "Zero division");
 			return *this / magnitude();
 		}
 
@@ -128,15 +128,15 @@ namespace birb
 
         constexpr vec2<T> operator/(const vec2<T>& other) const
         {
-			assert(other.x != 0 && "Zero division");
-			assert(other.y != 0 && "Zero division");
+			ASSERT_MSG(other.x != 0, "Zero division");
+			ASSERT_MSG(other.y != 0, "Zero division");
 			return vec2<T>(x / other.x, y / other.y);
         }
 
         constexpr vec2<T>& operator/=(const vec2<T>& other)
         {
-			assert(other.x != 0 && "Zero division");
-			assert(other.y != 0 && "Zero division");
+			ASSERT_MSG(other.x != 0, "Zero division");
+			ASSERT_MSG(other.y != 0, "Zero division");
 			x /= other.x;
 			y /= other.y;
 			return *this;
@@ -144,7 +144,7 @@ namespace birb
 
         constexpr vec2<T> operator/(T other) const
         {
-			assert(other != 0 && "Zero division");
+			ASSERT_MSG(other != 0, "Zero division");
 			return vec2<T>(x / other, y / other);
         }
 
@@ -200,7 +200,7 @@ namespace birb
 		/// Returns the normalization of the vector
         constexpr vec3<T> normalized() const
 		{
-			assert(magnitude() != 0 && "Zero division");
+			ASSERT_MSG(magnitude() != 0, "Zero division");
 			return *this / magnitude();
 		}
 
@@ -303,17 +303,17 @@ namespace birb
 
         constexpr vec3<T> operator/(const vec3<T>& other) const
         {
-			assert(other.x != 0 && "Zero division");
-			assert(other.y != 0 && "Zero division");
-			assert(other.z != 0 && "Zero division");
+			ASSERT_MSG(other.x != 0, "Zero division");
+			ASSERT_MSG(other.y != 0, "Zero division");
+			ASSERT_MSG(other.z != 0, "Zero division");
 			return vec3<T>(x / other.x, y / other.y, z / other.z);
         }
 
         constexpr vec3<T>& operator/=(const vec3<T>& other)
         {
-			assert(other.x != 0 && "Zero division");
-			assert(other.y != 0 && "Zero division");
-			assert(other.z != 0 && "Zero division");
+			ASSERT_MSG(other.x != 0, "Zero division");
+			ASSERT_MSG(other.y != 0, "Zero division");
+			ASSERT_MSG(other.z != 0, "Zero division");
 			x /= other.x;
 			y /= other.y;
 			z /= other.z;
@@ -322,7 +322,7 @@ namespace birb
 
         constexpr vec3<T> operator/(T other) const
         {
-			assert(other != 0 && "Zero division");
+			ASSERT_MSG(other != 0, "Zero division");
 			return vec3<T>(x / other, y / other, z / other);
         }
 

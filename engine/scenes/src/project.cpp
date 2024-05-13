@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "Components.hpp"
 #include "Globals.hpp"
 #include "IO.hpp"
@@ -7,7 +8,6 @@
 #include "ProjectJsonKeys.hpp"
 #include "Window.hpp"
 
-#include <cassert>
 #include <cereal/archives/binary.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/vector.hpp>
@@ -26,14 +26,14 @@ namespace birb
 	project::project(const std::string& path)
 	:file_path(path)
 	{
-		assert(!path.empty());
+		ASSERT(!path.empty());
 
 		load(path);
 	}
 
 	void project::load(const std::string& path)
 	{
-		assert(!path.empty());
+		ASSERT(!path.empty());
 
 		file_path = path;
 
@@ -166,8 +166,8 @@ namespace birb
 
 	void project::load_project()
 	{
-		assert(birb::opengl_initialized && "OpenGL needs to have been initialized before projects can be loaded");
-		assert(project_loaded == false);
+		ASSERT_MSG(birb::opengl_initialized, "OpenGL needs to have been initialized before projects can be loaded");
+		ASSERT(project_loaded == false);
 		project_loaded = true;
 
 		birb::log("Loading project: " + file_path);
@@ -261,7 +261,7 @@ namespace birb
 
 	void project::write_empty_project_to_file(const std::string& dest_path)
 	{
-		assert(!dest_path.empty());
+		ASSERT(!dest_path.empty());
 
 		nlohmann::json json = default_project();
 

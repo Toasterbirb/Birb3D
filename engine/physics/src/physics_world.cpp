@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "BoxCollider.hpp"
 #include "Entity.hpp"
 #include "GravityForce.hpp"
@@ -13,13 +14,13 @@ namespace birb
 
 	void physics_world::set_scene(scene& scene)
 	{
-		assert(scene::scene_count() > 0);
+		ASSERT(scene::scene_count() > 0);
 		current_scene = &scene;
 	}
 
 	void physics_world::tick(f64 deltatime)
 	{
-		assert(current_scene != nullptr && "Current scene has not been set");
+		ASSERT(current_scene != nullptr && "Current scene has not been set");
 
 		entt::registry& registry = current_scene->registry;
 
@@ -53,12 +54,12 @@ namespace birb
 
 	std::vector<entt::entity> physics_world::collides_with(const entt::entity& entity)
 	{
-		assert(current_scene != nullptr && "Current scene has not been set");
+		ASSERT(current_scene != nullptr && "Current scene has not been set");
 
 		std::vector<entt::entity> colliding_entities;
 
 		entt::registry& registry = current_scene->registry;
-		assert(registry.try_get<collider::box>(entity) && "Tried to check collision with an entity that doesn't have a box collider on it");
+		ASSERT(registry.try_get<collider::box>(entity) && "Tried to check collision with an entity that doesn't have a box collider on it");
 		collider::box& target_collider = registry.get<collider::box>(entity);
 
 		const auto view = registry.view<collider::box>();

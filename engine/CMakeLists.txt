@@ -110,7 +110,6 @@ if (NOT BIRB_DISTCC)
 			<Logger.hpp>
 			<Profiling.hpp>
 			<Types.hpp>
-			<cassert>
 
 		PRIVATE
 			# Headers that probably won't be changed that often

@@ -1,5 +1,6 @@
 #pragma GCC diagnostic ignored "-Wunused-parameter"
 
+#include "Assert.hpp"
 #include "EventBus.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
@@ -10,7 +11,6 @@
 #include <algorithm>
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
-#include <cassert>
 #include <queue>
 #include <string>
 #include <imgui.h>
@@ -40,9 +40,9 @@ namespace birb
 		if (window_count != 0)
 			birb::log_fatal(1, "There can only be one window at any given time");
 
-		assert(!title.empty() && "Empty window title");
-		assert(dimensions.x > 0 && "Invalid window width");
-		assert(dimensions.y > 0 && "Invalid window height");
+		ASSERT_MSG(!title.empty(), "Empty window title");
+		ASSERT_MSG(dimensions.x > 0, "Invalid window width");
+		ASSERT_MSG(dimensions.y > 0, "Invalid window height");
 
 		window_count++;
 
@@ -186,8 +186,8 @@ namespace birb
 			window::window_size_changed = false;
 			glfwGetWindowSize(glfw_window, &dimensions.x, &dimensions.y);
 
-			assert(dimensions.x != 0 && "Chance for a zero division");
-			assert(dimensions.y != 0 && "Chance for a zero division");
+			ASSERT_MSG(dimensions.x != 0, "Chance for a zero division");
+			ASSERT_MSG(dimensions.y != 0, "Chance for a zero division");
 
 			glViewport(0, 0, dimensions.x, dimensions.y);
 		}
@@ -228,7 +228,7 @@ namespace birb
 
 	input window::next_input()
 	{
-		assert(!input_queue.empty() && "Tried to read inputs when there were none. Remember to check inputs_available() before calling this function.");
+		ASSERT_MSG(!input_queue.empty(), "Tried to read inputs when there were none. Remember to check inputs_available() before calling this function.");
 
 		input top_input = input_queue.front();
 		input_queue.pop();

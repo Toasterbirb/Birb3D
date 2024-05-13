@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "Color.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
@@ -8,7 +9,6 @@
 #include "ShaderUniforms.hpp"
 
 #include <array>
-#include <cassert>
 #include <filesystem>
 #include <glad/gl.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -36,14 +36,14 @@ namespace birb
 		static_assert(point_light_count < 8192, "Arbitrary limitation, but you are probably doing something wrong");
 
 		compile_shader(shader_name, shader_name);
-		assert(id != 0);
+		ASSERT(id != 0);
 	}
 
 	shader::shader(const std::string& vertex, const std::string& fragment)
 	:vertex_shader_name(vertex), fragment_shader_name(fragment)
 	{
 		compile_shader(vertex, fragment);
-		assert(id != 0);
+		ASSERT(id != 0);
 	}
 
 	shader::shader(const shader& other)
@@ -64,13 +64,13 @@ namespace birb
 
 		reset_lights();
 
-		assert(id != 0);
+		ASSERT(id != 0);
 	}
 
 	shader::~shader()
 	{
-		assert(id != 0 && "Tried to destroy a shader that wasn't loaded");
-		assert(birb::opengl_initialized);
+		ASSERT_MSG(id != 0, "Tried to destroy a shader that wasn't loaded");
+		ASSERT(birb::opengl_initialized);
 
 		birb::log("Shader destroyed [" + vertex_shader_name + ", " + fragment_shader_name + "] (" + birb::ptr_to_str(this) + ")");
 		glDeleteProgram(this->id);
@@ -148,7 +148,7 @@ namespace birb
 
 	void shader::set_int(const std::string& name, const i32 value)
 	{
-		assert(!name.empty());
+		ASSERT(!name.empty());
 
 		add_uniform_location(name);
 
@@ -182,8 +182,8 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		assert(!vertex_shader_name.empty());
-		assert(!fragment_shader_name.empty());
+		ASSERT(!vertex_shader_name.empty());
+		ASSERT(!fragment_shader_name.empty());
 
 		ImGui::Text("Vertex: %s", vertex_shader_name.c_str());
 		ImGui::Text("Fragment: %s", fragment_shader_name.c_str());
@@ -210,8 +210,8 @@ namespace birb
 
 	void shader::compile()
 	{
-		assert(vertex_shader_name != "NULL");
-		assert(fragment_shader_name != "NULL");
+		ASSERT(vertex_shader_name != "NULL");
+		ASSERT(fragment_shader_name != "NULL");
 
 		compile_shader(vertex_shader_name, fragment_shader_name);
 	}
@@ -237,7 +237,7 @@ namespace birb
 
 		birb::log("Clearing shader cache");
 
-		assert(birb::opengl_initialized);
+		ASSERT(birb::opengl_initialized);
 
 		// Free all of the shaders
 		for (const std::pair<std::string, u32> shader : shader_cache)
@@ -259,7 +259,7 @@ namespace birb
 
 	void shader::add_uniform_location(const std::string& name)
 	{
-		assert(!name.empty() && "Empty uniform name");
+		ASSERT_MSG(!name.empty(), "Empty uniform name");
 
 		i32 location = try_add_uniform_location(name);
 
@@ -269,7 +269,7 @@ namespace birb
 
 	i32 shader::try_add_uniform_location(const std::string& name)
 	{
-		assert(!name.empty() && "Empty uniform name");
+		ASSERT_MSG(!name.empty(), "Empty uniform name");
 
 		// Don't fetch the uniform location if its already in the hashmap
 		i32 location = -1;
@@ -290,14 +290,14 @@ namespace birb
 
 	std::string shader::load_shader_src(const std::string& shader_name) const
 	{
-		assert(!shader_name.empty());
+		ASSERT(!shader_name.empty());
 
 		// Try to fetch the shader from builtin shaders
 		if (shader_src.contains(shader_name))
 			return shader_src.at(shader_name);
 
 		// Resort to loading external shaders
-		assert(!shader_src_search_paths.empty() && "Tried to find shader source code with an empty search path array");
+		ASSERT_MSG(!shader_src_search_paths.empty(), "Tried to find shader source code with an empty search path array");
 
 		const std::string file_name = shader_name + ".glsl";
 
@@ -315,12 +315,12 @@ namespace birb
 
 	void shader::compile_shader(const std::string& vertex, const std::string& fragment)
 	{
-		assert(!shader_src.empty() && "The shader source code hashmap is empty");
-		assert(!vertex.empty() && "Empty vertex shader name string");
-		assert(!fragment.empty() && "Empty fratment shader name string");
+		ASSERT_MSG(!shader_src.empty(), "The shader source code hashmap is empty");
+		ASSERT_MSG(!vertex.empty(), "Empty vertex shader name string");
+		ASSERT_MSG(!fragment.empty(), "Empty fratment shader name string");
 
-		assert(vertex_shader_name == vertex && "Bug in the shader constructor");
-		assert(fragment_shader_name == fragment && "Bug in shader the constructor");
+		ASSERT_MSG(vertex_shader_name == vertex, "Bug in the shader constructor");
+		ASSERT_MSG(fragment_shader_name == fragment, "Bug in shader the constructor");
 
 		std::string vertex_name = vertex + "_vert";
 		std::string fragment_name = fragment + "_frag";
@@ -335,8 +335,8 @@ namespace birb
 		// use the "missing shader" -shader
 		if (vertex_src.empty() || fragment_src.empty())
 		{
-			assert(shader_src.contains(missing_shader_vert));
-			assert(shader_src.contains(missing_shader_frag));
+			ASSERT(shader_src.contains(missing_shader_vert));
+			ASSERT(shader_src.contains(missing_shader_frag));
 
 			vertex_shader_name = "missing";
 			fragment_shader_name = "missing";
@@ -349,8 +349,8 @@ namespace birb
 			fragment_src = shader_src.at(missing_shader_frag);
 		}
 
-		assert(!vertex_src.empty());
-		assert(!fragment_src.empty());
+		ASSERT(!vertex_src.empty());
+		ASSERT(!fragment_src.empty());
 
 		const char* vertex_src_c_str = vertex_src.c_str();
 		const char* fragment_src_c_str = fragment_src.c_str();
@@ -362,10 +362,10 @@ namespace birb
 			birb::log("Compiling shader [", vertex, ", ", fragment, "] (", birb::ptr_to_str(this), ")");
 
 			u32 vertex_shader = compile_gl_shader_program(vertex_name, vertex_src_c_str, shader_type::vertex);
-			assert(vertex_shader != 0);
+			ASSERT(vertex_shader != 0);
 
 			u32 fragment_shader = compile_gl_shader_program(fragment_name, fragment_src_c_str, shader_type::fragment);
-			assert(fragment_shader != 0);
+			ASSERT(fragment_shader != 0);
 
 			this->id = glCreateProgram();
 			glAttachShader(this->id, vertex_shader);
@@ -414,7 +414,7 @@ namespace birb
 				break;
 		}
 
-		assert(0 && "Unhandled shader type name");
+		ASSERT_MSG(0, "Unhandled shader type name");
 		return "NULL";
 	}
 

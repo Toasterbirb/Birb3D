@@ -1,7 +1,6 @@
+#include "Assert.hpp"
 #include "AudioPlayer.hpp"
 #include "Profiling.hpp"
-
-#include <cassert>
 
 namespace birb
 {
@@ -26,7 +25,7 @@ namespace birb
 			}
 		}
 
-		assert(audio_sources.size() < 255 && "Audio source count limit reached");
+		ASSERT_MSG(audio_sources.size() < 255, "Audio source count limit reached");
 
 		// No free source was found, so we'll need to allocate a new one
 		audio_sources.push_back(std::make_shared<audio_source>());

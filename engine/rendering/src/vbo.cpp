@@ -1,7 +1,7 @@
+#include "Assert.hpp"
 #include "Globals.hpp"
 #include "VBO.hpp"
 
-#include <cassert>
 #include <glad/gl.h>
 #include <vector>
 
@@ -9,22 +9,22 @@ namespace birb
 {
 	vbo::vbo(const std::vector<f32>& vertices, const bool static_draw)
 	{
-		assert(!vertices.empty() && "Empty vertex array");
-		assert(vertices.size() < 33000 && "You might wanna check the vert count on that model");
+		ASSERT_MSG(!vertices.empty(), "Empty vertex array");
+		ASSERT_MSG(vertices.size() < 33000, "You might wanna check the vert count on that model");
 
 		load(vertices.data(), vertices.size(), static_draw);
 	}
 
 	vbo::~vbo()
 	{
-		assert(birb::opengl_initialized);
+		ASSERT(birb::opengl_initialized);
 		glDeleteBuffers(1, &id);
 	}
 
 	void vbo::load(const f32* vertices, const size_t size, const bool static_draw)
 	{
-		assert(id == 0);
-		assert(size > 0);
+		ASSERT(id == 0);
+		ASSERT(size > 0);
 
 		glGenBuffers(1, &id);
 		glBindBuffer(GL_ARRAY_BUFFER, id);

@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "Line.hpp"
 #include "Math.hpp"
 #include "VBO.hpp"
@@ -17,6 +18,6 @@ namespace birb
 		transform.position = center(point_a, point_b);
 
 		// Calculate the size of the line
-		assert(false == true && "TODO");
+		ASSERT(false == true && "TODO");
 	}
 }

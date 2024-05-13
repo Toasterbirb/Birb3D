@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
 #include "Math.hpp"
@@ -6,7 +7,6 @@
 #include "Timestep.hpp"
 
 #include <algorithm>
-#include <cassert>
 #include <imgui.h>
 #include <stb_sprintf.h>
 
@@ -52,16 +52,16 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER_FN()
 
-			assert(imgui_initialized);
-			assert(!ts.frametime_history.empty());
+			ASSERT(imgui_initialized);
+			ASSERT(!ts.frametime_history.empty());
 
 			f32 frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			f32 frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
 			f32 average_frametime = birb::average(ts.frametime_history);
 
-			assert(frametime_min != 0 && "Zero division");
-			assert(frametime_max != 0 && "Zero division");
-			assert(average_frametime != 0 && "Zero division");
+			ASSERT_MSG(frametime_min != 0, "Zero division");
+			ASSERT_MSG(frametime_max != 0, "Zero division");
+			ASSERT_MSG(average_frametime != 0, "Zero division");
 
 			if (is_overlay)
 			{
@@ -100,7 +100,7 @@ namespace birb
 #ifdef BIRB_PLATFORM_LINUX
 				// Memory usage
 				//   Update the graph if the last value has changed
-				assert(!memory_history.empty() && "Empty memory history will cause an out-of-bounds read");
+				ASSERT_MSG(!memory_history.empty(), "Empty memory history will cause an out-of-bounds read");
 				i64 memory_usage = resident_memory_usage();
 				if (memory_history.at(memory_history.size() - 1) != memory_usage)
 				{

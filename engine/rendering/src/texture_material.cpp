@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "Profiling.hpp"
 #include "ShaderUniforms.hpp"
 #include "TextureMaterial.hpp"
@@ -7,8 +8,8 @@ namespace birb
 	texture_material::texture_material(const std::string& diffuse_map, const std::string& specular_map, f32 shininess)
 	:shininess(shininess)
 	{
-		assert(!diffuse_map.empty());
-		assert(!specular_map.empty());
+		ASSERT(!diffuse_map.empty());
+		ASSERT(!specular_map.empty());
 
 		diffuse.load(diffuse_map.c_str(), 0, color_format::RGB);
 		specular.load(specular_map.c_str(), 1, color_format::RGB);

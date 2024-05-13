@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "Globals.hpp"
 #include "Profiling.hpp"
 #include "RBO.hpp"
@@ -11,9 +12,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		assert(id == 0);
+		ASSERT(id == 0);
 		glGenRenderbuffers(1, &id);
-		assert(id != 0 && "Failed to create a render buffer object");
+		ASSERT(id != 0 && "Failed to create a render buffer object");
 
 		glBindRenderbuffer(GL_RENDERBUFFER, id);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, dimensions.x, dimensions.y);
@@ -23,8 +24,8 @@ namespace birb
 
 	rbo::~rbo()
 	{
-		assert(id != 0);
-		assert(birb::opengl_initialized);
+		ASSERT(id != 0);
+		ASSERT(birb::opengl_initialized);
 		glDeleteRenderbuffers(1, &id);
 	}
 }

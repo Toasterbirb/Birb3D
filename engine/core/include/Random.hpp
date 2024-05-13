@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Assert.hpp"
 #include "Types.hpp"
 #include "Vector.hpp"
 
@@ -45,11 +46,11 @@ namespace birb
 		T range(T min, T max)
 		{
 			static_assert(!std::is_same<T, f32>::value && !std::is_same<T, f64>::value, "Random integers can't be generated with a floating point range");
-			assert(min <= max);
+			ASSERT(min <= max);
 
 			T value = rng_engine() % (max + 1 - min) + min;
-			assert(value >= min);
-			assert(value <= max);
+			ASSERT(value >= min);
+			ASSERT(value <= max);
 			return value;
 		}
 
@@ -62,12 +63,12 @@ namespace birb
 		T range_float(T min, T max)
 		{
 			static_assert(std::is_same<T, f32>::value || std::is_same<T, f64>::value, "range_float() only works with floating point ranges");
-			assert(min <= max);
+			ASSERT(min <= max);
 
 			T multiplier = (static_cast<T>(rng_engine())) / rng_engine.max();
 			T value = (multiplier * (max - min)) + min;
-			assert(value >= min);
-			assert(value <= max);
+			ASSERT(value >= min);
+			ASSERT(value <= max);
 			return value;
 		}
 

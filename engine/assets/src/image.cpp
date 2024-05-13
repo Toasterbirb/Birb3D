@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "Image.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
@@ -11,7 +12,7 @@ namespace birb
 		image::image(const char* path, bool flip_vertically)
 		{
 			PROFILER_SCOPE_IO_FN();
-			assert(path != nullptr && "Invalid image path");
+			ASSERT(path != nullptr && "Invalid image path");
 
 			stbi_set_flip_vertically_on_load(flip_vertically);
 

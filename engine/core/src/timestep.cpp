@@ -1,9 +1,9 @@
-#include "Timestep.hpp"
+#include "Assert.hpp"
 #include "Math.hpp"
 #include "Profiling.hpp"
+#include "Timestep.hpp"
 
 #include <algorithm>
-#include <cassert>
 #include <GLFW/glfw3.h>
 #include <chrono>
 #include <thread>
@@ -54,10 +54,10 @@ namespace birb
 		frametime_history.at(frametime_history.size() - 1) = _deltatime;
 
 		// Update framebudget history
-		assert(!framebudget_history.empty());
+		ASSERT(!framebudget_history.empty());
 		framebudget_history.pop_front();
 
-		assert(target_frametime != 0 && "Zero division");
+		ASSERT_MSG(target_frametime != 0, "Zero division");
 		framebudget_history.push_back(1 - (delay_time / target_frametime));
 
 		// Delay to keep up the target framerate
@@ -88,7 +88,7 @@ namespace birb
 
 	f64 timestep::fps() const
 	{
-		assert(_deltatime != 0 && "Zero division");
+		ASSERT_MSG(_deltatime != 0, "Zero division");
 		return 1.0 / _deltatime;
 	}
 
@@ -99,14 +99,14 @@ namespace birb
 
 	void timestep::set_target_fps(f64 target_fps)
 	{
-		assert(target_fps != 0 && "Zero division");
-		assert(target_fps > 0 && "Target FPS below zero is not valid");
+		ASSERT_MSG(target_fps != 0, "Zero division");
+		ASSERT_MSG(target_fps > 0, "Target FPS below zero is not valid");
 
 		this->target_fps = target_fps;
 
 		// Convert the target fps to frametime in milliseconds
 		target_frametime = 1.0 / target_fps;
-		assert(target_frametime != 0 && "Target frametime of zero will cause a zero division");
+		ASSERT_MSG(target_frametime != 0, "Target frametime of zero will cause a zero division");
 
 	}
 }

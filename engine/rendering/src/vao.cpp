@@ -1,10 +1,10 @@
+#include "Assert.hpp"
 #include "EBO.hpp"
 #include "Globals.hpp"
 #include "Profiling.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
 
-#include <cassert>
 #include <glad/gl.h>
 
 namespace birb
@@ -16,7 +16,7 @@ namespace birb
 
 	vao::~vao()
 	{
-		assert(birb::opengl_initialized);
+		ASSERT(birb::opengl_initialized);
 		glDeleteVertexArrays(1, &id);
 	}
 
@@ -24,12 +24,12 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		assert(vbo.id != 0);
-		assert(num_components != 0 && "Invalid amount of components");
-		assert(stride != 0 && stride >= num_components && "Invalid stride");
+		ASSERT(vbo.id != 0);
+		ASSERT_MSG(num_components != 0, "Invalid amount of components");
+		ASSERT_MSG(stride != 0 && stride >= num_components, "Invalid stride");
 
 #ifndef NDEBUG
-		assert(vbo.d_vert_count % stride == 0 && "Invalid stride");
+		ASSERT_MSG(vbo.d_vert_count % stride == 0, "Invalid stride");
 		d_total_vbo_vert_count += (vbo.d_vert_count / stride) * num_components;
 #endif
 
@@ -43,7 +43,7 @@ namespace birb
 
 	void vao::link_ebo(birb::ebo& ebo)
 	{
-		assert(!has_ebo && "There's already an EBO linked to this VAO");
+		ASSERT_MSG(!has_ebo, "There's already an EBO linked to this VAO");
 
 		ebo.bind();
 		has_ebo = true;

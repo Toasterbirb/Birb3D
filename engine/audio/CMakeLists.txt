@@ -18,6 +18,5 @@ if (NOT BIRB_DISTCC)
 			<Logger.hpp>
 			<Profiling.hpp>
 			<Types.hpp>
-			<cassert>
 	)
 endif()

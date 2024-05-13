@@ -1,9 +1,10 @@
-#include "entt.hpp"
-
+#include "Assert.hpp"
 #include "Entity.hpp"
 #include "Info.hpp"
 #include "Scene.hpp"
 #include "Logger.hpp"
+
+#include <entt.hpp>
 
 namespace birb
 {
@@ -11,7 +12,7 @@ namespace birb
 
 	scene::scene()
 	{
-		assert(current_scene_count >= 0);
+		ASSERT(current_scene_count >= 0);
 		current_scene_count++;
 	}
 
@@ -28,7 +29,7 @@ namespace birb
 
 	bool scene::is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity)
 	{
-		assert(!name.empty());
+		ASSERT(!name.empty());
 
 		const auto view = registry.view<birb::component::info>();
 

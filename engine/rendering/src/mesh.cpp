@@ -1,10 +1,10 @@
+#include "Assert.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
 #include "Mesh.hpp"
 #include "Profiling.hpp"
 #include "Shader.hpp"
 
-#include <cassert>
 #include <climits>
 #include <cstddef>
 #include <glad/gl.h>
@@ -23,11 +23,11 @@ namespace birb
 	{
 		birb::log("Destroying mesh (" + birb::ptr_to_str(this) + ")");
 
-		assert(birb::opengl_initialized);
+		ASSERT(birb::opengl_initialized);
 
-		assert(vao != 0);
-		assert(vbo != 0);
-		assert(ebo != 0);
+		ASSERT(vao != 0);
+		ASSERT(vbo != 0);
+		ASSERT(ebo != 0);
 
 		glDeleteVertexArrays(1, &vao);
 		glDeleteBuffers(1, &vbo);
@@ -38,7 +38,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		assert(shader.id != 0);
+		ASSERT(shader.id != 0);
 
 		u32 diffuse_nr = 1;
 		u32 specular_nr = 1;
@@ -56,7 +56,7 @@ namespace birb
 			else
 				birb::log_warn("Tried to draw an unknown texture type: " + textures[i].type);
 
-			assert(i < INT_MAX && "Integer overflow");
+			ASSERT_MSG(i < INT_MAX, "Integer overflow");
 			shader.set_int("material." + name + number, i);
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
@@ -72,9 +72,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_MISC_FN()
 
-		assert(!vertices.empty());
-		assert(!indices.empty());
-		assert(indices.size() >= vertices.size());
+		ASSERT(!vertices.empty());
+		ASSERT(!indices.empty());
+		ASSERT(indices.size() >= vertices.size());
 
 		// Create the buffers
 		glGenVertexArrays(1, &vao);

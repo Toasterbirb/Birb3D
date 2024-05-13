@@ -7,7 +7,7 @@
 
 #ifndef NDEBUG
 #include <cpptrace/cpptrace.hpp>
-#define PRINT_STACKTRACE() cpptrace::generate_trace().print();
+#define PRINT_STACKTRACE() cpptrace::generate_trace().print_with_snippets();
 #else
 #define PRINT_STACKTRACE();
 #endif

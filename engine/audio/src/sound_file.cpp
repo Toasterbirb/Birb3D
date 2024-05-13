@@ -1,9 +1,9 @@
+#include "Assert.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
 #include "SoundFile.hpp"
 
 #include <AL/alext.h>
-#include <cassert>
 #include <climits>
 #include <memory>
 
@@ -28,7 +28,7 @@ namespace birb
 
 	sound_file::~sound_file()
 	{
-		assert(audio_buffer != 0);
+		ASSERT(audio_buffer != 0);
 		alDeleteBuffers(1, &audio_buffer);
 	}
 
@@ -38,7 +38,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_AUDIO_FN()
 
-		assert(!file_path.empty());
+		ASSERT(!file_path.empty());
 
 		log("Loading sound file: ", file_path);
 
@@ -62,7 +62,7 @@ namespace birb
 		format = AL_FORMAT_STEREO_FLOAT32;
 
 		log("Channel count: ", sfinfo.channels);
-		assert(sfinfo.channels == 2 && "Channel count of two required for now");
+		ASSERT_MSG(sfinfo.channels == 2, "Channel count of two required for now");
 
 		if(sfinfo.frames / splblockalign > static_cast<sf_count_t>(INT_MAX / byteblockalign))
 		{
@@ -73,7 +73,7 @@ namespace birb
 		// Allocate a buffer for the sound file
 		std::unique_ptr<f32, free_delete> file_buffer(static_cast<f32*>(malloc(sfinfo.frames / splblockalign * byteblockalign)));
         frame_count = sf_readf_float(sndfile, file_buffer.get(), sfinfo.frames);
-		assert(alGetError() == AL_NO_ERROR);
+		ASSERT(alGetError() == AL_NO_ERROR);
 		log("Frame count: ", frame_count);
 
 		if (frame_count < 1)
@@ -88,7 +88,7 @@ namespace birb
 		audio_buffer = 0;
 		alGenBuffers(1, &audio_buffer);
 		log("Block align: ", splblockalign);
-		assert(splblockalign == 1 && "Only block alignment of one is supported at the moment");
+		ASSERT_MSG(splblockalign == 1, "Only block alignment of one is supported at the moment");
 		alBufferData(audio_buffer, format, file_buffer.get(), byte_count, sfinfo.samplerate);
 		sf_close(sndfile);
 

@@ -1,8 +1,8 @@
+#include "Assert.hpp"
 #include "AudioDevice.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
 
-#include <cassert>
 #include <sndfile.h>
 
 static inline bool alc_is_init = false;
@@ -13,7 +13,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_AUDIO_FN()
 
-		assert(alc_is_init == false && "You shouldn't need to initialize OpenAL more than once");
+		ASSERT_MSG(alc_is_init == false, "You shouldn't need to initialize OpenAL more than once");
 		alc_is_init = true;
 
 		ALenum error;

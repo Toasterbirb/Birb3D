@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "Color.hpp"
 #include "Shader.hpp"
 #include "ShaderUniforms.hpp"
@@ -10,8 +11,8 @@ namespace birb
 {
 	void shader::set(const uniform& uniform, i32 value, i32 index)
 	{
-		assert(!uniform.name.empty());
-		assert(uniform.type == uniform_type::INT);
+		ASSERT(!uniform.name.empty());
+		ASSERT(uniform.type == uniform_type::INT);
 
 		add_uniform_location(uniform.str(index));
 
@@ -21,8 +22,8 @@ namespace birb
 
 	void shader::set(const uniform& uniform, f32 value, i32 index)
 	{
-		assert(!uniform.name.empty());
-		assert(uniform.type == uniform_type::FLOAT);
+		ASSERT(!uniform.name.empty());
+		ASSERT(uniform.type == uniform_type::FLOAT);
 
 		add_uniform_location(uniform.str(index));
 
@@ -32,8 +33,8 @@ namespace birb
 
 	void shader::set(const uniform& uniform, const glm::vec3 value, i32 index)
 	{
-		assert(!uniform.name.empty());
-		assert(uniform.type == uniform_type::VEC3);
+		ASSERT(!uniform.name.empty());
+		ASSERT(uniform.type == uniform_type::VEC3);
 
 		add_uniform_location(uniform.str(index));
 
@@ -43,8 +44,8 @@ namespace birb
 
 	void shader::set(const uniform& uniform, const glm::vec4 value, i32 index)
 	{
-		assert(!uniform.name.empty());
-		assert(uniform.type == uniform_type::VEC4);
+		ASSERT(!uniform.name.empty());
+		ASSERT(uniform.type == uniform_type::VEC4);
 
 		add_uniform_location(uniform.str(index));
 
@@ -54,8 +55,8 @@ namespace birb
 
 	void shader::set(const uniform& uniform, const birb::vec3<f32> value, i32 index)
 	{
-		assert(!uniform.name.empty());
-		assert(uniform.type == uniform_type::BIRB_VEC3_FLOAT);
+		ASSERT(!uniform.name.empty());
+		ASSERT(uniform.type == uniform_type::BIRB_VEC3_FLOAT);
 
 		add_uniform_location(uniform.str(index));
 
@@ -65,8 +66,8 @@ namespace birb
 
 	void shader::set(const uniform& uniform, const glm::mat4 value, i32 index)
 	{
-		assert(!uniform.name.empty());
-		assert(uniform.type == uniform_type::MAT4);
+		ASSERT(!uniform.name.empty());
+		ASSERT(uniform.type == uniform_type::MAT4);
 
 		add_uniform_location(uniform.str(index));
 
@@ -76,8 +77,8 @@ namespace birb
 
 	void shader::set(const uniform& uniform, const color value, i32 index)
 	{
-		assert(!uniform.name.empty());
-		assert(uniform.type == uniform_type::BIRB_COLOR);
+		ASSERT(!uniform.name.empty());
+		ASSERT(uniform.type == uniform_type::BIRB_COLOR);
 
 		add_uniform_location(uniform.str(index));
 

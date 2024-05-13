@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "Logger.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
@@ -36,7 +37,7 @@ namespace birb
 
 	void model::draw(shader& shader)
 	{
-		assert(!meshes->empty() && "Attempted to draw a model with no meshes");
+		ASSERT(!meshes->empty() && "Attempted to draw a model with no meshes");
 
 		for (size_t i = 0; i < meshes->size(); ++i)
 		{
@@ -115,7 +116,7 @@ namespace birb
 
 	void model::load_model()
 	{
-		assert(!file_path.empty());
+		ASSERT(!file_path.empty());
 
 		load_model(file_path);
 	}
@@ -124,7 +125,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN()
 
-		assert(!path.empty());
+		ASSERT(!path.empty());
 
 		// If the file path is a null_path, load the model from memory
 		// (assuming the model was serialized from entity data)
@@ -134,8 +135,8 @@ namespace birb
 		}
 		else
 		{
-			assert(path != null_path && "Tried to load a model from disk that was probably meant to be loaded from memory");
-			assert(std::filesystem::exists(path));
+			ASSERT(path != null_path && "Tried to load a model from disk that was probably meant to be loaded from memory");
+			ASSERT(std::filesystem::exists(path));
 
 			birb::log("Loading model: " + path);
 
@@ -173,7 +174,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN()
 
-		assert(primitive_mesh_data.contains(mesh) && "Mesh was not found from primitive mesh data hashmap");
+		ASSERT(primitive_mesh_data.contains(mesh) && "Mesh was not found from primitive mesh data hashmap");
 
 		birb::log("Loading a model from memory: ", name);
 
@@ -217,8 +218,8 @@ namespace birb
 
 	void model::process_node(aiNode* node, const aiScene* scene)
 	{
-		assert(node != nullptr);
-		assert(scene != nullptr);
+		ASSERT(node != nullptr);
+		ASSERT(scene != nullptr);
 
 		// Process all meshes in the node
 		for (u32 i = 0; i < node->mNumMeshes; ++i)
@@ -239,8 +240,8 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN()
 
-		assert(ai_mesh != nullptr);
-		assert(scene != nullptr);
+		ASSERT(ai_mesh != nullptr);
+		ASSERT(scene != nullptr);
 
 		std::vector<vertex> vertices;
 		std::vector<u32> indices;
@@ -305,8 +306,8 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN()
 
-		assert(mat != nullptr);
-		assert(!type_name.empty());
+		ASSERT(mat != nullptr);
+		ASSERT(!type_name.empty());
 
 		std::vector<mesh_texture> textures;
 

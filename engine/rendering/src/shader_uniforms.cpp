@@ -1,6 +1,5 @@
+#include "Assert.hpp"
 #include "ShaderUniforms.hpp"
-
-#include <cassert>
 
 namespace birb
 {
@@ -8,7 +7,7 @@ namespace birb
 	{
 		std::string str = name;
 
-		assert((!is_array && index == -1) || (is_array && index >= 0));
+		ASSERT((!is_array && index == -1) || (is_array && index >= 0));
 
 		if (is_array)
 			str += "[" + std::to_string(index) + "]";

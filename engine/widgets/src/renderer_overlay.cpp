@@ -1,10 +1,10 @@
+#include "Assert.hpp"
 #include "Globals.hpp"
 #include "Profiling.hpp"
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
 
 #include <imgui.h>
-#include <cassert>
 
 namespace birb
 {
@@ -24,7 +24,7 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER_FN()
 
-			assert(imgui_initialized);
+			ASSERT(imgui_initialized);
 
 			bool p_open = false;
 
