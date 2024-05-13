@@ -138,7 +138,7 @@ add_subdirectory("${GLFW_PATH}")
 
 # Build ImGui
 set(IMGUI_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/imgui")
-add_library(imgui STATIC
+add_library(imgui SHARED
 	${IMGUI_PATH}/imgui.cpp
 	${IMGUI_PATH}/imgui_demo.cpp
 	${IMGUI_PATH}/imgui_draw.cpp
