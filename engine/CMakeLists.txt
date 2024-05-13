@@ -96,6 +96,10 @@ target_link_libraries(birb
 	widgets
 )
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	target_link_libraries(birb cpptrace::cpptrace)
+endif()
+
 if (BIRB_PROFILER)
 	target_link_libraries(birb microprofile)
 endif()

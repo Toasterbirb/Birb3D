@@ -5,6 +5,14 @@
 #include <iostream>
 #include <string>
 
+#ifndef NDEBUG
+#include <cpptrace/cpptrace.hpp>
+#define PRINT_STACKTRACE() cpptrace::generate_trace().print();
+#else
+#define PRINT_STACKTRACE();
+#endif
+
+
 // Macro useful for marking "TODO" stuff in code that'll get logged during runtime as a reminder
 // or as a notification of possibly missing features
 #define FIXME(MESSAGE) std::cout << "\033[35m[F] " << MESSAGE << " @ " << __FILE__ << ":" << __LINE__ << "\033[0m\n";
@@ -45,6 +53,8 @@ namespace birb
 	{
 		std::cerr << "\033[31m[E] ";
 		(std::cerr << ... << args) << "\033[0m\n";
+
+		PRINT_STACKTRACE();
 	}
 
 	/**
@@ -58,6 +68,9 @@ namespace birb
 	{
 		std::cerr << "\033[31mFATAL ERROR: ";
 		(std::cerr << ... << args) << "\033[0m\n";
+
+		PRINT_STACKTRACE();
+
 		exit(exit_code);
 	}
 

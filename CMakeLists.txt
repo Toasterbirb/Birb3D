@@ -18,6 +18,12 @@ option(BIRB_PLAYGROUND "Build the playground project" OFF)
 option(BIRB_DISTCC "Use distcc and ccache (if available) for compiling. Also
 disables precompiled headers" OFF)
 
+if (NOT CMAKE_BUILD_TYPE)
+	message(WARNING "CMAKE_BUILD_TYPE not set. Defaulting to Debug")
+	set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Default build type: Debug" FORCE)
+endif()
+
+
 include(vendor/assimp/cmake-modules/Findassimp.cmake)
 
 # Check if birb3d is being built as part of a game project
@@ -113,6 +119,13 @@ if (NOT assimp_FOUND OR BIRB_RELEASE)
 
 	add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/vendor/assimp)
 endif()
+
+# Build cpptrace if we are creating a debug build
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+	include_directories("${CMAKE_CURRENT_SOURCE_DIR}/vendor/cpptrace/include")
+	add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/cpptrace")
+endif()
+
 
 # Build GLFW
 set(GLFW_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/glfw")
