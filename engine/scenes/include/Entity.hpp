@@ -25,12 +25,15 @@ namespace birb
 		template<typename T>
 		T& get_component()
 		{
+			static_assert(!std::is_same<T, birb::entity>::value, "There shouldn't be any situation where birb::entity has a birb::entity as component");
+			ensure(has_component<T>(), "Can't get a reference to a nonexistent component");
 			return parent_scene->get_component<T>(entt_entity);
 		}
 
 		template<typename T>
 		bool has_component()
 		{
+			static_assert(!std::is_same<T, birb::entity>::value, "There shouldn't be any situation where birb::entity has a birb::entity as component");
 			return parent_scene->registry.try_get<T>(entt_entity);
 		}
 

@@ -29,6 +29,7 @@ namespace birb
 		template<typename T>
 		void add_component(entt::entity& entity, const T& component)
 		{
+			static_assert(!std::is_same<T, birb::entity>::value, "birb::entity shouldn't be used as a component");
 			registry.emplace<T>(entity, component);
 		}
 

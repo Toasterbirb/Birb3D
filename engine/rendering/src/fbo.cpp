@@ -11,6 +11,9 @@ namespace birb
 {
 	fbo::fbo(const vec2<i32>& dimensions)
 	{
+		ensure(dimensions.x > 0);
+		ensure(dimensions.y > 0);
+
 		glGenFramebuffers(1, &id);
 		reload_frame_buffer_texture(dimensions);
 

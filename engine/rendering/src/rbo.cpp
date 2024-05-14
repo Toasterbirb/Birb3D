@@ -12,6 +12,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
+		ensure(dimensions.x > 0);
+		ensure(dimensions.y > 0);
+
 		ensure(id == 0);
 		glGenRenderbuffers(1, &id);
 		ensure(id != 0 && "Failed to create a render buffer object");

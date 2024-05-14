@@ -47,6 +47,9 @@ namespace birb
 
 	glm::mat4 camera::get_projection_matrix(camera::projection_mode mode, vec2<i32> window_size) const
 	{
+		ensure(window_size.x > 0, "Invalid window width");
+		ensure(window_size.y > 0, "Invalid window height");
+
 		glm::mat4 projection;
 
 		switch (mode)
