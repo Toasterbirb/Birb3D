@@ -63,10 +63,10 @@ namespace birb
 		 */
 		color(i32 r, i32 g, i32 b, i32 a = 255)
 		{
-			ASSERT(r >= 0 && r <= 255);
-			ASSERT(g >= 0 && r <= 255);
-			ASSERT(b >= 0 && b <= 255);
-			ASSERT(a >= 0 && a <= 255);
+			ensure(r >= 0 && r <= 255);
+			ensure(g >= 0 && r <= 255);
+			ensure(b >= 0 && b <= 255);
+			ensure(a >= 0 && a <= 255);
 
 			constexpr f32 reverse_division = 1 / 255.0f;
 			this->r = r * reverse_division;

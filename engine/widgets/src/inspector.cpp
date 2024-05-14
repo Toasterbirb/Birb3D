@@ -11,7 +11,7 @@ namespace birb
 {
 	inspector::inspector(birb::scene& scene) : scene(scene)
 	{
-		ASSERT(!component_names.empty());
+		ensure(!component_names.empty());
 
 		// Build the combo menu string for adding new components
 		for (size_t i = 0; i < component_names.size(); ++i)
@@ -65,8 +65,8 @@ namespace birb
 				i32 current_component_type = -1;
 				if (ImGui::Combo("Component type", &current_component_type, component_type_str.c_str()))
 				{
-					ASSERT(current_component_type >= 0);
-					ASSERT(current_component_type < static_cast<i32>(component_names.size()) && "Malformed component_type_str or a buffer overflow");
+					ensure(current_component_type >= 0);
+					ensure(current_component_type < static_cast<i32>(component_names.size()) && "Malformed component_type_str or a buffer overflow");
 
 					// Add the new component
 					switch (component_names[current_component_type].second)

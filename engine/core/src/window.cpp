@@ -40,9 +40,9 @@ namespace birb
 		if (window_count != 0)
 			birb::log_fatal(1, "There can only be one window at any given time");
 
-		ASSERT_MSG(!title.empty(), "Empty window title");
-		ASSERT_MSG(dimensions.x > 0, "Invalid window width");
-		ASSERT_MSG(dimensions.y > 0, "Invalid window height");
+		ensure(!title.empty(), "Empty window title");
+		ensure(dimensions.x > 0, "Invalid window width");
+		ensure(dimensions.y > 0, "Invalid window height");
 
 		window_count++;
 
@@ -186,8 +186,8 @@ namespace birb
 			window::window_size_changed = false;
 			glfwGetWindowSize(glfw_window, &dimensions.x, &dimensions.y);
 
-			ASSERT_MSG(dimensions.x != 0, "Chance for a zero division");
-			ASSERT_MSG(dimensions.y != 0, "Chance for a zero division");
+			ensure(dimensions.x != 0, "Chance for a zero division");
+			ensure(dimensions.y != 0, "Chance for a zero division");
 
 			glViewport(0, 0, dimensions.x, dimensions.y);
 		}
@@ -228,7 +228,7 @@ namespace birb
 
 	input window::next_input()
 	{
-		ASSERT_MSG(!input_queue.empty(), "Tried to read inputs when there were none. Remember to check inputs_available() before calling this function.");
+		ensure(!input_queue.empty(), "Tried to read inputs when there were none. Remember to check inputs_available() before calling this function.");
 
 		input top_input = input_queue.front();
 		input_queue.pop();

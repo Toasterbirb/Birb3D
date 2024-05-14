@@ -14,7 +14,7 @@ namespace birb
 
 		void register_event_id(u16 event_id, event_obj* obj)
 		{
-			ASSERT_MSG(obj != nullptr, "Can register event_id for a null pointer");
+			ensure(obj != nullptr, "Can register event_id for a null pointer");
 
 			birb::log("Event ID ", event_id, " registered to ", birb::ptr_to_str(obj));
 
@@ -23,7 +23,7 @@ namespace birb
 
 		void unregister_event_id(u16 event_id, event_obj* obj)
 		{
-			ASSERT_MSG(obj != nullptr, "Can unregister event_id for a null pointer");
+			ensure(obj != nullptr, "Can unregister event_id for a null pointer");
 
 			birb::log("Event ID ", event_id, " unregistered for ", birb::ptr_to_str(obj));
 

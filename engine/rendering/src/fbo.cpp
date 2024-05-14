@@ -23,8 +23,8 @@ namespace birb
 
 	fbo::~fbo()
 	{
-		ASSERT(id != 0);
-		ASSERT(birb::opengl_initialized);
+		ensure(id != 0);
+		ensure(birb::opengl_initialized);
 		glDeleteBuffers(1, &id);
 
 		render_buffer_object.reset();
@@ -34,7 +34,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		ASSERT(id != 0);
+		ensure(id != 0);
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
 	}
 
@@ -49,7 +49,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		ASSERT(birb::opengl_initialized);
+		ensure(birb::opengl_initialized);
 
 		// Texture
 		if (frame_buffer.id != 0)
@@ -76,8 +76,8 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		ASSERT(id != 0);
-		ASSERT(texture.id != 0);
+		ensure(id != 0);
+		ensure(texture.id != 0);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, this->id);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.id, 0);
@@ -87,7 +87,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		ASSERT_MSG(!render_buffer_object, "The render buffer object needs to be destroyed before creating a new one");
+		ensure(!render_buffer_object, "The render buffer object needs to be destroyed before creating a new one");
 
 		bind();
 		render_buffer_object = std::make_unique<rbo>(dimensions);

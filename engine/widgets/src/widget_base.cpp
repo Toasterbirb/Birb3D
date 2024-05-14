@@ -6,7 +6,7 @@ namespace birb
 {
 	void widget_base::setup_overlay()
 	{
-		ASSERT_MSG(imgui_initialized, "Overlays require ImGui to be initialized");
+		ensure(imgui_initialized, "Overlays require ImGui to be initialized");
 
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_pos = viewport->WorkPos;

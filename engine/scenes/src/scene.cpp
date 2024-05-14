@@ -12,7 +12,7 @@ namespace birb
 
 	scene::scene()
 	{
-		ASSERT(current_scene_count >= 0);
+		ensure(current_scene_count >= 0);
 		current_scene_count++;
 	}
 
@@ -29,13 +29,13 @@ namespace birb
 
 	void scene::destroy_entity(const entt::entity& entity)
 	{
-		ASSERT_MSG(registry.valid(entity), "Attempted to destroy an invalid entity");
+		ensure(registry.valid(entity), "Attempted to destroy an invalid entity");
 		registry.destroy(entity);
 	}
 
 	bool scene::is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity)
 	{
-		ASSERT(!name.empty());
+		ensure(!name.empty());
 
 		const auto view = registry.view<birb::component::info>();
 

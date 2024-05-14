@@ -16,7 +16,7 @@ namespace birb
 
 	vao::~vao()
 	{
-		ASSERT(birb::opengl_initialized);
+		ensure(birb::opengl_initialized);
 		glDeleteVertexArrays(1, &id);
 	}
 
@@ -24,12 +24,12 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		ASSERT(vbo.id != 0);
-		ASSERT_MSG(num_components != 0, "Invalid amount of components");
-		ASSERT_MSG(stride != 0 && stride >= num_components, "Invalid stride");
+		ensure(vbo.id != 0);
+		ensure(num_components != 0, "Invalid amount of components");
+		ensure(stride != 0 && stride >= num_components, "Invalid stride");
 
 #ifndef NDEBUG
-		ASSERT_MSG(vbo.d_vert_count % stride == 0, "Invalid stride");
+		ensure(vbo.d_vert_count % stride == 0, "Invalid stride");
 		d_total_vbo_vert_count += (vbo.d_vert_count / stride) * num_components;
 #endif
 
@@ -43,7 +43,7 @@ namespace birb
 
 	void vao::link_ebo(birb::ebo& ebo)
 	{
-		ASSERT_MSG(!has_ebo, "There's already an EBO linked to this VAO");
+		ensure(!has_ebo, "There's already an EBO linked to this VAO");
 
 		ebo.bind();
 		has_ebo = true;

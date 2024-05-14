@@ -14,13 +14,13 @@ namespace birb
 
 	void physics_world::set_scene(scene& scene)
 	{
-		ASSERT(scene::scene_count() > 0);
+		ensure(scene::scene_count() > 0);
 		current_scene = &scene;
 	}
 
 	void physics_world::tick(f64 deltatime)
 	{
-		ASSERT(current_scene != nullptr && "Current scene has not been set");
+		ensure(current_scene != nullptr && "Current scene has not been set");
 
 		entt::registry& registry = current_scene->registry;
 
@@ -54,12 +54,12 @@ namespace birb
 
 	std::vector<entt::entity> physics_world::collides_with(const entt::entity& entity)
 	{
-		ASSERT(current_scene != nullptr && "Current scene has not been set");
+		ensure(current_scene != nullptr && "Current scene has not been set");
 
 		std::vector<entt::entity> colliding_entities;
 
 		entt::registry& registry = current_scene->registry;
-		ASSERT(registry.try_get<collider::box>(entity) && "Tried to check collision with an entity that doesn't have a box collider on it");
+		ensure(registry.try_get<collider::box>(entity) && "Tried to check collision with an entity that doesn't have a box collider on it");
 		collider::box& target_collider = registry.get<collider::box>(entity);
 
 		const auto view = registry.view<collider::box>();

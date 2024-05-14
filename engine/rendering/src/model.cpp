@@ -37,7 +37,7 @@ namespace birb
 
 	void model::draw(shader& shader)
 	{
-		ASSERT(!meshes->empty() && "Attempted to draw a model with no meshes");
+		ensure(!meshes->empty() && "Attempted to draw a model with no meshes");
 
 		for (size_t i = 0; i < meshes->size(); ++i)
 		{
@@ -116,7 +116,7 @@ namespace birb
 
 	void model::load_model()
 	{
-		ASSERT(!file_path.empty());
+		ensure(!file_path.empty());
 
 		load_model(file_path);
 	}
@@ -125,7 +125,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN()
 
-		ASSERT(!path.empty());
+		ensure(!path.empty());
 
 		// If the file path is a null_path, load the model from memory
 		// (assuming the model was serialized from entity data)
@@ -135,8 +135,8 @@ namespace birb
 		}
 		else
 		{
-			ASSERT(path != null_path && "Tried to load a model from disk that was probably meant to be loaded from memory");
-			ASSERT(std::filesystem::exists(path));
+			ensure(path != null_path && "Tried to load a model from disk that was probably meant to be loaded from memory");
+			ensure(std::filesystem::exists(path));
 
 			birb::log("Loading model: " + path);
 
@@ -174,7 +174,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN()
 
-		ASSERT(primitive_mesh_data.contains(mesh) && "Mesh was not found from primitive mesh data hashmap");
+		ensure(primitive_mesh_data.contains(mesh) && "Mesh was not found from primitive mesh data hashmap");
 
 		birb::log("Loading a model from memory: ", name);
 
@@ -218,8 +218,8 @@ namespace birb
 
 	void model::process_node(aiNode* node, const aiScene* scene)
 	{
-		ASSERT(node != nullptr);
-		ASSERT(scene != nullptr);
+		ensure(node != nullptr);
+		ensure(scene != nullptr);
 
 		// Process all meshes in the node
 		for (u32 i = 0; i < node->mNumMeshes; ++i)
@@ -240,8 +240,8 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN()
 
-		ASSERT(ai_mesh != nullptr);
-		ASSERT(scene != nullptr);
+		ensure(ai_mesh != nullptr);
+		ensure(scene != nullptr);
 
 		std::vector<vertex> vertices;
 		std::vector<u32> indices;
@@ -306,8 +306,8 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN()
 
-		ASSERT(mat != nullptr);
-		ASSERT(!type_name.empty());
+		ensure(mat != nullptr);
+		ensure(!type_name.empty());
 
 		std::vector<mesh_texture> textures;
 

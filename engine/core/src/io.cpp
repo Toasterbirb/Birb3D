@@ -16,7 +16,7 @@ namespace birb
 		std::string read_file(const std::string& path)
 		{
 			PROFILER_SCOPE_IO_FN();
-			ASSERT_MSG(!path.empty(), "Can't read from an empty filepath");
+			ensure(!path.empty(), "Can't read from an empty filepath");
 
 			std::ifstream file;
 			file.open(path, std::ios::in);
@@ -46,7 +46,7 @@ namespace birb
 		bool write_file(const std::string& path, const std::string& text)
 		{
 			PROFILER_SCOPE_IO_FN();
-			ASSERT_MSG(!path.empty(), "Can't write to an empty filepath");
+			ensure(!path.empty(), "Can't write to an empty filepath");
 
 			std::ofstream file;
 			file.open(path);
@@ -69,7 +69,7 @@ namespace birb
 		bool write_json_file(const std::string& path, nlohmann::json json)
 		{
 			PROFILER_SCOPE_IO_FN();
-			ASSERT_MSG(!path.empty(), "Can't write to an empty filepath");
+			ensure(!path.empty(), "Can't write to an empty filepath");
 
 			std::ofstream file;
 			file.open(path);
@@ -87,7 +87,7 @@ namespace birb
 		bool write_bson_file(const std::string& path, nlohmann::json json)
 		{
 			PROFILER_SCOPE_IO_FN();
-			ASSERT_MSG(!path.empty(), "Can't write to an empty filepath");
+			ensure(!path.empty(), "Can't write to an empty filepath");
 
 			std::ofstream file;
 			file.open(path);

@@ -159,7 +159,7 @@ namespace birb
 
 	void renderer::set_scene(scene& scene)
 	{
-		ASSERT(scene::scene_count() > 0);
+		ensure(scene::scene_count() > 0);
 		current_scene = &scene;
 	}
 
@@ -172,9 +172,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		ASSERT(current_scene != nullptr);
-		ASSERT(scene::scene_count() > 0);
-		ASSERT_MSG(!buffers_flipped, "Tried to draw entities after the buffers were already flipped");
+		ensure(current_scene != nullptr);
+		ensure(scene::scene_count() > 0);
+		ensure(!buffers_flipped, "Tried to draw entities after the buffers were already flipped");
 
 		// Bind the post-processing frame buffer and update its dimensions if needed
 		if (post_processing_enabled)
@@ -216,7 +216,7 @@ namespace birb
 				shader_ref& shader_reference = view.get<birb::shader_ref>(ent);
 				std::shared_ptr<shader> shader = shader_collection::get_shader(shader_reference);
 
-				ASSERT_MSG(shader->id != 0, "Tried to use an invalid shader for rendering");
+				ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
 
 				const birb::component::transform& transform = view.get<birb::component::transform>(ent);
 
@@ -240,7 +240,7 @@ namespace birb
 					shader->apply_color_material(*material);
 
 				// Draw the model
-				ASSERT_MSG(view.get<birb::model>(ent).vertex_count() != 0, "Tried to render a model with no vertices");
+				ensure(view.get<birb::model>(ent).vertex_count() != 0, "Tried to render a model with no vertices");
 				view.get<birb::model>(ent).draw(*shader);
 				++rendered_entities;
 				rendered_vertices += view.get<birb::model>(ent).vertex_count();
@@ -385,9 +385,9 @@ namespace birb
 
 	void renderer::draw_elements(vao& vao, size_t index_count, gl_primitive primitive)
 	{
-		ASSERT(vao.id != 0);
-		ASSERT(vao.contains_ebo());
-		ASSERT_MSG(index_count > 0, "Unncessary call to draw_elements()");
+		ensure(vao.id != 0);
+		ensure(vao.contains_ebo());
+		ensure(index_count > 0, "Unncessary call to draw_elements()");
 
 		vao.bind();
 		glDrawElements(static_cast<GLenum>(primitive), index_count, GL_UNSIGNED_INT, 0);
@@ -395,12 +395,12 @@ namespace birb
 
 	void renderer::draw_arrays(vao& vao, size_t vert_count, gl_primitive primitive)
 	{
-		ASSERT(vao.id != 0);
-		ASSERT_MSG(vert_count > 0, "Unncessary call to draw_arrays()");
+		ensure(vao.id != 0);
+		ensure(vert_count > 0, "Unncessary call to draw_arrays()");
 
 #ifndef NDEBUG
 		// TODO: This assert is a bit questionable and needs more attention
-		// ASSERT_MSG(vao.d_total_vbo_vert_count == vert_count, "Something has gone wrong with VBO linking");
+		// ensure(vao.d_total_vbo_vert_count == vert_count, "Something has gone wrong with VBO linking");
 #endif
 
 		vao.bind();
@@ -466,7 +466,7 @@ namespace birb
 
 	void renderer::opt_blend(const bool enabled) const
 	{
-		ASSERT(opengl_initialized);
+		ensure(opengl_initialized);
 
 		if (enabled)
 		{
@@ -481,7 +481,7 @@ namespace birb
 
 	void renderer::opt_post_process(const bool enabled)
 	{
-		ASSERT_MSG(window != nullptr, "The window needs to be set before post-processing can be enabled");
+		ensure(window != nullptr, "The window needs to be set before post-processing can be enabled");
 		post_processing_enabled = enabled;
 	}
 }

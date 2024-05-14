@@ -23,11 +23,11 @@ namespace birb
 	{
 		birb::log("Destroying mesh (" + birb::ptr_to_str(this) + ")");
 
-		ASSERT(birb::opengl_initialized);
+		ensure(birb::opengl_initialized);
 
-		ASSERT(vao != 0);
-		ASSERT(vbo != 0);
-		ASSERT(ebo != 0);
+		ensure(vao != 0);
+		ensure(vbo != 0);
+		ensure(ebo != 0);
 
 		glDeleteVertexArrays(1, &vao);
 		glDeleteBuffers(1, &vbo);
@@ -38,7 +38,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		ASSERT(shader.id != 0);
+		ensure(shader.id != 0);
 
 		u32 diffuse_nr = 1;
 		u32 specular_nr = 1;
@@ -56,7 +56,7 @@ namespace birb
 			else
 				birb::log_warn("Tried to draw an unknown texture type: " + textures[i].type);
 
-			ASSERT_MSG(i < INT_MAX, "Integer overflow");
+			ensure(i < INT_MAX, "Integer overflow");
 			shader.set_int("material." + name + number, i);
 			glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		}
@@ -72,9 +72,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_MISC_FN()
 
-		ASSERT(!vertices.empty());
-		ASSERT(!indices.empty());
-		ASSERT(indices.size() >= vertices.size());
+		ensure(!vertices.empty());
+		ensure(!indices.empty());
+		ensure(indices.size() >= vertices.size());
 
 		// Create the buffers
 		glGenVertexArrays(1, &vao);

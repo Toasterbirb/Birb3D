@@ -17,7 +17,7 @@ namespace birb
 		//
 		// The window should call the wipe() function before destroying itself
 		// but this assert is here just in case
-		ASSERT_MSG(shader_storage.empty(), "The shader collection needs to be wiped manually before it runs out of scope");
+		ensure(shader_storage.empty(), "The shader collection needs to be wiped manually before it runs out of scope");
 	}
 
 	void shader_collection::precompile_basic_shaders()
@@ -46,12 +46,12 @@ namespace birb
 	{
 		hash_shader_source_names();
 
-		ASSERT(!vertex.empty());
-		ASSERT(!fragment.empty());
+		ensure(!vertex.empty());
+		ensure(!fragment.empty());
 
 		shader_ref ref(vertex, fragment);
 
-		ASSERT_MSG(!shader_storage.contains(ref.hash), "This shader has already been registered earlier");
+		ensure(!shader_storage.contains(ref.hash), "This shader has already been registered earlier");
 
 		// Add the hashes to the shader collection
 		vertex_shader_hashes[ref.vertex] = vertex;
@@ -62,7 +62,7 @@ namespace birb
 
 	std::shared_ptr<shader> shader_collection::get_shader(const shader_ref& ref)
 	{
-		ASSERT(ref.hash != 0);
+		ensure(ref.hash != 0);
 
 		// If the shader has been already compiled previously, return a reference to it
 		if (shader_storage.contains(ref.hash))
@@ -72,8 +72,8 @@ namespace birb
 		if (vertex_shader_hashes.empty() || fragment_shader_hashes.empty())
 			hash_shader_source_names();
 
-		ASSERT(!vertex_shader_hashes.empty());
-		ASSERT(!fragment_shader_hashes.empty());
+		ensure(!vertex_shader_hashes.empty());
+		ensure(!fragment_shader_hashes.empty());
 
 		// Compile the shader and return a reference to it
 		return compile_shader(ref);
@@ -86,19 +86,19 @@ namespace birb
 
 	std::shared_ptr<shader> shader_collection::compile_shader(const shader_ref& ref)
 	{
-		ASSERT_MSG(!vertex_shader_hashes.empty(), "Vertex names need to be hashed before shaders can be compiled");
-		ASSERT_MSG(!fragment_shader_hashes.empty(), "Vertex names need to be hashed before shaders can be compiled");
-		ASSERT_MSG(!shader_storage.contains(ref.hash), "Tried to compile and store a shader to the collection that has already been compiled previously");
+		ensure(!vertex_shader_hashes.empty(), "Vertex names need to be hashed before shaders can be compiled");
+		ensure(!fragment_shader_hashes.empty(), "Vertex names need to be hashed before shaders can be compiled");
+		ensure(!shader_storage.contains(ref.hash), "Tried to compile and store a shader to the collection that has already been compiled previously");
 
 		// Get the names of the shaders
-		ASSERT_MSG(vertex_shader_hashes.contains(ref.vertex), "Tried to compile a non-existent vertex shader. Maybe you forgot to register it?");
-		ASSERT_MSG(fragment_shader_hashes.contains(ref.fragment), "Tried to compile a non-existent fragment shader. Maybe you forgot to register it?");
+		ensure(vertex_shader_hashes.contains(ref.vertex), "Tried to compile a non-existent vertex shader. Maybe you forgot to register it?");
+		ensure(fragment_shader_hashes.contains(ref.fragment), "Tried to compile a non-existent fragment shader. Maybe you forgot to register it?");
 		const std::string& vertex_name = vertex_shader_hashes.at(ref.vertex);
 		const std::string& fragment_name = fragment_shader_hashes.at(ref.fragment);
 
 		// Compile the shader and store it
 		std::shared_ptr<shader> new_shader = std::make_shared<shader>(vertex_name, fragment_name);
-		ASSERT_MSG(new_shader->id != 0, "Something went wrong with shader compiling");
+		ensure(new_shader->id != 0, "Something went wrong with shader compiling");
 		shader_storage[ref.hash] = new_shader;
 
 		return new_shader;

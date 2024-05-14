@@ -47,11 +47,11 @@ namespace birb
 		T range(T min, T max)
 		{
 			static_assert(!std::is_same<T, f32>::value && !std::is_same<T, f64>::value, "Random integers can't be generated with a floating point range");
-			ASSERT(min <= max);
+			ensure(min <= max);
 
 			T value = rng_engine() % (max + 1 - min) + min;
-			ASSERT(value >= min);
-			ASSERT(value <= max);
+			ensure(value >= min);
+			ensure(value <= max);
 			return value;
 		}
 
@@ -64,12 +64,12 @@ namespace birb
 		T range_float(T min, T max)
 		{
 			static_assert(std::is_same<T, f32>::value || std::is_same<T, f64>::value, "range_float() only works with floating point ranges");
-			ASSERT(min <= max);
+			ensure(min <= max);
 
 			T multiplier = (static_cast<T>(rng_engine())) / rng_engine.max();
 			T value = (multiplier * (max - min)) + min;
-			ASSERT(value >= min);
-			ASSERT(value <= max);
+			ensure(value >= min);
+			ensure(value <= max);
 			return value;
 		}
 

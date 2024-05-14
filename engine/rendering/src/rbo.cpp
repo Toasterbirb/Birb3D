@@ -12,9 +12,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
-		ASSERT(id == 0);
+		ensure(id == 0);
 		glGenRenderbuffers(1, &id);
-		ASSERT(id != 0 && "Failed to create a render buffer object");
+		ensure(id != 0 && "Failed to create a render buffer object");
 
 		glBindRenderbuffer(GL_RENDERBUFFER, id);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, dimensions.x, dimensions.y);
@@ -24,8 +24,8 @@ namespace birb
 
 	rbo::~rbo()
 	{
-		ASSERT(id != 0);
-		ASSERT(birb::opengl_initialized);
+		ensure(id != 0);
+		ensure(birb::opengl_initialized);
 		glDeleteRenderbuffers(1, &id);
 	}
 }

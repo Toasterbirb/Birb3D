@@ -11,13 +11,13 @@ namespace birb
 		PROFILER_SCOPE_AUDIO_FN()
 
 		alGenSources(1, &source);
-		ASSERT_MSG(alGetError() == AL_NO_ERROR, "Failed to setup sound source");
+		ensure(alGetError() == AL_NO_ERROR, "Failed to setup sound source");
 	}
 
 	audio_source::~audio_source()
 	{
 		alDeleteSources(1, &source);
-		ASSERT_MSG(alGetError() == AL_NO_ERROR, "Failed delete and audio source");
+		ensure(alGetError() == AL_NO_ERROR, "Failed delete and audio source");
 	}
 
 	void audio_source::play_sound(sound_file& sound_file)

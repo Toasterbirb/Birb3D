@@ -8,8 +8,8 @@ namespace birb
 	texture_material::texture_material(const std::string& diffuse_map, const std::string& specular_map, f32 shininess)
 	:shininess(shininess)
 	{
-		ASSERT(!diffuse_map.empty());
-		ASSERT(!specular_map.empty());
+		ensure(!diffuse_map.empty());
+		ensure(!specular_map.empty());
 
 		diffuse.load(diffuse_map.c_str(), 0, color_format::RGB);
 		specular.load(specular_map.c_str(), 1, color_format::RGB);

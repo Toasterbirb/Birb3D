@@ -26,14 +26,14 @@ namespace birb
 	project::project(const std::string& path)
 	:file_path(path)
 	{
-		ASSERT(!path.empty());
+		ensure(!path.empty());
 
 		load(path);
 	}
 
 	void project::load(const std::string& path)
 	{
-		ASSERT(!path.empty());
+		ensure(!path.empty());
 
 		file_path = path;
 
@@ -166,8 +166,8 @@ namespace birb
 
 	void project::load_project()
 	{
-		ASSERT_MSG(birb::opengl_initialized, "OpenGL needs to have been initialized before projects can be loaded");
-		ASSERT(project_loaded == false);
+		ensure(birb::opengl_initialized, "OpenGL needs to have been initialized before projects can be loaded");
+		ensure(project_loaded == false);
 		project_loaded = true;
 
 		birb::log("Loading project: " + file_path);
@@ -261,7 +261,7 @@ namespace birb
 
 	void project::write_empty_project_to_file(const std::string& dest_path)
 	{
-		ASSERT(!dest_path.empty());
+		ensure(!dest_path.empty());
 
 		nlohmann::json json = default_project();
 

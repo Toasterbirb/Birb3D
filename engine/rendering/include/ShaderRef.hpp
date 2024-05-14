@@ -11,8 +11,8 @@ namespace birb
 	{
 		shader_ref(const std::string& vertex, const std::string& fragment)
 		{
-			ASSERT(!vertex.empty());
-			ASSERT(!fragment.empty());
+			ensure(!vertex.empty());
+			ensure(!fragment.empty());
 
 			this->vertex = std::hash<std::string>{}(vertex);
 			this->fragment = std::hash<std::string>{}(fragment);

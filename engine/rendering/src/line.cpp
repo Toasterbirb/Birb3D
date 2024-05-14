@@ -18,6 +18,6 @@ namespace birb
 		transform.position = center(point_a, point_b);
 
 		// Calculate the size of the line
-		ASSERT(false == true && "TODO");
+		ensure(false == true && "TODO");
 	}
 }

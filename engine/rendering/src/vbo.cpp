@@ -9,22 +9,22 @@ namespace birb
 {
 	vbo::vbo(const std::vector<f32>& vertices, const bool static_draw)
 	{
-		ASSERT_MSG(!vertices.empty(), "Empty vertex array");
-		ASSERT_MSG(vertices.size() < 33000, "You might wanna check the vert count on that model");
+		ensure(!vertices.empty(), "Empty vertex array");
+		ensure(vertices.size() < 33000, "You might wanna check the vert count on that model");
 
 		load(vertices.data(), vertices.size(), static_draw);
 	}
 
 	vbo::~vbo()
 	{
-		ASSERT(birb::opengl_initialized);
+		ensure(birb::opengl_initialized);
 		glDeleteBuffers(1, &id);
 	}
 
 	void vbo::load(const f32* vertices, const size_t size, const bool static_draw)
 	{
-		ASSERT(id == 0);
-		ASSERT(size > 0);
+		ensure(id == 0);
+		ensure(size > 0);
 
 		glGenBuffers(1, &id);
 		glBindBuffer(GL_ARRAY_BUFFER, id);

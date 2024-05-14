@@ -1,10 +1,13 @@
+#include "Assert.hpp"
 #include "Timer.hpp"
 
 namespace birb
 {
 	timer::timer(const f32 duration)
 	:time_left(duration), duration(duration)
-	{}
+	{
+		ensure(duration > 0);
+	}
 
 	void timer::tick(const f32 deltatime)
 	{

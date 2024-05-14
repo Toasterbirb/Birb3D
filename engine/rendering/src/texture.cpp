@@ -24,12 +24,12 @@ namespace birb
 
 	void texture::create_empty(birb::vec2<i32> dimensions)
 	{
-		ASSERT_MSG(id == 0, "Memory leak");
-		ASSERT(dimensions.x > 0);
-		ASSERT(dimensions.y > 0);
+		ensure(id == 0, "Memory leak");
+		ensure(dimensions.x > 0);
+		ensure(dimensions.y > 0);
 
 		glGenTextures(1, &id);
-		ASSERT(id != 0);
+		ensure(id != 0);
 
 		glBindTexture(GL_TEXTURE_2D, id);
 
@@ -43,7 +43,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO("Texture loading")
 
-		ASSERT_MSG(id == 0, "Memory leak");
+		ensure(id == 0, "Memory leak");
 
 		this->slot = slot;
 
@@ -58,7 +58,7 @@ namespace birb
 				gl_color_format = GL_RGBA;
 				break;
 		}
-		ASSERT_MSG(gl_color_format != 0, "GL color format wasn't set correctly");
+		ensure(gl_color_format != 0, "GL color format wasn't set correctly");
 
 		tex_type = 0;
 		switch (texture_dimension)
@@ -75,7 +75,7 @@ namespace birb
 				tex_type = GL_TEXTURE_3D;
 				break;
 		}
-		ASSERT_MSG(tex_type != 0, "Invalid texture type");
+		ensure(tex_type != 0, "Invalid texture type");
 
 		birb::asset::image texture(image_path, true);
 		this->dimensions = texture.dimensions;
@@ -101,8 +101,8 @@ namespace birb
 
 	texture::~texture()
 	{
-		ASSERT_MSG(id != 0, "Attempted to destruct a texture that wasn't initialized");
-		ASSERT(birb::opengl_initialized);
+		ensure(id != 0, "Attempted to destruct a texture that wasn't initialized");
+		ensure(birb::opengl_initialized);
 
 		birb::log("Texture destroyed (" + ptr_to_str(this) + ")");
 
@@ -112,14 +112,14 @@ namespace birb
 
 	void texture::tex_unit(birb::shader& shader, const char* uniform, const u32 unit)
 	{
-		ASSERT_MSG(id != 0, "Texture needs to be initialized at this point");
+		ensure(id != 0, "Texture needs to be initialized at this point");
 
 		shader.set_int(uniform, unit);
 	}
 
 	void texture::bind()
 	{
-		ASSERT_MSG(id != 0, "Texture needs to be initialized at this point");
+		ensure(id != 0, "Texture needs to be initialized at this point");
 
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(tex_type, id);
@@ -127,7 +127,7 @@ namespace birb
 
 	void texture::unbind()
 	{
-		ASSERT_MSG(id != 0, "Texture needs to be initialized at this point");
+		ensure(id != 0, "Texture needs to be initialized at this point");
 
 		glBindTexture(tex_type, 0);
 	}
@@ -136,14 +136,14 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN()
 
-		ASSERT(!path.empty());
+		ensure(!path.empty());
 
 		// Load the image data
 		asset::image image(path.c_str(), true);
-		ASSERT(image.data != nullptr);
-		ASSERT(image.dimensions.x != 0);
-		ASSERT(image.dimensions.y != 0);
-		ASSERT(image.color_channels != 0);
+		ensure(image.data != nullptr);
+		ensure(image.dimensions.x != 0);
+		ensure(image.dimensions.y != 0);
+		ensure(image.color_channels != 0);
 
 		u32 id;
 

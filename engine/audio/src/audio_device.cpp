@@ -13,7 +13,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_AUDIO_FN()
 
-		ASSERT_MSG(alc_is_init == false, "You shouldn't need to initialize OpenAL more than once");
+		ensure(alc_is_init == false, "You shouldn't need to initialize OpenAL more than once");
 		alc_is_init = true;
 
 		ALenum error;

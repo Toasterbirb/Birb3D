@@ -26,8 +26,8 @@ namespace editor
 		const std::vector<std::string>& vert_shader_names = birb::shader::vertex_shader_name_list();
 		const std::vector<std::string>& frag_shader_names = birb::shader::fragment_shader_name_list();
 
-		ASSERT(!vert_shader_names.empty());
-		ASSERT(!frag_shader_names.empty());
+		birb::ensure(!vert_shader_names.empty());
+		birb::ensure(!frag_shader_names.empty());
 
 		for (const std::string& vert_shader : vert_shader_names)
 			vertex_shader_name_list_str += vert_shader + '\0';
@@ -35,22 +35,22 @@ namespace editor
 		for (const std::string& frag_shader : frag_shader_names)
 			fragment_shader_name_list_str += frag_shader + '\0';
 
-		ASSERT(!vertex_shader_name_list_str.empty());
-		ASSERT(!fragment_shader_name_list_str.empty());
+		birb::ensure(!vertex_shader_name_list_str.empty());
+		birb::ensure(!fragment_shader_name_list_str.empty());
 
 		// Find the indicies of the default shaders
 		auto vert_it = std::find_if(vert_shader_names.begin(), vert_shader_names.end(), [this](const std::string& name){
 			return default_vert_shader_name_str == name;
 		});
-		ASSERT(vert_it != vert_shader_names.end() && "Default vertex shader doesn't exist in ShaderSource.hpp");
-		ASSERT(vert_it - vert_shader_names.begin() < std::numeric_limits<u16>::max());
+		birb::ensure(vert_it != vert_shader_names.end() && "Default vertex shader doesn't exist in ShaderSource.hpp");
+		birb::ensure(vert_it - vert_shader_names.begin() < std::numeric_limits<u16>::max());
 		default_vertex_shader_index = vert_it - vert_shader_names.begin();
 
 		auto frag_it = std::find_if(frag_shader_names.begin(), frag_shader_names.end(), [this](const std::string& name){
 			return default_frag_shader_name_str == name;
 		});
-		ASSERT(frag_it != frag_shader_names.end() && "Default fragment shader doesn't exist in ShaderSource.hpp");
-		ASSERT(frag_it - frag_shader_names.begin() < std::numeric_limits<u16>::max());
+		birb::ensure(frag_it != frag_shader_names.end() && "Default fragment shader doesn't exist in ShaderSource.hpp");
+		birb::ensure(frag_it - frag_shader_names.begin() < std::numeric_limits<u16>::max());
 		default_fragment_shader_index = frag_it - frag_shader_names.begin();
 	}
 
@@ -70,7 +70,7 @@ namespace editor
 		if (name == new_entity_menu_text)
 			name += "_" + std::to_string(counter++);
 
-		ASSERT(!scene.is_duplicate_entity_info_name(name));
+		birb::ensure(!scene.is_duplicate_entity_info_name(name));
 
 		entt::entity new_entity = scene.registry.create();
 		birb::component::info default_info(name);

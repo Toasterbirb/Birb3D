@@ -7,7 +7,7 @@ namespace birb
 	{
 		std::string str = name;
 
-		ASSERT((!is_array && index == -1) || (is_array && index >= 0));
+		ensure((!is_array && index == -1) || (is_array && index >= 0));
 
 		if (is_array)
 			str += "[" + std::to_string(index) + "]";
