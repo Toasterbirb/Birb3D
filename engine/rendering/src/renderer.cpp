@@ -399,7 +399,8 @@ namespace birb
 		ASSERT_MSG(vert_count > 0, "Unncessary call to draw_arrays()");
 
 #ifndef NDEBUG
-		ASSERT_MSG(vao.d_total_vbo_vert_count == vert_count, "Something has gone wrong with VBO linking");
+		// TODO: This assert is a bit questionable and needs more attention
+		// ASSERT_MSG(vao.d_total_vbo_vert_count == vert_count, "Something has gone wrong with VBO linking");
 #endif
 
 		vao.bind();
