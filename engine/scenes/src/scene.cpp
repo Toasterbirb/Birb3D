@@ -29,7 +29,7 @@ namespace birb
 
 	void scene::destroy_entity(const entt::entity& entity)
 	{
-		assert(registry.valid(entity) && "Attempted to destroy an invalid entity");
+		ASSERT_MSG(registry.valid(entity), "Attempted to destroy an invalid entity");
 		registry.destroy(entity);
 	}
 
