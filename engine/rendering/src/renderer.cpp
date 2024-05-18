@@ -1,4 +1,5 @@
 #include "Assert.hpp"
+#include "Camera.hpp"
 #include "Character.hpp"
 #include "EBO.hpp"
 #include "Globals.hpp"
@@ -182,7 +183,7 @@ namespace birb
 		this->window = &window;
 	}
 
-	void renderer::draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix)
+	void renderer::draw_entities(const camera& camera, vec2<i32> window_size)
 	{
 		PROFILER_SCOPE_RENDER_FN()
 
@@ -210,222 +211,22 @@ namespace birb
 		rendered_entities = 0;
 		rendered_vertices = 0;
 
-		// Render all models
-		{
-			PROFILER_SCOPE_RENDER("Render models")
+		glm::mat4 perspective_projection = camera.projection_matrix(
+			camera::projection_mode::perspective,
+			window_size
+		);
 
-			// Store shaders that have some specific uniforms updated already
-			// to avoid duplicate uniform updates
-			std::unordered_set<u32> uniforms_updated;
+		glm::mat4 orthographic_projection = camera.projection_matrix(
+			camera::projection_mode::orthographic,
+			window_size
+		);
 
-			const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::transform>();
-			for (const auto& ent : view)
-			{
-				// Check if the entity should be skipped because its not active
-				const state* state = entity_registry.try_get<birb::state>(ent);
-				if (state && !state->active)
-					continue;
+		glm::mat4 view_matrix = camera.view_matrix();
 
-				// Get the shader we'll be using for drawing the meshes of the model
-				shader_ref& shader_reference = view.get<birb::shader_ref>(ent);
-				std::shared_ptr<shader> shader = shader_collection::get_shader(shader_reference);
+		draw_2d_entities(view_matrix, orthographic_projection);
+		draw_3d_entities(view_matrix, perspective_projection);
+		draw_screenspace_entities(orthographic_projection);
 
-				ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
-
-				const birb::transform& transform = view.get<birb::transform>(ent);
-
-				// Make sure the lighting is up-to-date
-				if (!uniforms_updated.contains(shader->id))
-				{
-					shader->set(shader_uniforms::view, view_matrix);
-					shader->set(shader_uniforms::projection, projection_matrix);
-
-					shader->update_directional_light();
-					shader->update_point_lights();
-					uniforms_updated.insert(shader->id);
-				}
-
-				shader->set(shader_uniforms::model, transform.model_matrix());
-
-				// Apply the material component on the shader if it has any
-				// TODO: Make this work with textures too
-				const birb::material* material = entity_registry.try_get<birb::material>(ent);
-				if (material != nullptr)
-					shader->apply_color_material(*material);
-
-				// Draw the model
-				ensure(view.get<birb::model>(ent).vertex_count() != 0, "Tried to render a model with no vertices");
-				view.get<birb::model>(ent).draw(*shader);
-				++rendered_entities;
-				rendered_vertices += view.get<birb::model>(ent).vertex_count();
-			}
-		}
-
-		// Render sprites
-		{
-			PROFILER_SCOPE_RENDER("Render sprites")
-
-			const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
-
-			// Sprites should only have a singular texture, so we'll use the default
-			// tex0 texture unit
-			texture_shader->set(shader_uniforms::texture_units::tex0, 0);
-
-			texture_shader->set(shader_uniforms::view, view_matrix);
-			texture_shader->set(shader_uniforms::projection, projection_matrix);
-			sprite_vao.bind();
-
-
-			const auto view = entity_registry.view<sprite, transform>();
-
-			// Calculate model matrices in parallel
-			std::vector<glm::mat4> model_matrices(std::distance(view.begin(), view.end()));
-
-			{
-				PROFILER_SCOPE_RENDER("Calculate transform model matrices")
-
-				std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(), [view](const auto& entity) {
-					return view.get<birb::transform>(entity).model_matrix();
-				});
-			}
-
-			size_t sprite_index = 0;
-			texture_shader->activate();
-			sprite_vao.bind();
-
-			for (const auto& ent : view)
-			{
-				texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
-
-				sprite& entity_sprite = view.get<birb::sprite>(ent);
-
-				if (entity_sprite.ignore_aspect_ratio)
-				{
-					texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
-					texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
-				}
-				else
-				{
-					// Modify the sprite shape based on if we wan't to respect the aspect ratio width or height wise
-					if (entity_sprite.aspect_ratio_lock == sprite::aspect_ratio_lock::width)
-					{
-						texture_shader->set(shader_uniforms::texture::aspect_ratio, entity_sprite.texture->aspect_ratio());
-						texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
-					}
-					else
-					{
-						texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
-						texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, entity_sprite.texture->aspect_ratio_reverse());
-					}
-				}
-
-				entity_sprite.texture->bind();
-
-				// Since we are using the same vao for all of the sprites,
-				// we can just manually call glDrawElements without binding the vao for all of them
-				//
-				// This should speed things up a teeny tiny bit
-				glDrawElements(GL_TRIANGLES, quad_indices.size(), GL_UNSIGNED_INT, 0);
-			}
-
-			// We can probably assume that each rectangle shaped sprite is
-			// equal to 4 vertices
-			rendered_vertices += 4 * model_matrices.size();
-
-			rendered_entities += model_matrices.size();
-		}
-
-		// Render text entities
-		{
-			PROFILER_SCOPE_RENDER("Render text")
-
-			// The same VAO can be used for all text entities
-			text_vao.bind();
-
-			const auto view = entity_registry.view<birb::text>();
-
-			for (const auto& ent : view)
-			{
-				// Skip inactive entities
-				const state* state = entity_registry.try_get<birb::state>(ent);
-				if (state && !state->active)
-					continue;
-
-				const birb::text& text = view.get<birb::text>(ent);
-
-				// Skip the entity if the text component doens't have any text to render
-				if (text.txt.empty())
-					continue;
-
-				// Skip the entity if its size makes it invisible
-				if (text.scale == 0.0f)
-					continue;
-
-				// Fetch the shader
-				std::shared_ptr<shader> shader = shader_collection::get_shader(text.shader);
-				ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
-
-				shader->set(shader_uniforms::text_color, text.color);
-				shader->set(shader_uniforms::projection, projection_matrix);
-
-				// We'll be drawing to TEXTURE0
-				glActiveTexture(GL_TEXTURE0);
-
-				f32 x = text.position.x;
-				const f32 y = text.position.y;
-
-				// Iterate through the text
-				for (const char c : text.txt)
-				{
-					character& ch = text.font.get_char(c);
-
-					vec2<f32> pos; // position
-					pos.x = x + ch.bearing.x * text.scale;
-					pos.y = y - (ch.size.y - ch.bearing.y) * text.scale;
-
-					vec2<f32> dim; // dimensions
-					dim.x = ch.size.x * text.scale;
-					dim.y = ch.size.y * text.scale;
-
-					// Update the VBO
-					constexpr u8 vert_count = 6;
-
-					const f32 verts[vert_count][4] = {
-						{ pos.x,			pos.y + dim.y,	0.0f, 0.0f },
-						{ pos.x,			pos.y,			0.0f, 1.0f },
-						{ pos.x + dim.x, 	pos.y,			1.0f, 1.0f },
-
-						{ pos.x,			pos.y + dim.y,	0.0f, 0.0f },
-						{ pos.x + dim.x,	pos.y,			1.0f, 1.0f },
-						{ pos.x + dim.x,	pos.y + dim.y,	1.0f, 0.0f }
-					};
-
-					glBindTexture(GL_TEXTURE_2D, ch.texture_id);
-
-					glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
-					glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-					glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-					// We won't be using the draw_arrays() function since
-					// we'll be using the same VAO for all of the text entities
-					glDrawArrays(GL_TRIANGLES, 0, vert_count);
-
-					// Move to the next char. One advance is 1/64 of a pixel
-					// the bitshifting thing gets the value in pixels (2^6 = 64)
-					// If you want to learn more about this function in general, check
-					// this page where most of this code portion is
-					// adapter from: https://learnopengl.com/In-Practice/Text-Rendering
-					x += (ch.advance >> 6) * text.scale;
-
-					rendered_vertices += vert_count;
-				}
-
-				text_vao.unbind();
-				glBindTexture(GL_TEXTURE_2D, 0);
-
-				++rendered_entities;
-			}
-		}
 
 		/////////////////////
 		// Post-processing //
@@ -465,8 +266,8 @@ namespace birb
 		// Draw box colliders
 		{
 			const std::shared_ptr<shader> debug_shader = shader_collection::get_shader(debug_shader_ref);
-			debug_shader->set(shader_uniforms::view, projection_matrix);
-			debug_shader->set(shader_uniforms::projection, projection_matrix);
+			debug_shader->set(shader_uniforms::view, view_matrix);
+			debug_shader->set(shader_uniforms::projection, perspective_projection);
 			debug_shader->set(shader_uniforms::color, collider_debug_color);
 
 			const auto view = entity_registry.view<collider::box>();
@@ -588,5 +389,237 @@ namespace birb
 	{
 		ensure(window != nullptr, "The window needs to be set before post-processing can be enabled");
 		post_processing_enabled = enabled;
+	}
+
+	void renderer::draw_2d_entities(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection_matrix)
+	{
+		entt::registry& entity_registry = current_scene->registry;
+
+		// Render sprites
+		{
+			PROFILER_SCOPE_RENDER("Render sprites")
+
+			const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
+
+			// Sprites should only have a singular texture, so we'll use the default
+			// tex0 texture unit
+			texture_shader->set(shader_uniforms::texture_units::tex0, 0);
+
+			texture_shader->set(shader_uniforms::view, view_matrix);
+			texture_shader->set(shader_uniforms::projection, orthographic_projection_matrix);
+			sprite_vao.bind();
+
+
+			const auto view = entity_registry.view<sprite, transform>();
+
+			// Calculate model matrices in parallel
+			std::vector<glm::mat4> model_matrices(std::distance(view.begin(), view.end()));
+
+			{
+				PROFILER_SCOPE_RENDER("Calculate transform model matrices")
+
+				std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(), [view](const auto& entity) {
+					return view.get<birb::transform>(entity).model_matrix();
+				});
+			}
+
+			size_t sprite_index = 0;
+			texture_shader->activate();
+			sprite_vao.bind();
+
+			for (const auto& ent : view)
+			{
+				texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
+
+				sprite& entity_sprite = view.get<birb::sprite>(ent);
+
+				if (entity_sprite.ignore_aspect_ratio)
+				{
+					texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
+					texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
+				}
+				else
+				{
+					// Modify the sprite shape based on if we wan't to respect the aspect ratio width or height wise
+					if (entity_sprite.aspect_ratio_lock == sprite::aspect_ratio_lock::width)
+					{
+						texture_shader->set(shader_uniforms::texture::aspect_ratio, entity_sprite.texture->aspect_ratio());
+						texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
+					}
+					else
+					{
+						texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
+						texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, entity_sprite.texture->aspect_ratio_reverse());
+					}
+				}
+
+				entity_sprite.texture->bind();
+
+				// Since we are using the same vao for all of the sprites,
+				// we can just manually call glDrawElements without binding the vao for all of them
+				//
+				// This should speed things up a teeny tiny bit
+				glDrawElements(GL_TRIANGLES, quad_indices.size(), GL_UNSIGNED_INT, 0);
+			}
+
+			// We can probably assume that each rectangle shaped sprite is
+			// equal to 4 vertices
+			rendered_vertices += 4 * model_matrices.size();
+
+			rendered_entities += model_matrices.size();
+		}
+	}
+
+	void renderer::draw_3d_entities(const glm::mat4& view_matrix, const glm::mat4& perspective_projection_matrix)
+	{
+		entt::registry& entity_registry = current_scene->registry;
+
+		// Render all models
+		{
+			PROFILER_SCOPE_RENDER("Render models")
+
+			// Store shaders that have some specific uniforms updated already
+			// to avoid duplicate uniform updates
+			std::unordered_set<u32> uniforms_updated;
+
+			const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::transform>();
+			for (const auto& ent : view)
+			{
+				// Check if the entity should be skipped because its not active
+				const state* state = entity_registry.try_get<birb::state>(ent);
+				if (state && !state->active)
+					continue;
+
+				// Get the shader we'll be using for drawing the meshes of the model
+				shader_ref& shader_reference = view.get<birb::shader_ref>(ent);
+				std::shared_ptr<shader> shader = shader_collection::get_shader(shader_reference);
+
+				ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
+
+				const birb::transform& transform = view.get<birb::transform>(ent);
+
+				// Make sure the lighting is up-to-date
+				if (!uniforms_updated.contains(shader->id))
+				{
+					shader->set(shader_uniforms::view, view_matrix);
+					shader->set(shader_uniforms::projection, perspective_projection_matrix);
+
+					shader->update_directional_light();
+					shader->update_point_lights();
+					uniforms_updated.insert(shader->id);
+				}
+
+				shader->set(shader_uniforms::model, transform.model_matrix());
+
+				// Apply the material component on the shader if it has any
+				// TODO: Make this work with textures too
+				const birb::material* material = entity_registry.try_get<birb::material>(ent);
+				if (material != nullptr)
+					shader->apply_color_material(*material);
+
+				// Draw the model
+				ensure(view.get<birb::model>(ent).vertex_count() != 0, "Tried to render a model with no vertices");
+				view.get<birb::model>(ent).draw(*shader);
+				++rendered_entities;
+				rendered_vertices += view.get<birb::model>(ent).vertex_count();
+			}
+		}
+	}
+
+	void renderer::draw_screenspace_entities(const glm::mat4& orthographic_projection_matrix)
+	{
+		entt::registry& entity_registry = current_scene->registry;
+
+		// Render text entities
+		{
+			PROFILER_SCOPE_RENDER("Render text")
+
+			// The same VAO can be used for all text entities
+			text_vao.bind();
+
+			const auto view = entity_registry.view<birb::text>();
+
+			for (const auto& ent : view)
+			{
+				// Skip inactive entities
+				const state* state = entity_registry.try_get<birb::state>(ent);
+				if (state && !state->active)
+					continue;
+
+				const birb::text& text = view.get<birb::text>(ent);
+
+				// Skip the entity if the text component doens't have any text to render
+				if (text.txt.empty())
+					continue;
+
+				// Skip the entity if its size makes it invisible
+				if (text.scale == 0.0f)
+					continue;
+
+				// Fetch the shader
+				std::shared_ptr<shader> shader = shader_collection::get_shader(text.shader);
+				ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
+
+				shader->set(shader_uniforms::text_color, text.color);
+				shader->set(shader_uniforms::projection, orthographic_projection_matrix);
+
+				// We'll be drawing to TEXTURE0
+				glActiveTexture(GL_TEXTURE0);
+
+				f32 x = text.position.x;
+				const f32 y = text.position.y;
+
+				// Iterate through the text
+				for (const char c : text.txt)
+				{
+					character& ch = text.font.get_char(c);
+
+					vec2<f32> pos; // position
+					pos.x = x + ch.bearing.x * text.scale;
+					pos.y = y - (ch.size.y - ch.bearing.y) * text.scale;
+
+					vec2<f32> dim; // dimensions
+					dim.x = ch.size.x * text.scale;
+					dim.y = ch.size.y * text.scale;
+
+					// Update the VBO
+					constexpr u8 vert_count = 6;
+
+					const f32 verts[vert_count][4] = {
+						{ pos.x,			pos.y + dim.y,	0.0f, 0.0f },
+						{ pos.x,			pos.y,			0.0f, 1.0f },
+						{ pos.x + dim.x, 	pos.y,			1.0f, 1.0f },
+
+						{ pos.x,			pos.y + dim.y,	0.0f, 0.0f },
+						{ pos.x + dim.x,	pos.y,			1.0f, 1.0f },
+						{ pos.x + dim.x,	pos.y + dim.y,	1.0f, 0.0f }
+					};
+
+					glBindTexture(GL_TEXTURE_2D, ch.texture_id);
+
+					glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
+					glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+					// We won't be using the draw_arrays() function since
+					// we'll be using the same VAO for all of the text entities
+					glDrawArrays(GL_TRIANGLES, 0, vert_count);
+
+					// Move to the next char. One advance is 1/64 of a pixel
+					// the bitshifting thing gets the value in pixels (2^6 = 64)
+					// If you want to learn more about this function in general, check
+					// this page where most of this code portion is
+					// adapter from: https://learnopengl.com/In-Practice/Text-Rendering
+					x += (ch.advance >> 6) * text.scale;
+
+					rendered_vertices += vert_count;
+				}
+
+				text_vao.unbind();
+				glBindTexture(GL_TEXTURE_2D, 0);
+
+				++rendered_entities;
+			}
+		}
 	}
 }

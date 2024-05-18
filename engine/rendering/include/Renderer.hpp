@@ -13,6 +13,7 @@
 
 namespace birb
 {
+	class camera;
 	class ebo;
 	class scene;
 	class vbo;
@@ -42,7 +43,7 @@ namespace birb
 		 */
 		void set_window(birb::window& window);
 
-		void draw_entities(const glm::mat4& view_matrix, const glm::mat4& projection_matrix);
+		void draw_entities(const camera& camera, vec2<i32> window_size);
 		void draw_elements(vao& vao, size_t index_count, gl_primitive primitive = renderer::gl_primitive::triangles);
 		void draw_arrays(vao& vao, size_t vert_count, gl_primitive primitive = renderer::gl_primitive::triangles);
 
@@ -80,6 +81,10 @@ namespace birb
 		void opt_post_process(const bool enabled);
 
 	private:
+		void draw_2d_entities(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection_matrix);
+		void draw_3d_entities(const glm::mat4& view_matrix, const glm::mat4& perspective_projection_matrix);
+		void draw_screenspace_entities(const glm::mat4& orthographic_projection_matrix);
+
 		scene* current_scene = nullptr;
 		static inline bool wireframe_mode = false;
 		static inline bool backface_culling_enabled = false;

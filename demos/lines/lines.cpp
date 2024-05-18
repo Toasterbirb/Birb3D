@@ -35,7 +35,7 @@ int main(void)
 		}
 
 		window.clear();
-		renderer.draw_entities(camera.view_matrix(), camera.projection_matrix(birb::camera::projection_mode::perspective, window.size()));
+		renderer.draw_entities(camera, window.size());
 		window.flip();
 
 		window.poll();

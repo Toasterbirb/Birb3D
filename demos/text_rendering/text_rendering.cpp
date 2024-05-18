@@ -49,7 +49,7 @@ int main(void)
 		window.clear();
 
 		// Draw here
-		renderer.draw_entities(camera.view_matrix(), camera.projection_matrix(birb::camera::projection_mode::orthographic, window.size()));
+		renderer.draw_entities(camera, window.size());
 
 		renderer_overlay.draw();
 		camera_info.draw();

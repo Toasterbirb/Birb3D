@@ -15,6 +15,7 @@
 int main(void)
 {
 	birb::window window("Physics", { 1280, 720 });
+	window.init_imgui();
 	birb::timestep timestep;
 
 	birb::renderer renderer;
@@ -79,7 +80,7 @@ int main(void)
 			birb::log("Collision: ", counter++);
 
 		window.clear();
-		renderer.draw_entities(camera.view_matrix(), camera.projection_matrix(birb::camera::projection_mode::orthographic, window.size()));
+		renderer.draw_entities(camera, window.size());
 		window.flip();
 
 		window.poll();
