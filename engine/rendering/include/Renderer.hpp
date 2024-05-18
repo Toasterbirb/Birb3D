@@ -217,8 +217,8 @@ namespace birb
 
 		// Indices for creating a square from two triangles
 		static constexpr std::array<u32, 6> quad_indices = {
-			0, 1, 2,
-			0, 2, 3,
+			2, 1, 0,
+			3, 2, 0,
 		};
 
 		// The opengl buffers needed for sprites
