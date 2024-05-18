@@ -11,7 +11,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		entt::registry& entity_registry = current_scene->registry;
+		const entt::registry& entity_registry = current_scene->registry;
 
 		// Render text entities
 		{
@@ -40,7 +40,7 @@ namespace birb
 					continue;
 
 				// Fetch the shader
-				std::shared_ptr<shader> shader = shader_collection::get_shader(text.shader);
+				const std::shared_ptr<shader> shader = shader_collection::get_shader(text.shader);
 				ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
 
 				shader->set(shader_uniforms::text_color, text.color);
@@ -68,15 +68,19 @@ namespace birb
 						continue;
 					}
 
-					character& ch = text.font.get_char(c);
+					const character& ch = text.font.get_char(c);
 
-					vec2<f32> pos; // position
-					pos.x = x + ch.bearing.x * text.scale;
-					pos.y = y - (ch.size.y - ch.bearing.y) * text.scale;
+					// position
+					const vec2<f32> pos(
+						x + ch.bearing.x * text.scale,
+						y - (ch.size.y - ch.bearing.y) * text.scale
+					);
 
-					vec2<f32> dim; // dimensions
-					dim.x = ch.size.x * text.scale;
-					dim.y = ch.size.y * text.scale;
+					// dimensions
+					const vec2<f32> dim(
+						ch.size.x * text.scale,
+						ch.size.y * text.scale
+					);
 
 					// Update the VBO
 					constexpr u8 vert_count = 6;
