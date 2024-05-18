@@ -65,7 +65,7 @@ add_custom_command(
 )
 
 file(GLOB RENDER_SRC rendering/src/*.cpp)
-target_sources(birb PRIVATE ${OBJ_SRC_HEADER} ${RENDER_SRC} ${SHADER_SOURCE_HEADER})
+target_sources(birb PRIVATE ${RENDER_SRC})
 target_include_directories(birb PUBLIC assets/primitive)
 
 # Scenes and ECS
@@ -82,7 +82,10 @@ target_sources(birb PRIVATE ${SCENES_SRC} ${COMPONENT_COMBINATION_HEADER})
 target_include_directories(birb PUBLIC
 	"${PROJECT_SOURCE_DIR}/engine/scenes/components/include")
 
+add_custom_target(headers)
+target_sources(headers PRIVATE ${OBJ_SRC_HEADER} ${SHADER_SOURCE_HEADER} ${COMPONENT_COMBINATION_HEADER})
 
+add_dependencies(birb headers)
 
 target_link_libraries(birb
 	assimp

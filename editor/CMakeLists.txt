@@ -6,6 +6,8 @@ add_executable(${EDITOR_BIN_NAME} ${EDITOR_SRC})
 target_link_libraries(${EDITOR_BIN_NAME} birb)
 target_include_directories(${EDITOR_BIN_NAME} PRIVATE include)
 
+add_dependencies(${EDITOR_BIN_NAME} headers)
+
 if (NOT BIRB_DISTCC)
 	target_precompile_headers(${EDITOR_BIN_NAME} PRIVATE
 		<algorithm>
