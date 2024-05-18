@@ -32,8 +32,8 @@ namespace birb
 	// Input queue for engine reserved key inputs
 	static std::queue<input> engine_input_queue;
 
-	window::window(const std::string& title, const vec2<i32> dimensions)
-	:dimensions(dimensions)
+	window::window(const std::string& title, const vec2<i32> dimensions, const u8 msaa_level)
+	:msaa_level(msaa_level), dimensions(dimensions)
 	{
 		event_bus::register_event_id(event::set_window_background_clear_color, this); // Set window background clear color | f32[3]
 
@@ -57,6 +57,9 @@ namespace birb
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+		// Enable antialiasing
+		glfwWindowHint(GLFW_SAMPLES, msaa_level);
 
 		// Create the window
 		birb::log("Creating the window");
@@ -92,6 +95,8 @@ namespace birb
 		// Enable depth testing
 		glEnable(GL_DEPTH_TEST);
 
+		// Make sure that antialiasing is enabled
+		glEnable(GL_MULTISAMPLE);
 
 		birb::log("window created successfully!");
 	}

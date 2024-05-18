@@ -27,7 +27,7 @@ namespace birb
 		 * @param title Window title
 		 * @param dimensions Size of the window
 		 */
-		window(const std::string& title, const vec2<i32> dimensions);
+		window(const std::string& title, const vec2<i32> dimensions, const u8 msaa_level = 4);
 
 		~window();
 
@@ -156,6 +156,11 @@ namespace birb
 		 * @brief Automatically resize the viewport when window gets resized
 		 */
 		bool viewport_autoresize = true;
+
+		/**
+		 * @brief MSAA sample count
+		 */
+		const u8 msaa_level;
 
 	private:
 		GLFWwindow* glfw_window;
