@@ -221,11 +221,17 @@ namespace birb
 			window_size
 		);
 
+		glm::mat4 orthographic_projection_no_near = camera.projection_matrix(
+			camera::projection_mode::orthographic,
+			window_size,
+			true
+		);
+
 		glm::mat4 view_matrix = camera.view_matrix();
 
 		draw_2d_entities(view_matrix, orthographic_projection);
 		draw_3d_entities(view_matrix, perspective_projection);
-		draw_screenspace_entities(orthographic_projection);
+		draw_screenspace_entities(orthographic_projection_no_near);
 
 
 		/////////////////////

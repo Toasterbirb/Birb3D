@@ -26,7 +26,7 @@ namespace birb
 			perspective,
 			orthographic
 		};
-		glm::mat4 projection_matrix(camera::projection_mode mode, vec2<i32> window_size) const;
+		glm::mat4 projection_matrix(const camera::projection_mode mode, const vec2<i32> window_size, const bool ignore_near_clip = false) const;
 
 		glm::mat4 view_matrix() const;
 		glm::vec3 front_vec() const;
