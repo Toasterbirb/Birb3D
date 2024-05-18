@@ -66,6 +66,36 @@ namespace birb
 		 */
 		u32 rendered_vertex_count() const;
 
+		/**
+		 * @return The amount of 2D entities rendered during last call to draw_entities()
+		 */
+		u32 rendered_2d_entities_count() const;
+
+		/**
+		 * @return The amount of vertices rendered for 2D entities during last call to draw_entities()
+		 */
+		u32 rendered_2d_vertices_count() const;
+
+		/**
+		 * @return The amount of 3D entities rendered during last call to draw_entities()
+		 */
+		u32 rendered_3d_entities_count() const;
+
+		/**
+		 * @return The amount of vertices rendered for 3D entities during last call to draw_entities()
+		 */
+		u32 rendered_3d_vertices_count() const;
+
+		/**
+		 * @return The amount of screenspace entities rendered during last call to draw_entities()
+		 */
+		u32 rendered_screenspace_entities_count() const;
+
+		/**
+		 * @return The amount of vertices rendered for screenspace entities during last call to draw_entities()
+		 */
+		u32 rendered_screenspace_vertices_count() const;
+
 		///////////////////////
 		// Renderer settings //
 		///////////////////////
@@ -91,8 +121,23 @@ namespace birb
 		bool debug_view_enabled = false;
 
 		// Variables for rendering statistics
-		u32 rendered_entities = 0;
-		u32 rendered_vertices = 0;
+		struct render_stat
+		{
+			u32 entities = 0;
+			u32 vertices = 0;
+
+			void reset()
+			{
+				entities = 0;
+				vertices = 0;
+			}
+		};
+
+		render_stat stat_total;
+		render_stat stat_2d;
+		render_stat stat_3d;
+		render_stat stat_screenspace;
+
 
 		// Counter used for avoiding unnecessary shader calculations
 		u32 frame_id_counter = 0;

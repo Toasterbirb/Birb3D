@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Types.hpp"
 #include "WidgetBase.hpp"
 
 namespace birb
@@ -20,6 +21,13 @@ namespace birb
 			const char* collapsing_menu_name = "";
 
 			const birb::renderer& renderer;
+
+			struct draw_stats_table_data_point
+			{
+				std::string name;
+				u32 entities;
+				u32 vertices;
+			};
 		};
 	}
 }

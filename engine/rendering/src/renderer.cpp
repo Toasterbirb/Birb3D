@@ -214,9 +214,6 @@ namespace birb
 
 		entt::registry& entity_registry = current_scene->registry;
 
-		rendered_entities = 0;
-		rendered_vertices = 0;
-
 		glm::mat4 perspective_projection = camera.projection_matrix(
 			camera::projection_mode::perspective,
 			window_size
@@ -235,9 +232,19 @@ namespace birb
 
 		glm::mat4 view_matrix = camera.view_matrix();
 
+		// Reset statistics
+		stat_total.reset();
+		stat_2d.reset();
+		stat_3d.reset();
+		stat_screenspace.reset();
+
 		draw_2d_entities(view_matrix, orthographic_projection);
 		draw_3d_entities(view_matrix, perspective_projection);
 		draw_screenspace_entities(orthographic_projection_no_near);
+
+		// Calculate the total entity and vert counts
+		stat_total.vertices = stat_2d.vertices + stat_3d.vertices + stat_screenspace.vertices;
+		stat_total.entities = stat_2d.entities + stat_3d.entities + stat_screenspace.entities;
 
 
 		/////////////////////
@@ -374,12 +381,42 @@ namespace birb
 
 	u32 renderer::rendered_entities_count() const
 	{
-		return rendered_entities;
+		return stat_total.entities;
 	}
 
 	u32 renderer::rendered_vertex_count() const
 	{
-		return rendered_vertices;
+		return stat_total.vertices;
+	}
+
+	u32 renderer::rendered_2d_entities_count() const
+	{
+		return stat_2d.entities;
+	}
+
+	u32 renderer::rendered_2d_vertices_count() const
+	{
+		return stat_2d.vertices;
+	}
+
+	u32 renderer::rendered_3d_entities_count() const
+	{
+		return stat_3d.entities;
+	}
+
+	u32 renderer::rendered_3d_vertices_count() const
+	{
+		return stat_3d.vertices;
+	}
+
+	u32 renderer::rendered_screenspace_entities_count() const
+	{
+		return stat_screenspace.entities;
+	}
+
+	u32 renderer::rendered_screenspace_vertices_count() const
+	{
+		return stat_screenspace.vertices;
 	}
 
 	void renderer::opt_blend(const bool enabled) const
@@ -476,9 +513,9 @@ namespace birb
 
 			// We can probably assume that each rectangle shaped sprite is
 			// equal to 4 vertices
-			rendered_vertices += 4 * model_matrices.size();
+			stat_2d.vertices += 4 * model_matrices.size();
 
-			rendered_entities += model_matrices.size();
+			stat_2d.entities += model_matrices.size();
 		}
 	}
 
@@ -532,8 +569,8 @@ namespace birb
 				// Draw the model
 				ensure(view.get<birb::model>(ent).vertex_count() != 0, "Tried to render a model with no vertices");
 				view.get<birb::model>(ent).draw(*shader);
-				++rendered_entities;
-				rendered_vertices += view.get<birb::model>(ent).vertex_count();
+				++stat_3d.entities;
+				stat_3d.vertices += view.get<birb::model>(ent).vertex_count();
 			}
 		}
 	}
@@ -637,13 +674,13 @@ namespace birb
 					// adapter from: https://learnopengl.com/In-Practice/Text-Rendering
 					x += (ch.advance >> 6) * text.scale;
 
-					rendered_vertices += vert_count;
+					stat_screenspace.vertices += vert_count;
 				}
 
 				text_vao.unbind();
 				glBindTexture(GL_TEXTURE_2D, 0);
 
-				++rendered_entities;
+				++stat_screenspace.entities;
 			}
 		}
 	}
