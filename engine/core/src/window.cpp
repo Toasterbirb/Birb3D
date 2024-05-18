@@ -200,26 +200,29 @@ namespace birb
 		// Process engine inputs
 		while (!engine_input_queue.empty())
 		{
-			// Key down events
-			if (engine_input_queue.front().state == input::action::key_down)
+			// Only process keydown events
+			if (engine_input_queue.front().state != input::action::key_down)
 			{
-				switch(engine_input_queue.front().key)
-				{
-					case birb::input::keycode::f1:
-						event_bus::send_event(event::toggle_wireframe_rendering_mode);
-						break;
+				engine_input_queue.pop();
+				continue;
+			}
 
-					case birb::input::keycode::f3:
-						event_bus::send_event(event::toggle_debug_view);
-						break;
+			switch(engine_input_queue.front().key)
+			{
+				case birb::input::keycode::f1:
+					event_bus::send_event(event::toggle_wireframe_rendering_mode);
+					break;
 
-					case birb::input::keycode::escape:
-						unlock_cursor_from_window();
-						break;
+				case birb::input::keycode::f3:
+					event_bus::send_event(event::toggle_debug_view);
+					break;
 
-					default:
-						break;
-				}
+				case birb::input::keycode::escape:
+					unlock_cursor_from_window();
+					break;
+
+				default:
+					break;
 			}
 
 			engine_input_queue.pop();
