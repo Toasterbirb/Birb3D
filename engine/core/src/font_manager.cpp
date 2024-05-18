@@ -11,7 +11,7 @@
 #include <glad/gl.h>
 #include <map>
 
-u8 counter = 0;
+static u8 counter = 0;
 
 namespace birb
 {
