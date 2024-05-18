@@ -17,11 +17,11 @@ namespace birb
 
 		ImGui::Begin("Entity editor");
 		{
-			const auto view = scene.registry.view<birb::component::info>();
+			const auto view = scene.registry.view<birb::info>();
 
 			for (const auto entity : view)
 			{
-				const birb::component::info& info = view.get<birb::component::info>(entity);
+				const birb::info& info = view.get<birb::info>(entity);
 
 				std::string entity_name = info.name;
 				if (entity_name.empty())

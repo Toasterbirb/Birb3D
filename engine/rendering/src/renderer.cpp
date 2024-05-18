@@ -1,4 +1,5 @@
 #include "Assert.hpp"
+#include "Character.hpp"
 #include "EBO.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
@@ -12,6 +13,7 @@
 #include "ShaderUniforms.hpp"
 #include "Sprite.hpp"
 #include "State.hpp"
+#include "Text.hpp"
 #include "Transform.hpp"
 #include "VBO.hpp"
 #include "Window.hpp"
@@ -105,6 +107,18 @@ namespace birb
 		sprite_vao.unbind();
 		sprite_vbo->unbind();
 		sprite_ebo->unbind();
+
+
+		// Initialize things for text rendering
+		glGenBuffers(1, &text_vbo);
+		text_vao.bind();
+		glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * 6 * 4, NULL, GL_DYNAMIC_DRAW); // 6 verts, 4 floats per vert
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(f32), 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		text_vao.unbind();
+
 
 		// Initialize things for the collider debug cube
 		collider_debug_color = 0xC34043;
@@ -204,11 +218,11 @@ namespace birb
 			// to avoid duplicate uniform updates
 			std::unordered_set<u32> uniforms_updated;
 
-			const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::component::transform>();
+			const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::transform>();
 			for (const auto& ent : view)
 			{
 				// Check if the entity should be skipped because its not active
-				const component::state* state = entity_registry.try_get<component::state>(ent);
+				const state* state = entity_registry.try_get<birb::state>(ent);
 				if (state && !state->active)
 					continue;
 
@@ -218,7 +232,7 @@ namespace birb
 
 				ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
 
-				const birb::component::transform& transform = view.get<birb::component::transform>(ent);
+				const birb::transform& transform = view.get<birb::transform>(ent);
 
 				// Make sure the lighting is up-to-date
 				if (!uniforms_updated.contains(shader->id))
@@ -235,7 +249,7 @@ namespace birb
 
 				// Apply the material component on the shader if it has any
 				// TODO: Make this work with textures too
-				const birb::component::material* material = entity_registry.try_get<birb::component::material>(ent);
+				const birb::material* material = entity_registry.try_get<birb::material>(ent);
 				if (material != nullptr)
 					shader->apply_color_material(*material);
 
@@ -262,7 +276,7 @@ namespace birb
 			sprite_vao.bind();
 
 
-			const auto view = entity_registry.view<sprite, component::transform>();
+			const auto view = entity_registry.view<sprite, transform>();
 
 			// Calculate model matrices in parallel
 			std::vector<glm::mat4> model_matrices(std::distance(view.begin(), view.end()));
@@ -271,7 +285,7 @@ namespace birb
 				PROFILER_SCOPE_RENDER("Calculate transform model matrices")
 
 				std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(), [view](const auto& entity) {
-					return view.get<birb::component::transform>(entity).model_matrix();
+					return view.get<birb::transform>(entity).model_matrix();
 				});
 			}
 
@@ -321,6 +335,95 @@ namespace birb
 			rendered_entities += model_matrices.size();
 		}
 
+		// Render text entities
+		{
+			// The same VAO can be used for all text entities
+			text_vao.bind();
+
+			const auto view = entity_registry.view<birb::text>();
+
+			for (const auto& ent : view)
+			{
+				// Skip inactive entities
+				const state* state = entity_registry.try_get<birb::state>(ent);
+				if (state && !state->active)
+					continue;
+
+				const birb::text& text = view.get<birb::text>(ent);
+
+				// Skip the entity if the text component doens't have any text to render
+				if (text.txt.empty())
+					continue;
+
+				// Skip the entity if its size makes it invisible
+				if (text.scale == 0.0f)
+					continue;
+
+				// Fetch the shader
+				std::shared_ptr<shader> shader = shader_collection::get_shader(text.shader);
+				ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
+
+				shader->set(shader_uniforms::text_color, text.color);
+				shader->set(shader_uniforms::projection, projection_matrix);
+
+				// We'll be drawing to TEXTURE0
+				glActiveTexture(GL_TEXTURE0);
+
+				f32 x = text.position.x;
+				const f32 y = text.position.y;
+
+				// Iterate through the text
+				for (const char c : text.txt)
+				{
+					character& ch = text.font.get_char(c);
+
+					vec2<f32> pos; // position
+					pos.x = x + ch.bearing.x * text.scale;
+					pos.y = y - (ch.size.y - ch.bearing.y) * text.scale;
+
+					vec2<f32> dim; // dimensions
+					dim.x = ch.size.x * text.scale;
+					dim.y = ch.size.y * text.scale;
+
+					// Update the VBO
+					constexpr u8 vert_count = 6;
+
+					const f32 verts[vert_count][4] = {
+						{ pos.x,			pos.y + dim.y,	0.0f, 0.0f },
+						{ pos.x,			pos.y,			0.0f, 1.0f },
+						{ pos.x + dim.x, 	pos.y,			1.0f, 1.0f },
+
+						{ pos.x,			pos.y + dim.y,	0.0f, 0.0f },
+						{ pos.x + dim.x,	pos.y,			1.0f, 1.0f },
+						{ pos.x + dim.x,	pos.y + dim.y,	1.0f, 0.0f }
+					};
+
+					glBindTexture(GL_TEXTURE_2D, ch.texture_id);
+
+					glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
+					glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
+					glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+					// We won't be using the draw_arrays() function since
+					// we'll be using the same VAO for all of the text entities
+					glDrawArrays(GL_TRIANGLES, 0, vert_count);
+
+					// Move to the next char. One advance is 1/64 of a pixel
+					// the bitshifting thing gets the value in pixels (2^6 = 64)
+					// If you want to learn more about this function in general, check
+					// this page where most of this code portion is
+					// adapter from: https://learnopengl.com/In-Practice/Text-Rendering
+					x += (ch.advance >> 6) * text.scale;
+
+					rendered_vertices += vert_count;
+				}
+
+				text_vao.unbind();
+				glBindTexture(GL_TEXTURE_2D, 0);
+
+				++rendered_entities;
+			}
+		}
 
 		/////////////////////
 		// Post-processing //
@@ -368,7 +471,7 @@ namespace birb
 			for (const auto& entity : view)
 			{
 				const collider::box& box = view.get<collider::box>(entity);
-				component::transform transform;
+				transform transform;
 				transform.position = box.position();
 				transform.local_scale = box.size();
 				transform.local_scale.x += collider_cube_size_offset;

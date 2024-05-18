@@ -4,15 +4,12 @@
 
 namespace birb
 {
-	namespace component
-	{
-		class transform;
-	}
+	class transform;
 
 	class rigidbody
 	{
 	public:
-		explicit rigidbody(const component::transform& transform);
+		explicit rigidbody(const transform& transform);
 		~rigidbody() = default;
 		rigidbody(const rigidbody&) = default;
 		rigidbody(rigidbody&) = default;

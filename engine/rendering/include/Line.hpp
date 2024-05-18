@@ -22,7 +22,7 @@ namespace birb
 
 		std::array<f32, 6> vertices;
 		vec3<f32> point_a, point_b;
-		component::transform transform;
+		birb::transform transform;
 
 		std::shared_ptr<birb::vbo> vbo;
 	};

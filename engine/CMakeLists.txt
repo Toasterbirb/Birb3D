@@ -90,6 +90,7 @@ target_link_libraries(birb
 	glad
 	glm
 	imgui
+	freetype
 
 	audio
 	physics

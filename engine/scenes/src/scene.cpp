@@ -37,20 +37,20 @@ namespace birb
 	{
 		ensure(!name.empty());
 
-		const auto view = registry.view<birb::component::info>();
+		const auto view = registry.view<birb::info>();
 
 		// Default check that doesn't ignore any entities
 		if (ignored_entity == entt::null)
 		{
 			return std::any_of(view.begin(), view.end(), [name, view](const auto& entity){
-				return name == view.get<birb::component::info>(entity).name;
+				return name == view.get<birb::info>(entity).name;
 			});
 		}
 		// Ignore an entity while checking for duplicates
 		else
 		{
 			return std::any_of(view.begin(), view.end(), [name, view, ignored_entity](const auto& entity){
-				return name == view.get<birb::component::info>(entity).name && entity != ignored_entity;
+				return name == view.get<birb::info>(entity).name && entity != ignored_entity;
 			});
 		}
 

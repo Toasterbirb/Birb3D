@@ -39,6 +39,7 @@ namespace birb
 		const static inline uniform view_pos("view_pos", uniform_type::VEC3);
 
 		const static inline uniform color("color", uniform_type::BIRB_COLOR);
+		const static inline uniform text_color("text_color", uniform_type::BIRB_COLOR);
 
 		namespace point_lights
 		{

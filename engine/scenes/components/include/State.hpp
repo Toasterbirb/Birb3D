@@ -2,12 +2,9 @@
 
 namespace birb
 {
-	namespace component
+	struct state
 	{
-		struct state
-		{
-			bool active = true;
-			void toggle();
-		};
-	}
+		bool active = true;
+		void toggle();
+	};
 }

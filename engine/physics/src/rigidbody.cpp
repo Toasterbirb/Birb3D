@@ -5,7 +5,7 @@
 
 namespace birb
 {
-	rigidbody::rigidbody(const component::transform& transform)
+	rigidbody::rigidbody(const transform& transform)
 	:position(transform.position)
 	{}
 

@@ -7,7 +7,7 @@ namespace birb
 	{
 		box::box() {}
 
-		box::box(const component::transform& transform)
+		box::box(const transform& transform)
 		:_size(transform.local_scale), _position(transform.position)
 		{
 			update_min_max_values();
@@ -41,7 +41,7 @@ namespace birb
 			update_min_max_values();
 		}
 
-		void box::set_position_and_size(const component::transform& transform)
+		void box::set_position_and_size(const transform& transform)
 		{
 			this->_position = transform.position;
 			this->_size = transform.local_scale;

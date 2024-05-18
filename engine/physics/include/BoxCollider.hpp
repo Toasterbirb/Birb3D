@@ -4,10 +4,7 @@
 
 namespace birb
 {
-	namespace component
-	{
-		class transform;
-	}
+	class transform;
 
 	namespace collider
 	{
@@ -15,7 +12,7 @@ namespace birb
 		{
 		public:
 			box();
-			explicit box(const component::transform& transform);
+			explicit box(const transform& transform);
 			~box() = default;
 			box(const box&) = default;
 			box(box&) = default;
@@ -25,7 +22,7 @@ namespace birb
 			void set_position(const vec3<f32>& position);
 			void set_size(const vec3<f32>& size);
 			void set_position_and_size(const vec3<f32>& position, const vec3<f32>& size);
-			void set_position_and_size(const component::transform& transform);
+			void set_position_and_size(const transform& transform);
 
 			vec3<f32> size() const;
 			vec3<f32> position() const;

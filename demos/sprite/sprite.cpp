@@ -43,7 +43,7 @@ int main(void)
 
 		// Setup the first entity
 		{
-			birb::component::transform transform;
+			birb::transform transform;
 			transform.position = { 100, 0, 0 };
 			transform.local_scale = { 100, 100, 1 };
 			entity.add_component(transform);
@@ -52,7 +52,7 @@ int main(void)
 
 		// Setup the second entity
 		{
-			birb::component::transform transform;
+			birb::transform transform;
 			transform.position = { 100, 100.0f / 2.0f + 40.0f / 2.0f, 0 };
 			transform.local_scale = { 40, 40, 1 };
 			second_entity.add_component(transform);
@@ -66,7 +66,7 @@ int main(void)
 			{
 				birb::entity ent = scene.create_entity();
 
-				birb::component::transform transform;
+				birb::transform transform;
 				transform.position = { i * 16.0f + 200, j * 16.0f, 1.0f };
 				transform.local_scale = { 8, 8, 1 };
 				transform.lock();
@@ -80,7 +80,7 @@ int main(void)
 		{
 			birb::entity wide = scene.create_entity();
 
-			birb::component::transform transform;
+			birb::transform transform;
 			transform.position = { 140, 100.0f / 2.0f + 40.0f / 2.0f, 2.0f };
 			transform.local_scale = { 40.0f, 40.0f, 1.0f };
 			transform.rotation.z = 45;

@@ -39,7 +39,7 @@ int main(void)
 	birb::entity cube = scene.create_entity();
 	cube.add_component(cube_sprite);
 	{
-		birb::component::transform transform;
+		birb::transform transform;
 		transform.position = { 128.0f, 256.0f, 0.0f };
 		transform.local_scale = { 32.0f, 32.0f, 1.0f };
 		cube.add_component(transform);
@@ -59,7 +59,7 @@ int main(void)
 	birb::entity floor = scene.create_entity();
 	floor.add_component(floor_sprite);
 	{
-		birb::component::transform transform;
+		birb::transform transform;
 		transform.position = { 128.0f, 64.0f, 0.0f };
 		transform.local_scale = floor_sprite.texture->size().to_float() / 4.0f;
 		floor.add_component(transform);

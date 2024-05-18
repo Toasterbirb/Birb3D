@@ -126,6 +126,8 @@ if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/cpptrace")
 endif()
 
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/vendor/freetype")
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}/vendor/freetype/include")
 
 # Build GLFW
 set(GLFW_PATH "${CMAKE_CURRENT_SOURCE_DIR}/vendor/glfw")
