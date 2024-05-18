@@ -12,7 +12,7 @@ namespace birb
 
 	void audio_player::play_sound(sound_file& sound_file)
 	{
-		PROFILER_SCOPE_AUDIO_FN()
+		PROFILER_SCOPE_AUDIO_FN();
 
 		// Find an audio source that isn't playing anything at the moment
 		// If a free source is found, reuse it

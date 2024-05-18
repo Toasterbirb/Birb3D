@@ -17,7 +17,7 @@ namespace birb
 
 	void texture_material::apply_to_shader(shader& shader)
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		shader.activate();
 

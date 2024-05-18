@@ -13,7 +13,7 @@ namespace birb
 
 	void entity_editor::draw()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ImGui::Begin("Entity editor");
 		{

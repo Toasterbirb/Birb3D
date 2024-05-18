@@ -36,7 +36,7 @@ namespace birb
 
 	bool sound_file::load(const std::string& file_path)
 	{
-		PROFILER_SCOPE_AUDIO_FN()
+		PROFILER_SCOPE_AUDIO_FN();
 
 		ensure(!file_path.empty());
 

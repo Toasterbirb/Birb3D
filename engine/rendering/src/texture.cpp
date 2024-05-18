@@ -41,7 +41,7 @@ namespace birb
 
 	void texture::load(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension)
 	{
-		PROFILER_SCOPE_IO("Texture loading")
+		PROFILER_SCOPE_IO("Texture loading");
 
 		ensure(id == 0, "Memory leak");
 
@@ -134,7 +134,7 @@ namespace birb
 
 	u32 texture::texture_from_file(const std::string& path)
 	{
-		PROFILER_SCOPE_IO_FN()
+		PROFILER_SCOPE_IO_FN();
 
 		ensure(!path.empty());
 

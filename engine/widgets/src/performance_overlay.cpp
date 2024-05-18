@@ -50,7 +50,7 @@ namespace birb
 
 		void performance::draw()
 		{
-			PROFILER_SCOPE_RENDER_FN()
+			PROFILER_SCOPE_RENDER_FN();
 
 			ensure(imgui_initialized);
 			ensure(!ts.frametime_history.empty());

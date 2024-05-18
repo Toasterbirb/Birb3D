@@ -25,7 +25,7 @@ namespace birb
 
 	void inspector::draw()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ImGui::Begin("Inspector");
 		{

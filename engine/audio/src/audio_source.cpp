@@ -8,7 +8,7 @@ namespace birb
 {
 	audio_source::audio_source()
 	{
-		PROFILER_SCOPE_AUDIO_FN()
+		PROFILER_SCOPE_AUDIO_FN();
 
 		alGenSources(1, &source);
 		ensure(alGetError() == AL_NO_ERROR, "Failed to setup sound source");
@@ -22,7 +22,7 @@ namespace birb
 
 	void audio_source::play_sound(sound_file& sound_file)
 	{
-		PROFILER_SCOPE_AUDIO_FN()
+		PROFILER_SCOPE_AUDIO_FN();
 
 		alSourcei(source, AL_BUFFER, static_cast<ALint>(sound_file.buffer()));
 		alSourcePlay(source);

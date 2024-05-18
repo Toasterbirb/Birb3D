@@ -15,7 +15,7 @@ namespace birb
 
 	void world::draw()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ImGui::Begin("World");
 		{

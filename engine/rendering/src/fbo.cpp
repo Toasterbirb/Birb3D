@@ -35,7 +35,7 @@ namespace birb
 
 	void fbo::bind()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(id != 0);
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
@@ -43,14 +43,14 @@ namespace birb
 
 	void fbo::unbind()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 	void fbo::reload_frame_buffer_texture(const vec2<i32>& dimensions)
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(birb::opengl_initialized);
 
@@ -77,7 +77,7 @@ namespace birb
 
 	void fbo::attach_texture(const texture& texture)
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(id != 0);
 		ensure(texture.id != 0);
@@ -88,7 +88,7 @@ namespace birb
 
 	void fbo::setup_rbo(vec2<i32> dimensions)
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(!render_buffer_object, "The render buffer object needs to be destroyed before creating a new one");
 

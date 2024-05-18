@@ -10,7 +10,7 @@ namespace birb
 {
 	rbo::rbo(const vec2<i32>& dimensions)
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(dimensions.x > 0);
 		ensure(dimensions.y > 0);

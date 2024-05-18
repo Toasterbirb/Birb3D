@@ -144,7 +144,7 @@ namespace birb
 
 	void window::clear()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		buffers_flipped = false;
@@ -152,7 +152,7 @@ namespace birb
 
 	void window::flip()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 		/* If ImGui has been initialized, let it draw its
 		 * stuff before swapping the buffers */
 		if (imgui_initialized)
@@ -177,7 +177,7 @@ namespace birb
 
 	void window::poll()
 	{
-		PROFILER_SCOPE_INPUT_FN()
+		PROFILER_SCOPE_INPUT_FN();
 		glfwPollEvents();
 
 		// Update window dimensions and viewport size if needed
@@ -358,20 +358,20 @@ namespace birb
 
 	void window::new_imgui_frame()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		{
-			PROFILER_SCOPE_RENDER("ImGui_ImplOpenGL3_NewFrame")
+			PROFILER_SCOPE_RENDER("ImGui_ImplOpenGL3_NewFrame");
 			ImGui_ImplOpenGL3_NewFrame();
 		}
 
 		{
-			PROFILER_SCOPE_RENDER("ImGui_ImplGlfw_NewFrame")
+			PROFILER_SCOPE_RENDER("ImGui_ImplGlfw_NewFrame");
 			ImGui_ImplGlfw_NewFrame();
 		}
 
 		{
-			PROFILER_SCOPE_RENDER("ImGui::NewFrame")
+			PROFILER_SCOPE_RENDER("ImGui::NewFrame");
 			ImGui::NewFrame();
 		}
 	}

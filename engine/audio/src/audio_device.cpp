@@ -11,7 +11,7 @@ namespace birb
 {
 	audio_device::audio_device()
 	{
-		PROFILER_SCOPE_AUDIO_FN()
+		PROFILER_SCOPE_AUDIO_FN();
 
 		ensure(alc_is_init == false, "You shouldn't need to initialize OpenAL more than once");
 		alc_is_init = true;

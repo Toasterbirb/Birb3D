@@ -36,7 +36,7 @@ namespace birb
 
 	void mesh::draw(shader& shader)
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(shader.id != 0);
 
@@ -70,7 +70,7 @@ namespace birb
 
 	void mesh::setup_mesh()
 	{
-		PROFILER_SCOPE_MISC_FN()
+		PROFILER_SCOPE_MISC_FN();
 
 		ensure(!vertices.empty());
 		ensure(!indices.empty());

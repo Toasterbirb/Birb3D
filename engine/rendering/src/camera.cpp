@@ -86,7 +86,7 @@ namespace birb
 
 	void camera::process_input(window& window, const timestep& timestep)
 	{
-		PROFILER_SCOPE_INPUT_FN()
+		PROFILER_SCOPE_INPUT_FN();
 
 		// Keyboard input
 		if (keyboard_controls_enabled)
@@ -141,7 +141,7 @@ namespace birb
 
 	void camera::process_input_ortho(window& window, const timestep& timestep)
 	{
-		PROFILER_SCOPE_INPUT_FN()
+		PROFILER_SCOPE_INPUT_FN();
 
 		if (window.is_key_held(keybinds.left))
 			position.x -= movement_speed * timestep.deltatime();
@@ -158,7 +158,7 @@ namespace birb
 
 	void camera::update_camera_vectors()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		// Calculate the front vector
 		front = birb::view_vector::front(pitch, yaw);

@@ -47,7 +47,7 @@ namespace birb
 
 	void model::draw_editor_ui()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		static const ImVec4 red(0.80f, 0.27f, 0.27f, 1.0f);
 
@@ -123,7 +123,7 @@ namespace birb
 
 	void model::load_model(const std::string& path)
 	{
-		PROFILER_SCOPE_IO_FN()
+		PROFILER_SCOPE_IO_FN();
 
 		ensure(!path.empty());
 
@@ -172,7 +172,7 @@ namespace birb
 
 	void model::load_model_from_memory(const primitive_mesh mesh, const std::string& name)
 	{
-		PROFILER_SCOPE_IO_FN()
+		PROFILER_SCOPE_IO_FN();
 
 		ensure(primitive_mesh_data.contains(mesh) && "Mesh was not found from primitive mesh data hashmap");
 
@@ -238,7 +238,7 @@ namespace birb
 
 	mesh model::process_mesh(aiMesh* ai_mesh, const aiScene* scene)
 	{
-		PROFILER_SCOPE_IO_FN()
+		PROFILER_SCOPE_IO_FN();
 
 		ensure(ai_mesh != nullptr);
 		ensure(scene != nullptr);
@@ -304,7 +304,7 @@ namespace birb
 
 	std::vector<mesh_texture> model::load_material_textures(aiMaterial* mat, aiTextureType type, std::string type_name)
 	{
-		PROFILER_SCOPE_IO_FN()
+		PROFILER_SCOPE_IO_FN();
 
 		ensure(mat != nullptr);
 		ensure(!type_name.empty());

@@ -48,7 +48,7 @@ namespace birb
 
 	shader::shader(const shader& other)
 	{
-		PROFILER_SCOPE_MISC("Shader copy")
+		PROFILER_SCOPE_MISC("Shader copy");
 
 		birb::log("Shader copy causing a recompile (" + birb::ptr_to_str(&other) + " -> " + birb::ptr_to_str(this) + ")");
 
@@ -83,7 +83,7 @@ namespace birb
 
 	void shader::reset_lights()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		// Point lights
 		for (u16 i = 0; i < point_light_count; ++i)
@@ -114,7 +114,7 @@ namespace birb
 
 	void shader::update_directional_light()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		set(shader_uniforms::directional_light::direction, directional_direction);
 		set(shader_uniforms::directional_light::ambient, directional_ambient);
@@ -124,7 +124,7 @@ namespace birb
 
 	void shader::update_point_lights()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		// Point lights
 		for (u16 i = 0; i < point_light_count; ++i)
@@ -180,7 +180,7 @@ namespace birb
 
 	void shader::draw_editor_ui()
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(!vertex_shader_name.empty());
 		ensure(!fragment_shader_name.empty());
@@ -233,7 +233,7 @@ namespace birb
 
 	void shader::clear_shader_cache()
 	{
-		PROFILER_SCOPE_MISC_FN()
+		PROFILER_SCOPE_MISC_FN();
 
 		birb::log("Clearing shader cache");
 
@@ -357,7 +357,7 @@ namespace birb
 
 		// Compile shaders
 		{
-			PROFILER_SCOPE_RENDER("Shader compiling")
+			PROFILER_SCOPE_RENDER("Shader compiling");
 
 			birb::log("Compiling shader [", vertex, ", ", fragment, "] (", birb::ptr_to_str(this), ")");
 

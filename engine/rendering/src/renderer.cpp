@@ -191,7 +191,7 @@ namespace birb
 
 	void renderer::draw_entities(const camera& camera, vec2<i32> window_size)
 	{
-		PROFILER_SCOPE_RENDER_FN()
+		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(current_scene != nullptr);
 		ensure(scene::scene_count() > 0);
