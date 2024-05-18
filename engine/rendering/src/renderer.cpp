@@ -79,6 +79,9 @@ namespace birb
 		// Enable blending by default
 		opt_blend(true);
 
+		// Enable backface culling by default
+		set_backface_culling(true);
+
 		// Initialize the opengl buffers for sprite rendering
 		sprite_vao.bind();
 
