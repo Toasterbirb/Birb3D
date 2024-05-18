@@ -15,6 +15,8 @@ namespace birb
 		font(const font&) = default;
 		font(font&) = default;
 
+		character& get_char(const char c) const;
+
 	private:
 		std::shared_ptr<std::map<char, character>> character_map;
 	};

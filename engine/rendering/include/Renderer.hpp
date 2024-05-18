@@ -180,6 +180,18 @@ namespace birb
 		std::unique_ptr<vbo> sprite_vbo;
 
 
+		////////////////////
+		// Text rendering //
+		////////////////////
+
+		vao text_vao;
+
+		// The text vbo will be handled manually since it
+		// involves dynamically changing the vertex data
+		// and the current VBO class doesn't support that
+		u32 text_vbo;
+
+
 		/////////////////////
 		// Post-processing //
 		/////////////////////

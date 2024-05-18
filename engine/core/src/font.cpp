@@ -1,7 +1,6 @@
 #include "Assert.hpp"
 #include "Character.hpp"
 #include "Font.hpp"
-#include "Logger.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -13,5 +12,10 @@ namespace birb
 	{
 		ensure(character_map.get(), "Unallocated character map");
 		ensure(!character_map->empty(), "Empty character map");
+	}
+
+	character& font::get_char(const char c) const
+	{
+		return character_map->at(c);
 	}
 }
