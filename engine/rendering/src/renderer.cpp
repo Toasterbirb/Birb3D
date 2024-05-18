@@ -337,6 +337,8 @@ namespace birb
 
 		// Render text entities
 		{
+			PROFILER_SCOPE_RENDER("Render text")
+
 			// The same VAO can be used for all text entities
 			text_vao.bind();
 
