@@ -2,6 +2,8 @@
 #include "CameraInfoOverlay.hpp"
 #include "Components.hpp"
 #include "Entity.hpp"
+#include "Font.hpp"
+#include "FontManager.hpp"
 #include "Math.hpp"
 #include "Model.hpp"
 #include "PerformanceOverlay.hpp"
@@ -11,6 +13,7 @@
 #include "ShaderCollection.hpp"
 #include "ShaderRef.hpp"
 #include "Stopwatch.hpp"
+#include "Text.hpp"
 #include "Timestep.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
@@ -96,6 +99,13 @@ int main(void)
 	camera.yaw = -90;
 	camera.pitch = 0;
 
+	birb::font_manager font_manager;
+	birb::font manaspace = font_manager.load_font("./manaspc.ttf", 32);
+	birb::text entity_counter_text("Entities " + std::to_string(suzanne_count * suzanne_count), manaspace, { 32.0f, 32.0f, 0.0f });
+
+	birb::entity entity_counter = scene.create_entity();
+	entity_counter.add_component(entity_counter_text);
+
 	while (!window.should_close())
 	{
 		camera.process_input(window, timestep);
@@ -117,8 +127,6 @@ int main(void)
 				}
 			}
 		}
-
-		// glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(window.size().x) / static_cast<float>(window.size().y), 0.1f, 100.0f);
 
 		window.clear();
 
