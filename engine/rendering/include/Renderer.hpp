@@ -111,6 +111,11 @@ namespace birb
 		void opt_post_process(const bool enabled);
 
 	private:
+		// The different draw functions are defined in their own source files:
+		//   draw_2d_entities				renderer_2d.cpp
+		//   draw_3d_entities				renderer_3d.cpp
+		//   draw_screenspace_entities		renderer_screenspace.cpp
+
 		void draw_2d_entities(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection_matrix);
 		void draw_3d_entities(const glm::mat4& view_matrix, const glm::mat4& perspective_projection_matrix);
 		void draw_screenspace_entities(const glm::mat4& orthographic_projection_matrix);
