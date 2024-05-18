@@ -76,6 +76,9 @@ namespace birb
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::register_event_id(event::toggle_debug_view, this);
 
+		// Enable blending by default
+		opt_blend(true);
+
 		// Initialize the opengl buffers for sprite rendering
 		sprite_vao.bind();
 
