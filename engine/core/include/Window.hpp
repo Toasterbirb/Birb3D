@@ -14,7 +14,8 @@
 
 #include <string>
 #include <unordered_set>
-#include <GLFW/glfw3.h>
+
+struct GLFWwindow;
 
 namespace birb
 {
