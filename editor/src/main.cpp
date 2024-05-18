@@ -35,7 +35,9 @@ int main(int argc, char** argv)
 	birb::project project;
 
 	if (argc == 2)
+	{
 		project.load(argv[1]);
+	}
 
 	birb::scene& scene = project.scene_collection["main"];
 
