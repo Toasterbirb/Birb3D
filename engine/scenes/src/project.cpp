@@ -77,9 +77,9 @@ namespace birb
 
 			entt::snapshot{scene_collection.at(scene_name).registry}
 				.get<entt::entity>(archive)
-				.get<component::info>(archive)
-				.get<component::transform>(archive)
-				.get<component::material>(archive)
+				.get<info>(archive)
+				.get<transform>(archive)
+				.get<material>(archive)
 				.get<model>(archive)
 				.get<shader>(archive);
 		}
@@ -198,9 +198,9 @@ namespace birb
 					{
 						entt::snapshot_loader{scene.registry}
 							.get<entt::entity>(archive)
-							.get<component::info>(archive)
-							.get<component::transform>(archive)
-							.get<component::material>(archive)
+							.get<info>(archive)
+							.get<transform>(archive)
+							.get<material>(archive)
 							.get<model>(archive)
 							.get<shader>(archive);
 						break;

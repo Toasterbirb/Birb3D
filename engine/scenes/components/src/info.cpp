@@ -5,16 +5,13 @@
 
 namespace birb
 {
-	namespace component
+	void info::draw_editor_ui()
 	{
-		void info::draw_editor_ui()
-		{
-			ImGui::InputText("Name", &name);
-		}
+		ImGui::InputText("Name", &name);
+	}
 
-		std::string info::collapsing_header_name() const
-		{
-			return editor_header_name;
-		}
+	std::string info::collapsing_header_name() const
+	{
+		return editor_header_name;
 	}
 }

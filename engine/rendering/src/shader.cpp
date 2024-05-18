@@ -171,7 +171,7 @@ namespace birb
 		set(shader_uniforms::material_color::shininess, shininess);
 	}
 
-	void shader::apply_color_material(const component::material& material)
+	void shader::apply_color_material(const material& material)
 	{
 		set_diffuse_color(material.diffuse);
 		set_specular_color(material.specular);

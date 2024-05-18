@@ -73,7 +73,7 @@ namespace editor
 		birb::ensure(!scene.is_duplicate_entity_info_name(name));
 
 		entt::entity new_entity = scene.registry.create();
-		birb::component::info default_info(name);
+		birb::info default_info(name);
 		scene.add_component(new_entity, default_info);
 
 		return new_entity;
@@ -130,10 +130,10 @@ namespace editor
 
 							birb::color diffuse(rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f));
 							birb::color specular(1.0f, 1.0f, 1.0f);
-							birb::component::material material(diffuse, specular);
+							birb::material material(diffuse, specular);
 							scene.add_component(entity, material);
 
-							birb::component::transform transform;
+							birb::transform transform;
 							scene.add_component(entity, transform);
 
 							birb::model model(model_file_path);
@@ -161,7 +161,7 @@ namespace editor
 							birb::camera camera;
 							scene.add_component(entity, camera);
 
-							birb::component::transform camera_transform;
+							birb::transform camera_transform;
 							camera_transform.local_scale = {0.2, 0.2, 0.2};
 							scene.add_component(entity, camera_transform);
 
@@ -173,7 +173,7 @@ namespace editor
 
 							birb::color diffuse(1.0f, 0.619608f, 0.231373f, 1.0f);
 							birb::color specular(0.121569f, 0.121569f, 0.156863f, 1.0f);
-							birb::component::material camera_material(diffuse, specular);
+							birb::material camera_material(diffuse, specular);
 							scene.add_component(entity, camera_material);
 
 							scene.add_component(entity, camera_shader);
@@ -192,11 +192,11 @@ namespace editor
 			ImGui::Separator();
 			ImGui::Spacing();
 
-			const auto view = scene.registry.view<birb::component::info>();
+			const auto view = scene.registry.view<birb::info>();
 
 			for (const auto entity : view)
 			{
-				const birb::component::info& info = view.get<birb::component::info>(entity);
+				const birb::info& info = view.get<birb::info>(entity);
 
 				std::string entity_name = info.name;
 				if (entity_name.empty())

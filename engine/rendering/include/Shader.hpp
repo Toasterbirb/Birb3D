@@ -11,11 +11,7 @@ namespace birb
 {
 	struct color;
 	struct uniform;
-
-	namespace component
-	{
-		struct material;
-	}
+	struct material;
 
 	struct point_light
 	{
@@ -87,7 +83,7 @@ namespace birb
 
 		void set_int(const std::string& name, const i32 value);
 
-		void apply_color_material(const component::material& material);
+		void apply_color_material(const material& material);
 
 		void draw_editor_ui() override;
 		std::string collapsing_header_name() const override;

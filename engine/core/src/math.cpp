@@ -24,7 +24,7 @@ namespace birb
 
 	namespace view_vector
 	{
-		glm::vec3 front(const component::transform& transform)
+		glm::vec3 front(const transform& transform)
 		{
 			return front(transform.rotation.x, transform.rotation.y);
 		}

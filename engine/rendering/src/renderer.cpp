@@ -204,11 +204,11 @@ namespace birb
 			// to avoid duplicate uniform updates
 			std::unordered_set<u32> uniforms_updated;
 
-			const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::component::transform>();
+			const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::transform>();
 			for (const auto& ent : view)
 			{
 				// Check if the entity should be skipped because its not active
-				const component::state* state = entity_registry.try_get<component::state>(ent);
+				const state* state = entity_registry.try_get<birb::state>(ent);
 				if (state && !state->active)
 					continue;
 
@@ -218,7 +218,7 @@ namespace birb
 
 				ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
 
-				const birb::component::transform& transform = view.get<birb::component::transform>(ent);
+				const birb::transform& transform = view.get<birb::transform>(ent);
 
 				// Make sure the lighting is up-to-date
 				if (!uniforms_updated.contains(shader->id))
@@ -235,7 +235,7 @@ namespace birb
 
 				// Apply the material component on the shader if it has any
 				// TODO: Make this work with textures too
-				const birb::component::material* material = entity_registry.try_get<birb::component::material>(ent);
+				const birb::material* material = entity_registry.try_get<birb::material>(ent);
 				if (material != nullptr)
 					shader->apply_color_material(*material);
 
@@ -262,7 +262,7 @@ namespace birb
 			sprite_vao.bind();
 
 
-			const auto view = entity_registry.view<sprite, component::transform>();
+			const auto view = entity_registry.view<sprite, transform>();
 
 			// Calculate model matrices in parallel
 			std::vector<glm::mat4> model_matrices(std::distance(view.begin(), view.end()));
@@ -271,7 +271,7 @@ namespace birb
 				PROFILER_SCOPE_RENDER("Calculate transform model matrices")
 
 				std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(), [view](const auto& entity) {
-					return view.get<birb::component::transform>(entity).model_matrix();
+					return view.get<birb::transform>(entity).model_matrix();
 				});
 			}
 
@@ -368,7 +368,7 @@ namespace birb
 			for (const auto& entity : view)
 			{
 				const collider::box& box = view.get<collider::box>(entity);
-				component::transform transform;
+				transform transform;
 				transform.position = box.position();
 				transform.local_scale = box.size();
 				transform.local_scale.x += collider_cube_size_offset;

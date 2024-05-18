@@ -2,11 +2,8 @@
 
 namespace birb
 {
-	namespace component
+	void state::toggle()
 	{
-		void state::toggle()
-		{
-			active = !active;
-		}
+		active = !active;
 	}
 }

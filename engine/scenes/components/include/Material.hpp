@@ -5,28 +5,25 @@
 
 namespace birb
 {
-	namespace component
+	class material : public editor_component
 	{
-		class material : public editor_component
+	public:
+		material();
+		material(const color& diffuse, const color& specular, f32 shininess = 32);
+
+		void draw_editor_ui() override;
+		std::string collapsing_header_name() const override;
+
+		color diffuse, specular;
+		f32 shininess;
+
+		template<class Archive>
+		void serialize(Archive& ar)
 		{
-		public:
-			material();
-			material(const color& diffuse, const color& specular, f32 shininess = 32);
+			ar(diffuse, specular, shininess);
+		}
 
-			void draw_editor_ui() override;
-			std::string collapsing_header_name() const override;
-
-			color diffuse, specular;
-			f32 shininess;
-
-			template<class Archive>
-			void serialize(Archive& ar)
-			{
-				ar(diffuse, specular, shininess);
-			}
-
-		private:
-			static inline const std::string editor_header_name = "Material";
-		};
-	}
+	private:
+		static inline const std::string editor_header_name = "Material";
+	};
 }

@@ -123,7 +123,7 @@ namespace birb
 
 	namespace view_vector
 	{
-		glm::vec3 front(const component::transform& transform);
+		glm::vec3 front(const transform& transform);
 		glm::vec3 front(const f32 pitch, const f32 yaw);
 		glm::vec3 right(const glm::vec3& front, const glm::vec3& world_up);
 		glm::vec3 up(const glm::vec3& right, const glm::vec3& front);

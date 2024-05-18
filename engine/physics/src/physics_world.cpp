@@ -25,11 +25,11 @@ namespace birb
 		entt::registry& registry = current_scene->registry;
 
 		// Get all rigidbodies
-		const auto view = registry.view<rigidbody, component::transform>();
+		const auto view = registry.view<rigidbody, transform>();
 		for (const auto& entity : view)
 		{
 			rigidbody& rigidbody = view.get<birb::rigidbody>(entity);
-			component::transform& transform = view.get<birb::component::transform>(entity);
+			transform& transform = view.get<birb::transform>(entity);
 
 			// Apply gravity force
 			physics_forces::gravity* gravity_force = registry.try_get<physics_forces::gravity>(entity);
@@ -70,7 +70,7 @@ namespace birb
 				continue;
 
 			// Skip the entity if it's state is set to disabled
-			const birb::component::state* state = registry.try_get<birb::component::state>(collider_entity);
+			const birb::state* state = registry.try_get<birb::state>(collider_entity);
 			if (state && !state->active)
 				continue;
 

@@ -31,25 +31,23 @@ namespace birb
 		{
 			if (selected_entity != entt::null)
 			{
-				namespace cmp = birb::component;
-
 				entt::registry& reg = scene.registry;
 
 				// All entities should have the info component if they want to be visible in the entity list
-				std::string previous_name = reg.get<cmp::info>(selected_entity).name;
-				reg.get<cmp::info>(selected_entity).draw_editor_ui();
+				std::string previous_name = reg.get<info>(selected_entity).name;
+				reg.get<info>(selected_entity).draw_editor_ui();
 
 				// Sanity check the entity name
-				if (scene.is_duplicate_entity_info_name(reg.get<cmp::info>(selected_entity).name, selected_entity))
-					reg.get<cmp::info>(selected_entity).name = previous_name;
+				if (scene.is_duplicate_entity_info_name(reg.get<info>(selected_entity).name, selected_entity))
+					reg.get<info>(selected_entity).name = previous_name;
 
-				// if (reg.get<cmp::info>(selected_entity).name == entity_list::new_entity_menu_text)
-				// 	reg.get<cmp::info>(selected_entity).name += '_';
+				// if (reg.get<info>(selected_entity).name == entity_list::new_entity_menu_text)
+				// 	reg.get<info>(selected_entity).name += '_';
 
 				// Draw UI components for entities in a specific order
-				birb::editor_component::try_draw_ui<cmp::transform>(reg, selected_entity);
+				birb::editor_component::try_draw_ui<transform>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::shader>(reg, selected_entity);
-				birb::editor_component::try_draw_ui<cmp::material>(reg, selected_entity);
+				birb::editor_component::try_draw_ui<material>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::model>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::camera>(reg, selected_entity);
 
