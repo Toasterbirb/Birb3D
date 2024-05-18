@@ -1,3 +1,5 @@
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+
 #include "Assert.hpp"
 #include "Camera.hpp"
 #include "EBO.hpp"
