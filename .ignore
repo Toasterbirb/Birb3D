@@ -1,0 +1,5 @@
+vendor/
+build/
+build_win/
+LICENSE
+x86_64-w64-mingw32.cmake
