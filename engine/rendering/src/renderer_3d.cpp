@@ -1,8 +1,10 @@
+#include "Material.hpp"
 #include "Model.hpp"
 #include "Renderer.hpp"
 #include "ShaderCollection.hpp"
 #include "ShaderRef.hpp"
 #include "ShaderUniforms.hpp"
+#include "State.hpp"
 #include "Transform.hpp"
 
 namespace birb

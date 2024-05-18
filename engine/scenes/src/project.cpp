@@ -6,7 +6,6 @@
 #include "Model.hpp"
 #include "Project.hpp"
 #include "ProjectJsonKeys.hpp"
-#include "Window.hpp"
 
 #include <cereal/archives/binary.hpp>
 #include <cereal/types/string.hpp>

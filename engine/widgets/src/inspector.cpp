@@ -1,9 +1,13 @@
 #include "Assert.hpp"
 #include "Camera.hpp"
 #include "EntityEditor.hpp"
+#include "Info.hpp"
 #include "Inspector.hpp"
+#include "Material.hpp"
 #include "Model.hpp"
 #include "Profiling.hpp"
+#include "Shader.hpp"
+#include "Transform.hpp"
 
 #include <imgui.h>
 

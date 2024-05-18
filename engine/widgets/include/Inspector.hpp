@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Components.hpp"
 #include "WidgetBase.hpp"
 #include "Scene.hpp"
 

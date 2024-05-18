@@ -2,6 +2,7 @@
 #include "Renderer.hpp"
 #include "ShaderCollection.hpp"
 #include "ShaderUniforms.hpp"
+#include "State.hpp"
 #include "Text.hpp"
 
 namespace birb
