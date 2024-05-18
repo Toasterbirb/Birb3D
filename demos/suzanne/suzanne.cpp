@@ -98,7 +98,7 @@ int main(void)
 		window.clear();
 
 		// Render all models
-		renderer.draw_entities(camera.get_view_matrix(), projection);
+		renderer.draw_entities(camera.view_matrix(), projection);
 
 		perf_overlay.draw();
 		cam_info.draw();

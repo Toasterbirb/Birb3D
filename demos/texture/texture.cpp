@@ -145,7 +145,7 @@ int main(void)
 
 		shader_program.activate();
 		shader_program.set(birb::shader_uniforms::model, model);
-		shader_program.set(birb::shader_uniforms::view, camera.get_view_matrix());
+		shader_program.set(birb::shader_uniforms::view, camera.view_matrix());
 		shader_program.set(birb::shader_uniforms::projection, projection);
 		vao1.bind();
 

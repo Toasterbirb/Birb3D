@@ -79,7 +79,7 @@ int main(void)
 			birb::log("Collision: ", counter++);
 
 		window.clear();
-		renderer.draw_entities(camera.get_view_matrix(), camera.get_projection_matrix(birb::camera::projection_mode::orthographic, window.size()));
+		renderer.draw_entities(camera.view_matrix(), camera.projection_matrix(birb::camera::projection_mode::orthographic, window.size()));
 		window.flip();
 
 		window.poll();

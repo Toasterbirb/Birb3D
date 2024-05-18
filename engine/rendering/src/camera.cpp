@@ -40,12 +40,12 @@ namespace birb
 		return editor_header_name;
 	}
 
-	glm::mat4 camera::get_view_matrix() const
+	glm::mat4 camera::view_matrix() const
 	{
 		return glm::lookAt(position, position + front, up);
 	}
 
-	glm::mat4 camera::get_projection_matrix(camera::projection_mode mode, vec2<i32> window_size) const
+	glm::mat4 camera::projection_matrix(camera::projection_mode mode, vec2<i32> window_size) const
 	{
 		ensure(window_size.x > 0, "Invalid window width");
 		ensure(window_size.y > 0, "Invalid window height");

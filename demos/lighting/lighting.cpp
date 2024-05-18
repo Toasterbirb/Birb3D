@@ -204,7 +204,7 @@ int main(void)
 
 		default_shader.activate();
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<float>(window.size().x) / static_cast<float>(window.size().y), 0.1f, 100.0f);
-		default_shader.set(birb::shader_uniforms::view, camera.get_view_matrix());
+		default_shader.set(birb::shader_uniforms::view, camera.view_matrix());
 		default_shader.set(birb::shader_uniforms::projection, projection);
 		default_shader.set(birb::shader_uniforms::view_pos, camera.position);
 
@@ -226,7 +226,7 @@ int main(void)
 			renderer.draw_arrays(cube_vao, cube_verts.size());
 		}
 
-		light_shader.set(birb::shader_uniforms::view, camera.get_view_matrix());
+		light_shader.set(birb::shader_uniforms::view, camera.view_matrix());
 		light_shader.set(birb::shader_uniforms::projection, projection);
 
 		light_shader.activate();
