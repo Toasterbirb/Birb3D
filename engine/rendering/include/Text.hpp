@@ -10,6 +10,7 @@ namespace birb
 {
 	struct text
 	{
+		text(const std::string& txt, const birb::font& font, const vec3<f32> position);
 		text(const std::string& txt, const birb::font& font, const vec3<f32> position, const f32 scale);
 		text(const std::string& txt, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color);
 		text(const std::string& txt, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color, const shader_ref& shader);
