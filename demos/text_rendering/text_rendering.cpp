@@ -37,7 +37,7 @@ int main(void)
 
 	birb::entity text_entity = scene.create_entity();
 
-	birb::text text("Hello world!", manaspace, { 25.0f, 25.0f, 0.0f }, 1.0f, 0xFFFFFF);
+	birb::text text("Hello world!\nSecond line of text\nSome more text", manaspace, { 25.0f, 256.0f, 0.0f }, 1.0f, 0xFFFFFF);
 	text_entity.add_component(text);
 
 	// glm::mat4 projection_matrix = glm::ortho(0.0f, static_cast<float>(window.size().x), 0.0f, static_cast<float>(window.size().y));

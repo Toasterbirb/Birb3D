@@ -92,6 +92,6 @@ namespace birb
 		// Free the font face
 		FT_Done_Face(font_face);
 
-		return font(character_map);
+		return font(character_map, size);
 	}
 }

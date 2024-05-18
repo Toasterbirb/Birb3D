@@ -579,11 +579,24 @@ namespace birb
 				glActiveTexture(GL_TEXTURE0);
 
 				f32 x = text.position.x;
-				const f32 y = text.position.y;
+				f32 y = text.position.y;
 
 				// Iterate through the text
 				for (const char c : text.txt)
 				{
+					// Process newline characters
+					if (c == '\n')
+					{
+						// Go back to the starting position width wise
+						x = text.position.x;
+
+						// Go one line down
+						y -= text.font.size() * text.scale;
+
+						// We shouldn't draw the newline char
+						continue;
+					}
+
 					character& ch = text.font.get_char(c);
 
 					vec2<f32> pos; // position
