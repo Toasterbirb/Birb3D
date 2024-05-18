@@ -9,12 +9,8 @@
 #include "Shader.hpp"
 #include "ShaderCollection.hpp"
 #include "ShaderUniforms.hpp"
-#include "Transform.hpp"
 #include "VBO.hpp"
 #include "Window.hpp"
-
-// Debug drawing dependencies
-#include "BoxCollider.hpp"
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -273,33 +269,6 @@ namespace birb
 
 		// Draw the debug view
 		debug.draw();
-
-		// Draw box colliders
-		{
-			PROFILER_SCOPE_RENDER("Box collider debug view");
-
-			const std::shared_ptr<shader> debug_shader = shader_collection::get_shader(debug_shader_ref);
-			debug_shader->set(shader_uniforms::view, view_matrix);
-			debug_shader->set(shader_uniforms::projection, perspective_projection);
-			debug_shader->set(shader_uniforms::color, collider_debug_color);
-
-			const auto view = entity_registry.view<collider::box>();
-			for (const auto& entity : view)
-			{
-				const collider::box& box = view.get<collider::box>(entity);
-				transform transform;
-				transform.position = box.position();
-				transform.local_scale = box.size();
-				transform.local_scale.x += collider_cube_size_offset;
-				transform.local_scale.y += collider_cube_size_offset;
-				transform.local_scale.z += collider_cube_size_offset;
-
-				debug_shader->set(shader_uniforms::model, transform.model_matrix());
-				debug_shader->activate();
-
-				draw_arrays(collider_debug_vao, cube_vertices.size());
-			}
-		}
 	}
 
 	void renderer::draw_elements(vao& vao, size_t index_count, gl_primitive primitive)

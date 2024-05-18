@@ -1,3 +1,4 @@
+#include "Profiling.hpp"
 #include "Renderer.hpp"
 #include "ShaderCollection.hpp"
 #include "ShaderUniforms.hpp"
@@ -9,84 +10,90 @@
 
 namespace birb
 {
-	void renderer::draw_2d_entities(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection_matrix)
+	void renderer::draw_2d_entities(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection)
+	{
+		PROFILER_SCOPE_RENDER_FN();
+
+		draw_sprites(view_matrix, orthographic_projection);
+	}
+
+	void renderer::draw_sprites(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection)
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
 		entt::registry& entity_registry = current_scene->registry;
 
-		// Render sprites
+		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
+
+		// Sprites should only have a singular texture, so we'll use the default
+		// tex0 texture unit
+		texture_shader->set(shader_uniforms::texture_units::tex0, 0);
+
+		texture_shader->set(shader_uniforms::view, view_matrix);
+		texture_shader->set(shader_uniforms::projection, orthographic_projection);
+		sprite_vao.bind();
+
+
+		const auto view = entity_registry.view<sprite, transform>();
+
+		// Calculate model matrices in parallel
+		std::vector<glm::mat4> model_matrices(std::distance(view.begin(), view.end()));
+
 		{
-			PROFILER_SCOPE_RENDER("Render sprites");
+			PROFILER_SCOPE_RENDER("Calculate transform model matrices");
 
-			const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
-
-			// Sprites should only have a singular texture, so we'll use the default
-			// tex0 texture unit
-			texture_shader->set(shader_uniforms::texture_units::tex0, 0);
-
-			texture_shader->set(shader_uniforms::view, view_matrix);
-			texture_shader->set(shader_uniforms::projection, orthographic_projection_matrix);
-			sprite_vao.bind();
-
-
-			const auto view = entity_registry.view<sprite, transform>();
-
-			// Calculate model matrices in parallel
-			std::vector<glm::mat4> model_matrices(std::distance(view.begin(), view.end()));
-
-			{
-				PROFILER_SCOPE_RENDER("Calculate transform model matrices");
-
-				std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(), [view](const auto& entity) {
-					return view.get<birb::transform>(entity).model_matrix();
-				});
-			}
-
-			size_t sprite_index = 0;
-			texture_shader->activate();
-			sprite_vao.bind();
-
-			for (const auto& ent : view)
-			{
-				texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
-
-				sprite& entity_sprite = view.get<birb::sprite>(ent);
-
-				if (entity_sprite.ignore_aspect_ratio)
+			std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(),
+				[view](const auto& entity)
 				{
-					texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
+					return view.get<birb::transform>(entity).model_matrix();
+				}
+			);
+		}
+
+		size_t sprite_index = 0;
+		texture_shader->activate();
+		sprite_vao.bind();
+
+		for (const auto& ent : view)
+		{
+			texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
+
+			sprite& entity_sprite = view.get<birb::sprite>(ent);
+
+			if (entity_sprite.ignore_aspect_ratio)
+			{
+				texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
+				texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
+			}
+			else
+			{
+				// Modify the sprite shape based on if we wan't to respect the aspect ratio width or height wise
+				if (entity_sprite.aspect_ratio_lock == sprite::aspect_ratio_lock::width)
+				{
+					texture_shader->set(shader_uniforms::texture::aspect_ratio, entity_sprite.texture->aspect_ratio());
 					texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
 				}
 				else
 				{
-					// Modify the sprite shape based on if we wan't to respect the aspect ratio width or height wise
-					if (entity_sprite.aspect_ratio_lock == sprite::aspect_ratio_lock::width)
-					{
-						texture_shader->set(shader_uniforms::texture::aspect_ratio, entity_sprite.texture->aspect_ratio());
-						texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
-					}
-					else
-					{
-						texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
-						texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, entity_sprite.texture->aspect_ratio_reverse());
-					}
+					texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
+					texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse,
+							entity_sprite.texture->aspect_ratio_reverse());
 				}
-
-				entity_sprite.texture->bind();
-
-				// Since we are using the same vao for all of the sprites,
-				// we can just manually call glDrawElements without binding the vao for all of them
-				//
-				// This should speed things up a teeny tiny bit
-				glDrawElements(GL_TRIANGLES, quad_indices.size(), GL_UNSIGNED_INT, 0);
 			}
 
-			// We can probably assume that each rectangle shaped sprite is
-			// equal to 4 vertices
-			stat_2d.vertices += 4 * model_matrices.size();
+			entity_sprite.texture->bind();
 
-			stat_2d.entities += model_matrices.size();
+			// Since we are using the same vao for all of the sprites,
+			// we can just manually call glDrawElements without binding the vao for all of them
+			//
+			// This should speed things up a teeny tiny bit
+			glDrawElements(GL_TRIANGLES, quad_indices.size(), GL_UNSIGNED_INT, 0);
 		}
+
+		// We can probably assume that each rectangle shaped sprite is
+		// equal to 4 vertices
+		stat_2d.vertices += 4 * model_matrices.size();
+
+		stat_2d.entities += model_matrices.size();
 	}
 }
