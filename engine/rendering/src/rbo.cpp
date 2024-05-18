@@ -17,7 +17,7 @@ namespace birb
 
 		ensure(id == 0);
 		glGenRenderbuffers(1, &id);
-		ensure(id != 0 && "Failed to create a render buffer object");
+		ensure(id != 0, "Failed to create a render buffer object");
 
 		glBindRenderbuffer(GL_RENDERBUFFER, id);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, dimensions.x, dimensions.y);

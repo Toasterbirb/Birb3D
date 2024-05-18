@@ -37,7 +37,7 @@ namespace birb
 
 	void model::draw(shader& shader)
 	{
-		ensure(!meshes->empty() && "Attempted to draw a model with no meshes");
+		ensure(!meshes->empty(), "Attempted to draw a model with no meshes");
 
 		for (size_t i = 0; i < meshes->size(); ++i)
 		{
@@ -135,7 +135,7 @@ namespace birb
 		}
 		else
 		{
-			ensure(path != null_path && "Tried to load a model from disk that was probably meant to be loaded from memory");
+			ensure(path != null_path, "Tried to load a model from disk that was probably meant to be loaded from memory");
 			ensure(std::filesystem::exists(path));
 
 			birb::log("Loading model: " + path);
@@ -174,7 +174,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_IO_FN();
 
-		ensure(primitive_mesh_data.contains(mesh) && "Mesh was not found from primitive mesh data hashmap");
+		ensure(primitive_mesh_data.contains(mesh), "Mesh was not found from primitive mesh data hashmap");
 
 		birb::log("Loading a model from memory: ", name);
 
