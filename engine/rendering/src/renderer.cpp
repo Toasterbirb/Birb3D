@@ -284,6 +284,8 @@ namespace birb
 
 		// Draw box colliders
 		{
+			PROFILER_SCOPE_RENDER("Box collider debug view");
+
 			const std::shared_ptr<shader> debug_shader = shader_collection::get_shader(debug_shader_ref);
 			debug_shader->set(shader_uniforms::view, view_matrix);
 			debug_shader->set(shader_uniforms::projection, perspective_projection);
@@ -442,11 +444,13 @@ namespace birb
 
 	void renderer::draw_2d_entities(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection_matrix)
 	{
+		PROFILER_SCOPE_RENDER_FN();
+
 		entt::registry& entity_registry = current_scene->registry;
 
 		// Render sprites
 		{
-			PROFILER_SCOPE_RENDER("Render sprites")
+			PROFILER_SCOPE_RENDER("Render sprites");
 
 			const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
 
@@ -465,7 +469,7 @@ namespace birb
 			std::vector<glm::mat4> model_matrices(std::distance(view.begin(), view.end()));
 
 			{
-				PROFILER_SCOPE_RENDER("Calculate transform model matrices")
+				PROFILER_SCOPE_RENDER("Calculate transform model matrices");
 
 				std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(), [view](const auto& entity) {
 					return view.get<birb::transform>(entity).model_matrix();
@@ -521,11 +525,13 @@ namespace birb
 
 	void renderer::draw_3d_entities(const glm::mat4& view_matrix, const glm::mat4& perspective_projection_matrix)
 	{
+		PROFILER_SCOPE_RENDER_FN();
+
 		entt::registry& entity_registry = current_scene->registry;
 
 		// Render all models
 		{
-			PROFILER_SCOPE_RENDER("Render models")
+			PROFILER_SCOPE_RENDER("Render models");
 
 			// Store shaders that have some specific uniforms updated already
 			// to avoid duplicate uniform updates
@@ -577,11 +583,13 @@ namespace birb
 
 	void renderer::draw_screenspace_entities(const glm::mat4& orthographic_projection_matrix)
 	{
+		PROFILER_SCOPE_RENDER_FN();
+
 		entt::registry& entity_registry = current_scene->registry;
 
 		// Render text entities
 		{
-			PROFILER_SCOPE_RENDER("Render text")
+			PROFILER_SCOPE_RENDER("Render text");
 
 			// The same VAO can be used for all text entities
 			text_vao.bind();
