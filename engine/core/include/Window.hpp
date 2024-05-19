@@ -163,6 +163,8 @@ namespace birb
 		 */
 		const u8 msaa_level;
 
+		static inline bool hot_reload_assets_on_focus_change = false;
+
 	private:
 		GLFWwindow* glfw_window;
 		color current_background_color;
@@ -214,5 +216,10 @@ namespace birb
 		 * @brief GLFW window resize callback function
 		 */
 		static void window_size_callback(GLFWwindow* window, i32 width, i32 height);
+
+		/**
+		 * @brief GLFW window focus callback function
+		 */
+		static void window_focus_callback(GLFWwindow* window, int focused);
 	};
 }

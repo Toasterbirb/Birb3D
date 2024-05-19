@@ -77,6 +77,7 @@ namespace birb
 		glfwSetScrollCallback(glfw_window, scroll_callback);
 		glfwSetErrorCallback(error_callback);
 		glfwSetWindowSizeCallback(glfw_window, window_size_callback);
+		glfwSetWindowFocusCallback(glfw_window, window_focus_callback);
 
 		// Disable vsync
 		glfwSwapInterval(0);
@@ -479,5 +480,13 @@ namespace birb
 	void window::window_size_callback(GLFWwindow* window, i32 width, i32 height)
 	{
 		window::window_size_changed = true;
+	}
+
+	void window::window_focus_callback(GLFWwindow* window, int focused)
+	{
+		// Reload assets if asset hot reload is enabled
+		// and the window gains focus
+		if (focused && window::hot_reload_assets_on_focus_change)
+			event_bus::send_event(event::reload_models);
 	}
 }

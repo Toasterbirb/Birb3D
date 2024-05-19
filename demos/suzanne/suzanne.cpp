@@ -24,6 +24,7 @@ int main(void)
 {
 	birb::window window("Suzanne", birb::vec2<int>(1280, 720));
 	window.lock_cursor_to_window();
+	window.hot_reload_assets_on_focus_change = true;
 	birb::renderer renderer;
 	birb::timestep timestep;
 	birb::camera camera;
