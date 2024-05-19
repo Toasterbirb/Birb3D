@@ -23,7 +23,7 @@ namespace birb
 	 * @return Rounded value
 	 */
 	template<typename T>
-	constexpr f64 round(T value, i8 decimal_points)
+	constexpr f64 round(const T value, const i8 decimal_points)
 	{
 		/* How this thing works:
 		 * 1. Multiply the value with 10 ^ decimal points. This will leave the needed values before the decimal point
@@ -55,7 +55,7 @@ namespace birb
 	 * @brief Calculate the average value of an array
 	 */
 	template<typename T, size_t N>
-	constexpr T average(std::array<T, N> data)
+	constexpr T average(const std::array<T, N>& data)
 	{
 		static_assert(N > 0);
 
@@ -67,7 +67,7 @@ namespace birb
 	 * @brief Calculate the average value of a 2D array
 	 */
 	template<typename T, size_t N, size_t M>
-	constexpr T average(std::array<std::array<T, N>, M> data)
+	constexpr T average(const std::array<std::array<T, N>, M>& data)
 	{
 		static_assert(N > 0);
 		static_assert(M > 0);
@@ -84,7 +84,7 @@ namespace birb
 	 * @brief Calculate the average value of a vector
 	 */
 	template<typename T>
-	constexpr T average(std::vector<T> data)
+	constexpr T average(const std::vector<T>& data)
 	{
 		// Avoid a zero division
 		if (data.empty())
@@ -98,7 +98,7 @@ namespace birb
 	 * @brief Calculate the average value of a dequeu
 	 */
 	template<typename T>
-	constexpr T average_deque(std::deque<T> data)
+	constexpr T average_deque(const std::deque<T>& data)
 	{
 		// Avoid a zero division
 		if (data.empty())
@@ -112,7 +112,7 @@ namespace birb
 	 * @brief Calculate the centerpoint between two 3D vectors
 	 */
 	template<typename T>
-	constexpr vec3<T> center(vec3<T> a, vec3<T> b)
+	constexpr vec3<T> center(const vec3<T> a, const vec3<T> b)
 	{
 		return vec3<T>(
 				(a.x + b.x) / 2.0,
@@ -125,7 +125,7 @@ namespace birb
 	 * @brief Calculate the distance between two 3D vectors
 	 */
 	template<typename T>
-	constexpr T vec_distance(vec3<T> a, vec3<T> b)
+	constexpr T vec_distance(const vec3<T> a, const vec3<T> b)
 	{
 		return std::sqrt(
 				std::pow(b.x - a.x, 2) +
