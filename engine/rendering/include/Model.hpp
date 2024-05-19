@@ -23,7 +23,7 @@ namespace birb
 		explicit model(const std::string& path);
 		~model();
 
-		void draw(shader& shader);
+		void draw(shader& shader, const bool skip_materials = false);
 		void draw_editor_ui() override;
 		std::string collapsing_header_name() const override;
 

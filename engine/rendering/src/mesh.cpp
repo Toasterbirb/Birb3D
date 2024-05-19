@@ -34,7 +34,7 @@ namespace birb
 		glDeleteBuffers(1, &ebo);
 	}
 
-	void mesh::draw(shader& shader)
+	void mesh::draw(shader& shader, const bool skip_materials)
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
@@ -44,7 +44,7 @@ namespace birb
 		u32 specular_nr = 1;
 
 		// Apply the material on the mesh if it has any
-		if (!material_name.empty())
+		if (!skip_materials && !material_name.empty())
 			shader.apply_color_material(material);
 
 		for (size_t i = 0; i < textures.size(); ++i)

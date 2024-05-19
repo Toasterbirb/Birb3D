@@ -62,15 +62,18 @@ namespace birb
 			shader->set(shader_uniforms::model, transform.model_matrix());
 
 			// Apply the material component on the shader if it has any
-			// This material gets overwritten by the mesh if it has a material
 			// TODO: Make this work with textures too
+			bool skip_mesh_materials = false;
 			const birb::material* material = entity_registry.try_get<birb::material>(ent);
 			if (material != nullptr)
+			{
 				shader->apply_color_material(*material);
+				skip_mesh_materials = true;
+			}
 
 			// Draw the model
 			ensure(view.get<birb::model>(ent).vertex_count() != 0, "Tried to render a model with no vertices");
-			view.get<birb::model>(ent).draw(*shader);
+			view.get<birb::model>(ent).draw(*shader, skip_mesh_materials);
 			++stat_3d.entities;
 			stat_3d.vertices += view.get<birb::model>(ent).vertex_count();
 		}

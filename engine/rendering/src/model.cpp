@@ -35,13 +35,13 @@ namespace birb
 	{
 	}
 
-	void model::draw(shader& shader)
+	void model::draw(shader& shader, const bool skip_materials)
 	{
 		ensure(!meshes->empty(), "Attempted to draw a model with no meshes");
 
 		for (size_t i = 0; i < meshes->size(); ++i)
 		{
-			meshes->at(i).draw(shader);
+			meshes->at(i).draw(shader, skip_materials);
 		}
 	}
 
