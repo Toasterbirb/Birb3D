@@ -45,6 +45,8 @@ namespace birb
 			return registry.get<T>(entity);
 		}
 
+		void reload_models();
+
 		static i16 scene_count();
 
 	private:

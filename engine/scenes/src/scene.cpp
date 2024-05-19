@@ -1,8 +1,9 @@
 #include "Assert.hpp"
 #include "Entity.hpp"
 #include "Info.hpp"
-#include "Scene.hpp"
 #include "Logger.hpp"
+#include "Model.hpp"
+#include "Scene.hpp"
 
 #include <entt.hpp>
 
@@ -55,6 +56,18 @@ namespace birb
 		}
 
 		return false;
+	}
+
+	void scene::reload_models()
+	{
+		const auto view = registry.view<birb::model>();
+
+		for (auto& entity : view)
+		{
+			model& model = view.get<birb::model>(entity);
+			model.destroy();
+			model.load_model();
+		}
 	}
 
 	i16 scene::scene_count()

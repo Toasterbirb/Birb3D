@@ -217,6 +217,10 @@ namespace birb
 					event_bus::send_event(event::toggle_debug_view);
 					break;
 
+				case birb::input::keycode::f4:
+					event_bus::send_event(event::reload_models);
+					break;
+
 				case birb::input::keycode::escape:
 					unlock_cursor_from_window();
 					break;
@@ -414,6 +418,10 @@ namespace birb
 				break;
 
 			case (input::keycode::f3):
+				engine_input_queue.push(new_input);
+				break;
+
+			case (input::keycode::f4):
 				engine_input_queue.push(new_input);
 				break;
 

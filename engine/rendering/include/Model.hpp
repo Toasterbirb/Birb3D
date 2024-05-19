@@ -58,6 +58,7 @@ namespace birb
 		std::shared_ptr<std::vector<mesh>> meshes;
 		std::string directory;
 		std::string file_path;
+		std::string mtl_file_path;
 
 		// Mesh data for built in primitive meshes
 		//

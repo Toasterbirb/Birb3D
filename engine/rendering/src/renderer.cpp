@@ -65,6 +65,7 @@ namespace birb
 	{
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::register_event_id(event::toggle_debug_view, this);
+		event_bus::register_event_id(event::reload_models, this);
 
 		// Enable blending by default
 		opt_blend(true);
@@ -152,6 +153,7 @@ namespace birb
 		birb::log("Crushing the renderer");
 		event_bus::unregister_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::unregister_event_id(event::toggle_debug_view, this);
+		event_bus::unregister_event_id(event::reload_models, this);
 	}
 
 	void renderer::process_event(u16 event_id, const event_data& data)
@@ -164,6 +166,10 @@ namespace birb
 
 			case event::toggle_debug_view:
 				toggle_debug_view();
+				break;
+
+			case event::reload_models:
+				current_scene->reload_models();
 				break;
 		}
 	}

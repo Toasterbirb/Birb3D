@@ -128,6 +128,9 @@ namespace birb
 		ensure(!file_path.empty());
 
 		load_model(file_path);
+
+		if (!mtl_file_path.empty())
+			load_mtl(mtl_file_path);
 	}
 
 	void model::load_model(const std::string& path)
@@ -213,7 +216,10 @@ namespace birb
 
 	void model::load_mtl(const std::string& mtl_path)
 	{
+		ensure(!mtl_path.empty());
 		ensure(meshes.get(), "Meshes need to be loaded before materials can be applied to them");
+
+		this->mtl_file_path = mtl_path;
 
 		log("Loading mtl file: ", mtl_path);
 		std::unordered_map<std::string, material> materials = parser::mtl(mtl_path);
