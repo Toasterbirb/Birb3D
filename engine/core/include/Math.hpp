@@ -10,6 +10,8 @@
 #include <numeric>
 #include <vector>
 
+static constexpr f32 PI = 3.1415927;
+
 namespace birb
 {
 	/**
@@ -29,6 +31,24 @@ namespace birb
 		 * 3. Divide the value with 10 ^ decimal points to get the desired rounded decimal value
 		 * */
 		return std::round(value * std::pow(10, decimal_points)) / static_cast<f64>(std::pow(10, decimal_points));
+	}
+
+	/**
+	 * @brief Convert degrees to radians
+	 */
+	template<typename T>
+	constexpr T deg_to_rad(const T degrees)
+	{
+		return degrees * (PI / 180.0f);
+	}
+
+	/**
+	 * @brief Convert radians to degrees
+	 */
+	template<typename T>
+	constexpr T rad_to_deg(const T radians)
+	{
+		return radians * (180.0f / PI);
 	}
 
 	/**

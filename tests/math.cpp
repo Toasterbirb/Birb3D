@@ -21,6 +21,18 @@ TEST_CASE("Rounding with specified accuracy")
 	CHECK(birb::round(value4, -1) == 0);
 }
 
+TEST_CASE("Radians to degrees")
+{
+	CHECK(birb::round(birb::rad_to_deg(1.0f), 4) == 57.2958);
+	CHECK(birb::round(birb::rad_to_deg(2.0f), 4) == 114.5916);
+}
+
+TEST_CASE("Degrees to radians")
+{
+	CHECK(birb::round(birb::deg_to_rad(45.0f), 4) == 0.7854);
+	CHECK(birb::round(birb::deg_to_rad(100.0f), 4) == 1.7453);
+}
+
 TEST_CASE("Calculate the average value of a std::array")
 {
 	std::array<int, 5> int_vals = {1, 2, 3, 4, 5};
