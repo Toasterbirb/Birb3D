@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Material.hpp"
+
 #include <glm/glm.hpp>
 #include <vector>
 
@@ -24,7 +26,7 @@ namespace birb
 	class mesh
 	{
 	public:
-		mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const std::string& name);
+		mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const std::string& material_name, const std::string& name);
 		void destroy();
 
 		void draw(shader& shader);
@@ -33,6 +35,12 @@ namespace birb
 		std::vector<u32> indices;
 		std::vector<mesh_texture> textures;
 
+		std::string material_name;
+		birb::material material;
+
+		/**
+		 * @brief Name of the mesh
+		 */
 		const std::string name;
 
 	private:

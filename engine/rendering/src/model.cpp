@@ -1,5 +1,6 @@
 #include "Assert.hpp"
 #include "Logger.hpp"
+#include "MTL.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
 #include "Profiling.hpp"
@@ -29,6 +30,14 @@ namespace birb
 		textures_loaded = std::make_shared<std::vector<mesh_texture>>();
 		meshes = std::make_shared<std::vector<mesh>>();
 		load_model(path);
+	}
+
+	model::model(const std::string& obj_path, const std::string mtl_path)
+	{
+		textures_loaded = std::make_shared<std::vector<mesh_texture>>();
+		meshes = std::make_shared<std::vector<mesh>>();
+		load_model(obj_path);
+		load_mtl(mtl_path);
 	}
 
 	model::~model()
@@ -202,6 +211,20 @@ namespace birb
 		birb::log("Model loaded from memory: " + name);
 	}
 
+	void model::load_mtl(const std::string& mtl_path)
+	{
+		ensure(meshes.get(), "Meshes need to be loaded before materials can be applied to them");
+
+		log("Loading mtl file: ", mtl_path);
+		std::unordered_map<std::string, material> materials = parser::mtl(mtl_path);
+
+		for (size_t i = 0; i < meshes->size(); ++i)
+		{
+			if (materials.contains(meshes->at(i).material_name))
+				meshes->at(i).material = materials.at(meshes->at(i).material_name);
+		}
+	}
+
 	void model::destroy()
 	{
 		textures_loaded->clear();
@@ -286,9 +309,11 @@ namespace birb
 		}
 
 		// process materials
+		std::string material_name;
 		if (ai_mesh->mMaterialIndex > 0)
 		{
 			aiMaterial* material = scene->mMaterials[ai_mesh->mMaterialIndex];
+			material_name = material->GetName().C_Str();
 
 			// Diffuse maps
 			std::vector<mesh_texture> diffuse_maps = load_material_textures(material, aiTextureType_DIFFUSE, "texture_diffuse");
@@ -299,7 +324,7 @@ namespace birb
 			textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
 		}
 
-		return birb::mesh(vertices, indices, textures, ai_mesh->mName.C_Str());
+		return birb::mesh(vertices, indices, textures, material_name, ai_mesh->mName.C_Str());
 	}
 
 	std::vector<mesh_texture> model::load_material_textures(aiMaterial* mat, aiTextureType type, std::string type_name)

@@ -62,6 +62,7 @@ namespace birb
 			shader->set(shader_uniforms::model, transform.model_matrix());
 
 			// Apply the material component on the shader if it has any
+			// This material gets overwritten by the mesh if it has a material
 			// TODO: Make this work with textures too
 			const birb::material* material = entity_registry.try_get<birb::material>(ent);
 			if (material != nullptr)

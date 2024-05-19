@@ -20,6 +20,7 @@ namespace birb
 	public:
 		model();
 		explicit model(const std::string& path);
+		model(const std::string& obj_path, const std::string mtl_path);
 		~model();
 
 		void draw(shader& shader);
@@ -30,6 +31,12 @@ namespace birb
 		void load_model();
 		void load_model(const std::string& path);
 		void load_model_from_memory(const primitive_mesh mesh, const std::string& name = "unknown");
+
+		/**
+		 * @brief Load materials for an OBJ file from a MTL file
+		 */
+		void load_mtl(const std::string& mtl_path);
+
 		void destroy();
 
 		u32 vertex_count() const;

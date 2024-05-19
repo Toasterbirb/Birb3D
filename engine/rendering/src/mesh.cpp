@@ -12,11 +12,11 @@
 
 namespace birb
 {
-	mesh::mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const std::string& name)
-	:vertices(vertices), indices(indices), textures(textures), name(name)
+	mesh::mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const std::string& material_name, const std::string& name)
+	:vertices(vertices), indices(indices), textures(textures), material_name(material_name), name(name)
 	{
 		setup_mesh();
-		birb::log("Mesh constructed: ", name, " (" + birb::ptr_to_str(this) + ")");
+		birb::log("Mesh constructed: ", name, " (mat: ", material_name, ", addr: ", birb::ptr_to_str(this), ")");
 	}
 
 	void mesh::destroy()
@@ -42,6 +42,10 @@ namespace birb
 
 		u32 diffuse_nr = 1;
 		u32 specular_nr = 1;
+
+		// Apply the material on the mesh if it has any
+		if (!material_name.empty())
+			shader.apply_color_material(material);
 
 		for (size_t i = 0; i < textures.size(); ++i)
 		{

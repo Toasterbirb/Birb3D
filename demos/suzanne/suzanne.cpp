@@ -48,7 +48,7 @@ int main(void)
 	suzanne_info.name = "Suzanne";
 	suzanne.add_component(suzanne_info);
 
-	birb::model suzanne_model("suzanne.obj");
+	birb::model suzanne_model("suzanne.obj", "suzanne.mtl");
 	suzanne.add_component(suzanne_model);
 
 	birb::transform transform;
@@ -63,8 +63,8 @@ int main(void)
 	birb::shader_ref shader("default", "default_color");
 	suzanne.add_component(shader);
 
-	birb::material material({ 0.2f, 0.3f, 0.4f }, { 0.9f, 0.8f, 0.7f }, 32);
-	suzanne.add_component(material);
+	// birb::material material({ 0.2f, 0.3f, 0.4f }, { 0.9f, 0.8f, 0.7f }, 32);
+	// suzanne.add_component(material);
 
 	// Reset camera rotation
 	camera.process_input(window, timestep);
