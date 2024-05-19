@@ -299,7 +299,7 @@ namespace birb
 			textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
 		}
 
-		return birb::mesh(vertices, indices, textures);
+		return birb::mesh(vertices, indices, textures, ai_mesh->mName.C_Str());
 	}
 
 	std::vector<mesh_texture> model::load_material_textures(aiMaterial* mat, aiTextureType type, std::string type_name)

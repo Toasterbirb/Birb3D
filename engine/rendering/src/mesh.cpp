@@ -12,11 +12,11 @@
 
 namespace birb
 {
-	mesh::mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures)
-	:vertices(vertices), indices(indices), textures(textures)
+	mesh::mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const std::string& name)
+	:vertices(vertices), indices(indices), textures(textures), name(name)
 	{
 		setup_mesh();
-		birb::log("Mesh constructed (" + birb::ptr_to_str(this) + ")");
+		birb::log("Mesh constructed: ", name, " (" + birb::ptr_to_str(this) + ")");
 	}
 
 	void mesh::destroy()
