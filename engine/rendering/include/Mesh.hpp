@@ -26,7 +26,7 @@ namespace birb
 	class mesh
 	{
 	public:
-		mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const std::string& material_name, const std::string& name);
+		mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const material& material, const std::string& material_name, const std::string& name);
 		void destroy();
 
 		void draw(shader& shader);

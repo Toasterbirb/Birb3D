@@ -84,7 +84,6 @@ include_directories(
 	./engine/assets/include
 	./engine/audio/include
 	./engine/core/include
-	./engine/parser/include
 	./engine/rendering/include
 	./engine/scenes/components/include
 	./engine/scenes/include

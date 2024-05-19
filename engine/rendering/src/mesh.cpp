@@ -12,8 +12,8 @@
 
 namespace birb
 {
-	mesh::mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const std::string& material_name, const std::string& name)
-	:vertices(vertices), indices(indices), textures(textures), material_name(material_name), name(name)
+	mesh::mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const birb::material& material, const std::string& material_name, const std::string& name)
+	:vertices(vertices), indices(indices), textures(textures), material_name(material_name), material(material), name(name)
 	{
 		setup_mesh();
 		birb::log("Mesh constructed: ", name, " (mat: ", material_name, ", addr: ", birb::ptr_to_str(this), ")");

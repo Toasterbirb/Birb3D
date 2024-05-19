@@ -49,7 +49,7 @@ int main(void)
 	suzanne_info.name = "Suzanne";
 	suzanne.add_component(suzanne_info);
 
-	birb::model suzanne_model("suzanne.obj", "suzanne.mtl");
+	birb::model suzanne_model("suzanne.obj");
 	suzanne.add_component(suzanne_model);
 
 	birb::transform transform;

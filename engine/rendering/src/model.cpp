@@ -1,6 +1,5 @@
 #include "Assert.hpp"
 #include "Logger.hpp"
-#include "MTL.hpp"
 #include "Mesh.hpp"
 #include "Model.hpp"
 #include "Profiling.hpp"
@@ -30,14 +29,6 @@ namespace birb
 		textures_loaded = std::make_shared<std::vector<mesh_texture>>();
 		meshes = std::make_shared<std::vector<mesh>>();
 		load_model(path);
-	}
-
-	model::model(const std::string& obj_path, const std::string mtl_path)
-	{
-		textures_loaded = std::make_shared<std::vector<mesh_texture>>();
-		meshes = std::make_shared<std::vector<mesh>>();
-		load_model(obj_path);
-		load_mtl(mtl_path);
 	}
 
 	model::~model()
@@ -128,9 +119,6 @@ namespace birb
 		ensure(!file_path.empty());
 
 		load_model(file_path);
-
-		if (!mtl_file_path.empty())
-			load_mtl(mtl_file_path);
 	}
 
 	void model::load_model(const std::string& path)
@@ -144,42 +132,41 @@ namespace birb
 		if (is_primitive_mesh)
 		{
 			load_model_from_memory(mesh_data_index, mesh_data_name);
+			return;
 		}
-		else
+
+		ensure(path != null_path, "Tried to load a model from disk that was probably meant to be loaded from memory");
+		ensure(std::filesystem::exists(path));
+
+		birb::log("Loading model: " + path);
+
+		file_exists = true;
+		file_path = path;
+		text_box_model_file_path = path;
+
+		Assimp::Importer importer;
+		const aiScene* scene = importer.ReadFile(path.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
+
+		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-			ensure(path != null_path, "Tried to load a model from disk that was probably meant to be loaded from memory");
-			ensure(std::filesystem::exists(path));
-
-			birb::log("Loading model: " + path);
-
-			file_exists = true;
-			file_path = path;
-			text_box_model_file_path = path;
-
-			Assimp::Importer importer;
-			const aiScene* scene = importer.ReadFile(path.c_str(), aiProcess_Triangulate | aiProcess_FlipUVs);
-
-			if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
-			{
-				birb::log_error("assimp error: ", importer.GetErrorString());
-				return;
-			}
-
-			size_t last_slash = path.find_last_of('/');
-
-			if (last_slash != std::string::npos)
-				directory = path.substr(0, last_slash);
-			else
-				directory = "./";
-
-			// Reset the vert counter. The process_node function will recalculate it
-			vert_count = 0;
-
-			process_node(scene->mRootNode, scene);
-
-			birb::log("Model loaded: " + path);
-			last_obj_write_time = std::filesystem::last_write_time(path);
+			birb::log_error("assimp error: ", importer.GetErrorString());
+			return;
 		}
+
+		size_t last_slash = path.find_last_of('/');
+
+		if (last_slash != std::string::npos)
+			directory = path.substr(0, last_slash);
+		else
+			directory = "./";
+
+		// Reset the vert counter. The process_node function will recalculate it
+		vert_count = 0;
+
+		process_node(scene->mRootNode, scene);
+
+		birb::log("Model loaded: " + path);
+		last_write_time = std::filesystem::last_write_time(path);
 	}
 
 	void model::load_model_from_memory(const primitive_mesh mesh, const std::string& name)
@@ -214,45 +201,18 @@ namespace birb
 		birb::log("Model loaded from memory: " + name);
 	}
 
-	void model::load_mtl(const std::string& mtl_path)
-	{
-		ensure(!mtl_path.empty());
-		ensure(meshes.get(), "Meshes need to be loaded before materials can be applied to them");
-
-		this->mtl_file_path = mtl_path;
-
-		log("Loading mtl file: ", mtl_path);
-		std::unordered_map<std::string, material> materials = parser::mtl(mtl_path);
-
-		for (size_t i = 0; i < meshes->size(); ++i)
-		{
-			if (materials.contains(meshes->at(i).material_name))
-				meshes->at(i).material = materials.at(meshes->at(i).material_name);
-		}
-
-		last_mtl_write_time = std::filesystem::last_write_time(mtl_path);
-	}
-
 	void model::reload()
 	{
 		// Don't reload the model if the file has not
 		// been modified
-		std::filesystem::file_time_type new_last_obj_write_time = std::filesystem::last_write_time(file_path);
+		std::filesystem::file_time_type new_last_write_time = std::filesystem::last_write_time(file_path);
 
 		// Reload the model
-		if (new_last_obj_write_time != last_obj_write_time)
-		{
-			destroy();
-			load_model();
-		}
+		if (new_last_write_time == last_write_time)
+			return;
 
-		if (!mtl_file_path.empty())
-		{
-			std::filesystem::file_time_type new_last_mtl_write_time = std::filesystem::last_write_time(mtl_file_path);
-
-			if (new_last_mtl_write_time != last_mtl_write_time)
-				load_mtl(mtl_file_path);
-		}
+		destroy();
+		load_model();
 	}
 
 	void model::destroy()
@@ -339,10 +299,26 @@ namespace birb
 		}
 
 		// process materials
+		material birb_material;
 		std::string material_name;
 		if (ai_mesh->mMaterialIndex > 0)
 		{
 			aiMaterial* material = scene->mMaterials[ai_mesh->mMaterialIndex];
+
+			// Load material colors
+			aiColor4D ai_diffuse;
+			aiGetMaterialColor(material, AI_MATKEY_COLOR_DIFFUSE, &ai_diffuse);
+
+			aiColor4D ai_specular;
+			aiGetMaterialColor(material, AI_MATKEY_COLOR_SPECULAR, &ai_specular);
+
+			float ai_shininess;
+			aiGetMaterialFloat(material, AI_MATKEY_SHININESS, &ai_shininess);
+
+			birb_material.diffuse = color(ai_diffuse.r, ai_diffuse.g, ai_diffuse.b, ai_diffuse.a);
+			birb_material.specular = color(ai_specular.r, ai_specular.g, ai_specular.b, ai_specular.a);
+			birb_material.shininess = ai_shininess;
+
 			material_name = material->GetName().C_Str();
 
 			// Diffuse maps
@@ -354,7 +330,7 @@ namespace birb
 			textures.insert(textures.end(), specular_maps.begin(), specular_maps.end());
 		}
 
-		return birb::mesh(vertices, indices, textures, material_name, ai_mesh->mName.C_Str());
+		return birb::mesh(vertices, indices, textures, birb_material, material_name, ai_mesh->mName.C_Str());
 	}
 
 	std::vector<mesh_texture> model::load_material_textures(aiMaterial* mat, aiTextureType type, std::string type_name)

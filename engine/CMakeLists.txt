@@ -68,10 +68,6 @@ file(GLOB RENDER_SRC rendering/src/*.cpp)
 target_sources(birb PRIVATE ${RENDER_SRC})
 target_include_directories(birb PUBLIC assets/primitive)
 
-# File parsers
-file(GLOB PARSER_SRC parser/src/*.cpp)
-target_sources(birb PRIVATE ${PARSER_SRC})
-
 # Scenes and ECS
 file(GLOB COMPONENT_HEADERS "${PROJECT_SOURCE_DIR}/engine/scenes/components/include/*.hpp")
 set(COMPONENT_COMBINATION_HEADER "${PROJECT_SOURCE_DIR}/engine/scenes/include/Components.hpp")

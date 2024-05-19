@@ -21,7 +21,6 @@ namespace birb
 	public:
 		model();
 		explicit model(const std::string& path);
-		model(const std::string& obj_path, const std::string mtl_path);
 		~model();
 
 		void draw(shader& shader);
@@ -32,11 +31,6 @@ namespace birb
 		void load_model();
 		void load_model(const std::string& path);
 		void load_model_from_memory(const primitive_mesh mesh, const std::string& name = "unknown");
-
-		/**
-		 * @brief Load materials for an OBJ file from a MTL file
-		 */
-		void load_mtl(const std::string& mtl_path);
 
 		/**
 		 * @brief Reload the model file only if the file has been modified
@@ -66,8 +60,7 @@ namespace birb
 		std::shared_ptr<std::vector<mesh_texture>> textures_loaded;
 		std::shared_ptr<std::vector<mesh>> meshes;
 
-		std::filesystem::file_time_type last_obj_write_time;
-		std::filesystem::file_time_type last_mtl_write_time;
+		std::filesystem::file_time_type last_write_time;
 
 		std::string directory;
 		std::string file_path;
