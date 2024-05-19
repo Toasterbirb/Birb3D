@@ -4,9 +4,7 @@ layout (location = 1) in vec3 aColor;
 
 out vec3 color;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+#include "include/matrices.glsl"
 
 void main()
 {

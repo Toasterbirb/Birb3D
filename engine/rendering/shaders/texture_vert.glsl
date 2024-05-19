@@ -4,9 +4,7 @@ layout (location = 1) in vec2 aTex;
 
 out vec2 texCoord;
 
-uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+#include "include/matrices.glsl"
 
 uniform float aspect_ratio;
 uniform float aspect_ratio_reverse;
