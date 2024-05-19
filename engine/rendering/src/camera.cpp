@@ -40,11 +40,6 @@ namespace birb
 		return editor_header_name;
 	}
 
-	glm::mat4 camera::view_matrix() const
-	{
-		return glm::lookAt(position, position + front, up);
-	}
-
 	glm::mat4 camera::projection_matrix(const camera::projection_mode mode, const vec2<i32> window_size, const bool ignore_near_clip) const
 	{
 		ensure(window_size.x > 0, "Invalid window width");
@@ -72,6 +67,11 @@ namespace birb
 		}
 
 		return projection;
+	}
+
+	glm::mat4 camera::view_matrix() const
+	{
+		return glm::lookAt(position, position + front, up);
 	}
 
 	glm::vec3 camera::front_vec() const
