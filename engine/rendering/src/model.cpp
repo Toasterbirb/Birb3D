@@ -178,8 +178,8 @@ namespace birb
 			process_node(scene->mRootNode, scene);
 
 			birb::log("Model loaded: " + path);
+			last_obj_write_time = std::filesystem::last_write_time(path);
 		}
-
 	}
 
 	void model::load_model_from_memory(const primitive_mesh mesh, const std::string& name)
@@ -228,6 +228,30 @@ namespace birb
 		{
 			if (materials.contains(meshes->at(i).material_name))
 				meshes->at(i).material = materials.at(meshes->at(i).material_name);
+		}
+
+		last_mtl_write_time = std::filesystem::last_write_time(mtl_path);
+	}
+
+	void model::reload()
+	{
+		// Don't reload the model if the file has not
+		// been modified
+		std::filesystem::file_time_type new_last_obj_write_time = std::filesystem::last_write_time(file_path);
+
+		// Reload the model
+		if (new_last_obj_write_time != last_obj_write_time)
+		{
+			destroy();
+			load_model();
+		}
+
+		if (!mtl_file_path.empty())
+		{
+			std::filesystem::file_time_type new_last_mtl_write_time = std::filesystem::last_write_time(mtl_file_path);
+
+			if (new_last_mtl_write_time != last_mtl_write_time)
+				load_mtl(mtl_file_path);
 		}
 	}
 

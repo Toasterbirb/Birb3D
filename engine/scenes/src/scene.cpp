@@ -65,8 +65,7 @@ namespace birb
 		for (auto& entity : view)
 		{
 			model& model = view.get<birb::model>(entity);
-			model.destroy();
-			model.load_model();
+			model.reload();
 		}
 	}
 

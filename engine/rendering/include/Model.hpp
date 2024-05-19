@@ -7,6 +7,7 @@
 #include <assimp/material.h>
 #include <assimp/mesh.h>
 #include <assimp/scene.h>
+#include <filesystem>
 #include <memory>
 #include <string>
 
@@ -37,6 +38,14 @@ namespace birb
 		 */
 		void load_mtl(const std::string& mtl_path);
 
+		/**
+		 * @brief Reload the model file only if the file has been modified
+		 *
+		 * Note: Only the timestamp of the latest modification is checked.
+		 *       Do not use this method if you changed the file path
+		 */
+		void reload();
+
 		void destroy();
 
 		u32 vertex_count() const;
@@ -56,6 +65,10 @@ namespace birb
 
 		std::shared_ptr<std::vector<mesh_texture>> textures_loaded;
 		std::shared_ptr<std::vector<mesh>> meshes;
+
+		std::filesystem::file_time_type last_obj_write_time;
+		std::filesystem::file_time_type last_mtl_write_time;
+
 		std::string directory;
 		std::string file_path;
 		std::string mtl_file_path;
