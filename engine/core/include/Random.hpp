@@ -17,9 +17,9 @@ namespace birb
 		/**
 		 * @brief Construct a random number generator with a random seed
 		 *
-		 * On linux this will get the seed by reading a few bytes from
-		 * /dev/urandom. If this file cannot be opened (or we are not
-		 * on linux) time will be used as the seed instead.
+		 * The seed is created from the current time and an increasing
+		 * counter. The counter is used to make sure that subsequent seeds are not identical
+		 * if the constructor is called repeatedly
 		 */
 		random();
 
