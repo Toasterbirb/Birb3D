@@ -433,7 +433,7 @@ namespace birb
 			if (has_compiled == false)
 			{
 				glGetShaderInfoLog(shader, LOG_BUFFER_SIZE, NULL, info_log);
-				birb::log_error(shader_type_to_str(type) + "shader failed to compile:" + info_log);
+				birb::log_error(shader_type_to_str(type) + " shader failed to compile:" + info_log);
 			}
 
 			return;
