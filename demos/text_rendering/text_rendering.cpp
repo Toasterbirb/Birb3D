@@ -3,6 +3,7 @@
 #include "Entity.hpp"
 #include "Font.hpp"
 #include "FontManager.hpp"
+#include "PerformanceOverlay.hpp"
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
 #include "ShaderRef.hpp"
@@ -29,16 +30,22 @@ int main(void)
 	renderer.opt_blend(true);
 	renderer.set_scene(scene);
 
+	birb::overlay::performance performance_overlay(timestep);
 	birb::overlay::renderer_overlay renderer_overlay(renderer);
 	birb::overlay::camera_info camera_info(camera);
 
 	birb::font_manager font_manager;
 	birb::font manaspace = font_manager.load_font("manaspc.ttf", 48);
+	birb::font manaspace_small = font_manager.load_font("manaspc.ttf", 12);
 
-	birb::entity text_entity = scene.create_entity();
+	birb::entity text_big = scene.create_entity();
+	birb::entity text_small = scene.create_entity();
 
-	birb::text text("Hello world!\nSecond line of text\nSome more text", manaspace, { 25.0f, 256.0f, 0.0f }, 1.0f, 0xFFFFFF);
-	text_entity.add_component(text);
+	birb::text text("Hello world!\nSecond line of text\nSome more text", manaspace, { 25.0f, 128.0f, 0.0f }, 1.0f, 0xFFFFFF);
+	text_big.add_component(text);
+
+	birb::text text2("Iste distinctio illum cupiditate soluta aut voluptas sit odio. Ut est vitae rerum velit praesentium sunt.\nVoluptatem qui nihil nesciunt voluptas mollitia repellendus.\nEst repellendus veritatis assumenda repudiandae vel at dolores.\nOccaecati ex laudantium recusandae hic dolor voluptas reiciendis nisi.\nEt qui quod et. Et aperiam dolor qui alias. In repellendus enim optio magni consequatur quisquam.\nAliquam explicabo expedita dolores.\nMagnam minima molestiae sint saepe inventore fuga ullam voluptates.\nIllum libero est impedit molestiae aperiam vitae. Corrupti velit nulla quisquam officiis fugit aspernatur. Exercitationem dolor pariatur sint sit aut quas molestiae explicabo.\nQuia animi sit assumenda laudantium est. Ad provident voluptates quia laborum voluptatibus laudantium fuga dolores.\nSunt voluptatum temporibus fuga aliquam dignissimos totam ad.\nAut voluptas reprehenderit a est debitis voluptas voluptatum. Ipsam aliquid incidunt perferendis.\nVoluptatem sed ex quae doloremque illo cupiditate nam. Vel tenetur sint eum deserunt vel provident nostrum eos.\nVel optio laudantium ad praesentium adipisci laboriosam. Illo est ut et.\nIusto illum iste sed et alias voluptatem est. Tempora voluptatem pariatur accusamus occaecati dolorem nihil.\nVelit alias facere aspernatur omnis et optio. Iste distinctio illum cupiditate soluta aut voluptas sit odio.\nUt est vitae rerum velit praesentium sunt.\nVoluptatem qui nihil nesciunt voluptas mollitia repellendus.\nEst repellendus veritatis assumenda repudiandae vel at dolores.\nOccaecati ex laudantium recusandae hic dolor voluptas reiciendis nisi.\nEt qui quod et. Et aperiam dolor qui alias. In repellendus enim optio magni consequatur quisquam.\nAliquam explicabo expedita dolores.\nMagnam minima molestiae sint saepe inventore fuga ullam voluptates.\nIllum libero est impedit molestiae aperiam vitae. Corrupti velit nulla quisquam officiis fugit aspernatur.\nExercitationem dolor pariatur sint sit aut quas molestiae explicabo.\nQuia animi sit assumenda laudantium est. Ad provident voluptates quia laborum voluptatibus laudantium fuga dolores.\nSunt voluptatum temporibus fuga aliquam dignissimos totam ad.\nAut voluptas reprehenderit a est debitis voluptas voluptatum. Ipsam aliquid incidunt perferendis.\nVoluptatem sed ex quae doloremque illo cupiditate nam. Vel tenetur sint eum deserunt vel provident nostrum eos.\nVel optio laudantium ad praesentium adipisci laboriosam. Illo est ut et.\nIusto illum iste sed et alias voluptatem est. Tempora voluptatem pariatur accusamus occaecati dolorem nihil.\nVelit alias facere aspernatur omnis et optio. Iste distinctio illum cupiditate soluta aut voluptas sit odio. Ut est vitae rerum velit praesentium sunt.\nVoluptatem qui nihil nesciunt voluptas mollitia repellendus.\nEst repellendus veritatis assumenda repudiandae vel at dolores.\nOccaecati ex laudantium recusandae hic dolor voluptas reiciendis nisi.\nEt qui quod et. Et aperiam dolor qui alias. In repellendus enim optio magni consequatur quisquam.\nAliquam explicabo expedita dolores.\nMagnam minima molestiae sint saepe inventore fuga ullam voluptates.\nIllum libero est impedit molestiae aperiam vitae. Corrupti velit nulla quisquam officiis fugit aspernatur. Exercitationem dolor pariatur sint sit aut quas molestiae explicabo.\nQuia animi sit assumenda laudantium est. Ad provident voluptates quia laborum voluptatibus laudantium fuga dolores.\nSunt voluptatum temporibus fuga aliquam dignissimos totam ad.\nAut voluptas reprehenderit a est debitis voluptas voluptatum. Ipsam aliquid incidunt perferendis.\nVoluptatem sed ex quae doloremque illo cupiditate nam. Vel tenetur sint eum deserunt vel provident nostrum eos.\nVel optio laudantium ad praesentium adipisci laboriosam. Illo est ut et.\nIusto illum iste sed et alias voluptatem est. Tempora voluptatem pariatur accusamus occaecati dolorem nihil.\nVelit alias facere aspernatur omnis et optio. Iste distinctio illum cupiditate soluta aut voluptas sit odio.\nUt est vitae rerum velit praesentium sunt.\nVoluptatem qui nihil nesciunt voluptas mollitia repellendus.\nEst repellendus veritatis assumenda repudiandae vel at dolores.\nOccaecati ex laudantium recusandae hic dolor voluptas reiciendis nisi.\nEt qui quod et. Et aperiam dolor qui alias. In repellendus enim optio magni consequatur quisquam.\nAliquam explicabo expedita dolores.\nMagnam minima molestiae sint saepe inventore fuga ullam voluptates.\nIllum libero est impedit molestiae aperiam vitae. Corrupti velit nulla quisquam officiis fugit aspernatur.\nExercitationem dolor pariatur sint sit aut quas molestiae explicabo.\nQuia animi sit assumenda laudantium est. Ad provident voluptates quia laborum voluptatibus laudantium fuga dolores.\nSunt voluptatum temporibus fuga aliquam dignissimos totam ad.\nAut voluptas reprehenderit a est debitis voluptas voluptatum. Ipsam aliquid incidunt perferendis.\nVoluptatem sed ex quae doloremque illo cupiditate nam. Vel tenetur sint eum deserunt vel provident nostrum eos.\nVel optio laudantium ad praesentium adipisci laboriosam. Illo est ut et.\nIusto illum iste sed et alias voluptatem est. Tempora voluptatem pariatur accusamus occaecati dolorem nihil.\nVelit alias facere aspernatur omnis et optio.", manaspace_small, birb::vec3<f32>(320.0f, window.size().y + 256, 0));
+	text_small.add_component(text2);
 
 	// glm::mat4 projection_matrix = glm::ortho(0.0f, static_cast<float>(window.size().x), 0.0f, static_cast<float>(window.size().y));
 
@@ -51,6 +58,7 @@ int main(void)
 		// Draw here
 		renderer.draw_entities(camera, window.size());
 
+		performance_overlay.draw();
 		renderer_overlay.draw();
 		camera_info.draw();
 
