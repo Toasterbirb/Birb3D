@@ -92,8 +92,8 @@ namespace birb
 
 		// We can probably assume that each rectangle shaped sprite is
 		// equal to 4 vertices
-		stat_2d.vertices += 4 * model_matrices.size();
+		render_stats.vertices_2d += 4 * model_matrices.size();
 
-		stat_2d.entities += model_matrices.size();
+		render_stats.entities_2d += model_matrices.size();
 	}
 }

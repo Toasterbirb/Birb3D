@@ -74,8 +74,8 @@ namespace birb
 			// Draw the model
 			ensure(view.get<birb::model>(ent).vertex_count() != 0, "Tried to render a model with no vertices");
 			view.get<birb::model>(ent).draw(*shader, skip_mesh_materials);
-			++stat_3d.entities;
-			stat_3d.vertices += view.get<birb::model>(ent).vertex_count();
+			++render_stats.entities_3d;
+			render_stats.vertices_3d += view.get<birb::model>(ent).vertex_count();
 		}
 	}
 

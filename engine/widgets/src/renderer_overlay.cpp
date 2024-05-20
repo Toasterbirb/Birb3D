@@ -3,6 +3,7 @@
 #include "Profiling.hpp"
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
+#include "Stopwatch.hpp"
 
 #include <imgui.h>
 #include <vector>
@@ -42,21 +43,25 @@ namespace birb
 
 			if (is_overlay || ImGui::CollapsingHeader(collapsing_menu_name))
 			{
+				const renderer::statistics stats = renderer.rendering_statistics();
+				f64 total_duration = stats.total_duration();
+
 				std::vector<draw_stats_table_data_point> render_stats = {
-					{ "2D", renderer.rendered_2d_entities_count(), renderer.rendered_2d_vertices_count() },
-					{ "3D", renderer.rendered_3d_entities_count(), renderer.rendered_3d_vertices_count() },
-					{ "UI", renderer.rendered_screenspace_entities_count(), renderer.rendered_screenspace_vertices_count() },
-					{ "Total", renderer.rendered_entities_count(), renderer.rendered_vertex_count() },
+					{ "2D", stats.entities_2d, stats.vertices_2d, stats.draw_2d_duration / total_duration },
+					{ "3D", stats.entities_3d, stats.vertices_3d, stats.draw_3d_duration / total_duration },
+					{ "UI", stats.entities_screenspace, stats.vertices_screenspace, stats.draw_screenspace_duration / total_duration },
+					{ "Total", stats.total_entities(), stats.total_vertices(), -1.0 },
 				};
 
 				static const ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg;
 
-				ImGui::BeginTable("Drawing stats", 3, flags);
+				ImGui::BeginTable("Drawing stats", 4, flags);
 				{
 					// Table headers
 					ImGui::TableSetupColumn("Type");
 					ImGui::TableSetupColumn("Entities");
 					ImGui::TableSetupColumn("Vertices");
+					ImGui::TableSetupColumn("Time");
 					ImGui::TableHeadersRow();
 
 					for (const draw_stats_table_data_point& data_point : render_stats)
@@ -68,7 +73,13 @@ namespace birb
 						ImGui::Text("%u", data_point.entities);
 						ImGui::TableNextColumn();
 						ImGui::Text("%u", data_point.vertices);
+						ImGui::TableNextColumn();
 
+						// Only the "total" time will be -1 and that one should be drawn differently
+						if (data_point.time != -1)
+							ImGui::ProgressBar(data_point.time, ImVec2(120, 0));
+						else
+							ImGui::Text("%s", stopwatch::format_time(total_duration).c_str());
 					}
 				}
 				ImGui::EndTable();

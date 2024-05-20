@@ -116,12 +116,12 @@ namespace birb
 				// adapter from: https://learnopengl.com/In-Practice/Text-Rendering
 				x += (ch.advance >> 6) * text.scale;
 
-				stat_screenspace.vertices += vert_count;
+				render_stats.vertices_screenspace += vert_count;
 			}
 
 			glBindTexture(GL_TEXTURE_2D, 0);
 
-			++stat_screenspace.entities;
+			++render_stats.entities_screenspace;
 		}
 
 		text_vao.unbind();

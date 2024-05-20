@@ -27,6 +27,7 @@ namespace birb
 				std::string name;
 				u32 entities;
 				u32 vertices;
+				f64 time;
 			};
 		};
 	}
