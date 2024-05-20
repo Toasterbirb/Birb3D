@@ -126,6 +126,8 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
+		set(shader_uniforms::point_lights::count, point_light_count);
+
 		// Point lights
 		for (u16 i = 0; i < point_light_count; ++i)
 		{

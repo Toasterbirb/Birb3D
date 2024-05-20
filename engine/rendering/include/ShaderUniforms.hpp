@@ -50,6 +50,7 @@ namespace birb
 			const static inline uniform ambient ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "ambient", true);
 			const static inline uniform diffuse ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "diffuse", true);
 			const static inline uniform specular ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "specular", true);
+			const static inline uniform count ("point_light_count", uniform_type::INT);
 		}
 
 		namespace directional_light
