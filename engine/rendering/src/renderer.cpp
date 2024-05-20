@@ -70,6 +70,9 @@ namespace birb
 		// Enable blending by default
 		opt_blend(true);
 
+		// Enable gamma correction by default
+		opt_gamma_correction(true);
+
 		// Enable backface culling by default
 		set_backface_culling(true);
 
@@ -403,6 +406,16 @@ namespace birb
 		{
 			glDisable(GL_BLEND);
 		}
+	}
+
+	void renderer::opt_gamma_correction(const bool enabled) const
+	{
+		ensure(opengl_initialized);
+
+		if (enabled)
+			glEnable(GL_FRAMEBUFFER_SRGB);
+		else
+			glDisable(GL_FRAMEBUFFER_SRGB);
 	}
 
 	void renderer::opt_post_process(const bool enabled)

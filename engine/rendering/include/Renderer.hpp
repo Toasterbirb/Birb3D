@@ -106,6 +106,11 @@ namespace birb
 		void opt_blend(const bool enabled) const;
 
 		/**
+		 * @brief OpenGL gamma correction
+		 */
+		void opt_gamma_correction(const bool enabled) const;
+
+		/**
 		 * @brief Post-processing render pass
 		 */
 		void opt_post_process(const bool enabled);
