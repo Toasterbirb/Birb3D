@@ -61,6 +61,11 @@ namespace birb
 			const static inline uniform specular("directional_light", uniform_type::BIRB_VEC3_FLOAT, "specular", false);
 		}
 
+		namespace material
+		{
+			const static inline uniform type("material_type", uniform_type::INT);
+		}
+
 		namespace material_color
 		{
 			const static inline uniform diffuse("material", uniform_type::BIRB_COLOR, "diffuse", false);
@@ -70,8 +75,8 @@ namespace birb
 
 		namespace material_texture
 		{
-			const static inline uniform diffuse("material", uniform_type::INT, "diffuse", false);
-			const static inline uniform specular("material", uniform_type::INT, "specular", false);
+			const static inline uniform diffuse("material", uniform_type::INT, "diffuse_tex", false);
+			const static inline uniform specular("material", uniform_type::INT, "specular_tex", false);
 			const static inline uniform shininess("material", uniform_type::FLOAT, "shininess", false);
 		}
 

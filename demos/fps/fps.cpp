@@ -36,7 +36,7 @@ int main(void)
 	/////////////
 	// Shaders //
 	/////////////
-	birb::shader_ref default_color_shader("default", "default_color");
+	birb::shader_ref default_color_shader("default", "default");
 
 	//////////////////////
 	// Set the world up //

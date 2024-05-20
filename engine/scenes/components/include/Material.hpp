@@ -17,6 +17,10 @@ namespace birb
 		color diffuse, specular;
 		f32 shininess;
 
+		// 0 = color
+		// 1 = texture
+		u8 type;
+
 		template<class Archive>
 		void serialize(Archive& ar)
 		{

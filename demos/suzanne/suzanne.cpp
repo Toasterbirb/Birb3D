@@ -61,7 +61,7 @@ int main(void)
 	box_collider.set_position_and_size(transform);
 	suzanne.add_component(box_collider);
 
-	birb::shader_ref shader("default", "default_color");
+	birb::shader_ref shader("default", "default");
 	suzanne.add_component(shader);
 
 	// birb::material material({ 0.2f, 0.3f, 0.4f }, { 0.9f, 0.8f, 0.7f }, 32);

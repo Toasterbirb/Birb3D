@@ -178,6 +178,7 @@ namespace birb
 		set_diffuse_color(material.diffuse);
 		set_specular_color(material.specular);
 		set_shininess(material.shininess);
+		set(shader_uniforms::material::type, material.type);
 	}
 
 	void shader::draw_editor_ui()

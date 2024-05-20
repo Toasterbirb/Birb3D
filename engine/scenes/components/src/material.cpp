@@ -3,11 +3,11 @@
 namespace birb
 {
 	material::material()
-	:diffuse(0x112233), specular(0x112233), shininess(32)
+	:diffuse(0x112233), specular(0x112233), shininess(32), type(0)
 	{}
 
 	material::material(const color& diffuse, const color& specular, f32 shininess)
-	:diffuse(diffuse), specular(specular), shininess(shininess)
+	:diffuse(diffuse), specular(specular), shininess(shininess), type(0)
 	{}
 
 	void material::draw_editor_ui()

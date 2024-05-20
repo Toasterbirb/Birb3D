@@ -27,13 +27,12 @@ namespace birb
 
 		birb::log("Precompiling shaders...");
 
-		const std::array<shader_ref, 7> precompiled_shaders = {
+		const std::array<shader_ref, 6> precompiled_shaders = {
 			shader_ref("color", "color"),
 			shader_ref("text", "text"),
 			shader_ref("texture", "texture"),
 			shader_ref("post_process", "post_process"),
 			shader_ref("default", "default"),
-			shader_ref("default", "default_color"),
 			shader_ref("vertex_color", "vertex_color"),
 		};
 
