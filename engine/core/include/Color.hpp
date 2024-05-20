@@ -22,7 +22,7 @@ namespace birb
 		/**
 		 * @brief Construct a color with all values set to zero
 		 */
-		constexpr color() : r(0), g(0), b(0), a(0) {}
+		constexpr color() : r(0), g(0), b(0), a(1.0f) {}
 
 		/**
 		 * @brief Construct a color from floating point values

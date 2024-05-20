@@ -11,7 +11,7 @@ TEST_CASE("Color constructor")
 		CHECK(color.r == 0);
 		CHECK(color.g == 0);
 		CHECK(color.b == 0);
-		CHECK(color.a == 0);
+		CHECK(color.a == 1.0f);
 	}
 
 	SUBCASE("Float")
