@@ -1,5 +1,6 @@
 add_subdirectory(audio_player)
 add_subdirectory(empty_window)
+add_subdirectory(fps)
 add_subdirectory(imgui)
 add_subdirectory(lighting)
 add_subdirectory(lines)

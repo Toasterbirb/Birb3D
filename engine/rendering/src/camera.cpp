@@ -14,12 +14,14 @@ namespace birb
 	camera::camera()
 	{
 		world_up = up;
+		mode = mode::flying;
 		update_camera_vectors();
 	}
 
 	camera::camera(vec3<f32> position) : position(position.to_glm_vec())
 	{
 		world_up = up;
+		mode = mode::flying;
 		update_camera_vectors();
 	}
 
@@ -27,6 +29,7 @@ namespace birb
 	:position(position.to_glm_vec()), yaw(yaw), pitch(pitch)
 	{
 		world_up = up;
+		mode = mode::flying;
 		update_camera_vectors();
 	}
 
@@ -88,6 +91,10 @@ namespace birb
 	{
 		PROFILER_SCOPE_INPUT_FN();
 
+		// Store the old height value temporarily
+		// This is used for the FPS camera
+		f32 old_y = position.y;
+
 		// Keyboard input
 		if (keyboard_controls_enabled)
 		{
@@ -103,6 +110,9 @@ namespace birb
 			if (window.is_key_held(keybinds.right))
 				position += right * static_cast<f32>(timestep.deltatime()) * movement_speed;
 		}
+
+		if (mode == mode::fps)
+			position.y = old_y;
 
 		if (mouse_controls_enabled)
 		{

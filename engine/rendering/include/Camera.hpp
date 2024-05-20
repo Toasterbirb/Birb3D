@@ -21,6 +21,11 @@ namespace birb
 		void draw_editor_ui() override;
 		std::string collapsing_header_name() const override;
 
+		enum class mode
+		{
+			flying, fps
+		};
+
 		enum class projection_mode
 		{
 			perspective,
@@ -49,6 +54,7 @@ namespace birb
 		f32 movement_speed = 10.0f;
 		f32 mouse_sensitivity = 0.1f;
 		f32 fov = 45.0f;
+		mode mode;
 
 		f32 near_clip = 0.1f;
 		f32 far_clip = 100.0f;
