@@ -2,9 +2,6 @@
 include_directories(rendering/shaders)
 
 add_library(birb STATIC)
-add_subdirectory(audio)
-add_subdirectory(physics)
-add_subdirectory(widgets)
 
 set(IMGUI_PATH "${PROJECT_SOURCE_DIR}/vendor/imgui")
 set(DEPENDENCY_HEADERS
@@ -27,9 +24,6 @@ set(DEPENDENCY_HEADERS
 )
 
 target_include_directories(birb PUBLIC ${DEPENDENCY_HEADERS})
-target_include_directories(audio PUBLIC ${DEPENDENCY_HEADERS})
-target_include_directories(physics PUBLIC ${DEPENDENCY_HEADERS})
-target_include_directories(widgets PUBLIC ${DEPENDENCY_HEADERS})
 
 # Engine core
 set(CORE_INC core/include)
@@ -40,6 +34,10 @@ target_sources(birb PRIVATE ${CORE_SRC})
 # Asset management
 file(GLOB ASSETS_SRC assets/src/*.cpp)
 target_sources(birb PRIVATE ${ASSETS_SRC})
+
+# Audio
+file(GLOB AUDIO_SRC audio/src/*.cpp)
+target_sources(birb PRIVATE ${AUDIO_SRC})
 
 
 # Rendering
@@ -68,6 +66,12 @@ file(GLOB RENDER_SRC rendering/src/*.cpp)
 target_sources(birb PRIVATE ${RENDER_SRC})
 target_include_directories(birb PUBLIC assets/primitive)
 
+
+# Physics
+file (GLOB PHYSICS_SRC physics/src/*.cpp)
+target_sources(birb PRIVATE ${PHYSICS_SRC})
+
+
 # Scenes and ECS
 file(GLOB COMPONENT_HEADERS "${PROJECT_SOURCE_DIR}/engine/scenes/components/include/*.hpp")
 set(COMPONENT_COMBINATION_HEADER "${PROJECT_SOURCE_DIR}/engine/scenes/include/Components.hpp")
@@ -82,6 +86,12 @@ target_sources(birb PRIVATE ${SCENES_SRC} ${COMPONENT_COMBINATION_HEADER})
 target_include_directories(birb PUBLIC
 	"${PROJECT_SOURCE_DIR}/engine/scenes/components/include")
 
+
+# Widgets
+file(GLOB WIDGET_SRC widgets/src/*.cpp)
+target_sources(birb PRIVATE ${WIDGET_SRC})
+
+
 add_custom_target(headers)
 target_sources(headers PRIVATE ${OBJ_SRC_HEADER} ${SHADER_SOURCE_HEADER} ${COMPONENT_COMBINATION_HEADER})
 
@@ -94,11 +104,15 @@ target_link_libraries(birb
 	glm
 	imgui
 	freetype
-
-	audio
-	physics
-	widgets
+	sndfile
 )
+
+if (NOT BIRB_WINDOWS)
+	target_link_libraries(birb openal)
+else()
+	target_link_libraries(birb OpenAL32)
+endif()
+
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
 	target_link_libraries(birb cpptrace::cpptrace)
