@@ -119,10 +119,11 @@ namespace birb
 				stat_screenspace.vertices += vert_count;
 			}
 
-			text_vao.unbind();
 			glBindTexture(GL_TEXTURE_2D, 0);
 
 			++stat_screenspace.entities;
 		}
+
+		text_vao.unbind();
 	}
 }
