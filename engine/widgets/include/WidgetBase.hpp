@@ -12,7 +12,7 @@ namespace birb
 		virtual void draw() = 0;
 
 		f32 padding = 5.0f;
-		f32 bg_alpha = 0.45f;
+		f32 bg_alpha = 0.85f;
 
 	protected:
 		const static inline ImVec4 green = ImVec4(0.49f, 0.72f, 0.34f, 1.0f);
