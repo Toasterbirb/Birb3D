@@ -36,5 +36,6 @@ namespace birb
 		draw_elements_calls = 0;
 		draw_arrays_vao_calls = 0;
 		draw_elements_vao_calls = 0;
+		draw_arrays_instanced = 0;
 	}
 }

@@ -1,4 +1,3 @@
-#include "Character.hpp"
 #include "Profiling.hpp"
 #include "Renderer.hpp"
 #include "ShaderCollection.hpp"
@@ -48,50 +47,59 @@ namespace birb
 			shader->set(shader_uniforms::projection, orthographic_projection);
 
 			// The same VAO can be used for all characters
-			text_vao.bind();
+			// text_vao.bind();
 
 			// We'll be drawing to TEXTURE0
 			glActiveTexture(GL_TEXTURE0);
 
-			std::shared_ptr<std::vector<text::char_data>> chars = text.chars();
-
-			// The characters are sorted, so we can avoid unnecessary texture
-			// changes by only binding a new texture when the ID changes
-			char last_char = 0;
+			const std::set<char>& chars = text.chars();
 
 			// Iterate through the text
-			for (text::char_data c : *chars)
+			for (const char c : chars)
 			{
 				// Update the VBO
 				constexpr u8 vert_count = 6;
 
-				const f32 verts[vert_count][4] = {
-					{ c.pos.x,				c.pos.y + c.dim.y,	0.0f, 0.0f },
-					{ c.pos.x,				c.pos.y,			0.0f, 1.0f },
-					{ c.pos.x + c.dim.x, 	c.pos.y,			1.0f, 1.0f },
+				const vec2<f32>& dim = text.char_dimensions(c);
 
-					{ c.pos.x,				c.pos.y + c.dim.y,	0.0f, 0.0f },
-					{ c.pos.x + c.dim.x,	c.pos.y,			1.0f, 1.0f },
-					{ c.pos.x + c.dim.x,	c.pos.y + c.dim.y,	1.0f, 0.0f }
+				const f32 verts[vert_count][4] = {
+					{ 0,		dim.y,	0.0f, 0.0f },
+					{ 0,		0,		0.0f, 1.0f },
+					{ dim.x, 	0,		1.0f, 1.0f },
+
+					{ 0,		dim.y,	0.0f, 0.0f },
+					{ dim.x,	0, 		1.0f, 1.0f },
+					{ dim.x,	dim.y,	1.0f, 0.0f }
 				};
 
-				if (c.c != last_char)
-				{
-					glBindTexture(GL_TEXTURE_2D, c.texture_id);
-					last_char = c.c;
-				}
+				text_vao.bind();
+
+				glBindTexture(GL_TEXTURE_2D, text.char_texture_id(c));
 
 				glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
+
+				glEnableVertexAttribArray(0);
+				glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(f32), nullptr);
+
+				glBindBuffer(GL_ARRAY_BUFFER, text.instance_vbo(c));
+				glEnableVertexAttribArray(1);
+				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(f32), nullptr);
+				glVertexAttribDivisor(1, 1);
+
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-				draw_arrays(vert_count);
 
-				render_stats.vertices_screenspace += vert_count;
+				// draw_arrays(vert_count);
+				glDrawArraysInstanced(GL_TRIANGLES, 0, 6, text.char_positions(c).size());
+				++render_stats.draw_arrays_instanced;
+
+				text_vao.unbind();
+
+				render_stats.vertices_screenspace += vert_count * text.char_positions(c).size();
 			}
 
 			glBindTexture(GL_TEXTURE_2D, 0);
-			text_vao.unbind();
 
 			++render_stats.entities_screenspace;
 		}

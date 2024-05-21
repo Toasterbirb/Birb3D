@@ -2,12 +2,12 @@
 
 #include "Color.hpp"
 #include "Font.hpp"
-#include "Rect.hpp"
 #include "ShaderRef.hpp"
 #include "Types.hpp"
 #include "Vector.hpp"
 
 #include <map>
+#include <set>
 
 namespace birb
 {
@@ -22,15 +22,6 @@ namespace birb
 		text(const text&) = default;
 		text(text&) = default;
 
-		struct char_data
-		{
-			vec2<f32> pos;
-			vec2<f32> dim;
-			u32 texture_id;
-			char c;
-		};
-
-
 		birb::font font;
 		vec3<f32> position;
 		f32 scale;
@@ -42,12 +33,19 @@ namespace birb
 		void clear();
 		bool empty() const;
 
-		std::shared_ptr<std::vector<char_data>> chars() const;
+		std::set<char> chars() const;
+		std::vector<glm::vec2> char_positions(const char c) const;
 		vec2<f32> char_dimensions(const char c) const;
+		u32 char_texture_id(const char c) const;
+		u32 instance_vbo(const char c) const;
 
 	private:
 		std::string txt;
-		std::shared_ptr<std::vector<char_data>> _chars;
+		std::set<char> _chars;
+		std::map<char, std::vector<glm::vec2>> _char_positions;
 		std::map<char, vec2<f32>> _char_dimensions;
+		std::map<char, u32> _char_texture_ids;
+
+		std::map<char, u32> instance_vbos;
 	};
 }
