@@ -155,5 +155,9 @@ namespace birb
 
 		std::string vertex_shader_name = "NULL";
 		std::string fragment_shader_name = "NULL";
+
+		// Uniform variable cache
+		std::unordered_map<std::string, i32> uniform_cache_int;
+		std::unordered_map<std::string, f32> uniform_cache_float;
 	};
 }

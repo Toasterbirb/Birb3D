@@ -54,6 +54,8 @@ namespace birb
 		texture_shader->activate();
 		sprite_vao.bind();
 
+		u32 previous_texture_id = 0;
+
 		for (const auto& ent : view)
 		{
 			texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
@@ -81,7 +83,11 @@ namespace birb
 				}
 			}
 
-			entity_sprite.texture->bind();
+			if (entity_sprite.texture->id != previous_texture_id)
+			{
+				entity_sprite.texture->bind();
+				previous_texture_id = entity_sprite.texture->id;
+			}
 
 			draw_elements(quad_indices.size());
 		}

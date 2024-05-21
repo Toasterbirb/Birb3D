@@ -14,7 +14,13 @@ namespace birb
 		ensure(!uniform.name.empty());
 		ensure(uniform.type == uniform_type::INT);
 
-		add_uniform_location(uniform.str(index));
+		const std::string& key = uniform.str(index);
+		if (uniform_cache_int[key] == value)
+			return;
+		else
+			uniform_cache_int[key] = value;
+
+		add_uniform_location(key);
 
 		activate();
 		glUniform1i(uniform_locations.at(uniform.str(index)), value);
@@ -25,7 +31,13 @@ namespace birb
 		ensure(!uniform.name.empty());
 		ensure(uniform.type == uniform_type::FLOAT);
 
-		add_uniform_location(uniform.str(index));
+		const std::string& key = uniform.str(index);
+		if (uniform_cache_float[key] == value)
+			return;
+		else
+			uniform_cache_float[key] = value;
+
+		add_uniform_location(key);
 
 		activate();
 		glUniform1f(uniform_locations.at(uniform.str(index)), value);

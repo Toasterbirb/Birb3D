@@ -8,13 +8,14 @@
 #include "Sprite.hpp"
 #include "Timestep.hpp"
 #include "Transform.hpp"
+#include "Types.hpp"
 #include "Window.hpp"
 
 #include <algorithm>
 
 int main(void)
 {
-	birb::window window("Sprite", birb::vec2<int>(1280, 720));
+	birb::window window("Sprite", birb::vec2<i32>(1280, 720));
 	window.init_imgui();
 	birb::timestep timestep;
 	birb::camera camera;
@@ -27,6 +28,7 @@ int main(void)
 	renderer.set_scene(scene);
 	renderer.set_window(window);
 	renderer.opt_post_process(true);
+	renderer.opt_gamma_correction(false);
 
 	birb::overlay::performance performance_overlay(timestep);
 	birb::overlay::renderer_overlay render_overlay(renderer);
@@ -60,9 +62,9 @@ int main(void)
 		}
 
 		// Copy pasted entities
-		for (int i = 0; i < 8; ++i)
+		for (u32 i = 0; i < 128; ++i)
 		{
-			for (int j = 0; j < 8; ++j)
+			for (u32 j = 0; j < 128; ++j)
 			{
 				birb::entity ent = scene.create_entity();
 
@@ -90,7 +92,7 @@ int main(void)
 		}
 
 		// Zooming thingie
-		float timer = 0.0f;
+		f32 timer = 0.0f;
 		bool zoom_done = false;
 
 		while (!window.should_close())
