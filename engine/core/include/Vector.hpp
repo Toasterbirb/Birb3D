@@ -13,6 +13,9 @@
 
 namespace birb
 {
+	template<class T>
+	struct vec3;
+
 	// 2D point
 	template<class T>
 	struct vec2
@@ -23,6 +26,7 @@ namespace birb
 		constexpr vec2(T x, T y) : x(x), y(y) {};
 		constexpr vec2(T values[2]) : x(values[0]), y(values[1]) {};
 		constexpr vec2(T value) : x(value), y(value) {};
+		constexpr vec2(vec3<T> vector) : x(vector.x), y(vector.y) {};
 
 		template<class Archive>
 		void serialize(Archive& ar)

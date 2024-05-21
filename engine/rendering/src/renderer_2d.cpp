@@ -1,4 +1,4 @@
-#include "BoxCollider.hpp"
+#include "Box2DCollider.hpp"
 #include "Camera.hpp"
 #include "Profiling.hpp"
 #include "Renderer.hpp"
@@ -39,11 +39,9 @@ namespace birb
 		transform screen_area_transform;
 		screen_area_transform.position.x = camera.position.x + (window_size.x * 0.5f) * camera.orthograhpic_scale;
 		screen_area_transform.position.y = camera.position.y + (window_size.y * 0.5f) * camera.orthograhpic_scale;
-		screen_area_transform.position.z = 0.0f;
 		screen_area_transform.local_scale.x = window_size.x * camera.orthograhpic_scale;
 		screen_area_transform.local_scale.y = window_size.y * camera.orthograhpic_scale;
-		screen_area_transform.local_scale.z = INFINITY;
-		const collider::box screen_area(screen_area_transform);
+		const collider::box2d screen_area(screen_area_transform);
 
 
 		const auto view = entity_registry.view<sprite, transform>();
@@ -64,7 +62,7 @@ namespace birb
 					entity_transform.local_scale * camera.orthograhpic_scale;
 
 					// Check if the sprite is visible in the viewport
-					collider::box sprite_collider(entity_transform);
+					collider::box2d sprite_collider(entity_transform);
 					if (screen_area.collides_with(sprite_collider))
 						return true;
 					else
