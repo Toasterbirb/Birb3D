@@ -1,5 +1,4 @@
 #include "Camera.hpp"
-#include "CameraInfoOverlay.hpp"
 #include "Entity.hpp"
 #include "Font.hpp"
 #include "FontManager.hpp"
@@ -32,7 +31,6 @@ int main(void)
 
 	birb::overlay::performance performance_overlay(timestep);
 	birb::overlay::renderer_overlay renderer_overlay(renderer);
-	birb::overlay::camera_info camera_info(camera);
 
 	birb::font_manager font_manager;
 	birb::font manaspace = font_manager.load_font("manaspc.ttf", 48);
@@ -60,7 +58,6 @@ int main(void)
 
 		performance_overlay.draw();
 		renderer_overlay.draw();
-		camera_info.draw();
 
 		window.flip();
 
