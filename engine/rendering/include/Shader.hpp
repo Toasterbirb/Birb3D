@@ -75,6 +75,7 @@ namespace birb
 		// These functions are defined in shader_set_funcs.cpp instead of shader.cpp
 		void set(const uniform& uniform, i32 value, i32 index = -1);
 		void set(const uniform& uniform, f32 value, i32 index = -1);
+		void set(const uniform& uniform, const glm::vec2 value, i32 index = -1);
 		void set(const uniform& uniform, const glm::vec3 value, i32 index = -1);
 		void set(const uniform& uniform, const glm::vec4 value, i32 index = -1);
 		void set(const uniform& uniform, const birb::vec3<f32> value, i32 index = -1);
@@ -157,7 +158,19 @@ namespace birb
 		std::string fragment_shader_name = "NULL";
 
 		// Uniform variable cache
+		// Returns true if the variable was cached
+		template<typename T>
+		bool uniform_cache(const std::string& key, T value, std::unordered_map<std::string, T>& cache)
+		{
+			if (cache[key] == value)
+				return true;
+
+			cache[key] = value;
+			return false;
+		}
+
 		std::unordered_map<std::string, i32> uniform_cache_int;
 		std::unordered_map<std::string, f32> uniform_cache_float;
+		std::unordered_map<std::string, glm::vec2> uniform_cache_vec2;
 	};
 }

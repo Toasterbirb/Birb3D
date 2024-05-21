@@ -10,6 +10,7 @@ namespace birb
 	{
 		INT,
 		FLOAT,
+		VEC2,
 		VEC3,
 		VEC4,
 		MAT4,
@@ -87,8 +88,8 @@ namespace birb
 
 		namespace texture
 		{
-			const static inline uniform aspect_ratio("aspect_ratio", uniform_type::FLOAT);
-			const static inline uniform aspect_ratio_reverse("aspect_ratio_reverse", uniform_type::FLOAT);
+			const static inline uniform aspect_ratio("aspect_ratio", uniform_type::VEC2);
+			// const static inline uniform aspect_ratio_reverse("aspect_ratio_reverse", uniform_type::FLOAT);
 		}
 	}
 }

@@ -64,22 +64,25 @@ namespace birb
 
 			if (entity_sprite.ignore_aspect_ratio)
 			{
-				texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
-				texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
+				texture_shader->set(shader_uniforms::texture::aspect_ratio, { 1.0f , 1.0f });
+				// texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
+				// texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
 			}
 			else
 			{
 				// Modify the sprite shape based on if we want to respect the aspect ratio width or height wise
 				if (entity_sprite.aspect_ratio_lock == sprite::aspect_ratio_lock::width)
 				{
-					texture_shader->set(shader_uniforms::texture::aspect_ratio, entity_sprite.texture->aspect_ratio());
-					texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
+					texture_shader->set(shader_uniforms::texture::aspect_ratio, { entity_sprite.texture->aspect_ratio(), 1.0f });
+					// texture_shader->set(shader_uniforms::texture::aspect_ratio, entity_sprite.texture->aspect_ratio());
+					// texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse, 1.0f);
 				}
 				else
 				{
-					texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
-					texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse,
-							entity_sprite.texture->aspect_ratio_reverse());
+					texture_shader->set(shader_uniforms::texture::aspect_ratio, { 1.0f, entity_sprite.texture->aspect_ratio() });
+					// texture_shader->set(shader_uniforms::texture::aspect_ratio, 1.0f);
+					// texture_shader->set(shader_uniforms::texture::aspect_ratio_reverse,
+					// 		entity_sprite.texture->aspect_ratio_reverse());
 				}
 			}
 
