@@ -13,7 +13,7 @@ namespace birb
 			update_min_max_values();
 		}
 
-		bool box::collides_with(const box& box)
+		bool box::collides_with(const box& box) const
 		{
 			// AABB algorithm
 

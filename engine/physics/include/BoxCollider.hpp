@@ -17,7 +17,7 @@ namespace birb
 			box(const box&) = default;
 			box(box&) = default;
 
-			bool collides_with(const box& box);
+			bool collides_with(const box& box) const;
 
 			void set_position(const vec3<f32>& position);
 			void set_size(const vec3<f32>& size);

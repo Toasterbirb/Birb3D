@@ -103,12 +103,14 @@ namespace birb
 		//   3d				renderer_3d.cpp
 		//   screenspace	renderer_screenspace.cpp
 
-		void draw_2d_entities(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection);
+		void draw_2d_entities(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection,
+				const camera& camera, const vec2<i32> window_size);
 		void draw_3d_entities(const glm::mat4& view_matrix, const glm::mat4& perspective_projection);
 		void draw_screenspace_entities(const glm::mat4& orthographic_projection);
 
 		// 2D drawing funcs
-		void draw_sprites(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection);
+		void draw_sprites(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection,
+				const camera& camera, const vec2<i32> window_size);
 
 		// 3D drawing funcs
 		void draw_models(const glm::mat4& view_matrix, const glm::mat4& perspective_projection);
