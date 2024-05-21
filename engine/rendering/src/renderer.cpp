@@ -284,6 +284,13 @@ namespace birb
 		debug.draw();
 	}
 
+	void renderer::draw_elements(size_t index_count, gl_primitive primitive)
+	{
+		ensure(index_count > 0, "Unncessary call to draw_elements()");
+		glDrawElements(static_cast<GLenum>(primitive), index_count, GL_UNSIGNED_INT, 0);
+		++render_stats.draw_elements_calls;
+	}
+
 	void renderer::draw_elements(vao& vao, size_t index_count, gl_primitive primitive)
 	{
 		ensure(vao.id != 0);
@@ -292,6 +299,14 @@ namespace birb
 
 		vao.bind();
 		glDrawElements(static_cast<GLenum>(primitive), index_count, GL_UNSIGNED_INT, 0);
+		++render_stats.draw_elements_vao_calls;
+	}
+
+	void renderer::draw_arrays(size_t vert_count, gl_primitive primitive)
+	{
+		ensure(vert_count > 0, "Unncessary call to draw_arrays()");
+		glDrawArrays(static_cast<GLenum>(primitive), 0, vert_count);
+		++render_stats.draw_arrays_calls;
 	}
 
 	void renderer::draw_arrays(vao& vao, size_t vert_count, gl_primitive primitive)
@@ -306,6 +321,7 @@ namespace birb
 
 		vao.bind();
 		glDrawArrays(static_cast<GLenum>(primitive), 0, vert_count);
+		++render_stats.draw_arrays_vao_calls;
 	}
 
 	void renderer::toggle_wireframe()
@@ -355,7 +371,7 @@ namespace birb
 			birb::log("Toggling debug view on");
 	}
 
-	renderer::statistics renderer::rendering_statistics() const
+   	renderer_stats renderer::rendering_statistics() const
 	{
 		return render_stats;
 	}

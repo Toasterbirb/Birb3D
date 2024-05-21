@@ -3,6 +3,7 @@
 #include "Logger.hpp"
 #include "Mesh.hpp"
 #include "Profiling.hpp"
+#include "RendererStats.hpp"
 #include "Shader.hpp"
 
 #include <climits>
@@ -34,7 +35,7 @@ namespace birb
 		glDeleteBuffers(1, &ebo);
 	}
 
-	void mesh::draw(shader& shader, const bool skip_materials)
+	void mesh::draw(shader& shader, renderer_stats& render_stats, const bool skip_materials)
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
@@ -70,6 +71,7 @@ namespace birb
 		glBindVertexArray(vao);
 		glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
+		++render_stats.draw_elements_vao_calls;
 	}
 
 	void mesh::setup_mesh()

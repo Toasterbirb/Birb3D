@@ -21,9 +21,6 @@ namespace birb
 
 		const entt::registry& entity_registry = current_scene->registry;
 
-		// The same VAO can be used for all text entities
-		text_vao.bind();
-
 		const auto view = entity_registry.view<birb::text>();
 
 		for (const auto& ent : view)
@@ -36,7 +33,7 @@ namespace birb
 			const birb::text& text = view.get<birb::text>(ent);
 
 			// Skip the entity if the text component doens't have any text to render
-			if (text.txt.empty())
+			if (text.empty())
 				continue;
 
 			// Skip the entity if its size makes it invisible
@@ -50,80 +47,54 @@ namespace birb
 			shader->set(shader_uniforms::text_color, text.color);
 			shader->set(shader_uniforms::projection, orthographic_projection);
 
+			// The same VAO can be used for all characters
+			text_vao.bind();
+
 			// We'll be drawing to TEXTURE0
 			glActiveTexture(GL_TEXTURE0);
 
-			f32 x = text.position.x;
-			f32 y = text.position.y;
+			std::shared_ptr<std::vector<text::char_data>> chars = text.chars();
+
+			// The characters are sorted, so we can avoid unnecessary texture
+			// changes by only binding a new texture when the ID changes
+			char last_char = 0;
 
 			// Iterate through the text
-			for (const char c : text.txt)
+			for (text::char_data c : *chars)
 			{
-				// Process newline characters
-				if (c == '\n')
-				{
-					// Go back to the starting position width wise
-					x = text.position.x;
-
-					// Go one line down
-					y -= text.font.size() * text.scale;
-
-					// We shouldn't draw the newline char
-					continue;
-				}
-
-				const character& ch = text.font.get_char(c);
-
-				// position
-				const vec2<f32> pos(
-					x + ch.bearing.x * text.scale,
-					y - (ch.size.y - ch.bearing.y) * text.scale
-				);
-
-				// dimensions
-				const vec2<f32> dim(
-					ch.size.x * text.scale,
-					ch.size.y * text.scale
-				);
-
 				// Update the VBO
 				constexpr u8 vert_count = 6;
 
 				const f32 verts[vert_count][4] = {
-					{ pos.x,			pos.y + dim.y,	0.0f, 0.0f },
-					{ pos.x,			pos.y,			0.0f, 1.0f },
-					{ pos.x + dim.x, 	pos.y,			1.0f, 1.0f },
+					{ c.pos.x,				c.pos.y + c.dim.y,	0.0f, 0.0f },
+					{ c.pos.x,				c.pos.y,			0.0f, 1.0f },
+					{ c.pos.x + c.dim.x, 	c.pos.y,			1.0f, 1.0f },
 
-					{ pos.x,			pos.y + dim.y,	0.0f, 0.0f },
-					{ pos.x + dim.x,	pos.y,			1.0f, 1.0f },
-					{ pos.x + dim.x,	pos.y + dim.y,	1.0f, 0.0f }
+					{ c.pos.x,				c.pos.y + c.dim.y,	0.0f, 0.0f },
+					{ c.pos.x + c.dim.x,	c.pos.y,			1.0f, 1.0f },
+					{ c.pos.x + c.dim.x,	c.pos.y + c.dim.y,	1.0f, 0.0f }
 				};
 
-				glBindTexture(GL_TEXTURE_2D, ch.texture_id);
+				if (c.c != last_char)
+				{
+					glBindTexture(GL_TEXTURE_2D, c.texture_id);
+					last_char = c.c;
+				}
 
 				glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-				// We won't be using the draw_arrays() function since
-				// we'll be using the same VAO for all of the text entities
-				glDrawArrays(GL_TRIANGLES, 0, vert_count);
-
-				// Move to the next char. One advance is 1/64 of a pixel
-				// the bitshifting thing gets the value in pixels (2^6 = 64)
-				// If you want to learn more about this function in general, check
-				// this page where most of this code portion is
-				// adapter from: https://learnopengl.com/In-Practice/Text-Rendering
-				x += (ch.advance >> 6) * text.scale;
+				draw_arrays(vert_count);
 
 				render_stats.vertices_screenspace += vert_count;
 			}
 
 			glBindTexture(GL_TEXTURE_2D, 0);
+			text_vao.unbind();
 
 			++render_stats.entities_screenspace;
 		}
 
-		text_vao.unbind();
 	}
 }

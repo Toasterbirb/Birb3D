@@ -7,6 +7,7 @@
 #include "ShaderRef.hpp"
 #include "Types.hpp"
 #include "VAO.hpp"
+#include "RendererStats.hpp"
 
 #include <entt.hpp>
 #include <glm/fwd.hpp>
@@ -32,47 +33,6 @@ namespace birb
 			triangles = 4,
 		};
 
-		struct statistics
-		{
-			u32 entities_2d = 0;
-			u32 entities_3d = 0;
-			u32 entities_screenspace = 0;
-
-			u32 vertices_2d = 0;
-			u32 vertices_3d = 0;
-			u32 vertices_screenspace = 0;
-
-			f64 draw_2d_duration = 0.0f;
-			f64 draw_3d_duration = 0.0f;
-			f64 draw_screenspace_duration = 0.0f;
-
-			u32 total_entities() const
-			{
-				return entities_2d + entities_3d + entities_screenspace;
-			}
-
-			u32 total_vertices() const
-			{
-				return vertices_2d + vertices_3d + vertices_screenspace;
-			}
-
-			f64 total_duration() const
-			{
-				return draw_2d_duration + draw_3d_duration + draw_screenspace_duration;
-			}
-
-			void reset_counters()
-			{
-				entities_2d = 0;
-				entities_3d = 0;
-				entities_screenspace = 0;
-
-				vertices_2d = 0;
-				vertices_3d = 0;
-				vertices_screenspace = 0;
-			}
-		};
-
 		void process_event(u16 event_id, const event_data& data) override;
 
 		void set_scene(scene& scene);
@@ -85,7 +45,25 @@ namespace birb
 		void set_window(birb::window& window);
 
 		void draw_entities(const camera& camera, vec2<i32> window_size);
+
+		/**
+		 * @brief Call glDrawElements() while using the previously bound VAO
+		 */
+		void draw_elements(size_t index_count, gl_primitive primitive = renderer::gl_primitive::triangles);
+
+		/**
+		 * @brief Change VAO and call glDrawElements()
+		 */
 		void draw_elements(vao& vao, size_t index_count, gl_primitive primitive = renderer::gl_primitive::triangles);
+
+		/**
+		 * @brief Call glDrawArrays() while using the previously bound VAO
+		 */
+		void draw_arrays(size_t vert_count, gl_primitive primitive = renderer::gl_primitive::triangles);
+
+		/**
+		 * @brief Change VAO and call glDrawArrays()
+		 */
 		void draw_arrays(vao& vao, size_t vert_count, gl_primitive primitive = renderer::gl_primitive::triangles);
 
 		static void toggle_wireframe();
@@ -97,7 +75,7 @@ namespace birb
 		debug_view debug;
 		void toggle_debug_view();
 
-		statistics rendering_statistics() const;
+		renderer_stats rendering_statistics() const;
 
 		///////////////////////
 		// Renderer settings //
@@ -147,7 +125,7 @@ namespace birb
 		static inline bool backface_culling_enabled = false;
 		bool debug_view_enabled = false;
 
-		statistics render_stats;
+		renderer_stats render_stats;
 
 		// Counter used for avoiding unnecessary shader calculations
 		u32 frame_id_counter = 0;

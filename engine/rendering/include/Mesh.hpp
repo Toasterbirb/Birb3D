@@ -8,6 +8,7 @@
 namespace birb
 {
 	class shader;
+	struct renderer_stats;
 
 	struct vertex
 	{
@@ -29,7 +30,7 @@ namespace birb
 		mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const material& material, const std::string& material_name, const std::string& name);
 		void destroy();
 
-		void draw(shader& shader, const bool skip_materials = false);
+		void draw(shader& shader, renderer_stats& render_stats, const bool skip_materials = false);
 
 		std::vector<vertex> vertices;
 		std::vector<u32> indices;

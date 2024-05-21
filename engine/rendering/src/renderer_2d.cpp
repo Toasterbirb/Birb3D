@@ -83,11 +83,7 @@ namespace birb
 
 			entity_sprite.texture->bind();
 
-			// Since we are using the same vao for all of the sprites,
-			// we can just manually call glDrawElements without binding the vao for all of them
-			//
-			// This should speed things up a teeny tiny bit
-			glDrawElements(GL_TRIANGLES, quad_indices.size(), GL_UNSIGNED_INT, 0);
+			draw_elements(quad_indices.size());
 		}
 
 		// We can probably assume that each rectangle shaped sprite is

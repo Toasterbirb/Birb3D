@@ -15,6 +15,7 @@ namespace birb
 {
 	class mesh;
 	struct mesh_texture;
+	struct renderer_stats;
 
 	class model : public editor_component
 	{
@@ -23,7 +24,7 @@ namespace birb
 		explicit model(const std::string& path);
 		~model();
 
-		void draw(shader& shader, const bool skip_materials = false);
+		void draw(shader& shader, renderer_stats& render_stats, const bool skip_materials = false);
 		void draw_editor_ui() override;
 		std::string collapsing_header_name() const override;
 

@@ -3,6 +3,7 @@
 #include "Mesh.hpp"
 #include "Model.hpp"
 #include "Profiling.hpp"
+#include "RendererStats.hpp"
 #include "Texture.hpp"
 
 #include <assimp/Importer.hpp>
@@ -35,13 +36,13 @@ namespace birb
 	{
 	}
 
-	void model::draw(shader& shader, const bool skip_materials)
+	void model::draw(shader& shader, renderer_stats& render_stats, const bool skip_materials)
 	{
 		ensure(!meshes->empty(), "Attempted to draw a model with no meshes");
 
 		for (size_t i = 0; i < meshes->size(); ++i)
 		{
-			meshes->at(i).draw(shader, skip_materials);
+			meshes->at(i).draw(shader, render_stats, skip_materials);
 		}
 	}
 
