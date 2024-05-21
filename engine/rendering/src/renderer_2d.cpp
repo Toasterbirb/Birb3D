@@ -69,7 +69,7 @@ namespace birb
 			}
 			else
 			{
-				// Modify the sprite shape based on if we wan't to respect the aspect ratio width or height wise
+				// Modify the sprite shape based on if we want to respect the aspect ratio width or height wise
 				if (entity_sprite.aspect_ratio_lock == sprite::aspect_ratio_lock::width)
 				{
 					texture_shader->set(shader_uniforms::texture::aspect_ratio, entity_sprite.texture->aspect_ratio());
