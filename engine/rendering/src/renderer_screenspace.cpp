@@ -77,12 +77,11 @@ namespace birb
 				glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
 				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
 
-				glEnableVertexAttribArray(0);
 				glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(f32), nullptr);
 
 				glBindBuffer(GL_ARRAY_BUFFER, text.instance_vbo(c));
-				glEnableVertexAttribArray(1);
 				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(f32), nullptr);
+				glEnableVertexAttribArray(1);
 				glVertexAttribDivisor(1, 1);
 
 				glBindBuffer(GL_ARRAY_BUFFER, 0);
