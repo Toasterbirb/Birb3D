@@ -19,7 +19,11 @@ namespace birb
 
 	u32 renderer_stats::total_draw_calls() const
 	{
-		return draw_arrays_calls + draw_elements_calls;
+		return draw_arrays_calls
+			+ draw_elements_calls
+			+ draw_arrays_vao_calls
+			+ draw_elements_vao_calls
+			+ draw_arrays_instanced;
 	}
 
 	void renderer_stats::reset_counters()
