@@ -121,12 +121,12 @@ namespace birb
 			}
 
 			draw_elements(quad_indices.size());
+
+			// We can probably assume that each rectangle shaped sprite is
+			// equal to 4 vertices
+			render_stats.vertices_2d += 4;
+			++render_stats.entities_2d;
 		}
 
-		// We can probably assume that each rectangle shaped sprite is
-		// equal to 4 vertices
-		render_stats.vertices_2d += 4 * model_matrices.size();
-
-		render_stats.entities_2d += model_matrices.size();
 	}
 }
