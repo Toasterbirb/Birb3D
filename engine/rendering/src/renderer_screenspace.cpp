@@ -47,7 +47,7 @@ namespace birb
 			shader->set(shader_uniforms::projection, orthographic_projection);
 
 			// The same VAO can be used for all characters
-			// text_vao.bind();
+			text_vao.bind();
 
 			// We'll be drawing to TEXTURE0
 			glActiveTexture(GL_TEXTURE0);
@@ -72,8 +72,6 @@ namespace birb
 					{ dim.x,	dim.y,	1.0f, 0.0f }
 				};
 
-				text_vao.bind();
-
 				glBindTexture(GL_TEXTURE_2D, text.char_texture_id(c));
 
 				glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
@@ -94,11 +92,11 @@ namespace birb
 				glDrawArraysInstanced(GL_TRIANGLES, 0, 6, text.char_positions(c).size());
 				++render_stats.draw_arrays_instanced;
 
-				text_vao.unbind();
 
 				render_stats.vertices_screenspace += vert_count * text.char_positions(c).size();
 			}
 
+			text_vao.unbind();
 			glBindTexture(GL_TEXTURE_2D, 0);
 
 			++render_stats.entities_screenspace;
