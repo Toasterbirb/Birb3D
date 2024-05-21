@@ -10,9 +10,6 @@ uniform vec2 aspect_ratio;
 // aspect_ratio.x = aspect_ratio
 // aspect_ratio.y = aspect_ratio_reverse
 
-// uniform float aspect_ratio;
-// uniform float aspect_ratio_reverse;
-
 void main()
 {
 	gl_Position = projection * view * model * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
