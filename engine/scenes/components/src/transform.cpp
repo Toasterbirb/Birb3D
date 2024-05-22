@@ -30,7 +30,7 @@ namespace birb
 
 	glm::mat4 transform::model_matrix() const
 	{
-		if (is_locked)
+		if (_is_locked)
 			return cached_model_matrix;
 
 		glm::mat4 model_matrix = glm::mat4(1.0f);
@@ -49,11 +49,16 @@ namespace birb
 	void transform::lock()
 	{
 		cached_model_matrix = model_matrix();
-		is_locked = true;
+		_is_locked = true;
 	}
 
 	void transform::unlock()
 	{
-		is_locked = false;
+		_is_locked = false;
+	}
+
+	bool transform::is_locked() const
+	{
+		return _is_locked;
 	}
 }

@@ -23,7 +23,8 @@ namespace birb
 			+ draw_elements_calls
 			+ draw_arrays_vao_calls
 			+ draw_elements_vao_calls
-			+ draw_arrays_instanced;
+			+ draw_arrays_instanced
+			+ draw_elements_instanced;
 	}
 
 	void renderer_stats::reset_counters()
@@ -41,5 +42,6 @@ namespace birb
 		draw_arrays_vao_calls = 0;
 		draw_elements_vao_calls = 0;
 		draw_arrays_instanced = 0;
+		draw_elements_instanced = 0;
 	}
 }

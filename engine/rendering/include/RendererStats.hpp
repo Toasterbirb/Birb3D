@@ -21,6 +21,7 @@ namespace birb
 		u32 draw_arrays_vao_calls = 0;
 		u32 draw_elements_vao_calls = 0;
 		u32 draw_arrays_instanced = 0;
+		u32 draw_elements_instanced = 0;
 
 		u32 total_entities() const;
 		u32 total_vertices() const;

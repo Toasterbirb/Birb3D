@@ -8,6 +8,7 @@
 #include "Sprite.hpp"
 #include "Timestep.hpp"
 #include "Transform.hpp"
+#include "Transformer.hpp"
 #include "Types.hpp"
 #include "Window.hpp"
 
@@ -62,21 +63,22 @@ int main(void)
 		}
 
 		// Copy pasted entities
+		birb::entity transformer_entity = scene.create_entity();
+		transformer_entity.add_component(texture_sprite);
+
+		birb::transformer transformer;
 		for (u32 i = 0; i < 128; ++i)
 		{
 			for (u32 j = 0; j < 128; ++j)
 			{
-				birb::entity ent = scene.create_entity();
-
 				birb::transform transform;
 				transform.position = { i * 16.0f + 200, j * 16.0f, 1.0f };
 				transform.local_scale = { 8, 8, 1 };
-				transform.lock();
-
-				ent.add_component(transform);
-				ent.add_component(texture_sprite);
+				transformer.transforms.push_back(transform);
 			}
 		}
+		transformer.lock();
+		transformer_entity.add_component(transformer);
 
 		// Wide sprite
 		{
@@ -115,7 +117,7 @@ int main(void)
 				switch (input.key)
 				{
 					case (birb::input::keycode::scrolling):
-						camera.orthograhpic_scale -= input.offset.y * 0.01;
+						camera.orthograhpic_scale -= input.offset.y * 0.02;
 						camera.orthograhpic_scale = std::clamp(camera.orthograhpic_scale, 0.001f, 4096.0f);
 						break;
 

@@ -17,6 +17,7 @@ namespace birb
 	class camera;
 	class ebo;
 	class scene;
+	class sprite;
 	class vbo;
 	class window;
 
@@ -109,8 +110,10 @@ namespace birb
 		void draw_screenspace_entities(const glm::mat4& orthographic_projection);
 
 		// 2D drawing funcs
+		void set_sprite_aspect_ratio_uniforms(const sprite& sprite, shader& texture_shader) const;
 		void draw_sprites(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection,
 				const camera& camera, const vec2<i32> window_size);
+		void draw_sprites_instanced(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection);
 
 		// 3D drawing funcs
 		void draw_models(const glm::mat4& view_matrix, const glm::mat4& perspective_projection);

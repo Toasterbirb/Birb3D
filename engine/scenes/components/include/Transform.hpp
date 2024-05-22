@@ -11,6 +11,7 @@ namespace birb
 	{
 	public:
 		transform();
+		virtual ~transform() = default;
 
 		void draw_editor_ui() override;
 		std::string collapsing_header_name() const override;
@@ -34,6 +35,8 @@ namespace birb
 		 */
 		void unlock();
 
+		bool is_locked() const;
+
 		template<class Archive>
 		void serialize(Archive& ar)
 		{
@@ -43,6 +46,6 @@ namespace birb
 	private:
 		static inline const std::string editor_header_name = "Transform";
 		glm::mat4 cached_model_matrix;
-		bool is_locked = false;
+		bool _is_locked = false;
 	};
 }

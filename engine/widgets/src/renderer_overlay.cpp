@@ -60,6 +60,7 @@ namespace birb
 					std::pair<std::string, u32>("draw_elements()", stats.draw_elements_calls),
 					std::pair<std::string, u32>("draw_elements(vao)", stats.draw_elements_vao_calls),
 					std::pair<std::string, u32>("draw_arrays_instanced()", stats.draw_arrays_instanced),
+					std::pair<std::string, u32>("draw_elements_instanced()", stats.draw_elements_instanced),
 					std::pair<std::string, u32>("Total", stats.total_draw_calls()),
 				};
 
