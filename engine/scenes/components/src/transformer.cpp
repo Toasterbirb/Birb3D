@@ -21,6 +21,10 @@ namespace birb
 		ensure(_is_locked, "Transformer needs to be locked before it can be rendered");
 		ensure(model_matrix_vbo != 0);
 
+#ifndef NDEBUG
+		ensure(!d_singular_transform_updated);
+#endif
+
 		return model_matrix_vbo;
 	}
 
@@ -72,6 +76,32 @@ namespace birb
 		lock();
 	}
 
+	void transformer::update_transform(const size_t index)
+	{
+		ensure(index < transforms.size());
+		ensure(cached_model_matrices.size() == transforms.size());
+
+		transforms[index].unlock();
+		transforms[index].lock();
+		cached_model_matrices[index] = transforms[index].model_matrix();
+
+#ifndef NDEBUG
+		d_singular_transform_updated = true;
+#endif
+	}
+
+	void transformer::update_vbo_data()
+	{
+		ensure(model_matrix_vbo != 0);
+		bind_vbo();
+		glBufferData(GL_ARRAY_BUFFER, cached_model_matrices.size() * sizeof(glm::mat4), cached_model_matrices.data(), GL_STATIC_DRAW);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+#ifndef NDEBUG
+		d_singular_transform_updated = false;
+#endif
+	}
+
 	bool transformer::is_locked() const
 	{
 		return _is_locked;
@@ -105,6 +135,10 @@ namespace birb
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, matrices.size() * sizeof(glm::mat4), matrices.data(), GL_STATIC_DRAW);
 		model_matrix_vbo = vbo;
+
+#ifndef NDEBUG
+		d_singular_transform_updated = false;
+#endif
 	}
 
 	void transformer::free_the_vbo_buffer()

@@ -2,6 +2,7 @@
 #include "CameraInfoOverlay.hpp"
 #include "Entity.hpp"
 #include "PerformanceOverlay.hpp"
+#include "Random.hpp"
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
 #include "Scene.hpp"
@@ -18,7 +19,7 @@ int main(void)
 {
 	birb::window window("Sprite", birb::vec2<i32>(1280, 720));
 	window.init_imgui();
-	birb::timestep timestep;
+	birb::timestep timestep(120);
 	birb::camera camera;
 	camera.movement_speed = 100;
 	camera.position.z = 45; // Move the camera back to make orthograhpics rendering work
@@ -125,6 +126,12 @@ int main(void)
 						break;
 				}
 			}
+
+			birb::transformer& transformer = transformer_entity.get_component<birb::transformer>();
+			transformer.transforms[0].rotation.z += timestep.deltatime() * 10.0f;
+			transformer.update_transform(0);
+			transformer.update_vbo_data();
+
 
 			// WASD movement with orthographic controls
 			camera.process_input_ortho(window, timestep);

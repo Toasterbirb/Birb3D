@@ -34,11 +34,25 @@ namespace birb
 		 */
 		void relock();
 
+		/**
+		 * @brief Update the model matrix for a given transform without relocking the transformer
+		 */
+		void update_transform(const size_t index);
+
+		/**
+		 * @brief Update the instance VBO
+		 *
+		 * Call this function if you have modified transforms with update_transform()
+		 */
+		void update_vbo_data();
+
 		bool is_locked() const;
 
 	private:
 		std::vector<glm::mat4> cached_model_matrices;
 		bool _is_locked = false;
+
+		bool d_singular_transform_updated = false;
 
 		u32 model_matrix_vbo = 0;
 
