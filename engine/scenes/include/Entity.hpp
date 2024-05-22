@@ -15,7 +15,7 @@ namespace birb
 		~entity();
 
 		template<typename T>
-		void add_component(const T& component)
+		constexpr void add_component(const T& component)
 		{
 			static_assert(!std::is_same<T, birb::entity>::value, "You shouldn't need to use birb::entity as a component");
 			ensure(!has_component<T>(), "An entity can only have a singular instance of each component type");
@@ -23,7 +23,7 @@ namespace birb
 		}
 
 		template<typename T>
-		T& get_component()
+		constexpr T& get_component()
 		{
 			static_assert(!std::is_same<T, birb::entity>::value, "There shouldn't be any situation where birb::entity has a birb::entity as component");
 			ensure(has_component<T>(), "Can't get a reference to a nonexistent component");
@@ -31,7 +31,7 @@ namespace birb
 		}
 
 		template<typename T>
-		bool has_component()
+		constexpr bool has_component()
 		{
 			static_assert(!std::is_same<T, birb::entity>::value, "There shouldn't be any situation where birb::entity has a birb::entity as component");
 			return parent_scene->registry.try_get<T>(entt_entity);
