@@ -3,6 +3,7 @@
 #include "Entity.hpp"
 #include "GravityForce.hpp"
 #include "PhysicsWorld.hpp"
+#include "Profiling.hpp"
 #include "Rigidbody.hpp"
 #include "Scene.hpp"
 #include "State.hpp"
@@ -20,11 +21,19 @@ namespace birb
 
 	void physics_world::tick(f64 deltatime)
 	{
+		PROFILER_SCOPE_PHYSICS_FN();
+
 		ensure(current_scene != nullptr, "Current scene has not been set");
+
+		update_rigidbodies(deltatime);
+	}
+
+	void physics_world::update_rigidbodies(const f64 deltatime)
+	{
+		PROFILER_SCOPE_PHYSICS_FN();
 
 		entt::registry& registry = current_scene->registry;
 
-		// Get all rigidbodies
 		const auto view = registry.view<rigidbody, transform>();
 		for (const auto& entity : view)
 		{
@@ -47,16 +56,16 @@ namespace birb
 		}
 	}
 
-	std::vector<entt::entity> physics_world::collides_with(const birb::entity& entity)
+	std::unordered_set<entt::entity> physics_world::collides_with(const birb::entity& entity)
 	{
 		return collides_with(entity.entt());
 	}
 
-	std::vector<entt::entity> physics_world::collides_with(const entt::entity& entity)
+	std::unordered_set<entt::entity> physics_world::collides_with(const entt::entity& entity)
 	{
 		ensure(current_scene != nullptr, "Current scene has not been set");
 
-		std::vector<entt::entity> colliding_entities;
+		std::unordered_set<entt::entity> colliding_entities;
 
 		entt::registry& registry = current_scene->registry;
 		ensure(registry.try_get<collider::box>(entity), "Tried to check collision with an entity that doesn't have a box collider on it");
@@ -75,7 +84,7 @@ namespace birb
 				continue;
 
 			if (target_collider.collides_with(view.get<collider::box>(collider_entity)))
-				colliding_entities.push_back(collider_entity);
+				colliding_entities.insert(collider_entity);
 		}
 
 		return colliding_entities;

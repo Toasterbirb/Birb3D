@@ -1,11 +1,15 @@
+#include "BoxCollider.hpp"
+#include "GravityForce.hpp"
 #include "Camera.hpp"
 #include "Components.hpp"
 #include "Entity.hpp"
 #include "Model.hpp"
 #include "PerformanceOverlay.hpp"
+#include "PhysicsWorld.hpp"
 #include "Random.hpp"
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
+#include "Rigidbody.hpp"
 #include "Scene.hpp"
 #include "ShaderRef.hpp"
 #include "Stopwatch.hpp"
@@ -36,17 +40,32 @@ int main(void)
 	/////////////
 	// Shaders //
 	/////////////
+
 	birb::shader_ref default_color_shader("default", "default");
 
 	//////////////////////
 	// Set the world up //
 	//////////////////////
 
+	birb::physics_world physics_world;
+	physics_world.set_scene(scene);
+
 	birb::shader::directional_direction = { 0.76, -1.54, 0.96 };
 
-	camera.position.y = 4;
+	birb::entity player = scene.create_entity(birb::entity_template::gameobject_rigidbody);
+	player.get_component<birb::transform>().local_scale = { 1.0f, 1.0f, 1.0f };
+	player.get_component<birb::collider::box>().set_size(player.get_component<birb::transform>().local_scale / 2.0f);
+	player.add_component<birb::physics_forces::gravity>(birb::physics_forces::gravity());
+	player.get_component<birb::rigidbody>().set_mass(10.0f);
+
+	camera.position.y = 4.0f;
 	camera.fov = 75;
 	camera.mode = birb::camera::mode::fps;
+
+	birb::entity floor = scene.create_entity(birb::entity_template::gameobject_box3d);
+	floor.get_component<birb::transform>().position.y = -0.5f;
+	floor.get_component<birb::transform>().local_scale = { 40.0f, 0.5f, 40.0f };
+	floor.get_component<birb::collider::box>().set_position_and_size(floor.get_component<birb::transform>());
 
 	birb::entity world = scene.create_entity();
 
@@ -90,8 +109,23 @@ int main(void)
 	{
 		camera.process_input(window, timestep);
 
-		// for (size_t i = 0; i < trees.size(); ++i)
-		// 	trees[i]->get_component<birb::transform>().rotation.y += timestep.deltatime() * 5.0f;
+		player.get_component<birb::rigidbody>().position = { camera.position.x, camera.position.y - 4, camera.position.z };
+		physics_world.tick(timestep.deltatime());
+
+		birb::vec3<f32> camera_position = player.get_component<birb::transform>().position;
+		camera_position.y += 4.0f;
+		camera.position = camera_position;
+
+		birb::log("Position: ", player.get_component<birb::transform>().position, " | Force: ", player.get_component<birb::rigidbody>().velocity);
+
+		// Handle the floor collision
+		std::unordered_set<entt::entity> player_collisions = physics_world.collides_with(player);
+		if (player_collisions.contains(floor.entt()))
+		{
+			birb::log("Collision!");
+			player.get_component<birb::rigidbody>().position.y = 0.0f;
+			player.get_component<birb::rigidbody>().add_force({ 0.0f, 98.1, 0.0f });
+		}
 
 		window.clear();
 

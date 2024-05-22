@@ -31,6 +31,11 @@ namespace birb
 			vec3<f32> min() const;
 			vec3<f32> max() const;
 
+			/**
+			 * @brief Triggers are ignored during collision resolution
+			 */
+			bool is_trigger = false;
+
 		private:
 			void update_min_max_values();
 

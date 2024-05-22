@@ -91,6 +91,10 @@ namespace birb
 		if (std::distance(view.begin(), view.end()) == 0)
 			return;
 
+		bool backface_culling_enabled = is_backface_culling_enabled();
+		if (backface_culling_enabled)
+			set_backface_culling(false);
+
 		const std::shared_ptr<shader> debug_shader = shader_collection::get_shader(debug_shader_ref);
 		debug_shader->set(shader_uniforms::view, view_matrix);
 		debug_shader->set(shader_uniforms::projection, perspective_projection);
@@ -111,5 +115,8 @@ namespace birb
 
 			draw_arrays(collider_debug_vao, cube_vertices.size());
 		}
+
+		if (backface_culling_enabled)
+			set_backface_culling(true);
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <entt.hpp>
-#include <vector>
+#include <unordered_set>
 
 namespace birb
 {
@@ -17,13 +17,14 @@ namespace birb
 		physics_world(physics_world&) = default;
 
 		void set_scene(scene& scene);
-		void tick(f64 deltatime);
+		void tick(const f64 deltatime);
 
-		std::vector<entt::entity> collides_with(const birb::entity& entity);
-		std::vector<entt::entity> collides_with(const entt::entity& entity);
+		std::unordered_set<entt::entity> collides_with(const birb::entity& entity);
+		std::unordered_set<entt::entity> collides_with(const entt::entity& entity);
 
 	private:
-		scene* current_scene = nullptr;
+		void update_rigidbodies(const f64 deltatime);
 
+		scene* current_scene = nullptr;
 	};
 }

@@ -4,6 +4,7 @@
 #include "Info.hpp"
 #include "Logger.hpp"
 #include "Model.hpp"
+#include "Rigidbody.hpp"
 #include "Scene.hpp"
 #include "State.hpp"
 #include "Transform.hpp"
@@ -38,15 +39,30 @@ namespace birb
 		switch(entity_template)
 		{
 			case entity_template::gameobject:
+			{
 				add_component(entt_entity, birb::state());
 				add_component(entt_entity, birb::transform());
 				break;
+			}
 
 			case entity_template::gameobject_box3d:
+			{
 				add_component(entt_entity, birb::state());
-				add_component(entt_entity, birb::transform());
-				add_component(entt_entity, collider::box());
+				transform t;
+				add_component(entt_entity, t);
+				add_component(entt_entity, collider::box(t));
 				break;
+			}
+
+			case entity_template::gameobject_rigidbody:
+			{
+				add_component(entt_entity, birb::state());
+				transform t;
+				add_component(entt_entity, t);
+				add_component(entt_entity, collider::box(t));
+				add_component(entt_entity, rigidbody(t));
+				break;
+			}
 		};
 
 		return birb::entity(this, entt_entity);

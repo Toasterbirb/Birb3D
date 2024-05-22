@@ -75,7 +75,7 @@ int main(void)
 	{
 		world.tick(timestep.deltatime());
 
-		std::vector<entt::entity> collisions = world.collides_with(cube);
+		std::unordered_set<entt::entity> collisions = world.collides_with(cube);
 		if (!collisions.empty())
 			birb::log("Collision: ", counter++);
 

@@ -11,8 +11,9 @@ namespace birb
 
 	enum class entity_template
 	{
-		gameobject,			// state, transform
-		gameobject_box3d	// state, transform, 3d box collider
+		gameobject,				// state, transform
+		gameobject_box3d,		// state, transform, 3d box collider
+		gameobject_rigidbody,	// state, transform, 3d box collider, rigidbody
 	};
 
 	class scene
