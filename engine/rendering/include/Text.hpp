@@ -18,7 +18,7 @@ namespace birb
 		text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale);
 		text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color);
 		text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color, const shader_ref& shader);
-		~text() = default;
+		~text();
 		text(const text&) = default;
 		text(text&) = default;
 
@@ -47,5 +47,7 @@ namespace birb
 		std::map<char, u32> _char_texture_ids;
 
 		std::map<char, u32> instance_vbos;
+
+		void free_instance_vbos();
 	};
 }

@@ -35,6 +35,11 @@ namespace birb
 		set_text(text);
 	}
 
+	text::~text()
+	{
+		free_instance_vbos();
+	}
+
 	void text::set_text(const std::string& text)
 	{
 		PROFILER_SCOPE_RENDER_FN();
@@ -128,17 +133,13 @@ namespace birb
 
 	void text::clear()
 	{
-		// Free the vertex buffer objects
-		for (const std::pair<char, u32> vbo : instance_vbos)
-			glDeleteBuffers(1, &vbo.second);
+		free_instance_vbos();
 
 		txt.clear();
 		_chars.clear();
 		_char_positions.clear();
 		_char_dimensions.clear();
 		_char_texture_ids.clear();
-
-		instance_vbos.clear();
 	}
 
 	bool text::empty() const
@@ -173,5 +174,13 @@ namespace birb
 	{
 		ensure(instance_vbos.contains(c));
 		return instance_vbos.at(c);
+	}
+
+	void text::free_instance_vbos()
+	{
+		for (const std::pair<char, u32> vbo : instance_vbos)
+			glDeleteBuffers(1, &vbo.second);
+
+		instance_vbos.clear();
 	}
 }
