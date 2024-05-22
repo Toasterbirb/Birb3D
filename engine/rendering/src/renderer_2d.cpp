@@ -5,6 +5,7 @@
 #include "ShaderCollection.hpp"
 #include "ShaderUniforms.hpp"
 #include "Sprite.hpp"
+#include "State.hpp"
 #include "Transform.hpp"
 #include "Transformer.hpp"
 
@@ -114,12 +115,17 @@ namespace birb
 
 		for (const auto& ent : view)
 		{
-			// Check if the sprite should be skipped
+			// Check if the sprite should be skipped due to culling
 			if (!culling_list[sprite_index])
 			{
 				++sprite_index;
 				continue;
 			}
+
+			// Don't render entities that are inactive
+			const birb::state* state = entity_registry.try_get<birb::state>(ent);
+			if (state && !state->active)
+				continue;
 
 			sprite& entity_sprite = view.get<birb::sprite>(ent);
 
@@ -182,6 +188,11 @@ namespace birb
 
 		for (const auto& ent : view)
 		{
+			// Don't render entities that are inactive
+			const birb::state* state = entity_registry.try_get<birb::state>(ent);
+			if (state && !state->active)
+				continue;
+
 			const sprite& sprite = view.get<birb::sprite>(ent);
 			const transformer& transformer = view.get<birb::transformer>(ent);
 			ensure(transformer.is_locked(), "Using an unlocked transformer is very inefficient");
