@@ -16,7 +16,7 @@ namespace birb
 
 		std::vector<transform> transforms;
 
-		u32 model_matrix_instance_vbo() const;
+		u32 model_matrix_instance_vbo();
 		void bind_vbo() const;
 
 		/**
@@ -43,6 +43,7 @@ namespace birb
 		u32 model_matrix_vbo = 0;
 
 		std::vector<glm::mat4> model_matrices() const;
-		u32 create_model_matrix_vbo() const;
+		void update_model_matrix_vbo();
+		void free_the_vbo_buffer();
 	};
 }

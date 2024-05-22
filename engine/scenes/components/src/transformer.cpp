@@ -1,7 +1,9 @@
 #include "Assert.hpp"
+#include "Profiling.hpp"
 #include "Transform.hpp"
 #include "Transformer.hpp"
 #include "Types.hpp"
+
 #include <cstdlib>
 
 namespace birb
@@ -9,15 +11,17 @@ namespace birb
 	transformer::~transformer()
 	{
 		if (model_matrix_vbo != 0)
-			glDeleteBuffers(1, &model_matrix_vbo);
+			free_the_vbo_buffer();
 	}
 
-	u32 transformer::model_matrix_instance_vbo() const
+	u32 transformer::model_matrix_instance_vbo()
 	{
-		if (_is_locked)
-			return model_matrix_vbo;
+		PROFILER_SCOPE_RENDER_FN();
 
-		return create_model_matrix_vbo();
+		ensure(_is_locked, "Transformer needs to be locked before it can be rendered");
+		ensure(model_matrix_vbo != 0);
+
+		return model_matrix_vbo;
 	}
 
 	void transformer::bind_vbo() const
@@ -28,7 +32,9 @@ namespace birb
 
 	void transformer::lock()
 	{
-		cached_model_matrices.clear();
+		PROFILER_SCOPE_MISC_FN();
+
+		ensure(cached_model_matrices.empty());
 		cached_model_matrices.reserve(transforms.size());
 
 		for (transform t : transforms)
@@ -37,21 +43,31 @@ namespace birb
 			cached_model_matrices.push_back(t.model_matrix());
 		}
 
-		model_matrix_vbo = model_matrix_instance_vbo();
+		update_model_matrix_vbo();
 		_is_locked = true;
 	}
 
 	void transformer::unlock()
 	{
+		ensure(_is_locked, "Can't unlock a transformer that is not locked");
+		ensure(model_matrix_vbo != 0);
+
+		cached_model_matrices.clear();
+
 		// Unlock all of the child transforms
 		for (transform t : transforms)
 			t.unlock();
 
 		_is_locked = false;
+		free_the_vbo_buffer();
 	}
 
 	void transformer::relock()
 	{
+		PROFILER_SCOPE_MISC_FN();
+
+		ensure(_is_locked, "Can't relock if the transformer hasn't been locked earlier");
+
 		unlock();
 		lock();
 	}
@@ -63,6 +79,8 @@ namespace birb
 
 	std::vector<glm::mat4> transformer::model_matrices() const
 	{
+		PROFILER_SCOPE_MISC_FN();
+
 		if (_is_locked)
 			return cached_model_matrices;
 
@@ -73,8 +91,10 @@ namespace birb
 		return tmp_model_matrices;
 	}
 
-	u32 transformer::create_model_matrix_vbo() const
+	void transformer::update_model_matrix_vbo()
 	{
+		PROFILER_SCOPE_RENDER_FN();
+
 		ensure(model_matrix_vbo == 0, "Free the previous VBO before creating a new one");
 		ensure(!transforms.empty(), "Can't create a VBO when there are no transforms");
 
@@ -84,7 +104,13 @@ namespace birb
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, matrices.size() * sizeof(glm::mat4), matrices.data(), GL_STATIC_DRAW);
+		model_matrix_vbo = vbo;
+	}
 
-		return vbo;
+	void transformer::free_the_vbo_buffer()
+	{
+		ensure(model_matrix_vbo != 0, "Can't free a VBO that hasn't been allocated yet");
+		glDeleteBuffers(1, &model_matrix_vbo);
+		model_matrix_vbo = 0;
 	}
 }
