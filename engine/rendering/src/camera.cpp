@@ -91,28 +91,46 @@ namespace birb
 	{
 		PROFILER_SCOPE_INPUT_FN();
 
-		// Store the old height value temporarily
-		// This is used for the FPS camera
-		f32 old_y = position.y;
-
 		// Keyboard input
 		if (keyboard_controls_enabled)
 		{
-			if (window.is_key_held(keybinds.up))
-				position += front * static_cast<f32>(timestep.deltatime()) * movement_speed;
+			switch (mode)
+			{
+				case mode::flying:
+				{
+					if (window.is_key_held(keybinds.up))
+						position += front * static_cast<f32>(timestep.deltatime()) * movement_speed;
 
-			if (window.is_key_held(keybinds.left))
-				position -= right * static_cast<f32>(timestep.deltatime()) * movement_speed;
+					if (window.is_key_held(keybinds.left))
+						position -= right * static_cast<f32>(timestep.deltatime()) * movement_speed;
 
-			if (window.is_key_held(keybinds.down))
-				position -= front * static_cast<f32>(timestep.deltatime()) * movement_speed;
+					if (window.is_key_held(keybinds.down))
+						position -= front * static_cast<f32>(timestep.deltatime()) * movement_speed;
 
-			if (window.is_key_held(keybinds.right))
-				position += right * static_cast<f32>(timestep.deltatime()) * movement_speed;
+					if (window.is_key_held(keybinds.right))
+						position += right * static_cast<f32>(timestep.deltatime()) * movement_speed;
+
+					break;
+				}
+
+				case mode::fps:
+				{
+					if (window.is_key_held(keybinds.up))
+						position += front_fps * static_cast<f32>(timestep.deltatime()) * movement_speed;
+
+					if (window.is_key_held(keybinds.left))
+						position -= right * static_cast<f32>(timestep.deltatime()) * movement_speed;
+
+					if (window.is_key_held(keybinds.down))
+						position -= front_fps * static_cast<f32>(timestep.deltatime()) * movement_speed;
+
+					if (window.is_key_held(keybinds.right))
+						position += right * static_cast<f32>(timestep.deltatime()) * movement_speed;
+
+					break;
+				}
+			}
 		}
-
-		if (mode == mode::fps)
-			position.y = old_y;
 
 		if (mouse_controls_enabled)
 		{
@@ -172,6 +190,8 @@ namespace birb
 
 		// Calculate the front vector
 		front = birb::view_vector::front(pitch, yaw);
+		if (mode == mode::fps)
+			front_fps = birb::view_vector::front(0.0f, yaw);
 
 		// Update the right and up vectors
 		right = birb::view_vector::right(front, world_up);
