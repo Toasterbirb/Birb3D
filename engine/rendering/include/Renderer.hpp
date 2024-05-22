@@ -96,6 +96,7 @@ namespace birb
 		 * @brief Post-processing render pass
 		 */
 		void opt_post_process(const bool enabled);
+		bool is_post_processing_enabled() const;
 
 	private:
 		/////////////////////////////////////////////////////////////////////////

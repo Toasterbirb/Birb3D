@@ -407,4 +407,8 @@ namespace birb
 		post_processing_enabled = enabled;
 	}
 
+	bool renderer::is_post_processing_enabled() const
+	{
+		return post_processing_enabled;
+	}
 }

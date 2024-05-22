@@ -119,8 +119,13 @@ namespace birb
 				}
 				ImGui::EndTable();
 
+				ImGui::Spacing();
+
 				if (renderer::is_wireframe_enabled())
 					ImGui::Text("> Wireframe mode enabled");
+
+				if (renderer.is_post_processing_enabled())
+					ImGui::Text("> Post-Processing enabled");
 			}
 
 			ImGui::End();
