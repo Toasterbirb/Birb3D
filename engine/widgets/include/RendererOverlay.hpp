@@ -3,6 +3,8 @@
 #include "Types.hpp"
 #include "WidgetBase.hpp"
 
+#include <array>
+
 namespace birb
 {
 	class renderer;
@@ -21,6 +23,8 @@ namespace birb
 			const char* collapsing_menu_name = "";
 
 			const birb::renderer& renderer;
+
+			std::array<f64, 256> total_render_duration_history = { 0.0 };
 
 			struct draw_stats_table_data_point
 			{

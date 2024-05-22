@@ -1,5 +1,6 @@
 #include "Assert.hpp"
 #include "Globals.hpp"
+#include "Math.hpp"
 #include "Profiling.hpp"
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
@@ -46,6 +47,8 @@ namespace birb
 			{
 				const renderer_stats stats = renderer.rendering_statistics();
 				f64 total_duration = stats.total_duration();
+				total_render_duration_history[total_render_duration_history.size() - 1] = total_duration;
+				std::rotate(total_render_duration_history.begin(), total_render_duration_history.begin() + 1, total_render_duration_history.end());
 
 				std::vector<draw_stats_table_data_point> render_stats = {
 					{ "2D", stats.entities_2d, stats.vertices_2d, stats.draw_2d_duration / total_duration },
@@ -90,7 +93,7 @@ namespace birb
 						if (data_point.time != -1)
 							ImGui::ProgressBar(data_point.time, ImVec2(120, 0));
 						else
-							ImGui::Text("%s", stopwatch::format_time(total_duration).c_str());
+							ImGui::Text("%s", stopwatch::format_time(average(total_render_duration_history)).c_str());
 					}
 				}
 				ImGui::EndTable();
