@@ -106,6 +106,10 @@ namespace birb
 
 					for (const std::pair<std::string, u32>& data_point : draw_call_stats)
 					{
+						// Skip draw call stats that have zero calls
+						if (data_point.second == 0)
+							continue;
+
 						ImGui::TableNextRow();
 						ImGui::TableNextColumn();
 						ImGui::Text("%s", data_point.first.c_str());
