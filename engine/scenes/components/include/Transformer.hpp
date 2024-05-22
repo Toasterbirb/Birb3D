@@ -16,7 +16,6 @@ namespace birb
 
 		std::vector<transform> transforms;
 
-		std::vector<glm::mat4> model_matrices() const;
 		u32 model_matrix_instance_vbo() const;
 		void bind_vbo() const;
 
@@ -30,6 +29,11 @@ namespace birb
 		 */
 		void unlock();
 
+		/**
+		 * @brief Unlock and lock the transforms to re-calculate the model matrices
+		 */
+		void relock();
+
 		bool is_locked() const;
 
 	private:
@@ -38,6 +42,7 @@ namespace birb
 
 		u32 model_matrix_vbo = 0;
 
+		std::vector<glm::mat4> model_matrices() const;
 		u32 create_model_matrix_vbo() const;
 	};
 }

@@ -2,6 +2,7 @@
 #include "Transform.hpp"
 #include "Transformer.hpp"
 #include "Types.hpp"
+#include <cstdlib>
 
 namespace birb
 {
@@ -9,18 +10,6 @@ namespace birb
 	{
 		if (model_matrix_vbo != 0)
 			glDeleteBuffers(1, &model_matrix_vbo);
-	}
-
-	std::vector<glm::mat4> transformer::model_matrices() const
-	{
-		if (_is_locked)
-			return cached_model_matrices;
-
-		std::vector<glm::mat4> tmp_model_matrices(transforms.size());
-		for (size_t i = 0; i < transforms.size(); ++i)
-			tmp_model_matrices[i] = transforms[i].model_matrix();
-
-		return tmp_model_matrices;
 	}
 
 	u32 transformer::model_matrix_instance_vbo() const
@@ -54,15 +43,34 @@ namespace birb
 
 	void transformer::unlock()
 	{
+		// Unlock all of the child transforms
 		for (transform t : transforms)
 			t.unlock();
 
 		_is_locked = false;
 	}
 
+	void transformer::relock()
+	{
+		unlock();
+		lock();
+	}
+
 	bool transformer::is_locked() const
 	{
 		return _is_locked;
+	}
+
+	std::vector<glm::mat4> transformer::model_matrices() const
+	{
+		if (_is_locked)
+			return cached_model_matrices;
+
+		std::vector<glm::mat4> tmp_model_matrices(transforms.size());
+		for (size_t i = 0; i < transforms.size(); ++i)
+			tmp_model_matrices[i] = transforms[i].model_matrix();
+
+		return tmp_model_matrices;
 	}
 
 	u32 transformer::create_model_matrix_vbo() const

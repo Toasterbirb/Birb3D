@@ -39,6 +39,14 @@ namespace birb
 
 		entt::registry& entity_registry = current_scene->registry;
 
+		const auto view = entity_registry.view<sprite, transform>();
+		const u32 sprite_count = std::distance(view.begin(), view.end());
+
+		// We don't need to do anything if there are no sprites to render
+		if (sprite_count == 0)
+			return;
+
+
 		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
 
 		// Sprites should only have a singular texture, so we'll use the default
@@ -58,9 +66,6 @@ namespace birb
 		screen_area_transform.local_scale.y = window_size.y * camera.orthograhpic_scale;
 		const collider::box2d screen_area(screen_area_transform);
 
-
-		const auto view = entity_registry.view<sprite, transform>();
-		const u32 sprite_count = std::distance(view.begin(), view.end());
 
 		// false = the sprite has a calculated model matrix and it should be drawn
 		// true = the sprite is culled and shouldn't be drawn
@@ -143,6 +148,13 @@ namespace birb
 
 		entt::registry& entity_registry = current_scene->registry;
 
+		const auto view = entity_registry.view<sprite, transformer>();
+		const u32 sprite_count = std::distance(view.begin(), view.end());
+
+		// We don't need to do anything if there are no instanced sprites to render
+		if (sprite_count == 0)
+			return;
+
 		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
 
 		// Sprites should only have a singular texture, so we'll use the default
@@ -154,15 +166,19 @@ namespace birb
 		texture_shader->set(shader_uniforms::projection, orthographic_projection);
 		sprite_vao.bind();
 
-		const auto view = entity_registry.view<sprite, transformer>();
-		const u32 sprite_count = std::distance(view.begin(), view.end());
-
 		texture_shader->activate();
 		sprite_vao.bind();
 
 		constexpr u8 first_layout_index = 5;
 		constexpr u8 vec4_component_count = 4;
 		constexpr size_t vec4_size = sizeof(glm::vec4);
+
+		// Enable the vertex attrib arrays
+		for (u8 i = 0; i < vec4_component_count; ++i)
+		{
+			glEnableVertexAttribArray(first_layout_index + i);
+			glVertexAttribDivisor(first_layout_index + i, 1);
+		}
 
 		for (const auto& ent : view)
 		{
@@ -175,12 +191,7 @@ namespace birb
 			transformer.bind_vbo();
 
 			for (u8 i = 0; i < vec4_component_count; ++i)
-			{
 				glVertexAttribPointer(first_layout_index + i, 4, GL_FLOAT, GL_FALSE, 4 * vec4_size, reinterpret_cast<void*>(i * vec4_size));
-				glEnableVertexAttribArray(first_layout_index + i);
-				glVertexAttribDivisor(first_layout_index + i, 1);
-			}
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			glDrawElementsInstanced(GL_TRIANGLES, quad_indices.size(), GL_UNSIGNED_INT, 0, transformer.transforms.size());
 			++render_stats.draw_elements_instanced;
@@ -191,6 +202,8 @@ namespace birb
 		// Disable the vertex attrib arrays
 		for (u8 i = 0; i < vec4_component_count; ++i)
 			glDisableVertexAttribArray(first_layout_index + i);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		sprite_vao.unbind();
 	}

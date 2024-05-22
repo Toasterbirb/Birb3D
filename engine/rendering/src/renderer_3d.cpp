@@ -85,12 +85,17 @@ namespace birb
 
 		entt::registry& entity_registry = current_scene->registry;
 
+		const auto view = entity_registry.view<collider::box>();
+
+		// Don't do anything if there are no box colliders
+		if (std::distance(view.begin(), view.end()) == 0)
+			return;
+
 		const std::shared_ptr<shader> debug_shader = shader_collection::get_shader(debug_shader_ref);
 		debug_shader->set(shader_uniforms::view, view_matrix);
 		debug_shader->set(shader_uniforms::projection, perspective_projection);
 		debug_shader->set(shader_uniforms::color, collider_debug_color);
 
-		const auto view = entity_registry.view<collider::box>();
 		for (const auto& entity : view)
 		{
 			const collider::box& box = view.get<collider::box>(entity);
