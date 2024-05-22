@@ -9,6 +9,12 @@ namespace birb
 {
 	class entity;
 
+	enum class entity_template
+	{
+		gameobject,			// state, transform
+		gameobject_box3d	// state, transform, 3d box collider
+	};
+
 	class scene
 	{
 	public:
@@ -23,6 +29,7 @@ namespace birb
 		std::string name = "Scene";
 
 		birb::entity create_entity();
+		birb::entity create_entity(const entity_template entity_template);
 		void destroy_entity(const entt::entity& entity);
 		bool is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity = entt::null);
 

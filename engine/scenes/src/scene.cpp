@@ -1,9 +1,12 @@
 #include "Assert.hpp"
+#include "BoxCollider.hpp"
 #include "Entity.hpp"
 #include "Info.hpp"
 #include "Logger.hpp"
 #include "Model.hpp"
 #include "Scene.hpp"
+#include "State.hpp"
+#include "Transform.hpp"
 
 #include <entt.hpp>
 
@@ -25,6 +28,27 @@ namespace birb
 	birb::entity scene::create_entity()
 	{
 		entt::entity entt_entity = registry.create();
+		return birb::entity(this, entt_entity);
+	}
+
+	birb::entity scene::create_entity(const entity_template entity_template)
+	{
+		entt::entity entt_entity = registry.create();
+
+		switch(entity_template)
+		{
+			case entity_template::gameobject:
+				add_component(entt_entity, birb::state());
+				add_component(entt_entity, birb::transform());
+				break;
+
+			case entity_template::gameobject_box3d:
+				add_component(entt_entity, birb::state());
+				add_component(entt_entity, birb::transform());
+				add_component(entt_entity, collider::box());
+				break;
+		};
+
 		return birb::entity(this, entt_entity);
 	}
 
