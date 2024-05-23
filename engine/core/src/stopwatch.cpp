@@ -32,13 +32,13 @@ namespace birb
 			return duration;
 
 		if (duration > 1.0)
-			std::cout << name << ": " << duration << "s\n";
+			std::cout << text_color_code << name << ": " << duration << "s\033[0m\n";
 		else if (duration > 0.001)
-			std::cout << name << ": " << duration * 1'000.0 << "ms\n";
+			std::cout << text_color_code << name << ": " << duration * 1'000.0 << "ms\033[0m\n";
 		else if (duration > 0.000001)
-			std::cout << name << ": " << duration * 1'000'000.0 << "µs\n";
+			std::cout << text_color_code << name << ": " << duration * 1'000'000.0 << "µs\033[0m\n";
 		else
-			std::cout << name << ": " << duration * 1'000'000'000.0 << "ns\n";
+			std::cout << text_color_code << name << ": " << duration * 1'000'000'000.0 << "ns\033[0m\n";
 
 		return duration;
 	}
