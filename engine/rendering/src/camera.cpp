@@ -67,15 +67,19 @@ namespace birb
 		return editor_header_name;
 	}
 
-	glm::mat4 camera::projection_matrix(const camera::projection_mode mode, const bool ignore_near_clip) const
+	glm::mat4 camera::perspective_projection_matrix() const
 	{
-		if (mode == camera::projection_mode::perspective)
-			return cached_projection_matrix_perspective;
+		return cached_projection_matrix_perspective;
+	}
 
-		if (mode == camera::projection_mode::orthographic && ignore_near_clip)
-			return cached_projection_matrix_ortho_no_clipping;
-
+	glm::mat4 camera::orthographic_projection_matrix() const
+	{
 		return cached_projection_matrix_ortho;
+	}
+
+	glm::mat4 camera::orthographic_no_near_clip_projection_matrix() const
+	{
+		return cached_projection_matrix_ortho_no_clipping;
 	}
 
 	glm::mat4 camera::view_matrix() const

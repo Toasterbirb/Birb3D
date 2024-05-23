@@ -32,12 +32,9 @@ namespace birb
 			flying, fps
 		};
 
-		enum class projection_mode
-		{
-			perspective,
-			orthographic
-		};
-		glm::mat4 projection_matrix(const camera::projection_mode mode, const bool ignore_near_clip = false) const;
+		glm::mat4 perspective_projection_matrix() const;
+		glm::mat4 orthographic_projection_matrix() const;
+		glm::mat4 orthographic_no_near_clip_projection_matrix() const;
 
 		glm::mat4 view_matrix() const;
 		glm::vec3 front_vec() const;

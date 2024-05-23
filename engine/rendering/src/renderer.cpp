@@ -214,28 +214,21 @@ namespace birb
 
 		entt::registry& entity_registry = current_scene->registry;
 
-		glm::mat4 perspective_projection = camera.projection_matrix(camera::projection_mode::perspective);
-
-		glm::mat4 orthographic_projection = camera.projection_matrix(camera::projection_mode::orthographic);
-
-		glm::mat4 orthographic_projection_no_near = camera.projection_matrix(
-			camera::projection_mode::orthographic, true);
-
 		glm::mat4 view_matrix = camera.view_matrix();
 
 		// Reset statistics
 		render_stats.reset_counters();
 
 		birb::stopwatch render_stopwatch;
-		draw_2d_entities(view_matrix, orthographic_projection, camera, window_size);
+		draw_2d_entities(view_matrix, camera.orthographic_projection_matrix(), camera, window_size);
 		render_stats.draw_2d_duration = render_stopwatch.stop(true);
 
 		render_stopwatch.reset();
-		draw_3d_entities(view_matrix, perspective_projection);
+		draw_3d_entities(view_matrix, camera.perspective_projection_matrix());
 		render_stats.draw_3d_duration = render_stopwatch.stop(true);
 
 		render_stopwatch.reset();
-		draw_screenspace_entities(orthographic_projection_no_near);
+		draw_screenspace_entities(camera.orthographic_no_near_clip_projection_matrix());
 		render_stats.draw_screenspace_duration = render_stopwatch.stop(true);
 
 
