@@ -28,7 +28,7 @@ namespace birb
 		 * @param title Window title
 		 * @param dimensions Size of the window
 		 */
-		window(const std::string& title, const vec2<i32> dimensions, const u8 msaa_level = 4);
+		window(const std::string& title, const vec2<i32> dimensions, const bool resizable = true, const u8 msaa_level = 4);
 
 		~window();
 
