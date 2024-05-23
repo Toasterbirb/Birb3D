@@ -53,6 +53,7 @@ int main(void)
 		camera.process_input(window, timestep);
 
 		text_big.get_component<birb::text>().set_text("Frame: " + std::to_string(frame_counter++) + "\nDeltatime: " + std::to_string(timestep.deltatime()));
+		text_small.get_component<birb::text>().position.x += timestep.deltatime() * 5.0f;
 
 		window.clear();
 

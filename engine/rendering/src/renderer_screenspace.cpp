@@ -44,6 +44,7 @@ namespace birb
 			ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
 
 			shader->set(shader_uniforms::text_color, text.color);
+			shader->set(shader_uniforms::text_position, text.position);
 			shader->set(shader_uniforms::projection, orthographic_projection);
 
 			// The same VAO can be used for all characters

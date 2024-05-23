@@ -49,8 +49,8 @@ namespace birb
 
 		this->txt = text;
 
-		f32 x = position.x;
-		f32 y = position.y;
+		f32 x = 0.0f;
+		f32 y = 0.0f;
 
 		for (const char c : txt)
 		{
@@ -58,7 +58,7 @@ namespace birb
 			if (c == '\n')
 			{
 				// Go back to the starting position width wise
-				x = position.x;
+				x = 0;
 
 				// Go one line down
 				y -= font.size() * scale;
