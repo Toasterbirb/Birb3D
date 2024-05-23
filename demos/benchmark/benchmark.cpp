@@ -6,6 +6,7 @@
 #include "Math.hpp"
 #include "Model.hpp"
 #include "PerformanceOverlay.hpp"
+#include "Random.hpp"
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
 #include "Scene.hpp"
@@ -88,8 +89,23 @@ int main(void)
 	///////////////////////////////
 
 	// Benchmarking variables //
+	constexpr i32 benchmark_array_reserve_size = 2000;
+	u64 draw_call_count = 0;
+
 	std::vector<f64> deltatimes;
-	deltatimes.reserve(2000);
+	deltatimes.reserve(benchmark_array_reserve_size);
+
+	std::vector<f64> render_2d_times;
+	render_2d_times.reserve(benchmark_array_reserve_size);
+
+	std::vector<f64> render_3d_times;
+	render_3d_times.reserve(benchmark_array_reserve_size);
+
+	std::vector<f64> render_screenspace_times;
+	render_screenspace_times.reserve(benchmark_array_reserve_size);
+
+	std::vector<f64> draw_entities_times;
+	draw_entities_times.reserve(benchmark_array_reserve_size);
 
 	// Text //
 
@@ -234,17 +250,23 @@ int main(void)
 
 		// Rotate 3D models
 		{
+			birb::random rng(42);
+
 			const auto view = scene.registry.view<birb::model, birb::transform>();
 			for (auto entity : view)
 			{
-				view.get<birb::transform>(entity).rotation.x += timestep.deltatime() * 32.0f;
+				view.get<birb::transform>(entity).rotation.x += timestep.deltatime() * rng.range_float(10.0f, 80.0f);
+				view.get<birb::transform>(entity).rotation.z += timestep.deltatime() * rng.range_float(10.0f, 80.0f);
 			}
 		}
 
 
 		window.clear();
 
+		birb::stopwatch stopwatch_draw_entities("Draw entities");
 		renderer.draw_entities(camera, window.size());
+		draw_entities_times.push_back(stopwatch_draw_entities.stop(true));
+
 		performance_overlay.draw();
 		renderer_overlay.draw();
 
@@ -256,6 +278,10 @@ int main(void)
 		// Handle benchmark stats
 		++frame_counter;
 		deltatimes.push_back(timestep.deltatime());
+		render_2d_times.push_back(renderer.rendering_statistics().draw_2d_duration);
+		render_3d_times.push_back(renderer.rendering_statistics().draw_3d_duration);
+		render_screenspace_times.push_back(renderer.rendering_statistics().draw_screenspace_duration);
+		draw_call_count += renderer.rendering_statistics().total_draw_calls();
 		benchmark_timer.tick(timestep.deltatime());
 
 		if (benchmark_timer.done())
@@ -276,12 +302,19 @@ int main(void)
 			f64 min_fps = 1.0f / max_frametime;
 			f64 max_fps = 1.0f / min_frametime;
 
+			f64 average_2d_render = birb::average(render_2d_times);
+			f64 average_3d_render = birb::average(render_3d_times);
+			f64 average_screenspace_render = birb::average(render_screenspace_times);
+			f64 average_draw_entities = birb::average(draw_entities_times);
+
 			i32 PID = RUSAGE_SELF;
 			struct rusage mem;
 			getrusage(PID, &mem);
 
 			std::cerr << "######################################\n";
-			std::cerr << "Frame count:       " << frame_counter << "\n";
+			std::cerr << "Frame count: " << frame_counter << "\n";
+			std::cerr << "\n";
+			std::cerr << "Memory usage: " << mem.ru_maxrss / 1024 << "mb\n";
 			std::cerr << "\n";
 			std::cerr << "Average frametime: " << birb::stopwatch::format_time(average_frametime) << "\n";
 			std::cerr << "Min frametime:     " << birb::stopwatch::format_time(min_frametime) << "\n";
@@ -291,7 +324,13 @@ int main(void)
 			std::cerr << "Min FPS:     " << min_fps << "\n";
 			std::cerr << "Max FPS:     " << max_fps << "\n";
 			std::cerr << "\n";
-			std::cerr << "Memory usage: " << mem.ru_maxrss / 1024 << "mb\n";
+			std::cerr << "Average render 2D:          " << birb::stopwatch::format_time(average_2d_render) << "\n";
+			std::cerr << "Average render 3D:          " << birb::stopwatch::format_time(average_3d_render) << "\n";
+			std::cerr << "Average render screenspace: " << birb::stopwatch::format_time(average_screenspace_render) << "\n";
+			std::cerr << "Average draw_entities():    " << birb::stopwatch::format_time(average_draw_entities) << "\n";
+			std::cerr << "\n";
+			std::cerr << "Total draw calls:           " << draw_call_count << "\n";
+			std::cerr << "Average draw calls / frame: " << draw_call_count / static_cast<double>(frame_counter) << "\n";
 			std::cerr << "\n";
 			std::cerr << "Window creation:       " << birb::stopwatch::format_time(window_creation_time) << "\n";
 			std::cerr << "Renderer construction: " << birb::stopwatch::format_time(renderer_construction_time) << "\n";
