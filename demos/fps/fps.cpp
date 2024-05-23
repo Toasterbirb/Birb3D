@@ -76,7 +76,7 @@ int main(void)
 
 	birb::random rng;
 
-	std::array<std::unique_ptr<birb::entity>, 20> trees;
+	std::array<std::unique_ptr<birb::entity>, 100> trees;
 	constexpr float tree_area = 50.f;
 	for (size_t i = 0; i < trees.size(); ++i)
 	{
@@ -116,13 +116,13 @@ int main(void)
 		camera_position.y += 4.0f;
 		camera.position = camera_position;
 
-		birb::log("Position: ", player.get_component<birb::transform>().position, " | Force: ", player.get_component<birb::rigidbody>().velocity);
+		// birb::log("Position: ", player.get_component<birb::transform>().position, " | Force: ", player.get_component<birb::rigidbody>().velocity);
 
 		// Handle the floor collision
 		std::unordered_set<entt::entity> player_collisions = physics_world.collides_with(player);
 		if (player_collisions.contains(floor.entt()))
 		{
-			birb::log("Collision!");
+			// birb::log("Collision!");
 			player.get_component<birb::rigidbody>().position.y = 0.0f;
 			player.get_component<birb::rigidbody>().add_force({ 0.0f, 98.1, 0.0f });
 		}

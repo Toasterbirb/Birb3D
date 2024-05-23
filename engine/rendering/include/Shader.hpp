@@ -143,7 +143,8 @@ namespace birb
 		// Uniform variable cache
 		// Returns true if the variable was cached
 		template<typename T>
-		bool uniform_cache(const std::string& key, T value, std::unordered_map<std::string, T>& cache)
+		__attribute__((always_inline))
+		constexpr inline bool uniform_cache(const i32 key, const T value, std::unordered_map<i32, T>& cache)
 		{
 			if (cache[key] == value)
 				return true;
@@ -152,8 +153,13 @@ namespace birb
 			return false;
 		}
 
-		std::unordered_map<std::string, i32> uniform_cache_int;
-		std::unordered_map<std::string, f32> uniform_cache_float;
-		std::unordered_map<std::string, glm::vec2> uniform_cache_vec2;
+		std::unordered_map<i32, i32> uniform_cache_int;
+		std::unordered_map<i32, f32> uniform_cache_float;
+		std::unordered_map<i32, glm::vec2> uniform_cache_vec2;
+		std::unordered_map<i32, glm::vec3> uniform_cache_vec3;
+		std::unordered_map<i32, vec3<f32>> uniform_cache_birb_vec3_float;
+		std::unordered_map<i32, glm::vec4> uniform_cache_vec4;
+		std::unordered_map<i32, glm::mat4> uniform_cache_mat4;
+		std::unordered_map<i32, color> uniform_cache_color;
 	};
 }
