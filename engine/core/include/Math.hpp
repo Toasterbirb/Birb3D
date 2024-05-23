@@ -8,12 +8,22 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <numeric>
+#include <type_traits>
 #include <vector>
 
 static constexpr f32 PI = 3.1415927;
 
 namespace birb
 {
+	template<typename T>
+	constexpr bool is_bit_set(T variable, u8 position)
+	{
+		static_assert(!std::is_same<T, bool>::value);
+		static_assert(!std::is_same<T, f32>::value);
+		static_assert(!std::is_same<T, f64>::value);
+		return (variable & (1 << position)) != 0;
+	}
+
 	/**
 	 * @brief Round a value down to a given accuracy
 	 *

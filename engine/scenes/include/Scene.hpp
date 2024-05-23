@@ -9,11 +9,16 @@ namespace birb
 {
 	class entity;
 
-	enum class entity_template
+	/**
+	 * @brief Component flags to be used with scene::create_entity(u32 components)
+	 */
+	struct component
 	{
-		gameobject,				// state, transform
-		gameobject_box3d,		// state, transform, 3d box collider
-		gameobject_rigidbody,	// state, transform, 3d box collider, rigidbody
+		constexpr static inline u32 transform 	= 1 << 0;
+		constexpr static inline u32 state 		= 1 << 1;
+		constexpr static inline u32 box			= 1 << 2;
+		constexpr static inline u32 box2d		= 1 << 3;
+		constexpr static inline u32 rigidbody	= 1 << 4;
 	};
 
 	class scene
@@ -30,7 +35,7 @@ namespace birb
 		std::string name = "Scene";
 
 		birb::entity create_entity();
-		birb::entity create_entity(const entity_template entity_template);
+		birb::entity create_entity(const u32 components);
 		void destroy_entity(const entt::entity& entity);
 		bool is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity = entt::null);
 
@@ -58,5 +63,6 @@ namespace birb
 		static i16 scene_count();
 
 	private:
+
 	};
 }

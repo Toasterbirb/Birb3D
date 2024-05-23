@@ -2,6 +2,13 @@
 
 #include <doctest/doctest.h>
 
+TEST_CASE("is_bit_set()")
+{
+	CHECK(birb::is_bit_set(5, 0));
+	CHECK_FALSE(birb::is_bit_set(5, 1));
+	CHECK(birb::is_bit_set(5, 2));
+}
+
 TEST_CASE("Rounding with specified accuracy")
 {
 	const double value1 = 0.013333333;

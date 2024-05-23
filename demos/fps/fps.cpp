@@ -52,7 +52,7 @@ int main(void)
 
 	birb::shader::directional_direction = { 0.76, -1.54, 0.96 };
 
-	birb::entity player = scene.create_entity(birb::entity_template::gameobject_rigidbody);
+	birb::entity player = scene.create_entity(birb::component::transform | birb::component::box | birb::component::rigidbody);
 	player.get_component<birb::transform>().local_scale = { 1.0f, 1.0f, 1.0f };
 	player.get_component<birb::collider::box>().set_size(player.get_component<birb::transform>().local_scale / 2.0f);
 	player.add_component<birb::physics_forces::gravity>(birb::physics_forces::gravity());
@@ -62,7 +62,7 @@ int main(void)
 	camera.fov = 75;
 	camera.mode = birb::camera::mode::fps;
 
-	birb::entity floor = scene.create_entity(birb::entity_template::gameobject_box3d);
+	birb::entity floor = scene.create_entity(birb::component::transform | birb::component::box);
 	floor.get_component<birb::transform>().position.y = -0.5f;
 	floor.get_component<birb::transform>().local_scale = { 40.0f, 0.5f, 40.0f };
 	floor.get_component<birb::collider::box>().set_position_and_size(floor.get_component<birb::transform>());

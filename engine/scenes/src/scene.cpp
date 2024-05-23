@@ -1,8 +1,10 @@
 #include "Assert.hpp"
+#include "Box2DCollider.hpp"
 #include "BoxCollider.hpp"
 #include "Entity.hpp"
 #include "Info.hpp"
 #include "Logger.hpp"
+#include "Math.hpp"
 #include "Model.hpp"
 #include "Rigidbody.hpp"
 #include "Scene.hpp"
@@ -32,38 +34,29 @@ namespace birb
 		return birb::entity(this, entt_entity);
 	}
 
-	birb::entity scene::create_entity(const entity_template entity_template)
+	birb::entity scene::create_entity(const u32 components)
 	{
+		ensure(components != 0, "Use the create_entity() function that takes no arguments if you don't need any components");
+
 		entt::entity entt_entity = registry.create();
 
-		switch(entity_template)
+		if (components & component::transform)
+			add_component(entt_entity, transform());
+
+		if (components & component::state)
+			add_component(entt_entity, state());
+
+		if (components & component::box)
+			add_component(entt_entity, collider::box());
+
+		if (components & component::box2d)
+			add_component(entt_entity, collider::box2d());
+
+		if (components & component::rigidbody)
 		{
-			case entity_template::gameobject:
-			{
-				add_component(entt_entity, birb::state());
-				add_component(entt_entity, birb::transform());
-				break;
-			}
-
-			case entity_template::gameobject_box3d:
-			{
-				add_component(entt_entity, birb::state());
-				transform t;
-				add_component(entt_entity, t);
-				add_component(entt_entity, collider::box(t));
-				break;
-			}
-
-			case entity_template::gameobject_rigidbody:
-			{
-				add_component(entt_entity, birb::state());
-				transform t;
-				add_component(entt_entity, t);
-				add_component(entt_entity, collider::box(t));
-				add_component(entt_entity, rigidbody(t));
-				break;
-			}
-		};
+			ensure(components & component::transform, "Rigidbody needs a transform component");
+			add_component(entt_entity, rigidbody(get_component<transform>(entt_entity)));
+		}
 
 		return birb::entity(this, entt_entity);
 	}
