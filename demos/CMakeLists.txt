@@ -1,4 +1,5 @@
 add_subdirectory(audio_player)
+add_subdirectory(benchmark)
 add_subdirectory(empty_window)
 add_subdirectory(fps)
 add_subdirectory(imgui)
