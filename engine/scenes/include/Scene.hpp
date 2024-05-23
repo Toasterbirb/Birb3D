@@ -14,11 +14,13 @@ namespace birb
 	 */
 	struct component
 	{
-		constexpr static inline u32 transform 	= 1 << 0;
-		constexpr static inline u32 state 		= 1 << 1;
-		constexpr static inline u32 box			= 1 << 2;
-		constexpr static inline u32 box2d		= 1 << 3;
-		constexpr static inline u32 rigidbody	= 1 << 4;
+		constexpr static inline u32 transform 		= 1 << 0;
+		constexpr static inline u32 transformer		= 1 << 1;
+		constexpr static inline u32 state 			= 1 << 2;
+		constexpr static inline u32 box				= 1 << 3;
+		constexpr static inline u32 box2d			= 1 << 4;
+		constexpr static inline u32 rigidbody		= 1 << 5;
+		constexpr static inline u32 default_shader	= 1 << 6;
 	};
 
 	class scene

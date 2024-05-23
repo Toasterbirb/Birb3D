@@ -3,18 +3,25 @@
 #include "Entity.hpp"
 #include "Font.hpp"
 #include "FontManager.hpp"
+#include "Math.hpp"
+#include "Model.hpp"
 #include "PerformanceOverlay.hpp"
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
 #include "Scene.hpp"
+#include "ShaderCollection.hpp"
+#include "Sprite.hpp"
 #include "Stopwatch.hpp"
 #include "Text.hpp"
+#include "Timer.hpp"
 #include "Timestep.hpp"
 #include "Types.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
 
+#include <algorithm>
 #include <string>
+#include <sys/resource.h>
 
 static const std::string gnu_linux = "I'd just like to interject for a moment. What you're refering to as Linux, is in fact,\n\
 GNU/Linux, or as I've recently taken to calling it, GNU plus Linux. Linux is not an\n\
@@ -35,17 +42,40 @@ called Linux distributions are really distributions of GNU/Linux!";
 
 static const std::string manaspace_ttf_font_name = "manaspc.ttf";
 static constexpr f32 text_scroll_speed = 10.0f;
+static constexpr i32 text_entity_count = 16;
+
+static constexpr i32 normal_sprite_count = 512;
+static constexpr i32 transformer_sprite_count = 128;
+static constexpr f32 sprite_scroll_speed = 200.0f;
+static constexpr f32 sprite_rotation_speed = 10.0f;
+
+static constexpr i32 suzanne_count = 14;
+static constexpr i32 suzanne_row_count = 8;
 
 int main(void)
 {
+	birb::stopwatch stopwatch_benchmark("Benchmark");
+
+	birb::stopwatch stopwatch_window_creation("Window creation");
 	birb::window window("Benchmark", birb::vec2<i32>(1920, 822), false);
+	f64 window_creation_time = stopwatch_window_creation.stop();
+
 	window.init_imgui();
 
-	birb::scene scene;
+	birb::stopwatch stopwatch_shader_precompiling;
+	birb::shader_collection::precompile_basic_shaders();
+	f64 shader_precompiling_time = stopwatch_shader_precompiling.stop();
+
+	birb::stopwatch stopwatch_renderer_construction("Renderer construction");
 	birb::renderer renderer;
+	f64 renderer_construction_time = stopwatch_renderer_construction.stop();
+
+	birb::scene scene;
 	renderer.set_scene(scene);
+	renderer.opt_gamma_correction(false);
 
 	birb::camera camera;
+	camera.position.z = 50;
 
 	birb::timestep timestep;
 	timestep.disable_fps_cap = true;
@@ -57,30 +87,160 @@ int main(void)
 	// Create variables and such //
 	///////////////////////////////
 
+	// Benchmarking variables //
+	std::vector<f64> deltatimes;
+	deltatimes.reserve(2000);
+
+	// Text //
+
 	birb::stopwatch stopwatch_init_font("Font loading");
 	birb::font_manager font_manager;
-	birb::font manaspace_small = font_manager.load_font(manaspace_ttf_font_name, 12);
-	birb::font manaspace_big = font_manager.load_font(manaspace_ttf_font_name, 32);
+	birb::font manaspace_small = font_manager.load_font(manaspace_ttf_font_name, 8);
+	birb::font manaspace_big = font_manager.load_font(manaspace_ttf_font_name, 12);
 	stopwatch_init_font.stop();
 
+
 	birb::stopwatch stopwatch_init_text("Text entity creation");
-	birb::text text_small_t(gnu_linux, manaspace_small, birb::vec3<f32>(32.0f, window.size().y, 0.0f), 1.0f, 0xb48ead);
+	birb::text text_small_t(gnu_linux, manaspace_small, birb::vec3<f32>(512.0f, window.size().y, 0.0f), 1.0f, 0xb48ead);
 	birb::text text_big_t(gnu_linux, manaspace_big, birb::vec3<f32>(32.0f, window.size().y, 0.0f), 0.99f, 0xa3be8c);
 
-	birb::entity text_small = scene.create_entity();
-	text_small.add_component(text_small_t);
+	for (i32 i = 0; i < text_entity_count; ++i)
+	{
+		birb::entity text_small = scene.create_entity();
+		text_small.add_component(text_small_t);
 
-	birb::entity text_big = scene.create_entity();
-	text_big.add_component(text_big_t);
+		birb::entity text_big = scene.create_entity();
+		text_big.add_component(text_big_t);
+	}
 
-	stopwatch_init_text.stop();
+	f64 text_init_time = stopwatch_init_text.stop();
 
+	// Sprites //
+
+	birb::stopwatch stopwatch_init_sprite("Sprite construction");
+
+	birb::sprite sprite_s("texture_512.png", birb::color_format::RGB);
+	constexpr f32 sprite_position_offset = 3.0f;
+
+	for (i32 i = 0; i < normal_sprite_count; ++i)
+	{
+		birb::entity sprite = scene.create_entity(birb::component::transform);
+		sprite.add_component(sprite_s);
+
+		sprite.get_component<birb::transform>().position = { -10.0f * sprite_position_offset * i, 150.0f, static_cast<f32>(i) };
+		sprite.get_component<birb::transform>().local_scale = { 200.0f, 200.0f + (i * 5.0f), 1.0f };
+	}
+
+	birb::entity transformer_sprite = scene.create_entity(birb::component::transformer);
+	transformer_sprite.add_component(sprite_s);
+	constexpr f32 sprite_x_pos_start = 256.0f;
+	f32 sprite_x_pos = sprite_x_pos_start;
+	f32 sprite_height = 64.0f;
+	for (i32 i = 0; i < transformer_sprite_count; ++i)
+	{
+		birb::transform t;
+		t.position = { sprite_x_pos + (i % 8) * 10.0f, sprite_height, i * 0.01f };
+		t.local_scale = { i * 2.0f, i * 2.0f, 1.0f };
+		t.rotation.z = i * 5.0f;
+		transformer_sprite.get_component<birb::transformer>().transforms.push_back(t);
+
+		// 8 sprites per row
+		if (i % 8 == 0)
+		{
+			sprite_height += 32.0f;
+			sprite_x_pos = sprite_x_pos_start;
+		}
+	}
+	transformer_sprite.get_component<birb::transformer>().lock();
+
+	f64 sprite_init_time = stopwatch_init_sprite.stop();
+
+
+	// 3D things //
+
+	birb::stopwatch stopwatch_init_3d("3D model construction");
+
+	birb::model suzanne_m("suzanne.obj");
+
+	// birb::entity center_suzanne = scene.create_entity(birb::component::transform | birb::component::default_shader);
+	// center_suzanne.add_component(suzanne_m);
+	// center_suzanne.get_component<birb::transform>().position = { 0.0f, 0.0f, 0.0f };
+
+	constexpr f32 suzanne_side_movemewnt = 1.6f;
+	constexpr f32 suzanne_rotation = 5.0f;
+	constexpr f32 suzanne_row_height_offset = 7.0f;
+
+	for (i32 j = 0; j < suzanne_row_count; ++j)
+	{
+		for (i32 i = 0; i < suzanne_count; ++i)
+		{
+			birb::entity suzanne_left = scene.create_entity(birb::component::transform | birb::component::default_shader);
+			suzanne_left.add_component(suzanne_m);
+			suzanne_left.get_component<birb::transform>().position = { -i * suzanne_side_movemewnt, j * 2.5f - suzanne_row_height_offset, i * 2.0f };
+			suzanne_left.get_component<birb::transform>().rotation.y = i * suzanne_rotation;
+
+			birb::entity suzanne_right = scene.create_entity(birb::component::transform | birb::component::default_shader);
+			suzanne_right.add_component(suzanne_m);
+			suzanne_right.get_component<birb::transform>().position = { i * suzanne_side_movemewnt, j * 2.5f - suzanne_row_height_offset, i * 2.0f };
+			suzanne_right.get_component<birb::transform>().rotation.y = -i * suzanne_rotation;
+
+			// Lock the transforms in suzanne entities on the left side
+			suzanne_left.get_component<birb::transform>().lock();
+		}
+	}
+
+	f64 three_d_init_time = stopwatch_init_3d.stop();
+
+	birb::timer benchmark_timer(15.0f);
+	u64 frame_counter = 0;
 
 	while (!window.should_close())
 	{
-		// Move the text entities down with a constant speed
-		text_small.get_component<birb::text>().position.y += timestep.deltatime() * text_scroll_speed;
-		text_big.get_component<birb::text>().position.y += timestep.deltatime() * text_scroll_speed;
+		// Move the text entities down with a constant speeds
+		{
+			f32 text_fall_speed_multiplier = 1.0f;
+			const auto text_view = scene.registry.view<birb::text>();
+			for (auto text : text_view)
+			{
+				text_view.get<birb::text>(text).position.y -= timestep.deltatime() * text_scroll_speed * text_fall_speed_multiplier;
+				text_fall_speed_multiplier += 0.1f;
+			}
+		}
+
+		// Move all of the sprites to the right and rotate them
+		{
+			const auto sprite_view = scene.registry.view<birb::sprite, birb::transform>();
+			for (auto sprite : sprite_view)
+			{
+				sprite_view.get<birb::transform>(sprite).position.x += timestep.deltatime() * sprite_scroll_speed;
+				sprite_view.get<birb::transform>(sprite).rotation.z += timestep.deltatime() * sprite_rotation_speed;
+			}
+		}
+
+		// Rotate every 8th transformer sprite
+		{
+			const auto view = scene.registry.view<birb::transformer>();
+			for (auto entity : view)
+			{
+				birb::transformer& transformer = view.get<birb::transformer>(entity);
+				for (size_t i = 0; i < transformer.transforms.size() - 8; i += 8)
+				{
+					transformer.transforms[i].rotation.z += timestep.deltatime() * 32.0f;
+					transformer.update_transform(i);
+				}
+				transformer.update_vbo_data();
+			}
+		}
+
+		// Rotate 3D models
+		{
+			const auto view = scene.registry.view<birb::model, birb::transform>();
+			for (auto entity : view)
+			{
+				view.get<birb::transform>(entity).rotation.x += timestep.deltatime() * 32.0f;
+			}
+		}
+
 
 		window.clear();
 
@@ -92,5 +252,72 @@ int main(void)
 
 		window.poll();
 		timestep.step();
+
+		// Handle benchmark stats
+		++frame_counter;
+		deltatimes.push_back(timestep.deltatime());
+		benchmark_timer.tick(timestep.deltatime());
+
+		if (benchmark_timer.done())
+		{
+			f64 benchmark_time = stopwatch_benchmark.stop();
+
+			// Ignore the first frametime result
+			// This is to prevent the laggy first time from skewing the results
+			std::rotate(deltatimes.begin(), deltatimes.begin() + 1, deltatimes.end());
+			deltatimes.pop_back();
+
+
+			f64 average_frametime = birb::average(deltatimes);
+			f64 min_frametime = *std::min_element(deltatimes.begin(), deltatimes.end());
+			f64 max_frametime = *std::max_element(deltatimes.begin(), deltatimes.end());
+
+			f64 average_fps = 1.0 / average_frametime;
+			f64 min_fps = 1.0f / max_frametime;
+			f64 max_fps = 1.0f / min_frametime;
+
+			i32 PID = RUSAGE_SELF;
+			struct rusage mem;
+			getrusage(PID, &mem);
+
+			std::cerr << "######################################\n";
+			std::cerr << "Frame count:       " << frame_counter << "\n";
+			std::cerr << "\n";
+			std::cerr << "Average frametime: " << birb::stopwatch::format_time(average_frametime) << "\n";
+			std::cerr << "Min frametime:     " << birb::stopwatch::format_time(min_frametime) << "\n";
+			std::cerr << "Max frametime:     " << birb::stopwatch::format_time(max_frametime) << "\n";
+			std::cerr << "\n";
+			std::cerr << "Average FPS: " << average_fps << "\n";
+			std::cerr << "Min FPS:     " << min_fps << "\n";
+			std::cerr << "Max FPS:     " << max_fps << "\n";
+			std::cerr << "\n";
+			std::cerr << "Memory usage: " << mem.ru_maxrss / 1024 << "mb\n";
+			std::cerr << "\n";
+			std::cerr << "Window creation:       " << birb::stopwatch::format_time(window_creation_time) << "\n";
+			std::cerr << "Renderer construction: " << birb::stopwatch::format_time(renderer_construction_time) << "\n";
+			std::cerr << "Shader precompiling:   " << birb::stopwatch::format_time(shader_precompiling_time) << "\n";
+			std::cerr << "Text init:             " << birb::stopwatch::format_time(text_init_time) << "\n";
+			std::cerr << "Sprite init:           " << birb::stopwatch::format_time(sprite_init_time) << "\n";
+			std::cerr << "3D init:               " << birb::stopwatch::format_time(three_d_init_time) << "\n";
+			std::cerr << "\n";
+			std::cerr << "Total benchmark duration: " << birb::stopwatch::format_time(benchmark_time) << "\n";
+
+			std::cerr << "\n";
+
+#ifndef NDEBUG
+			std::cerr << "Release build: no\n";
+#else
+			std::cerr << "Release build: yes\n";
+#endif
+
+#if MICROPROFILE_ENABLED == 1
+			std::cerr << "Profiler enabled: yes\n";
+#else
+			std::cerr << "Profiler enabled: no\n";
+#endif
+
+			std::cerr << "######################################\n";
+			window.quit();
+		}
 	}
 }

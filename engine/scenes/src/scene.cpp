@@ -8,8 +8,10 @@
 #include "Model.hpp"
 #include "Rigidbody.hpp"
 #include "Scene.hpp"
+#include "ShaderRef.hpp"
 #include "State.hpp"
 #include "Transform.hpp"
+#include "Transformer.hpp"
 
 #include <entt.hpp>
 
@@ -43,6 +45,9 @@ namespace birb
 		if (components & component::transform)
 			add_component(entt_entity, transform());
 
+		if (components & component::transformer)
+			add_component(entt_entity, transformer());
+
 		if (components & component::state)
 			add_component(entt_entity, state());
 
@@ -57,6 +62,9 @@ namespace birb
 			ensure(components & component::transform, "Rigidbody needs a transform component");
 			add_component(entt_entity, rigidbody(get_component<transform>(entt_entity)));
 		}
+
+		if (components & component::default_shader)
+			add_component(entt_entity, shader_ref("default", "default"));
 
 		return birb::entity(this, entt_entity);
 	}
