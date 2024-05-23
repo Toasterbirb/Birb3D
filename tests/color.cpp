@@ -68,4 +68,8 @@ TEST_CASE("Color comparison operator")
 	CHECK_FALSE(color_a == color_b);
 	CHECK_FALSE(color_a == color_c);
 	CHECK_FALSE(color_a == color_d);
+	CHECK(color_a != color_b);
+	CHECK(color_a != color_c);
+	CHECK(color_a != color_d);
+	CHECK(color_b != color_a);
 }

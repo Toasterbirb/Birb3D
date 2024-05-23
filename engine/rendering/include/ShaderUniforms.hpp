@@ -3,6 +3,7 @@
 #include "Types.hpp"
 
 #include <string>
+#include <vector>
 
 namespace birb
 {
@@ -20,14 +21,14 @@ namespace birb
 
 	struct uniform
 	{
-		uniform(const std::string& name, uniform_type type, const std::string& struct_var = "", bool is_array = false)
-		:name(name), type(type), struct_var(struct_var), is_array(is_array)
-		{}
+		uniform(const std::string& name, uniform_type type, const std::string& struct_var = "", bool is_array = false, i32 array_max_size = 0);
 
 		std::string name;
-		uniform_type type;
-		std::string struct_var;
-		bool is_array = false;
+		const uniform_type type;
+		const bool is_array = false;
+		const i32 array_max_size;
+
+		std::vector<std::string> array_str_cache;
 
 		std::string str(i32 index = -1) const;
 	};
@@ -44,13 +45,13 @@ namespace birb
 
 		namespace point_lights
 		{
-			const static inline uniform position ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "position", true);
-			const static inline uniform constant ("point_lights", uniform_type::FLOAT, "constant", true);
-			const static inline uniform linear ("point_lights", uniform_type::FLOAT, "linear", true);
-			const static inline uniform quadratic ("point_lights", uniform_type::FLOAT, "quadratic", true);
-			const static inline uniform ambient ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "ambient", true);
-			const static inline uniform diffuse ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "diffuse", true);
-			const static inline uniform specular ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "specular", true);
+			const static inline uniform position ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "position", true, 64);
+			const static inline uniform constant ("point_lights", uniform_type::FLOAT, "constant", true, 64);
+			const static inline uniform linear ("point_lights", uniform_type::FLOAT, "linear", true, 64);
+			const static inline uniform quadratic ("point_lights", uniform_type::FLOAT, "quadratic", true, 64);
+			const static inline uniform ambient ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "ambient", true, 64);
+			const static inline uniform diffuse ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "diffuse", true, 64);
+			const static inline uniform specular ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "specular", true, 64);
 			const static inline uniform count ("point_light_count", uniform_type::INT);
 		}
 

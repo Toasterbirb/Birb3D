@@ -146,6 +146,7 @@ namespace birb
 		__attribute__((always_inline))
 		constexpr inline bool uniform_cache(const i32 key, const T value, std::unordered_map<i32, T>& cache)
 		{
+			ensure(key != -1, "The shader uniform doesn't exist");
 			if (cache[key] == value)
 				return true;
 
@@ -160,6 +161,5 @@ namespace birb
 		std::unordered_map<i32, vec3<f32>> uniform_cache_birb_vec3_float;
 		std::unordered_map<i32, glm::vec4> uniform_cache_vec4;
 		std::unordered_map<i32, glm::mat4> uniform_cache_mat4;
-		std::unordered_map<i32, color> uniform_cache_color;
 	};
 }

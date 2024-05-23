@@ -105,11 +105,7 @@ namespace birb
 		ensure(!uniform.name.empty());
 		ensure(uniform.type == uniform_type::BIRB_COLOR);
 
-		const i32 key = uniform_location(uniform.str(index));
-		if (uniform_cache(key, value, uniform_cache_color))
-			return;
-
 		activate();
-		glUniform3f(key, value.r, value.g, value.b);
+		glUniform3f(uniform_location(uniform.str(index)), value.r, value.g, value.b);
 	}
 }
