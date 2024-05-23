@@ -147,42 +147,42 @@ namespace editor
 					ImGui::EndMenu();
 				}
 
-				if (ImGui::BeginMenu("Camera"))
-				{
-					ImGui::InputText("Name", &name);
+				// if (ImGui::BeginMenu("Camera"))
+				// {
+				// 	ImGui::InputText("Name", &name);
 
-					if (ImGui::Button("Create"))
-					{
-						entt::entity entity = default_entity(name);
+				// 	if (ImGui::Button("Create"))
+				// 	{
+				// 		entt::entity entity = default_entity(name);
 
-						if (entity != entt::null)
-						{
-							birb::camera camera;
-							scene.add_component(entity, camera);
+				// 		if (entity != entt::null)
+				// 		{
+				// 			birb::camera camera;
+				// 			scene.add_component(entity, camera);
 
-							birb::transform camera_transform;
-							camera_transform.local_scale = {0.2, 0.2, 0.2};
-							scene.add_component(entity, camera_transform);
+				// 			birb::transform camera_transform;
+				// 			camera_transform.local_scale = {0.2, 0.2, 0.2};
+				// 			scene.add_component(entity, camera_transform);
 
-							birb::model camera_model;
-							camera_model.load_model_from_memory(birb::primitive_mesh::camera, "Camera");
-							scene.add_component(entity, camera_model);
+				// 			birb::model camera_model;
+				// 			camera_model.load_model_from_memory(birb::primitive_mesh::camera, "Camera");
+				// 			scene.add_component(entity, camera_model);
 
-							birb::shader camera_shader("default", "default_color");
+				// 			birb::shader camera_shader("default", "default_color");
 
-							birb::color diffuse(1.0f, 0.619608f, 0.231373f, 1.0f);
-							birb::color specular(0.121569f, 0.121569f, 0.156863f, 1.0f);
-							birb::material camera_material(diffuse, specular);
-							scene.add_component(entity, camera_material);
+				// 			birb::color diffuse(1.0f, 0.619608f, 0.231373f, 1.0f);
+				// 			birb::color specular(0.121569f, 0.121569f, 0.156863f, 1.0f);
+				// 			birb::material camera_material(diffuse, specular);
+				// 			scene.add_component(entity, camera_material);
 
-							scene.add_component(entity, camera_shader);
+				// 			scene.add_component(entity, camera_shader);
 
-							name.clear();
-						}
-					}
+				// 			name.clear();
+				// 		}
+				// 	}
 
-					ImGui::EndMenu();
-				}
+				// 	ImGui::EndMenu();
+				// }
 
 				ImGui::EndMenu();
 			}

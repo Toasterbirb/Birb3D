@@ -74,7 +74,7 @@ int main(void)
 	renderer.set_scene(scene);
 	renderer.opt_gamma_correction(false);
 
-	birb::camera camera;
+	birb::camera camera(window.size());
 	camera.position.z = 50;
 
 	birb::timestep timestep;

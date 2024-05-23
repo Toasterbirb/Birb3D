@@ -20,10 +20,10 @@ int main(void)
 	birb::window window("Sprite", birb::vec2<i32>(1280, 720));
 	window.init_imgui();
 	birb::timestep timestep(120);
-	birb::camera camera;
+	birb::camera camera(window.size());
 	camera.movement_speed = 100;
-	camera.position.z = 45; // Move the camera back to make orthograhpics rendering work
-	camera.orthograhpic_scale = 0.5f;
+	camera.position.z = 45; // Move the camera back to make orthographics rendering work
+	camera.orthographic_scale = 0.5f;
 
 	birb::scene scene;
 	birb::renderer renderer;
@@ -101,9 +101,9 @@ int main(void)
 		while (!window.should_close())
 		{
 			// Cool zoom thing
-			if (camera.orthograhpic_scale > 0.2f && !zoom_done)
+			if (camera.orthographic_scale > 0.2f && !zoom_done)
 			{
-				camera.orthograhpic_scale = std::lerp(camera.orthograhpic_scale, 0.2f, timer);
+				camera.orthographic_scale = std::lerp(camera.orthographic_scale, 0.2f, timer);
 				timer += timestep.deltatime();
 			}
 			else
@@ -118,8 +118,8 @@ int main(void)
 				switch (input.key)
 				{
 					case (birb::input::keycode::scrolling):
-						camera.orthograhpic_scale -= input.offset.y * 0.02;
-						camera.orthograhpic_scale = std::clamp(camera.orthograhpic_scale, 0.001f, 4096.0f);
+						camera.orthographic_scale -= input.offset.y * 0.02;
+						camera.orthographic_scale = std::clamp(camera.orthographic_scale, 0.001f, 4096.0f);
 						break;
 
 					default:

@@ -33,7 +33,7 @@ int main(void)
 	birb::renderer renderer;
 	birb::timestep timestep;
 	timestep.set_target_fps(240);
-	birb::camera camera;
+	birb::camera camera(window.size());
 	camera.movement_speed = 7;
 	camera.far_clip = 50000;
 

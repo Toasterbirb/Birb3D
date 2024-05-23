@@ -22,10 +22,10 @@ int main(void)
 	birb::scene scene;
 	renderer.set_scene(scene);
 
-	birb::camera camera;
+	birb::camera camera(window.size());
 	camera.position.x = -128;
 	camera.position.z = 45;
-	camera.orthograhpic_scale = 0.5;
+	camera.orthographic_scale = 0.5;
 
 	birb::physics_world world;
 	world.set_scene(scene);

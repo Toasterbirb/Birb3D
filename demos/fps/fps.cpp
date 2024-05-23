@@ -34,7 +34,7 @@ int main(void)
 	birb::overlay::performance performance_overlay(timestep);
 	birb::overlay::renderer_overlay renderer_overlay(renderer);
 
-	birb::camera camera;
+	birb::camera camera(window.size());
 	camera.far_clip = 100;
 
 	/////////////

@@ -27,7 +27,7 @@ int main(void)
 	window.hot_reload_assets_on_focus_change = true;
 	birb::renderer renderer;
 	birb::timestep timestep;
-	birb::camera camera;
+	birb::camera camera(window.size());
 	camera.movement_speed = 7;
 
 	window.init_imgui();

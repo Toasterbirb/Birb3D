@@ -11,26 +11,50 @@
 
 namespace birb
 {
-	camera::camera()
+	camera::camera(vec2<i32> window_size)
 	{
+		event_bus::register_event_id(event::window_resized, this);
+
 		world_up = up;
 		mode = mode::flying;
 		update_camera_vectors();
+		update_projection_matrices(window_size);
 	}
 
-	camera::camera(vec3<f32> position) : position(position.to_glm_vec())
+	camera::camera(vec3<f32> position, vec2<i32> window_size) : position(position.to_glm_vec())
 	{
+		event_bus::register_event_id(event::window_resized, this);
+
 		world_up = up;
 		mode = mode::flying;
 		update_camera_vectors();
+		update_projection_matrices(window_size);
 	}
 
-	camera::camera(vec3<f32> position, f32 yaw, f32 pitch)
+	camera::camera(vec3<f32> position, f32 yaw, f32 pitch, vec2<i32> window_size)
 	:position(position.to_glm_vec()), yaw(yaw), pitch(pitch)
 	{
+		event_bus::register_event_id(event::window_resized, this);
+
 		world_up = up;
 		mode = mode::flying;
 		update_camera_vectors();
+		update_projection_matrices(window_size);
+	}
+
+	camera::~camera()
+	{
+		event_bus::unregister_event_id(event::window_resized, this);
+	}
+
+	void camera::process_event(u16 event_id, const event_data& data)
+	{
+		switch (event_id)
+		{
+			case (event::window_resized):
+				update_projection_matrices(birb::vec2<i32>(data._i32[0], data._i32[1]));
+				break;
+		}
 	}
 
 	void camera::draw_editor_ui()
@@ -43,33 +67,15 @@ namespace birb
 		return editor_header_name;
 	}
 
-	glm::mat4 camera::projection_matrix(const camera::projection_mode mode, const vec2<i32> window_size, const bool ignore_near_clip) const
+	glm::mat4 camera::projection_matrix(const camera::projection_mode mode, const bool ignore_near_clip) const
 	{
-		ensure(window_size.x > 0, "Invalid window width");
-		ensure(window_size.y > 0, "Invalid window height");
+		if (mode == camera::projection_mode::perspective)
+			return cached_projection_matrix_perspective;
 
-		glm::mat4 projection;
+		if (mode == camera::projection_mode::orthographic && ignore_near_clip)
+			return cached_projection_matrix_ortho_no_clipping;
 
-		// In some cases it might be desirable to temporarily
-		// ignore the near clipping (i.e. text rendering)
-		f32 tmp_near_clip = near_clip;
-		if (ignore_near_clip)
-			tmp_near_clip = 0.0f;
-
-		switch (mode)
-		{
-			case camera::projection_mode::perspective:
-				projection = glm::perspective(glm::radians(fov), static_cast<f32>(window_size.x) / static_cast<f32>(window_size.y), tmp_near_clip, far_clip);
-				break;
-
-			case camera::projection_mode::orthographic:
-				f32 width = static_cast<f32>(window_size.x) * orthograhpic_scale;
-				f32 height = static_cast<f32>(window_size.y) * orthograhpic_scale;
-				projection = glm::ortho(0.0f, width, 0.0f, height, tmp_near_clip, far_clip);
-				break;
-		}
-
-		return projection;
+		return cached_projection_matrix_ortho;
 	}
 
 	glm::mat4 camera::view_matrix() const
@@ -196,6 +202,20 @@ namespace birb
 		// Update the right and up vectors
 		right = birb::view_vector::right(front, world_up);
 		up = birb::view_vector::up(right, front);
+	}
+
+	void camera::update_projection_matrices(const vec2<i32> window_size)
+	{
+		ensure(window_size.x > 0, "Invalid window width");
+		ensure(window_size.y > 0, "Invalid window height");
+
+		cached_projection_matrix_perspective = glm::perspective(glm::radians(fov), static_cast<f32>(window_size.x) / static_cast<f32>(window_size.y), near_clip, far_clip);
+
+		f32 width = static_cast<f32>(window_size.x) * orthographic_scale;
+		f32 height = static_cast<f32>(window_size.y) * orthographic_scale;
+
+		cached_projection_matrix_ortho = glm::ortho(0.0f, width, 0.0f, height, near_clip, far_clip);
+		cached_projection_matrix_ortho_no_clipping = glm::ortho(0.0f, width, 0.0f, height, 0.0f, far_clip);
 	}
 
 	void camera::zoom(f32 delta)

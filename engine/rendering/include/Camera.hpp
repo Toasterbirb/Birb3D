@@ -1,6 +1,7 @@
 #pragma once
 
 #include "EditorComponent.hpp"
+#include "EventBus.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
 
@@ -11,12 +12,17 @@ namespace birb
 {
 	class timestep;
 
-	class camera : editor_component
+	class camera : editor_component, public event_obj
 	{
 	public:
-		camera();
-		explicit camera(vec3<f32> position);
-		camera(vec3<f32> position, f32 yaw, f32 pitch);
+		camera(vec2<i32> window_size);
+		explicit camera(vec3<f32> position, vec2<i32> window_size);
+		camera(vec3<f32> position, f32 yaw, f32 pitch, vec2<i32> window_size);
+		camera(const camera&) = delete;
+		camera(camera&) = delete;
+		~camera();
+
+		void process_event(u16 event_id, const event_data& data) override;
 
 		void draw_editor_ui() override;
 		std::string collapsing_header_name() const override;
@@ -31,7 +37,7 @@ namespace birb
 			perspective,
 			orthographic
 		};
-		glm::mat4 projection_matrix(const camera::projection_mode mode, const vec2<i32> window_size, const bool ignore_near_clip = false) const;
+		glm::mat4 projection_matrix(const camera::projection_mode mode, const bool ignore_near_clip = false) const;
 
 		glm::mat4 view_matrix() const;
 		glm::vec3 front_vec() const;
@@ -39,6 +45,7 @@ namespace birb
 		void process_input(window& window, const timestep& timestep);
 		void process_input_ortho(window& window, const timestep& timestep);
 		void update_camera_vectors();
+		void update_projection_matrices(const vec2<i32> window_size);
 
 		bool keyboard_controls_enabled = true;
 		bool mouse_controls_enabled = true;
@@ -58,7 +65,7 @@ namespace birb
 
 		f32 near_clip = 0.1f;
 		f32 far_clip = 100.0f;
-		f32 orthograhpic_scale = 1.0f;
+		f32 orthographic_scale = 1.0f;
 
 		bool editor_mode = false;
 		void zoom(f32 delta);
@@ -73,6 +80,10 @@ namespace birb
 		}
 
 	private:
+		glm::mat4 cached_projection_matrix_perspective;
+		glm::mat4 cached_projection_matrix_ortho;
+		glm::mat4 cached_projection_matrix_ortho_no_clipping;
+
 		static inline const std::string editor_header_name = "Camera";
 		vec2<f64> prev_cursor_pos;
 

@@ -14,7 +14,7 @@
 namespace editor
 {
 	viewport::viewport(birb::scene& scene, birb::window& window, birb::timestep& timestep)
-	:fbo(last_viewport_size), scene(scene), window(window), timestep(timestep)
+	:camera(window.size()), fbo(last_viewport_size), scene(scene), window(window), timestep(timestep)
 	{
 		renderer.set_scene(scene);
 	}

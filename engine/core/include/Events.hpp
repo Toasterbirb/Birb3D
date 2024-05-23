@@ -30,6 +30,13 @@ namespace birb
 		constexpr u16 toggle_debug_view = 3;
 
 		/**
+		 * @brief Update cached projection matrices in cameras
+		 *
+		 * data: vec2<i32>
+		 */
+		constexpr u16 window_resized = 5;
+
+		/**
 		 * @brief Hot reload all models in the currently active scene
 		 *
 		 * data: none

@@ -61,10 +61,10 @@ namespace birb
 
 		// Calculate the screen area position and dimensions for culling purposes
 		transform screen_area_transform;
-		screen_area_transform.position.x = camera.position.x + (window_size.x * 0.5f) * camera.orthograhpic_scale;
-		screen_area_transform.position.y = camera.position.y + (window_size.y * 0.5f) * camera.orthograhpic_scale;
-		screen_area_transform.local_scale.x = window_size.x * camera.orthograhpic_scale;
-		screen_area_transform.local_scale.y = window_size.y * camera.orthograhpic_scale;
+		screen_area_transform.position.x = camera.position.x + (window_size.x * 0.5f) * camera.orthographic_scale;
+		screen_area_transform.position.y = camera.position.y + (window_size.y * 0.5f) * camera.orthographic_scale;
+		screen_area_transform.local_scale.x = window_size.x * camera.orthographic_scale;
+		screen_area_transform.local_scale.y = window_size.y * camera.orthographic_scale;
 		const collider::box2d screen_area(screen_area_transform);
 
 
@@ -74,13 +74,14 @@ namespace birb
 
 		{
 			PROFILER_SCOPE_RENDER("Sprite culling");
+			const f32 orthographic_scale = camera.orthographic_scale;
 
 			std::transform(std::execution::par, view.begin(), view.end(), culling_list.begin(),
-				[view, screen_area, camera](const auto& entity)
+				[view, screen_area, orthographic_scale](const auto& entity)
 				{
 					sprite& entity_sprite = view.get<birb::sprite>(entity);
 					transform entity_transform = view.get<birb::transform>(entity);
-					entity_transform.local_scale * camera.orthograhpic_scale;
+					entity_transform.local_scale * orthographic_scale;
 
 					// Check if the sprite is visible in the viewport
 					collider::box2d sprite_collider(entity_transform);

@@ -481,6 +481,11 @@ namespace birb
 	void window::window_size_callback(GLFWwindow* window, i32 width, i32 height)
 	{
 		window::window_size_changed = true;
+
+		event_data data;
+		data._i32[0] = width;
+		data._i32[1] = height;
+		event_bus::send_event(event::window_resized, data);
 	}
 
 	void window::window_focus_callback(GLFWwindow* window, int focused)

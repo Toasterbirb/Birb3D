@@ -214,21 +214,12 @@ namespace birb
 
 		entt::registry& entity_registry = current_scene->registry;
 
-		glm::mat4 perspective_projection = camera.projection_matrix(
-			camera::projection_mode::perspective,
-			window_size
-		);
+		glm::mat4 perspective_projection = camera.projection_matrix(camera::projection_mode::perspective);
 
-		glm::mat4 orthographic_projection = camera.projection_matrix(
-			camera::projection_mode::orthographic,
-			window_size
-		);
+		glm::mat4 orthographic_projection = camera.projection_matrix(camera::projection_mode::orthographic);
 
 		glm::mat4 orthographic_projection_no_near = camera.projection_matrix(
-			camera::projection_mode::orthographic,
-			window_size,
-			true
-		);
+			camera::projection_mode::orthographic, true);
 
 		glm::mat4 view_matrix = camera.view_matrix();
 

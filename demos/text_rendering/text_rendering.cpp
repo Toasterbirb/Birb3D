@@ -21,7 +21,7 @@ int main(void)
 	birb::timestep timestep;
 
 	birb::scene scene;
-	birb::camera camera;
+	birb::camera camera(window.size());
 	camera.position.z = -5;
 	camera.near_clip = 0.0f;
 

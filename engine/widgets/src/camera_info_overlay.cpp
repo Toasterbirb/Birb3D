@@ -25,7 +25,7 @@ namespace birb
 			ImGui::Text("Yaw: %.2f", camera_obj.yaw);
 			ImGui::Text("Pitch: %.2f", camera_obj.pitch);
 			ImGui::Text("Pos: [%.2f, %.2f, %.2f]", camera_obj.position.x, camera_obj.position.y, camera_obj.position.z);
-			ImGui::Text("Orthographic scale: %.3f", camera_obj.orthograhpic_scale);
+			ImGui::Text("Orthographic scale: %.3f", camera_obj.orthographic_scale);
 
 			ImGui::End();
 		}

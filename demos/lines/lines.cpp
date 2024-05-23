@@ -12,7 +12,7 @@ int main(void)
 	birb::renderer renderer;
 	renderer.set_scene(scene);
 
-	birb::camera camera;
+	birb::camera camera(window.size());
 
 	birb::timestep timestep;
 
