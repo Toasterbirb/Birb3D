@@ -83,9 +83,6 @@ int main(void)
 
 				suzanne.add_component(shader_reference);
 
-				birb::material material({ 0.2f, 0.3f, 0.4f }, { 0.9f, 0.8f, 0.7f }, 32);
-				suzanne.add_component(material);
-
 				suzanne_entity_construction_duration_arr[i][j] = construction_timer.stop(true);
 			}
 		}
