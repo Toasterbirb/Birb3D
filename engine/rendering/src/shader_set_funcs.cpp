@@ -18,10 +18,8 @@ namespace birb
 		if (uniform_cache(key, value, uniform_cache_int))
 			return;
 
-		add_uniform_location(key);
-
 		activate();
-		glUniform1i(uniform_locations.at(key), value);
+		glUniform1i(uniform_location(key), value);
 	}
 
 	void shader::set(const uniform& uniform, f32 value, i32 index)
@@ -33,10 +31,8 @@ namespace birb
 		if (uniform_cache(key, value, uniform_cache_float))
 			return;
 
-		add_uniform_location(key);
-
 		activate();
-		glUniform1f(uniform_locations.at(key), value);
+		glUniform1f(uniform_location(key), value);
 	}
 
 	void shader::set(const uniform& uniform, const glm::vec2 value, i32 index)
@@ -48,10 +44,8 @@ namespace birb
 		if (uniform_cache(key, value, uniform_cache_vec2))
 			return;
 
-		add_uniform_location(key);
-
 		activate();
-		glUniform2f(uniform_locations.at(key), value.x, value.y);
+		glUniform2f(uniform_location(key), value.x, value.y);
 	}
 
 	void shader::set(const uniform& uniform, const glm::vec3 value, i32 index)
@@ -61,10 +55,8 @@ namespace birb
 
 		const std::string& key = uniform.str(index);
 
-		add_uniform_location(key);
-
 		activate();
-		glUniform3f(uniform_locations.at(key), value.x, value.y, value.z);
+		glUniform3f(uniform_location(key), value.x, value.y, value.z);
 	}
 
 	void shader::set(const uniform& uniform, const glm::vec4 value, i32 index)
@@ -74,10 +66,8 @@ namespace birb
 
 		const std::string& key = uniform.str(index);
 
-		add_uniform_location(key);
-
 		activate();
-		glUniform4f(uniform_locations.at(key), value.x, value.y, value.z, value.w);
+		glUniform4f(uniform_location(key), value.x, value.y, value.z, value.w);
 	}
 
 	void shader::set(const uniform& uniform, const birb::vec3<f32> value, i32 index)
@@ -87,10 +77,8 @@ namespace birb
 
 		const std::string& key = uniform.str(index);
 
-		add_uniform_location(key);
-
 		activate();
-		glUniform3f(uniform_locations.at(key), value.x, value.y, value.z);
+		glUniform3f(uniform_location(key), value.x, value.y, value.z);
 	}
 
 	void shader::set(const uniform& uniform, const glm::mat4 value, i32 index)
@@ -100,10 +88,8 @@ namespace birb
 
 		const std::string& key = uniform.str(index);
 
-		add_uniform_location(key);
-
 		activate();
-		glUniformMatrix4fv(uniform_locations.at(key), 1, GL_FALSE, glm::value_ptr(value));
+		glUniformMatrix4fv(uniform_location(key), 1, GL_FALSE, glm::value_ptr(value));
 	}
 
 	void shader::set(const uniform& uniform, const color value, i32 index)
@@ -113,9 +99,7 @@ namespace birb
 
 		const std::string& key = uniform.str(index);
 
-		add_uniform_location(key);
-
 		activate();
-		glUniform3f(uniform_locations.at(key), value.r, value.g, value.b);
+		glUniform3f(uniform_location(key), value.r, value.g, value.b);
 	}
 }

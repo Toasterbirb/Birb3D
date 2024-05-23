@@ -58,10 +58,6 @@ namespace birb
 
 		compile_shader(other.vertex_shader_name, other.fragment_shader_name);
 
-		// Add all uniform locations
-		for (const std::pair<std::string, int> uniform_loc : other.uniform_locations)
-			this->add_uniform_location(uniform_loc.first);
-
 		reset_lights();
 
 		ensure(id != 0);
@@ -105,13 +101,6 @@ namespace birb
 		update_directional_light();
 	}
 
-	void shader::add_default_3d_matrix_uniforms()
-	{
-		add_uniform_location("model");
-		add_uniform_location("view");
-		add_uniform_location("projection");
-	}
-
 	void shader::update_directional_light()
 	{
 		PROFILER_SCOPE_RENDER_FN();
@@ -145,17 +134,22 @@ namespace birb
 
 	bool shader::has_uniform_var(const std::string& name) const
 	{
-		return uniform_locations.contains(name);
+		return glGetUniformLocation(id, name.c_str()) != -1;
+	}
+
+	i32 shader::uniform_location(const std::string& name) const
+	{
+		const i32 location = glGetUniformLocation(id, name.c_str());
+		ensure(location != -1, "Nonexistent uniform");
+		return location;
 	}
 
 	void shader::set_int(const std::string& name, const i32 value)
 	{
 		ensure(!name.empty());
 
-		add_uniform_location(name);
-
 		activate();
-		glUniform1i(uniform_locations.at(name), value);
+		glUniform1i(uniform_location(name), value);
 	}
 
 	void shader::set_diffuse_color(const color& color)
@@ -191,19 +185,6 @@ namespace birb
 		ImGui::Text("Vertex: %s", vertex_shader_name.c_str());
 		ImGui::Text("Fragment: %s", fragment_shader_name.c_str());
 		ImGui::Text("Address: %s", birb::ptr_to_str(this).c_str());
-		ImGui::Spacing();
-
-		if (ImGui::TreeNode("Uniforms"))
-		{
-			auto it = uniform_locations.begin();
-			while (it != uniform_locations.end())
-			{
-				ImGui::BulletText("%s", (*it).first.c_str());
-				it++;
-			}
-
-			ImGui::TreePop();
-		}
 	}
 
 	std::string shader::collapsing_header_name() const
@@ -258,37 +239,6 @@ namespace birb
 	size_t shader::shader_cache_hits()
 	{
 		return shader_cache_hit_count;
-	}
-
-	void shader::add_uniform_location(const std::string& name)
-	{
-		ensure(!name.empty(), "Empty uniform name");
-
-		i32 location = try_add_uniform_location(name);
-
-		if (location == -1 && !is_missing())
-			birb::log_warn("Tried to add shader uniform that doesn't exist: " + name + " [" + vertex_shader_name + ", " + fragment_shader_name + "] (" + ptr_to_str(this) + ")");
-	}
-
-	i32 shader::try_add_uniform_location(const std::string& name)
-	{
-		ensure(!name.empty(), "Empty uniform name");
-
-		// Don't fetch the uniform location if its already in the hashmap
-		i32 location = -1;
-
-		if (!uniform_locations.contains(name))
-		{
-			activate();
-			location = glGetUniformLocation(id, name.c_str());
-			uniform_locations[name] = location;
-		}
-		else
-		{
-			location = uniform_locations.at(name);
-		}
-
-		return location;
 	}
 
 	std::string shader::load_shader_src(const std::string& shader_name) const

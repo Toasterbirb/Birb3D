@@ -59,18 +59,11 @@ namespace birb
 		 */
 		void reset_lights();
 
-		/**
-		 * @brief Add the following uniforms to the shader:
-		 * - model
-		 * - view
-		 * - projection
-		 */
-		void add_default_3d_matrix_uniforms();
-
 		void update_directional_light();
 		void update_point_lights();
 
 		bool has_uniform_var(const std::string& name) const;
+		i32 uniform_location(const std::string& name) const;
 
 		// These functions are defined in shader_set_funcs.cpp instead of shader.cpp
 		void set(const uniform& uniform, i32 value, i32 index = -1);
@@ -123,15 +116,6 @@ namespace birb
 	private:
 		static inline const std::string editor_header_name = "Shader";
 
-		// Calls try_add_uniform_location but prints out a warning if the uniform
-		// doesn't exist
-		void add_uniform_location(const std::string& name);
-
-		// Try to add a new uniform location without caring if it exists or not
-		// The return value will be -1 if it didn't exist and something other than -1
-		// if it did exists
-		i32 try_add_uniform_location(const std::string& name);
-
 		// Material helper functions and variables
 		void set_diffuse_color(const color& color);
 		void set_specular_color(const color& color);
@@ -152,7 +136,6 @@ namespace birb
 		u32 compile_gl_shader_program(const std::string& shader_name, const char* shader_src, const shader_type type);
 		std::string shader_type_to_str(const shader_type type) const;
 		void compile_errors(u32 shader, const shader_type type);
-		std::unordered_map<std::string, i32> uniform_locations;
 
 		std::string vertex_shader_name = "NULL";
 		std::string fragment_shader_name = "NULL";

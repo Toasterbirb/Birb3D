@@ -125,7 +125,6 @@ namespace editor
 
 							birb::shader shader(vertex_shader, fragment_shader);
 							shader.reset_lights();
-							shader.add_default_3d_matrix_uniforms();
 							scene.add_component(entity, shader);
 
 							birb::color diffuse(rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f));
