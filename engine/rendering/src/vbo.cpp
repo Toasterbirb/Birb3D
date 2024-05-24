@@ -90,7 +90,7 @@ namespace birb
 		glBindBuffer(GL_ARRAY_BUFFER, id);
 	}
 
-	void vbo::unbind() const
+	void vbo::unbind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}

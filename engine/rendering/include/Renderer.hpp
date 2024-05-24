@@ -34,6 +34,11 @@ namespace birb
 			triangles = 4,
 		};
 
+		enum class gl_type
+		{
+			unsigned_int = 5125,
+		};
+
 		void process_event(u16 event_id, const event_data& data) override;
 
 		void set_scene(scene& scene);
@@ -56,6 +61,21 @@ namespace birb
 		 * @brief Change VAO and call glDrawElements()
 		 */
 		void draw_elements(vao& vao, size_t index_count, gl_primitive primitive = renderer::gl_primitive::triangles);
+
+		/**
+		 * @brief Call glDrawElementsInstanced() while using the previously bound VAO
+		 */
+		void draw_elements_instanced(const u32 index_count, const u32 instance_count);
+
+		/**
+		 * @brief Call glDrawElementsInstanced() while using the previously bound VAO
+		 */
+		void draw_elements_instanced(const std::vector<u32>& indices, const u32 instance_count);
+
+		/**
+		 * @brief Change VAO and call glDrawElementsInstanced()
+		 */
+		void draw_elements_instanced(vao& vao, const std::vector<u32>& indices, const u32 instance_count);
 
 		/**
 		 * @brief Call glDrawArrays() while using the previously bound VAO

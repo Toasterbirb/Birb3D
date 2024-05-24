@@ -58,6 +58,7 @@ static_assert(sizeof(u64) == sizeof(GLuint64));
 
 static_assert(static_cast<GLenum>(birb::renderer::gl_primitive::triangles) == GL_TRIANGLES);
 static_assert(static_cast<GLenum>(birb::renderer::gl_primitive::lines) == GL_LINES);
+static_assert(static_cast<GLenum>(birb::renderer::gl_type::unsigned_int) == GL_UNSIGNED_INT);
 
 namespace birb
 {
@@ -282,6 +283,35 @@ namespace birb
 		vao.bind();
 		glDrawElements(static_cast<GLenum>(primitive), index_count, GL_UNSIGNED_INT, 0);
 		++render_stats.draw_elements_vao_calls;
+	}
+
+	void renderer::draw_elements_instanced(const u32 index_count, const u32 instance_count)
+	{
+		ensure(index_count > 0);
+		ensure(instance_count > 0);
+
+		glDrawElementsInstanced(GL_TRIANGLES, index_count, GL_UNSIGNED_INT, 0, instance_count);
+		++render_stats.draw_elements_instanced;
+	}
+
+	void renderer::draw_elements_instanced(const std::vector<u32>& indices, const u32 instance_count)
+	{
+		ensure(!indices.empty());
+		ensure(instance_count > 0);
+
+		glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, instance_count);
+		++render_stats.draw_elements_instanced;
+	}
+
+	void renderer::draw_elements_instanced(vao& vao, const std::vector<u32>& indices, const u32 instance_count)
+	{
+		ensure(vao.id != 0);
+		ensure(!indices.empty());
+		ensure(instance_count > 0);
+
+		vao.bind();
+		glDrawElementsInstanced(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0, instance_count);
+		++render_stats.draw_elements_instanced;
 	}
 
 	void renderer::draw_arrays(size_t vert_count, gl_primitive primitive)

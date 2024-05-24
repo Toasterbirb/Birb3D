@@ -205,7 +205,7 @@ namespace birb
 			for (u8 i = 0; i < vec4_component_count; ++i)
 				glVertexAttribPointer(first_layout_index + i, 4, GL_FLOAT, GL_FALSE, 4 * vec4_size, reinterpret_cast<void*>(i * vec4_size));
 
-			glDrawElementsInstanced(GL_TRIANGLES, quad_indices.size(), GL_UNSIGNED_INT, 0, transformer.transforms.size());
+			draw_elements_instanced(quad_indices.size(), transformer.transforms.size());
 			++render_stats.draw_elements_instanced;
 			render_stats.vertices_2d += 4 * transformer.transforms.size();
 			render_stats.entities_2d += transformer.transforms.size();
@@ -215,7 +215,7 @@ namespace birb
 		for (u8 i = 0; i < vec4_component_count; ++i)
 			glDisableVertexAttribArray(first_layout_index + i);
 
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		vbo::unbind();
 
 		sprite_vao.unbind();
 	}

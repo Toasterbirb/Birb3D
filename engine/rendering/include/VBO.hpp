@@ -43,7 +43,11 @@ namespace birb
 				const u32 components_per_vert) const;
 
 		void bind() const;
-		void unbind() const;
+
+		/**
+		 * @brief Unbind the currently bound VBO
+		 */
+		static void unbind();
 
 	private:
 		void allocate_buffer();
