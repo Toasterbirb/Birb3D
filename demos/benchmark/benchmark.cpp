@@ -207,7 +207,7 @@ int main(void)
 
 	f64 three_d_init_time = stopwatch_init_3d.stop();
 
-	birb::timer benchmark_timer(15.0f);
+	birb::timer benchmark_timer(20.0f);
 	u64 frame_counter = 0;
 
 	while (!window.should_close())
