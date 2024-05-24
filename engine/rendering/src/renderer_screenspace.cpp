@@ -55,6 +55,7 @@ namespace birb
 			const std::set<char>& chars = text.chars();
 
 			// Set the text vertex attrib pointer
+			text_vbo.bind();
 			text_vbo.set_vertex_attrib_ptr(0, 0, sizeof(f32), 4);
 
 			// Iterate through the text

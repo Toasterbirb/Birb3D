@@ -118,6 +118,7 @@ namespace birb
 		// Initialize things for text rendering
 		text_vao.bind();
 
+		text_vbo.bind();
 		text_vbo.set_data(NULL, sizeof(f32) * 6 * 4, false); // 6 verts, 4 floats per vert
 		text_vbo.enable_vertex_attrib_array(0);
 		text_vbo.set_vertex_attrib_ptr(0, 0, sizeof(f32), 4);
@@ -204,6 +205,7 @@ namespace birb
 		// Bind the post-processing frame buffer and update its dimensions if needed
 		if (post_processing_enabled)
 		{
+			post_processing_fbo->bind();
 			if (window->size() != old_window_dimensions)
 			{
 				post_processing_fbo->reload_frame_buffer_texture(window->size());
@@ -211,7 +213,6 @@ namespace birb
 			}
 
 			post_processing_fbo->clear();
-			post_processing_fbo->bind();
 		}
 
 		entt::registry& entity_registry = current_scene->registry;

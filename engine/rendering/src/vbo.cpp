@@ -56,13 +56,13 @@ namespace birb
 
 	void vbo::enable_vertex_attrib_array(const u32 index) const
 	{
-		bind();
+		ensure(currently_bound_vbo == id, "Remember to bind the VBO before modifying it");
 		glEnableVertexAttribArray(index);
 	}
 
 	void vbo::disable_vertex_attrib_array(const u32 index) const
 	{
-		bind();
+		ensure(currently_bound_vbo == id, "Remember to bind the VBO before modifying it");
 		glDisableVertexAttribArray(index);
 	}
 
@@ -71,7 +71,7 @@ namespace birb
 				const size_t component_size,
 				const u32 components_per_vert) const
 	{
-		bind();
+		ensure(currently_bound_vbo == id, "Remember to bind the VBO before modifying it");
 		glVertexAttribPointer(layout_index + component_index,
 				components_per_vert,
 				GL_FLOAT, GL_FALSE,
@@ -88,10 +88,12 @@ namespace birb
 	void vbo::bind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, id);
+		currently_bound_vbo = id;
 	}
 
 	void vbo::unbind()
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		currently_bound_vbo = 0;
 	}
 }

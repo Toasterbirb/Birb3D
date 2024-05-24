@@ -15,14 +15,11 @@ namespace birb
 		ensure(dimensions.y > 0);
 
 		glGenFramebuffers(1, &id);
+
+		bind();
 		reload_frame_buffer_texture(dimensions);
 
-		// Act as if the framebuffer was not bound at this point
-		// This will skip the asset in the bind() function
-		is_bound = false;
-
 		// Test the framebuffer
-		bind();
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 			birb::log_error("Couldn't create a new framebuffer");
 		unbind();
@@ -41,21 +38,18 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		ensure(!is_bound, "This FBO was already bound before. Binding it again is unnecessary");
 		ensure(id != 0);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
-		is_bound = true;
+		currently_bound_fbo = id;
 	}
 
 	void fbo::unbind()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		ensure(is_bound, "FBO was not bound, so it cannot be unbound");
-
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		is_bound = false;
+		currently_bound_fbo = 0;
 	}
 
 	void fbo::bind_frame_buffer()
@@ -77,15 +71,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		const bool was_bound = is_bound;
-
-		if (!was_bound)
-			bind();
+		ensure(currently_bound_fbo == id, "Remember to bind the FBO before modifying it");
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		if (!was_bound)
-			unbind();
 	}
 
 	void fbo::reload_frame_buffer_texture(const vec2<i32>& dimensions)
@@ -93,6 +81,7 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(birb::opengl_initialized);
+		ensure(currently_bound_fbo == id, "Remember to bind the FBO before modifying it");
 
 		// Texture
 		if (frame_buffer.id != 0)
@@ -127,14 +116,6 @@ namespace birb
 
 		ensure(!render_buffer_object, "The render buffer object needs to be destroyed before creating a new one");
 
-		const bool was_bound = is_bound;
-
-		if (!was_bound)
-			bind();
-
 		render_buffer_object = std::make_unique<rbo>(dimensions);
-
-		if (!was_bound)
-			unbind();
 	}
 }

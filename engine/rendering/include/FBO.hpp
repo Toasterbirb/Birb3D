@@ -51,7 +51,7 @@ namespace birb
 
 	private:
 		texture frame_buffer;
-		bool is_bound = false;
+		static inline u32 currently_bound_fbo = 0;
 
 		void attach_texture(const texture& texture);
 		void setup_rbo(vec2<i32> dimensions);
