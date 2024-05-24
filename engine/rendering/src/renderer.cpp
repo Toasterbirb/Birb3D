@@ -206,10 +206,8 @@ namespace birb
 				old_window_dimensions = window->size();
 			}
 
+			post_processing_fbo->clear();
 			post_processing_fbo->bind();
-
-			// The FBO needs to be cleared separately
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		}
 
 		entt::registry& entity_registry = current_scene->registry;
@@ -243,11 +241,11 @@ namespace birb
 
 			std::shared_ptr<shader> post_shader = shader_collection::get_shader(post_processing_shader_ref);
 			post_shader->activate();
-			post_processing_fbo->frame_buffer_texture().bind();
+			post_processing_fbo->bind_frame_buffer();
 			glDisable(GL_DEPTH_TEST);
 			draw_elements(post_processing_vao, quad_indices.size());
 			glEnable(GL_DEPTH_TEST);
-			post_processing_fbo->frame_buffer_texture().unbind();
+			post_processing_fbo->unbind_frame_buffer();
 		}
 
 		frame_id_counter++;

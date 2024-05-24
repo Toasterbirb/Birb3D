@@ -22,11 +22,36 @@ namespace birb
 		void bind();
 		void unbind();
 
+		/**
+		 * @brief Bind the frame buffer texture
+		 */
+		void bind_frame_buffer();
+
+		/**
+		 * @brief Unbind the frame buffer texture
+		 */
+		void unbind_frame_buffer();
+
+		/**
+		 * @brief Get the texture ID for the frame buffer texture
+		 *
+		 * The ID should not be freed in any circumstances
+		 */
+		u32 frame_buffer_id() const;
+
+		/**
+		 * @brief Clear the FBO
+		 *
+		 * If the FBO has been bound already, it'll be left in bound state
+		 */
+		void clear();
+
 		void reload_frame_buffer_texture(const vec2<i32>& dimensions);
-		texture& frame_buffer_texture();
+		// texture& frame_buffer_texture();
 
 	private:
 		texture frame_buffer;
+		bool is_bound = false;
 
 		void attach_texture(const texture& texture);
 		void setup_rbo(vec2<i32> dimensions);
