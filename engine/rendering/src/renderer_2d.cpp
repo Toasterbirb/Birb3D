@@ -55,8 +55,6 @@ namespace birb
 		texture_shader->set(shader_uniforms::texture_units::tex0, 0);
 
 		texture_shader->set(shader_uniforms::texture::instanced, 0);
-		texture_shader->set(shader_uniforms::view, view_matrix);
-		texture_shader->set(shader_uniforms::projection, orthographic_projection);
 		sprite_vao.bind();
 
 		// Calculate the screen area position and dimensions for culling purposes
@@ -169,8 +167,6 @@ namespace birb
 		texture_shader->set(shader_uniforms::texture_units::tex0, 0);
 
 		texture_shader->set(shader_uniforms::texture::instanced, 1);
-		texture_shader->set(shader_uniforms::view, view_matrix);
-		texture_shader->set(shader_uniforms::projection, orthographic_projection);
 		sprite_vao.bind();
 
 		texture_shader->activate();

@@ -40,4 +40,8 @@ namespace birb
 
 		return name;
 	}
+
+	uniform_block::uniform_block(const u32 bind_point, const char* block_name, const size_t size, const bool static_draw)
+	:bind_point(bind_point), block_name(block_name), size(size), static_draw(static_draw)
+	{}
 }

@@ -15,14 +15,14 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		draw_models(view_matrix, perspective_projection);
+		draw_models();
 
 		// Box collider visualization
 		if (debug_view_enabled)
 			draw_box_collider_view(view_matrix, perspective_projection);
 	}
 
-	void renderer::draw_models(const glm::mat4& view_matrix, const glm::mat4& perspective_projection)
+	void renderer::draw_models()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
@@ -51,9 +51,6 @@ namespace birb
 			// Make sure the lighting is up-to-date
 			if (!uniforms_updated.contains(shader->id))
 			{
-				shader->set(shader_uniforms::view, view_matrix);
-				shader->set(shader_uniforms::projection, perspective_projection);
-
 				shader->update_directional_light();
 				shader->update_point_lights();
 				uniforms_updated.insert(shader->id);

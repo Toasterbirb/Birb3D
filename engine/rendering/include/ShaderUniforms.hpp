@@ -2,6 +2,7 @@
 
 #include "Types.hpp"
 
+#include <glm/glm.hpp>
 #include <string>
 #include <vector>
 
@@ -33,6 +34,15 @@ namespace birb
 		std::string str(i32 index = -1) const;
 	};
 
+	struct uniform_block
+	{
+		uniform_block(const u32 bind_point, const char* block_name, const size_t size, const bool static_draw);
+		const u32 bind_point;
+		const char* block_name;
+		const size_t size;
+		const bool static_draw;
+	};
+
 	namespace shader_uniforms
 	{
 		const static inline uniform model("model", uniform_type::MAT4);
@@ -43,6 +53,12 @@ namespace birb
 		const static inline uniform color("color", uniform_type::BIRB_COLOR);
 		const static inline uniform text_color("text_color", uniform_type::BIRB_COLOR);
 		const static inline uniform text_position("text_position", uniform_type::BIRB_VEC3_FLOAT);
+
+		namespace block
+		{
+			const static inline uniform_block view_matrices(0, "view_matrices", sizeof(glm::mat4), true);
+			const static inline uniform_block projection_matrices(1, "projection_matrices", sizeof(glm::mat4) * 3, true);
+		}
 
 		namespace point_lights
 		{

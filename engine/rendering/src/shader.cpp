@@ -326,6 +326,16 @@ namespace birb
 			glLinkProgram(this->id);
 			compile_errors(id, shader_type::program);
 		}
+
+		// Bind the shader to different uniform blocks
+
+		const i32 uniform_block_index_view_matrices = glGetUniformBlockIndex(this->id, shader_uniforms::block::view_matrices.block_name);
+		ensure(uniform_block_index_view_matrices != -1, "The view matrix uniform block could not be found in a shader");
+		glUniformBlockBinding(id, uniform_block_index_view_matrices, shader_uniforms::block::view_matrices.bind_point);
+
+		const i32 uniform_block_index_projection_matrices = glGetUniformBlockIndex(this->id, shader_uniforms::block::projection_matrices.block_name);
+		ensure(uniform_block_index_projection_matrices != -1, "The projection matrix uniform block could not be found in a shader");
+		glUniformBlockBinding(id, uniform_block_index_projection_matrices, shader_uniforms::block::projection_matrices.bind_point);
 	}
 
 	u32 shader::compile_gl_shader_program(const std::string& shader_name, const char* shader_src, const shader_type type)

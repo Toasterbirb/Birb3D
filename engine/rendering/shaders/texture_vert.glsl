@@ -16,9 +16,9 @@ uniform vec2 aspect_ratio;
 void main()
 {
 	if (instanced == 1)
-		gl_Position = projection * view * instanceMatrix * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
+		gl_Position = projection_ortho * view * instanceMatrix * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
 	else
-		gl_Position = projection * view * model * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
+		gl_Position = projection_ortho * view * model * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
 
 	texCoord = aTex;
 }

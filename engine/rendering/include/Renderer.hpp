@@ -7,6 +7,7 @@
 #include "RendererStats.hpp"
 #include "ShaderRef.hpp"
 #include "Types.hpp"
+#include "UBO.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
 
@@ -137,7 +138,7 @@ namespace birb
 		void draw_sprites_instanced(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection);
 
 		// 3D drawing funcs
-		void draw_models(const glm::mat4& view_matrix, const glm::mat4& perspective_projection);
+		void draw_models();
 		void draw_box_collider_view(const glm::mat4& view_matrix, const glm::mat4& perspective_projection);
 
 		// screenspace drawing funcs
@@ -150,6 +151,9 @@ namespace birb
 		static inline bool wireframe_mode = false;
 		static inline bool backface_culling_enabled = false;
 		bool debug_view_enabled = false;
+
+		// Uniform buffer objects //
+		birb::ubo view_matrix_ubo;
 
 		renderer_stats render_stats;
 

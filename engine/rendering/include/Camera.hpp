@@ -2,6 +2,7 @@
 
 #include "EditorComponent.hpp"
 #include "EventBus.hpp"
+#include "UBO.hpp"
 #include "Vector.hpp"
 #include "Window.hpp"
 
@@ -80,6 +81,7 @@ namespace birb
 		glm::mat4 cached_projection_matrix_perspective;
 		glm::mat4 cached_projection_matrix_ortho;
 		glm::mat4 cached_projection_matrix_ortho_no_clipping;
+		ubo projection_matrix_ubo;
 
 		static inline const std::string editor_header_name = "Camera";
 		vec2<f64> prev_cursor_pos;

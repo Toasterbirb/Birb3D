@@ -45,7 +45,6 @@ namespace birb
 
 			shader->set(shader_uniforms::text_color, text.color);
 			shader->set(shader_uniforms::text_position, text.position);
-			shader->set(shader_uniforms::projection, orthographic_projection);
 
 			// The same VAO can be used for all characters
 			text_vao.bind();

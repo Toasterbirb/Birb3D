@@ -63,7 +63,10 @@ static_assert(static_cast<GLenum>(birb::renderer::gl_type::unsigned_int) == GL_U
 namespace birb
 {
 	renderer::renderer()
-	:debug_shader_ref("color", "color"), texture_shader_ref("texture", "texture"), post_processing_shader_ref("post_process", "post_process")
+	:view_matrix_ubo(shader_uniforms::block::view_matrices),
+	 debug_shader_ref("color", "color"),
+	 texture_shader_ref("texture", "texture"),
+	 post_processing_shader_ref("post_process", "post_process")
 	{
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::register_event_id(event::toggle_debug_view, this);
@@ -214,6 +217,9 @@ namespace birb
 		entt::registry& entity_registry = current_scene->registry;
 
 		glm::mat4 view_matrix = camera.view_matrix();
+
+		// Update the view matrix
+		view_matrix_ubo.update_data(glm::value_ptr(camera.view_matrix()), sizeof(glm::mat4), 0);
 
 		// Reset statistics
 		render_stats.reset_counters();

@@ -4,6 +4,8 @@ layout (location = 1) in vec2 aTex;
 
 out vec2 texCoord;
 
+#include "include/matrices.glsl"
+
 void main()
 {
 	gl_Position = vec4(aPos.x, aPos.y, 0.0, 1.0);

@@ -1,6 +1,7 @@
 #include "Camera.hpp"
 #include "Math.hpp"
 #include "Profiling.hpp"
+#include "ShaderUniforms.hpp"
 #include "Timestep.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -12,6 +13,7 @@
 namespace birb
 {
 	camera::camera(vec2<i32> window_size)
+	:projection_matrix_ubo(shader_uniforms::block::projection_matrices)
 	{
 		event_bus::register_event_id(event::window_resized, this);
 
@@ -21,7 +23,8 @@ namespace birb
 		update_projection_matrices(window_size);
 	}
 
-	camera::camera(vec3<f32> position, vec2<i32> window_size) : position(position.to_glm_vec())
+	camera::camera(vec3<f32> position, vec2<i32> window_size)
+	:position(position.to_glm_vec()), projection_matrix_ubo(shader_uniforms::block::projection_matrices)
 	{
 		event_bus::register_event_id(event::window_resized, this);
 
@@ -32,7 +35,8 @@ namespace birb
 	}
 
 	camera::camera(vec3<f32> position, f32 yaw, f32 pitch, vec2<i32> window_size)
-	:position(position.to_glm_vec()), yaw(yaw), pitch(pitch)
+	:position(position.to_glm_vec()), yaw(yaw), pitch(pitch),
+	 projection_matrix_ubo(shader_uniforms::block::projection_matrices)
 	{
 		event_bus::register_event_id(event::window_resized, this);
 
@@ -220,6 +224,11 @@ namespace birb
 
 		cached_projection_matrix_ortho = glm::ortho(0.0f, width, 0.0f, height, near_clip, far_clip);
 		cached_projection_matrix_ortho_no_clipping = glm::ortho(0.0f, width, 0.0f, height, 0.0f, far_clip);
+
+		// Update the projection matrix shader uniforms
+		projection_matrix_ubo.update_data(glm::value_ptr(cached_projection_matrix_perspective), sizeof(glm::mat4), 0);
+		projection_matrix_ubo.update_data(glm::value_ptr(cached_projection_matrix_ortho), sizeof(glm::mat4), sizeof(glm::mat4) * 1);
+		projection_matrix_ubo.update_data(glm::value_ptr(cached_projection_matrix_ortho_no_clipping), sizeof(glm::mat4), sizeof(glm::mat4) * 2);
 	}
 
 	void camera::zoom(f32 delta)
