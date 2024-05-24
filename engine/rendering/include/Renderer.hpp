@@ -4,10 +4,11 @@
 #include "DebugView.hpp"
 #include "EventBus.hpp"
 #include "FBO.hpp"
+#include "RendererStats.hpp"
 #include "ShaderRef.hpp"
 #include "Types.hpp"
 #include "VAO.hpp"
-#include "RendererStats.hpp"
+#include "VBO.hpp"
 
 #include <entt.hpp>
 #include <glm/fwd.hpp>
@@ -18,7 +19,6 @@ namespace birb
 	class ebo;
 	class scene;
 	class sprite;
-	class vbo;
 	class window;
 
 	class renderer : public event_obj
@@ -233,7 +233,7 @@ namespace birb
 		// The text vbo will be handled manually since it
 		// involves dynamically changing the vertex data
 		// and the current VBO class doesn't support that
-		u32 text_vbo;
+		vbo text_vbo;
 
 
 		/////////////////////

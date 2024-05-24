@@ -55,6 +55,9 @@ namespace birb
 
 			const std::set<char>& chars = text.chars();
 
+			// Set the text vertex attrib pointer
+			text_vbo.set_vertex_attrib_ptr(0, 0, sizeof(f32), 4);
+
 			// Iterate through the text
 			for (const char c : chars)
 			{
@@ -75,10 +78,8 @@ namespace birb
 
 				glBindTexture(GL_TEXTURE_2D, text.char_texture_id(c));
 
-				glBindBuffer(GL_ARRAY_BUFFER, text_vbo);
-				glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(verts), verts);
-
-				glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(f32), nullptr);
+				text_vbo.bind();
+				text_vbo.update_data(*verts, sizeof(verts));
 
 				glBindBuffer(GL_ARRAY_BUFFER, text.instance_vbo(c));
 				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(f32), nullptr);
