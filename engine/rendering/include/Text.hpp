@@ -7,6 +7,7 @@
 #include "Vector.hpp"
 
 #include <map>
+#include <memory>
 #include <set>
 
 namespace birb
@@ -19,8 +20,8 @@ namespace birb
 		text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color);
 		text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color, const shader_ref& shader);
 		~text();
-		text(const text&) = default;
-		text(text&) = default;
+		text(const text& other);
+		text(text&) = delete;
 
 		birb::font font;
 		vec3<f32> position;
@@ -48,6 +49,7 @@ namespace birb
 
 		std::map<char, u32> instance_vbos;
 
+		void allocate_instance_vbos();
 		void free_instance_vbos();
 	};
 }

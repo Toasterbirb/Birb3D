@@ -40,6 +40,21 @@ namespace birb
 		free_instance_vbos();
 	}
 
+	text::text(const text& other)
+	:font(other.font),
+	 position(other.position),
+	 scale(other.scale),
+	 color(other.color),
+	 shader(other.shader),
+	 txt(other.txt),
+	 _chars(other._chars),
+	 _char_positions(other._char_positions),
+	 _char_dimensions(other._char_dimensions),
+	 _char_texture_ids(other._char_texture_ids)
+	{
+		allocate_instance_vbos();
+	}
+
 	void text::set_text(const std::string& text)
 	{
 		PROFILER_SCOPE_RENDER_FN();
@@ -88,6 +103,7 @@ namespace birb
 			_char_positions[c].push_back(pos);
 			_char_texture_ids[c] = ch.texture_id;
 
+
 			// Move to the next char. One advance is 1/64 of a pixel
 			// the bitshifting thing gets the value in pixels (2^6 = 64)
 			// If you want to learn more about this function in general, check
@@ -99,31 +115,12 @@ namespace birb
 		ensure(!_chars.empty(), "This code path shouldn't be reached with an empty string");
 		ensure(_char_positions.size() <= txt.size());
 
-		// Create vaos and instance vbos
-		std::vector<u32> instance_vbo_arr(_chars.size());
-		glGenBuffers(_chars.size(), instance_vbo_arr.data());
-
-		u32 index = 0;
-		for (const char c : _chars)
-		{
-			const vec2<f32>& dim = char_dimensions(c);
-			const u32 vbo = instance_vbo_arr.at(index++);
-
-			instance_vbos[c] = vbo;
-
-			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			glBufferData(GL_ARRAY_BUFFER,
-					sizeof(glm::vec2) * _char_positions.at(c).size(),
-					_char_positions.at(c).data(),
-					GL_STATIC_DRAW);
-		}
-
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// Create instance vbos
+		allocate_instance_vbos();
 
 		ensure(_chars.size() == _char_dimensions.size());
 		ensure(_chars.size() == _char_texture_ids.size());
 		ensure(_chars.size() == instance_vbos.size());
-		ensure(_chars.size() == instance_vbo_arr.size());
 	}
 
 	std::string text::get_text() const
@@ -174,6 +171,31 @@ namespace birb
 	{
 		ensure(instance_vbos.contains(c));
 		return instance_vbos.at(c);
+	}
+
+	void text::allocate_instance_vbos()
+	{
+		ensure(instance_vbos.empty());
+
+		std::vector<u32> instance_vbo_arr(_chars.size());
+		glGenBuffers(_chars.size(), instance_vbo_arr.data());
+
+		u32 index = 0;
+		for (const char c : _chars)
+		{
+			const vec2<f32>& dim = char_dimensions(c);
+			const u32 vbo = instance_vbo_arr.at(index++);
+
+			instance_vbos[c] = vbo;
+
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBufferData(GL_ARRAY_BUFFER,
+					sizeof(glm::vec2) * _char_positions.at(c).size(),
+					_char_positions.at(c).data(),
+					GL_STATIC_DRAW);
+		}
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
 	void text::free_instance_vbos()
