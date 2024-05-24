@@ -45,7 +45,7 @@ static const std::string manaspace_ttf_font_name = "manaspc.ttf";
 static constexpr f32 text_scroll_speed = 10.0f;
 static constexpr i32 text_entity_count = 6;
 
-static constexpr i32 normal_sprite_count = 512;
+static constexpr i32 normal_sprite_count = 64;
 static constexpr i32 transformer_sprite_count = 128;
 static constexpr f32 sprite_scroll_speed = 200.0f;
 static constexpr f32 sprite_rotation_speed = 10.0f;
