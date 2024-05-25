@@ -13,7 +13,7 @@ namespace birb
 		mimic_sprite(const mimic_sprite&) = default;
 		mimic_sprite(mimic_sprite&) = default;
 
-		texture* texture;
+		birb::texture* texture;
 
 		bool ignore_aspect_ratio = false;
 		birb::aspect_ratio_lock aspect_ratio_lock = aspect_ratio_lock::height;
