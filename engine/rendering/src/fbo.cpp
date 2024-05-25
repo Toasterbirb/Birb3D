@@ -78,6 +78,11 @@ namespace birb
 		return frame_buffer.id;
 	}
 
+	texture* fbo::frame_buffer_ptr()
+	{
+		return &frame_buffer;
+	}
+
 	void fbo::clear()
 	{
 		PROFILER_SCOPE_RENDER_FN();

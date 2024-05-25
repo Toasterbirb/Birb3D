@@ -40,6 +40,11 @@ namespace birb
 		 */
 		u32 frame_buffer_id() const;
 
+		/**
+		 * @brief Get a raw pointer to the frame buffer texture
+		 */
+		texture* frame_buffer_ptr();
+
 		vec2<i32> frame_buffer_dimensions() const;
 
 		/**
