@@ -28,6 +28,7 @@ namespace birb
 		ensure(dimensions.x > 0);
 		ensure(dimensions.y > 0);
 
+		this->dimensions = dimensions;
 		this->slot = slot;
 
 		glGenTextures(1, &id);
