@@ -1,3 +1,4 @@
+#include "AspectRatioLock.hpp"
 #include "Box2DCollider.hpp"
 #include "Camera.hpp"
 #include "Profiling.hpp"
@@ -20,7 +21,7 @@ namespace birb
 			texture_shader.set(shader_uniforms::texture::aspect_ratio, { 1.0f, 1.0f });
 		else
 			// Modify the sprite shape based on if we want to respect the aspect ratio width or height wise
-			if (sprite.aspect_ratio_lock == sprite::aspect_ratio_lock::width)
+			if (sprite.aspect_ratio_lock == aspect_ratio_lock::width)
 				texture_shader.set(shader_uniforms::texture::aspect_ratio, { sprite.texture->aspect_ratio(), 1.0f });
 			else
 				texture_shader.set(shader_uniforms::texture::aspect_ratio, { 1.0f, sprite.texture->aspect_ratio_reverse() });
