@@ -63,6 +63,7 @@ namespace birb
 		namespace lights
 		{
 			const static inline uniform light_space_matrix("light_space_matrix", uniform_type::MAT4);
+			const static inline uniform shadow_map("shadow_map", uniform_type::INT);
 		}
 
 		namespace point_lights
