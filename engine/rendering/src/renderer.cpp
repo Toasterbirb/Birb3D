@@ -226,7 +226,7 @@ namespace birb
 		render_stats.reset_counters();
 
 		birb::stopwatch render_stopwatch;
-		draw_2d_entities(view_matrix, camera.orthographic_projection_matrix(), camera, window_size);
+		draw_2d_entities();
 		render_stats.draw_2d_duration = render_stopwatch.stop(true);
 
 		render_stopwatch.reset();

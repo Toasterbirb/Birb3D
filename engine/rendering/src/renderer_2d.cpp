@@ -27,15 +27,15 @@ namespace birb
 				texture_shader.set(shader_uniforms::texture::aspect_ratio, { 1.0f, sprite.texture->aspect_ratio_reverse() });
 	}
 
-	void renderer::draw_2d_entities(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection, const camera& camera, const vec2<i32> window_size)
+	void renderer::draw_2d_entities()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		draw_sprites(view_matrix, orthographic_projection, camera, window_size);
-		draw_sprites_instanced(view_matrix, orthographic_projection);
+		draw_sprites();
+		draw_sprites_instanced();
 	}
 
-	void renderer::draw_sprites(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection, const camera& camera, const vec2<i32> window_size)
+	void renderer::draw_sprites()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
@@ -107,7 +107,7 @@ namespace birb
 
 	}
 
-	void renderer::draw_sprites_instanced(const glm::mat4& view_matrix, const glm::mat4& orthographic_projection)
+	void renderer::draw_sprites_instanced()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
