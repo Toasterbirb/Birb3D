@@ -15,6 +15,7 @@
 
 #include <entt.hpp>
 #include <glm/fwd.hpp>
+#include <type_traits>
 
 namespace birb
 {
