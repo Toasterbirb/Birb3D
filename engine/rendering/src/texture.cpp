@@ -22,11 +22,13 @@ namespace birb
 		this->load(image_path, slot, format, texture_dimension);
 	}
 
-	void texture::create_empty(const vec2<i32> dimensions, const color_format format)
+	void texture::create_empty(const vec2<i32> dimensions, const color_format format, const u8 slot)
 	{
 		ensure(id == 0, "Memory leak");
 		ensure(dimensions.x > 0);
 		ensure(dimensions.y > 0);
+
+		this->slot = slot;
 
 		glGenTextures(1, &id);
 		ensure(id != 0);
