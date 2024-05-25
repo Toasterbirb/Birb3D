@@ -47,7 +47,6 @@ namespace birb
 		void clear();
 
 		void reload_frame_buffer_texture(const vec2<i32>& dimensions);
-		// texture& frame_buffer_texture();
 
 	private:
 		texture frame_buffer;
