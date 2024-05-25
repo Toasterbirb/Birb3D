@@ -104,6 +104,11 @@ namespace birb
 		///////////////////////
 
 		/**
+		 * @brief Enable shadows for the 3D rendering pass
+		 */
+		void opt_shadows(const bool enabled);
+
+		/**
 		 * @brief OpenGL alpha blending
 		 */
 		void opt_blend(const bool enabled) const;
@@ -151,6 +156,7 @@ namespace birb
 		static inline bool wireframe_mode = false;
 		static inline bool backface_culling_enabled = false;
 		bool debug_view_enabled = false;
+		bool shadows_enabled = true;
 
 		// Uniform buffer objects //
 		birb::ubo view_matrix_ubo;

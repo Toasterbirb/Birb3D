@@ -395,6 +395,11 @@ namespace birb
 		return render_stats;
 	}
 
+	void renderer::opt_shadows(const bool enabled)
+	{
+		shadows_enabled = enabled;
+	}
+
 	void renderer::opt_blend(const bool enabled) const
 	{
 		ensure(opengl_initialized);
