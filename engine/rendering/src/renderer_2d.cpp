@@ -58,40 +58,6 @@ namespace birb
 		texture_shader->set(shader_uniforms::texture::instanced, 0);
 		sprite_vao.bind();
 
-		// Calculate the screen area position and dimensions for culling purposes
-		transform screen_area_transform;
-		screen_area_transform.position.x = camera.position.x + (window_size.x * 0.5f) * camera.orthographic_scale;
-		screen_area_transform.position.y = camera.position.y + (window_size.y * 0.5f) * camera.orthographic_scale;
-		screen_area_transform.local_scale.x = window_size.x * camera.orthographic_scale;
-		screen_area_transform.local_scale.y = window_size.y * camera.orthographic_scale;
-		const collider::box2d screen_area(screen_area_transform);
-
-
-		// false = the sprite has a calculated model matrix and it should be drawn
-		// true = the sprite is culled and shouldn't be drawn
-		std::vector<bool> culling_list(sprite_count);
-
-		{
-			PROFILER_SCOPE_RENDER("Sprite culling");
-			const f32 orthographic_scale = camera.orthographic_scale;
-
-			std::transform(std::execution::par, view.begin(), view.end(), culling_list.begin(),
-				[view, screen_area, orthographic_scale](const auto& entity)
-				{
-					sprite& entity_sprite = view.get<birb::sprite>(entity);
-					transform entity_transform = view.get<birb::transform>(entity);
-					entity_transform.local_scale * orthographic_scale;
-
-					// Check if the sprite is visible in the viewport
-					collider::box2d sprite_collider(entity_transform);
-					if (screen_area.collides_with(sprite_collider))
-						return true;
-					else
-						return false;
-				}
-			);
-		}
-
 
 		// Calculate model matrices in parallel
 		std::vector<glm::mat4> model_matrices(sprite_count);
@@ -115,13 +81,6 @@ namespace birb
 
 		for (const auto& ent : view)
 		{
-			// Check if the sprite should be skipped due to culling
-			if (!culling_list[sprite_index])
-			{
-				++sprite_index;
-				continue;
-			}
-
 			// Don't render entities that are inactive
 			const birb::state* state = entity_registry.try_get<birb::state>(ent);
 			if (state && !state->active)
