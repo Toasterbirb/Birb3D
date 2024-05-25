@@ -50,7 +50,7 @@ namespace birb
 		static void unbind();
 
 	private:
-		static inline u32 currently_bound_vbo = 0;
+		static inline u32 d_currently_bound_vbo = 0;
 		void allocate_buffer();
 	};
 }

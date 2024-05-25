@@ -41,7 +41,10 @@ namespace birb
 		ensure(id != 0);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, id);
-		currently_bound_fbo = id;
+
+#ifndef NDEBUG
+		d_currently_bound_fbo = id;
+#endif
 	}
 
 	void fbo::unbind()
@@ -49,7 +52,10 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		currently_bound_fbo = 0;
+
+#ifndef NDEBUG
+		d_currently_bound_fbo = 0;
+#endif
 	}
 
 	void fbo::bind_frame_buffer()
@@ -71,7 +77,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		ensure(currently_bound_fbo == id, "Remember to bind the FBO before modifying it");
+		ensure(d_currently_bound_fbo == id, "Remember to bind the FBO before modifying it");
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
@@ -81,7 +87,7 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN();
 
 		ensure(birb::opengl_initialized);
-		ensure(currently_bound_fbo == id, "Remember to bind the FBO before modifying it");
+		ensure(d_currently_bound_fbo == id, "Remember to bind the FBO before modifying it");
 
 		// Texture
 		if (frame_buffer.id != 0)
