@@ -1,6 +1,7 @@
 #include "Camera.hpp"
 #include "CameraInfoOverlay.hpp"
 #include "Entity.hpp"
+#include "MimicSprite.hpp"
 #include "PerformanceOverlay.hpp"
 #include "Random.hpp"
 #include "Renderer.hpp"
@@ -45,6 +46,9 @@ int main(void)
 		birb::entity entity = scene.create_entity();
 		birb::entity second_entity = scene.create_entity();
 
+		birb::entity mimic = scene.create_entity(birb::component::transform);
+		birb::mimic_sprite mimic_s(texture_sprite.texture.get());
+
 		// Setup the first entity
 		{
 			birb::transform transform;
@@ -61,6 +65,13 @@ int main(void)
 			transform.local_scale = { 40, 40, 1 };
 			second_entity.add_component(transform);
 			second_entity.add_component(texture_sprite);
+		}
+
+		// Mimic entity
+		{
+			mimic.get_component<birb::transform>().position.x = -100;
+			mimic.get_component<birb::transform>().local_scale = { 50.0f, 50.0f, 1.0f };
+			mimic.add_component(mimic_s);
 		}
 
 		// Copy pasted entities

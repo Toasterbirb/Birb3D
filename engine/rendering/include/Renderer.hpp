@@ -152,6 +152,7 @@ namespace birb
 		}
 		void draw_sprites();
 		void draw_sprites_instanced();
+		void draw_mimic_sprites();
 
 		// 3D drawing funcs
 		void draw_models();

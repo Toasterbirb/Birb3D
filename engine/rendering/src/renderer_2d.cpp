@@ -1,4 +1,5 @@
 #include "Box2DCollider.hpp"
+#include "MimicSprite.hpp"
 #include "Profiling.hpp"
 #include "Renderer.hpp"
 #include "ShaderCollection.hpp"
@@ -19,6 +20,7 @@ namespace birb
 
 		draw_sprites();
 		draw_sprites_instanced();
+		draw_mimic_sprites();
 	}
 
 	void renderer::draw_sprites()
@@ -160,5 +162,77 @@ namespace birb
 		vbo::unbind();
 
 		sprite_vao.unbind();
+	}
+
+	void renderer::draw_mimic_sprites()
+	{
+		PROFILER_SCOPE_RENDER_FN();
+
+		entt::registry& entity_registry = current_scene->registry;
+
+		const auto view = entity_registry.view<mimic_sprite, transform>();
+		const u32 sprite_count = std::distance(view.begin(), view.end());
+
+		// We don't need to do anything if there are no sprites to render
+		if (sprite_count == 0)
+			return;
+
+
+		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
+
+		// Sprites should only have a singular texture, so we'll use the default
+		// tex0 texture unit
+		texture_shader->set(shader_uniforms::texture_units::tex0, 0);
+
+		texture_shader->set(shader_uniforms::texture::instanced, 0);
+		sprite_vao.bind();
+
+
+		// Calculate model matrices in parallel
+		std::vector<glm::mat4> model_matrices(sprite_count);
+
+		{
+			PROFILER_SCOPE_RENDER("Calculate transform model matrices");
+
+			std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(),
+				[view](const auto& entity)
+				{
+					return view.get<birb::transform>(entity).model_matrix();
+				}
+			);
+		}
+
+		size_t sprite_index = 0;
+		texture_shader->activate();
+		sprite_vao.bind();
+
+		u32 previous_texture_id = 0;
+
+		for (const auto& ent : view)
+		{
+			// Don't render entities that are inactive
+			const birb::state* state = entity_registry.try_get<birb::state>(ent);
+			if (state && !state->active)
+				continue;
+
+			mimic_sprite& entity_sprite = view.get<birb::mimic_sprite>(ent);
+
+			texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
+			set_sprite_aspect_ratio_uniforms(entity_sprite, *texture_shader);
+
+			if (entity_sprite.texture->id != previous_texture_id)
+			{
+				entity_sprite.texture->bind();
+				previous_texture_id = entity_sprite.texture->id;
+			}
+
+			draw_elements(quad_indices.size());
+
+			// We can probably assume that each rectangle shaped sprite is
+			// equal to 4 vertices
+			render_stats.vertices_2d += 4;
+			++render_stats.entities_2d;
+		}
+
 	}
 }
