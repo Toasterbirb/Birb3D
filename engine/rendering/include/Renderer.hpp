@@ -4,8 +4,10 @@
 #include "DebugView.hpp"
 #include "EventBus.hpp"
 #include "FBO.hpp"
+#include "MimicSprite.hpp"
 #include "RendererStats.hpp"
 #include "ShaderRef.hpp"
+#include "Sprite.hpp"
 #include "Types.hpp"
 #include "UBO.hpp"
 #include "VAO.hpp"
@@ -19,7 +21,6 @@ namespace birb
 	class camera;
 	class ebo;
 	class scene;
-	class sprite;
 	class window;
 
 	class renderer : public event_obj
@@ -136,7 +137,19 @@ namespace birb
 		void draw_screenspace_entities(const glm::mat4& orthographic_projection);
 
 		// 2D drawing funcs
-		void set_sprite_aspect_ratio_uniforms(const sprite& sprite, shader& texture_shader) const;
+		template<typename T>
+		void set_sprite_aspect_ratio_uniforms(const T& sprite, shader& texture_shader)
+		{
+			static_assert(std::is_same<T, birb::sprite>::value || std::is_same<T, birb::mimic_sprite>::value);
+			if (sprite.ignore_aspect_ratio)
+				texture_shader.set(shader_uniforms::texture::aspect_ratio, { 1.0f, 1.0f });
+			else
+				// Modify the sprite shape based on if we want to respect the aspect ratio width or height wise
+				if (sprite.aspect_ratio_lock == aspect_ratio_lock::width)
+					texture_shader.set(shader_uniforms::texture::aspect_ratio, { sprite.texture->aspect_ratio(), 1.0f });
+				else
+					texture_shader.set(shader_uniforms::texture::aspect_ratio, { 1.0f, sprite.texture->aspect_ratio_reverse() });
+		}
 		void draw_sprites();
 		void draw_sprites_instanced();
 
