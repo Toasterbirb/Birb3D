@@ -60,6 +60,11 @@ namespace birb
 			const static inline uniform_block projection_matrices(1, "projection_matrices", sizeof(glm::mat4) * 3, true);
 		}
 
+		namespace lights
+		{
+			const static inline uniform light_space_matrix("light_space_matrix", uniform_type::MAT4);
+		}
+
 		namespace point_lights
 		{
 			const static inline uniform position ("point_lights", uniform_type::BIRB_VEC3_FLOAT, "position", true, 64);
