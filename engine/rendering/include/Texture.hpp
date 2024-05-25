@@ -30,7 +30,7 @@ namespace birb
 		 * It only initializes the texture and doesn't do any fancy things like
 		 * mipmapping and so on
 		 */
-		void create_empty(birb::vec2<i32> dimensions);
+		void create_empty(const vec2<i32> dimensions, const color_format format);
 
 		void load(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension = 2);
 
@@ -41,7 +41,7 @@ namespace birb
 		/**
 		 * @brief Get the width and height of the texture
 		 */
-		vec2<i32> size();
+		vec2<i32> size() const;
 
 		f32 aspect_ratio() const;
 		f32 aspect_ratio_reverse() const;

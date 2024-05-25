@@ -22,7 +22,7 @@ namespace birb
 		this->load(image_path, slot, format, texture_dimension);
 	}
 
-	void texture::create_empty(birb::vec2<i32> dimensions)
+	void texture::create_empty(const vec2<i32> dimensions, const color_format format)
 	{
 		ensure(id == 0, "Memory leak");
 		ensure(dimensions.x > 0);
@@ -33,10 +33,21 @@ namespace birb
 
 		glBindTexture(GL_TEXTURE_2D, id);
 
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, dimensions.x, dimensions.y, 0, GL_RGB, GL_UNSIGNED_INT, NULL);
+		// Use float for the depth map
+		if (format == color_format::DEPTH)
+			glTexImage2D(GL_TEXTURE_2D, 0, static_cast<i32>(format), dimensions.x, dimensions.y, 0, static_cast<i32>(format), GL_FLOAT, NULL);
+		else
+			glTexImage2D(GL_TEXTURE_2D, 0, static_cast<i32>(format), dimensions.x, dimensions.y, 0, static_cast<i32>(format), GL_UNSIGNED_INT, NULL);
 
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+		// Enable texture wrapping for depth maps
+		if (format == color_format::DEPTH)
+		{
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		}
 	}
 
 	void texture::load(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension)
@@ -46,19 +57,6 @@ namespace birb
 		ensure(id == 0, "Memory leak");
 
 		this->slot = slot;
-
-		GLenum gl_color_format = 0;
-		switch (format)
-		{
-			case birb::color_format::RGB:
-				gl_color_format = GL_RGB;
-				break;
-
-			case birb::color_format::RGBA:
-				gl_color_format = GL_RGBA;
-				break;
-		}
-		ensure(gl_color_format != 0, "GL color format wasn't set correctly");
 
 		tex_type = 0;
 		switch (texture_dimension)
@@ -91,7 +89,7 @@ namespace birb
 		glTexParameteri(tex_type, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(tex_type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTexImage2D(tex_type, 0, gl_color_format, texture.dimensions.x, texture.dimensions.y, 0, gl_color_format, GL_UNSIGNED_BYTE, texture.data);
+		glTexImage2D(tex_type, 0, static_cast<i32>(format), texture.dimensions.x, texture.dimensions.y, 0, static_cast<i32>(format), GL_UNSIGNED_BYTE, texture.data);
 		glGenerateMipmap(tex_type);
 
 		glBindTexture(tex_type, 0);
@@ -163,7 +161,7 @@ namespace birb
 		return id;
 	}
 
-	vec2<i32> texture::size()
+	vec2<i32> texture::size() const
 	{
 		return dimensions;
 	}

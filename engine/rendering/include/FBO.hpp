@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ColorFormat.hpp"
 #include "Texture.hpp"
 #include "Vector.hpp"
 
@@ -39,6 +40,8 @@ namespace birb
 		 */
 		u32 frame_buffer_id() const;
 
+		vec2<i32> frame_buffer_dimensions() const;
+
 		/**
 		 * @brief Clear the FBO
 		 *
@@ -46,13 +49,13 @@ namespace birb
 		 */
 		void clear();
 
-		void reload_frame_buffer_texture(const vec2<i32>& dimensions);
+		void reload_frame_buffer_texture(const vec2<i32>& dimensions, const color_format format = color_format::RGB);
 
 	private:
 		texture frame_buffer;
 		static inline u32 d_currently_bound_fbo = 0;
 
-		void attach_texture(const texture& texture);
+		void attach_texture(const texture& texture, const color_format format);
 		void setup_rbo(vec2<i32> dimensions);
 
 		std::unique_ptr<rbo> render_buffer_object;

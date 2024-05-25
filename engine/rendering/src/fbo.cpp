@@ -68,6 +68,11 @@ namespace birb
 		frame_buffer.unbind();
 	}
 
+	vec2<i32> fbo::frame_buffer_dimensions() const
+	{
+		return frame_buffer.size();
+	}
+
 	u32 fbo::frame_buffer_id() const
 	{
 		return frame_buffer.id;
@@ -82,7 +87,7 @@ namespace birb
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void fbo::reload_frame_buffer_texture(const vec2<i32>& dimensions)
+	void fbo::reload_frame_buffer_texture(const vec2<i32>& dimensions, const color_format format)
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
@@ -96,8 +101,8 @@ namespace birb
 			frame_buffer.id = 0;
 		}
 
-		frame_buffer.create_empty(dimensions);
-		attach_texture(frame_buffer);
+		frame_buffer.create_empty(dimensions, format);
+		attach_texture(frame_buffer, format);
 
 		// Render buffer object
 		render_buffer_object.reset();
@@ -105,7 +110,7 @@ namespace birb
 		setup_rbo(dimensions);
 	}
 
-	void fbo::attach_texture(const texture& texture)
+	void fbo::attach_texture(const texture& texture, const color_format format)
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
@@ -113,7 +118,18 @@ namespace birb
 		ensure(texture.id != 0);
 
 		glBindFramebuffer(GL_FRAMEBUFFER, this->id);
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.id, 0);
+
+		// Treat depth maps differently
+		if (format == color_format::DEPTH)
+		{
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, texture.id, 0);
+			glDrawBuffer(GL_NONE);
+			glReadBuffer(GL_NONE);
+		}
+		else
+		{
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.id, 0);
+		}
 	}
 
 	void fbo::setup_rbo(vec2<i32> dimensions)
