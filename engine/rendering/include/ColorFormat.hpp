@@ -4,6 +4,8 @@ namespace birb
 {
 	enum class color_format
 	{
-		RGB, RGBA
+		RGB		= 6407,
+		RGBA	= 6408,
+		DEPTH	= 6402,
 	};
 }
