@@ -60,6 +60,9 @@ namespace birb
 
 	void fbo::bind_frame_buffer()
 	{
+		ensure(frame_buffer.id != 0);
+		ensure(frame_buffer.size().x > 0);
+		ensure(frame_buffer.size().y > 0);
 		frame_buffer.bind();
 	}
 
