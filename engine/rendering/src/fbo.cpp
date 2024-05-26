@@ -9,15 +9,17 @@
 
 namespace birb
 {
-	fbo::fbo(const vec2<i32>& dimensions)
+	fbo::fbo(const vec2<i32>& dimensions, const color_format format, const u8 frame_buffer_texture_slot)
 	{
 		ensure(dimensions.x > 0);
 		ensure(dimensions.y > 0);
 
+		texture_slot = frame_buffer_texture_slot;
+
 		glGenFramebuffers(1, &id);
 
 		bind();
-		reload_frame_buffer_texture(dimensions);
+		reload_frame_buffer_texture(dimensions, format);
 
 		// Test the framebuffer
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -113,7 +115,7 @@ namespace birb
 			frame_buffer.id = 0;
 		}
 
-		frame_buffer.create_empty(dimensions, format);
+		frame_buffer.create_empty(dimensions, format, texture_slot);
 		attach_texture(frame_buffer, format);
 
 		// Render buffer object

@@ -13,7 +13,7 @@ namespace birb
 	class fbo
 	{
 	public:
-		explicit fbo(const birb::vec2<i32>& dimensions);
+		explicit fbo(const birb::vec2<i32>& dimensions, const color_format format, const u8 frame_buffer_texture_slot = 0);
 		fbo(const fbo&) = delete;
 		~fbo();
 
@@ -57,6 +57,7 @@ namespace birb
 		void reload_frame_buffer_texture(const vec2<i32>& dimensions, const color_format format = color_format::RGB);
 
 	private:
+		u8 texture_slot;
 		texture frame_buffer;
 		static inline u32 d_currently_bound_fbo = 0;
 
