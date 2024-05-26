@@ -114,6 +114,7 @@ namespace birb
 		{
 			const static inline uniform instanced("instanced", uniform_type::INT);
 			const static inline uniform aspect_ratio("aspect_ratio", uniform_type::VEC2);
+			const static inline uniform orthographic("orthographic", uniform_type::INT);
 			// const static inline uniform aspect_ratio_reverse("aspect_ratio_reverse", uniform_type::FLOAT);
 		}
 	}

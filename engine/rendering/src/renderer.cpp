@@ -63,8 +63,8 @@ static_assert(static_cast<GLenum>(birb::renderer::gl_type::unsigned_int) == GL_U
 namespace birb
 {
 	renderer::renderer()
-	:view_matrix_ubo(shader_uniforms::block::view_matrices),
-	 line_shader("line", "line"),
+	 :line_shader("line", "line"),
+	 view_matrix_ubo(shader_uniforms::block::view_matrices),
 	 debug_shader_ref("color", "color"),
 	 texture_shader_ref("texture", "texture"),
 	 post_processing_shader_ref("post_process", "post_process")
@@ -140,7 +140,7 @@ namespace birb
 
 
 		// Initialize things for post-processing
-		post_processing_fbo = std::make_unique<fbo>(vec2<i32>(1920, 720));
+		post_processing_fbo = std::make_unique<fbo>(vec2<i32>(1920, 720), color_format::RGB);
 		post_processing_vbo = std::make_unique<vbo>(fullscreen_quad_vertices);
 
 		post_processing_vao.bind();
