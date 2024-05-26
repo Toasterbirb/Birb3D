@@ -23,6 +23,10 @@ namespace birb
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 			birb::log_error("Couldn't create a new framebuffer");
 		unbind();
+
+		// Make sure that the dimensions are correct
+		ensure(frame_buffer.size().x == dimensions.x);
+		ensure(frame_buffer.size().y == dimensions.y);
 	}
 
 	fbo::~fbo()
