@@ -18,6 +18,11 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
+		// Sprites should only have a singular texture, so we'll use the default
+		// tex0 texture unit
+		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
+		texture_shader->set(shader_uniforms::texture_units::tex0, 0);
+
 		draw_sprites();
 		draw_sprites_instanced();
 		draw_mimic_sprites();
@@ -38,10 +43,6 @@ namespace birb
 
 
 		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
-
-		// Sprites should only have a singular texture, so we'll use the default
-		// tex0 texture unit
-		texture_shader->set(shader_uniforms::texture_units::tex0, 0);
 
 		texture_shader->set(shader_uniforms::texture::instanced, 0);
 		sprite_vao.bind();
@@ -111,10 +112,6 @@ namespace birb
 
 		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
 
-		// Sprites should only have a singular texture, so we'll use the default
-		// tex0 texture unit
-		texture_shader->set(shader_uniforms::texture_units::tex0, 0);
-
 		texture_shader->set(shader_uniforms::texture::instanced, 1);
 		sprite_vao.bind();
 
@@ -183,29 +180,9 @@ namespace birb
 
 		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
 
-		// Sprites should only have a singular texture, so we'll use the default
-		// tex0 texture unit
-		texture_shader->set(shader_uniforms::texture_units::tex0, 0);
-
 		texture_shader->set(shader_uniforms::texture::instanced, 0);
 		sprite_vao.bind();
 
-
-		// Calculate model matrices in parallel
-		std::vector<glm::mat4> model_matrices(sprite_count);
-
-		{
-			PROFILER_SCOPE_RENDER("Calculate transform model matrices");
-
-			std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(),
-				[view](const auto& entity)
-				{
-					return view.get<birb::transform>(entity).model_matrix();
-				}
-			);
-		}
-
-		size_t sprite_index = 0;
 		texture_shader->activate();
 		sprite_vao.bind();
 
@@ -219,8 +196,9 @@ namespace birb
 				continue;
 
 			mimic_sprite& entity_sprite = view.get<birb::mimic_sprite>(ent);
+			const birb::transform& transform = view.get<birb::transform>(ent);
 
-			texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
+			texture_shader->set(shader_uniforms::model, transform.model_matrix());
 			texture_shader->set(shader_uniforms::texture::orthographic, entity_sprite.orthographic_projection);
 			set_sprite_aspect_ratio_uniforms(entity_sprite, *texture_shader);
 
