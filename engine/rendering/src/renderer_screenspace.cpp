@@ -55,9 +55,8 @@ namespace birb
 
 		for (const auto& ent : view)
 		{
-			// Skip inactive entities
-			const state* state = entity_registry.try_get<birb::state>(ent);
-			if (state && !state->active)
+			// Check if the entity should be skipped because its not active
+			if (!current_scene->is_entity_active(ent))
 				continue;
 
 			const birb::text& text = view.get<birb::text>(ent);

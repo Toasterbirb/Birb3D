@@ -36,8 +36,7 @@ namespace birb
 		for (const auto& ent : view)
 		{
 			// Check if the entity should be skipped because its not active
-			const state* state = entity_registry.try_get<birb::state>(ent);
-			if (state && !state->active)
+			if (!current_scene->is_entity_active(ent))
 				continue;
 
 			// Get the shader we'll be using for drawing the meshes of the model

@@ -71,8 +71,7 @@ namespace birb
 		for (const auto& ent : view)
 		{
 			// Don't render entities that are inactive
-			const birb::state* state = entity_registry.try_get<birb::state>(ent);
-			if (state && !state->active)
+			if (!current_scene->is_entity_active(ent))
 				continue;
 
 			sprite& entity_sprite = view.get<birb::sprite>(ent);
@@ -132,8 +131,7 @@ namespace birb
 		for (const auto& ent : view)
 		{
 			// Don't render entities that are inactive
-			const birb::state* state = entity_registry.try_get<birb::state>(ent);
-			if (state && !state->active)
+			if (!current_scene->is_entity_active(ent))
 				continue;
 
 			const sprite& sprite = view.get<birb::sprite>(ent);
@@ -189,8 +187,7 @@ namespace birb
 		for (const auto& ent : view)
 		{
 			// Don't render entities that are inactive
-			const birb::state* state = entity_registry.try_get<birb::state>(ent);
-			if (state && !state->active)
+			if (!current_scene->is_entity_active(ent))
 				continue;
 
 			mimic_sprite& entity_sprite = view.get<birb::mimic_sprite>(ent);
