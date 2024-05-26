@@ -8,6 +8,7 @@ out vec2 texCoord;
 #include "include/matrices.glsl"
 
 uniform int instanced;
+uniform int orthographic;
 
 uniform vec2 aspect_ratio;
 // aspect_ratio.x = aspect_ratio
@@ -15,10 +16,16 @@ uniform vec2 aspect_ratio;
 
 void main()
 {
-	if (instanced == 1)
-		gl_Position = projection_ortho * view * instanceMatrix * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
+	mat4 projection_matrix;
+	if (orthographic == 1)
+		projection_matrix = projection_ortho;
 	else
-		gl_Position = projection_ortho * view * model * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
+		projection_matrix = projection;
+
+	if (instanced == 1)
+		gl_Position = projection_matrix * view * instanceMatrix * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
+	else
+		gl_Position = projection_matrix * view * model * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
 
 	texCoord = aTex;
 }

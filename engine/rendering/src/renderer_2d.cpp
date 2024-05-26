@@ -77,6 +77,7 @@ namespace birb
 			sprite& entity_sprite = view.get<birb::sprite>(ent);
 
 			texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
+			texture_shader->set(shader_uniforms::texture::orthographic, entity_sprite.orthographic_projection);
 			set_sprite_aspect_ratio_uniforms(entity_sprite, *texture_shader);
 
 			if (entity_sprite.texture->id != previous_texture_id)
@@ -141,6 +142,8 @@ namespace birb
 			const sprite& sprite = view.get<birb::sprite>(ent);
 			const transformer& transformer = view.get<birb::transformer>(ent);
 			ensure(transformer.is_locked(), "Using an unlocked transformer is very inefficient");
+
+			texture_shader->set(shader_uniforms::texture::orthographic, sprite.orthographic_projection);
 
 			set_sprite_aspect_ratio_uniforms(sprite, *texture_shader);
 			sprite.texture->bind();
@@ -218,6 +221,7 @@ namespace birb
 			mimic_sprite& entity_sprite = view.get<birb::mimic_sprite>(ent);
 
 			texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
+			texture_shader->set(shader_uniforms::texture::orthographic, entity_sprite.orthographic_projection);
 			set_sprite_aspect_ratio_uniforms(entity_sprite, *texture_shader);
 
 			if (entity_sprite.texture->id != previous_texture_id)

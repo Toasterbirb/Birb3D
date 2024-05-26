@@ -19,6 +19,7 @@ namespace birb
 
 		std::shared_ptr<birb::texture> texture;
 		bool ignore_aspect_ratio = false;
+		bool orthographic_projection = true;
 
 		birb::aspect_ratio_lock aspect_ratio_lock = aspect_ratio_lock::height;
 	};
