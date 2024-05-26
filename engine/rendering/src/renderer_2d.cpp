@@ -186,8 +186,6 @@ namespace birb
 		texture_shader->activate();
 		sprite_vao.bind();
 
-		u32 previous_texture_id = 0;
-
 		for (const auto& ent : view)
 		{
 			// Don't render entities that are inactive
@@ -202,11 +200,7 @@ namespace birb
 			texture_shader->set(shader_uniforms::texture::orthographic, entity_sprite.orthographic_projection);
 			set_sprite_aspect_ratio_uniforms(entity_sprite, *texture_shader);
 
-			if (entity_sprite.texture->id != previous_texture_id)
-			{
-				entity_sprite.texture->bind();
-				previous_texture_id = entity_sprite.texture->id;
-			}
+			entity_sprite.texture->bind();
 
 			draw_elements(quad_indices.size());
 
