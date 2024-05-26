@@ -1,3 +1,4 @@
+#include "Line.hpp"
 #include "Profiling.hpp"
 #include "Renderer.hpp"
 #include "ShaderCollection.hpp"
@@ -11,7 +12,37 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
+		draw_lines();
 		draw_text(orthographic_projection);
+	}
+
+	void renderer::draw_lines()
+	{
+		PROFILER_SCOPE_RENDER_FN();
+
+		const entt::registry& entity_registry = current_scene->registry;
+
+		// Get the shader for rendering lines
+		std::shared_ptr<birb::shader> shader = shader_collection::get_shader(line_shader);
+
+		const auto view = entity_registry.view<birb::line>();
+
+		for (const auto& ent : view)
+		{
+			// Skip inactive entities
+			const state* state = entity_registry.try_get<birb::state>(ent);
+			if (state && !state->active)
+				continue;
+
+			const birb::line& line = view.get<birb::line>(ent);
+			line.vao->bind();
+
+			shader->set(shader_uniforms::color, line.color);
+
+			// Draw the line
+			draw_arrays(2, gl_primitive::lines);
+			line.vao->unbind();
+		}
 	}
 
 	void renderer::draw_text(const glm::mat4& orthographic_projection)

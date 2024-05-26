@@ -64,6 +64,7 @@ namespace birb
 {
 	renderer::renderer()
 	:view_matrix_ubo(shader_uniforms::block::view_matrices),
+	 line_shader("line", "line"),
 	 debug_shader_ref("color", "color"),
 	 texture_shader_ref("texture", "texture"),
 	 post_processing_shader_ref("post_process", "post_process")

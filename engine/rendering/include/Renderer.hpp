@@ -160,6 +160,7 @@ namespace birb
 		void draw_box_collider_view(const glm::mat4& view_matrix, const glm::mat4& perspective_projection);
 
 		// screenspace drawing funcs
+		void draw_lines();
 		void draw_text(const glm::mat4& orthographic_projection_matrix);
 
 		/////////////////////////////////////////////////////////////////////////
@@ -170,6 +171,7 @@ namespace birb
 		static inline bool backface_culling_enabled = false;
 		bool debug_view_enabled = false;
 		bool shadows_enabled = true;
+		shader_ref line_shader;
 
 		// Uniform buffer objects //
 		birb::ubo view_matrix_ubo;

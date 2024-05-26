@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Transform.hpp"
+#include "VAO.hpp"
+#include "VBO.hpp"
 
 #include <array>
 #include <memory>
@@ -17,12 +18,14 @@ namespace birb
 		line(const line&) = default;
 		line(line&) = default;
 
+		birb::color color;
+		std::shared_ptr<birb::vao> vao;
+
 	private:
 		void update_verts();
 
 		std::array<f32, 6> vertices;
 		vec3<f32> point_a, point_b;
-		birb::transform transform;
 
 		std::shared_ptr<birb::vbo> vbo;
 	};
