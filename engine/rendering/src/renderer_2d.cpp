@@ -18,17 +18,26 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
+		// Use the same VAO for all sprites
+		sprite_vao.bind();
+
 		// Sprites should only have a singular texture, so we'll use the default
 		// tex0 texture unit
 		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
+		texture_shader->activate();
 		texture_shader->set(shader_uniforms::texture_units::tex0, 0);
 
-		draw_sprites();
-		draw_sprites_instanced();
-		draw_mimic_sprites();
+		texture_shader->set(shader_uniforms::texture::instanced, 0);
+		draw_sprites(texture_shader);
+		draw_mimic_sprites(texture_shader);
+
+		texture_shader->set(shader_uniforms::texture::instanced, 1);
+		draw_sprites_instanced(texture_shader);
+
+		sprite_vao.unbind();
 	}
 
-	void renderer::draw_sprites()
+	void renderer::draw_sprites(std::shared_ptr<shader> texture_shader)
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
@@ -41,50 +50,57 @@ namespace birb
 		if (sprite_count == 0)
 			return;
 
+		// Calculate model matrices in parallel and pair the model matrices
+		// with the entities
 
-		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
+		struct sprite_data
+		{
+			bool is_active;
+			birb::sprite* sprite;
+			glm::mat4 model_matrix;
+		};
 
-		texture_shader->set(shader_uniforms::texture::instanced, 0);
-		sprite_vao.bind();
-
-
-		// Calculate model matrices in parallel
-		std::vector<glm::mat4> model_matrices(sprite_count);
+		std::vector<sprite_data> sprite_model_array(sprite_count);
 
 		{
 			PROFILER_SCOPE_RENDER("Calculate transform model matrices");
 
-			std::transform(std::execution::par, view.begin(), view.end(), model_matrices.begin(),
-				[view](const auto& entity)
+			std::transform(std::execution::par, view.begin(), view.end(), sprite_model_array.begin(),
+				[view, &entity_registry](auto& entity)
 				{
-					return view.get<birb::transform>(entity).model_matrix();
+					sprite_data data;
+					data.is_active = true;
+
+					birb::state* state = entity_registry.try_get<birb::state>(entity);
+					if (state)
+						data.is_active = state->active;
+
+					// Avoid unnecessary work if the entity is disabled
+					// This expects that the rendering loop won't touch any of the missing variables
+					// if the entity is disabled
+					if (!data.is_active)
+						return data;
+
+					data.sprite = &view.get<birb::sprite>(entity);
+					data.model_matrix = view.get<birb::transform>(entity).model_matrix();
+
+					return data;
 				}
 			);
 		}
 
-		size_t sprite_index = 0;
-		texture_shader->activate();
-		sprite_vao.bind();
 
-		u32 previous_texture_id = 0;
-
-		for (const auto& ent : view)
+		for (const sprite_data& data : sprite_model_array)
 		{
 			// Don't render entities that are inactive
-			if (!current_scene->is_entity_active(ent))
+			if (!data.is_active)
 				continue;
 
-			sprite& entity_sprite = view.get<birb::sprite>(ent);
+			texture_shader->set(shader_uniforms::model, data.model_matrix);
+			texture_shader->set(shader_uniforms::texture::orthographic, data.sprite->orthographic_projection);
+			set_sprite_aspect_ratio_uniforms(*data.sprite, *texture_shader);
 
-			texture_shader->set(shader_uniforms::model, model_matrices[sprite_index++]);
-			texture_shader->set(shader_uniforms::texture::orthographic, entity_sprite.orthographic_projection);
-			set_sprite_aspect_ratio_uniforms(entity_sprite, *texture_shader);
-
-			if (entity_sprite.texture->id != previous_texture_id)
-			{
-				entity_sprite.texture->bind();
-				previous_texture_id = entity_sprite.texture->id;
-			}
+			data.sprite->texture->bind();
 
 			draw_elements(quad_indices.size());
 
@@ -96,7 +112,7 @@ namespace birb
 
 	}
 
-	void renderer::draw_sprites_instanced()
+	void renderer::draw_sprites_instanced(std::shared_ptr<shader> texture_shader)
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
@@ -109,14 +125,6 @@ namespace birb
 		if (sprite_count == 0)
 			return;
 
-		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
-
-		texture_shader->set(shader_uniforms::texture::instanced, 1);
-		sprite_vao.bind();
-
-		texture_shader->activate();
-		sprite_vao.bind();
-
 		constexpr u8 first_layout_index = 5;
 		constexpr u8 vec4_component_count = 4;
 		constexpr size_t vec4_size = sizeof(glm::vec4);
@@ -128,14 +136,14 @@ namespace birb
 			glVertexAttribDivisor(first_layout_index + i, 1);
 		}
 
-		for (const auto& ent : view)
+		for (const auto& entity : view)
 		{
 			// Don't render entities that are inactive
-			if (!current_scene->is_entity_active(ent))
+			if (!current_scene->is_entity_active(entity))
 				continue;
 
-			const sprite& sprite = view.get<birb::sprite>(ent);
-			const transformer& transformer = view.get<birb::transformer>(ent);
+			const sprite& sprite = view.get<birb::sprite>(entity);
+			const transformer& transformer = view.get<birb::transformer>(entity);
 			ensure(transformer.is_locked(), "Using an unlocked transformer is very inefficient");
 
 			texture_shader->set(shader_uniforms::texture::orthographic, sprite.orthographic_projection);
@@ -158,40 +166,24 @@ namespace birb
 			glDisableVertexAttribArray(first_layout_index + i);
 
 		vbo::unbind();
-
-		sprite_vao.unbind();
 	}
 
-	void renderer::draw_mimic_sprites()
+	void renderer::draw_mimic_sprites(std::shared_ptr<shader> texture_shader)
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
 		entt::registry& entity_registry = current_scene->registry;
 
 		const auto view = entity_registry.view<mimic_sprite, transform>();
-		const u32 sprite_count = std::distance(view.begin(), view.end());
 
-		// We don't need to do anything if there are no sprites to render
-		if (sprite_count == 0)
-			return;
-
-
-		const std::shared_ptr<shader> texture_shader = shader_collection::get_shader(texture_shader_ref);
-
-		texture_shader->set(shader_uniforms::texture::instanced, 0);
-		sprite_vao.bind();
-
-		texture_shader->activate();
-		sprite_vao.bind();
-
-		for (const auto& ent : view)
+		for (const auto& entity : view)
 		{
 			// Don't render entities that are inactive
-			if (!current_scene->is_entity_active(ent))
+			if (!current_scene->is_entity_active(entity))
 				continue;
 
-			mimic_sprite& entity_sprite = view.get<birb::mimic_sprite>(ent);
-			const birb::transform& transform = view.get<birb::transform>(ent);
+			const mimic_sprite& entity_sprite = view.get<birb::mimic_sprite>(entity);
+			const birb::transform& transform = view.get<birb::transform>(entity);
 
 			texture_shader->set(shader_uniforms::model, transform.model_matrix());
 			texture_shader->set(shader_uniforms::texture::orthographic, entity_sprite.orthographic_projection);
@@ -206,6 +198,5 @@ namespace birb
 			render_stats.vertices_2d += 4;
 			++render_stats.entities_2d;
 		}
-
 	}
 }

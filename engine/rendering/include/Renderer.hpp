@@ -151,9 +151,9 @@ namespace birb
 				else
 					texture_shader.set(shader_uniforms::texture::aspect_ratio, { 1.0f, sprite.texture->aspect_ratio_reverse() });
 		}
-		void draw_sprites();
-		void draw_sprites_instanced();
-		void draw_mimic_sprites();
+		void draw_sprites(std::shared_ptr<shader> texture_shader);
+		void draw_sprites_instanced(std::shared_ptr<shader> texture_shader);
+		void draw_mimic_sprites(std::shared_ptr<shader> texture_shader);
 
 		// 3D drawing funcs
 		void draw_models();
