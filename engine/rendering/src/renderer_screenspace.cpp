@@ -53,13 +53,13 @@ namespace birb
 
 		const auto view = entity_registry.view<birb::text>();
 
-		for (const auto& ent : view)
+		for (const auto& entity : view)
 		{
 			// Check if the entity should be skipped because its not active
-			if (!current_scene->is_entity_active(ent))
+			if (!current_scene->is_entity_active(entity))
 				continue;
 
-			const birb::text& text = view.get<birb::text>(ent);
+			const birb::text& text = view.get<birb::text>(entity);
 
 			// Skip the entity if the text component doens't have any text to render
 			if (text.empty())
