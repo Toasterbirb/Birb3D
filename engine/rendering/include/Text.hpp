@@ -6,8 +6,7 @@
 #include "Types.hpp"
 #include "Vector.hpp"
 
-#include <map>
-#include <memory>
+#include <unordered_map>
 #include <set>
 
 namespace birb
@@ -43,11 +42,11 @@ namespace birb
 	private:
 		std::string txt;
 		std::set<char> _chars;
-		std::map<char, std::vector<glm::vec2>> _char_positions;
-		std::map<char, vec2<f32>> _char_dimensions;
-		std::map<char, u32> _char_texture_ids;
+		std::unordered_map<char, std::vector<glm::vec2>> _char_positions;
+		std::unordered_map<char, vec2<f32>> _char_dimensions;
+		std::unordered_map<char, u32> _char_texture_ids;
 
-		std::map<char, u32> instance_vbos;
+		std::unordered_map<char, u32> instance_vbos;
 
 		void allocate_instance_vbos();
 		void free_instance_vbos();
