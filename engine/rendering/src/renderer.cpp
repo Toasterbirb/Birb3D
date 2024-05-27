@@ -235,7 +235,7 @@ namespace birb
 		render_stats.draw_3d_duration = render_stopwatch.stop(true);
 
 		render_stopwatch.reset();
-		draw_screenspace_entities(camera.orthographic_no_near_clip_projection_matrix());
+		draw_screenspace_entities();
 		render_stats.draw_screenspace_duration = render_stopwatch.stop(true);
 
 

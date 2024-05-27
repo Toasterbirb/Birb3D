@@ -8,12 +8,12 @@
 
 namespace birb
 {
-	void renderer::draw_screenspace_entities(const glm::mat4& orthographic_projection)
+	void renderer::draw_screenspace_entities()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
 		draw_lines();
-		draw_text(orthographic_projection);
+		draw_text();
 	}
 
 	void renderer::draw_lines()
@@ -45,7 +45,7 @@ namespace birb
 		}
 	}
 
-	void renderer::draw_text(const glm::mat4& orthographic_projection)
+	void renderer::draw_text()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 

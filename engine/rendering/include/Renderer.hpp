@@ -135,7 +135,7 @@ namespace birb
 
 		void draw_3d_entities(const glm::mat4& view_matrix, const glm::mat4& perspective_projection);
 		void draw_2d_entities();
-		void draw_screenspace_entities(const glm::mat4& orthographic_projection);
+		void draw_screenspace_entities();
 
 		// 2D drawing funcs
 		template<typename T>
@@ -161,7 +161,7 @@ namespace birb
 
 		// screenspace drawing funcs
 		void draw_lines();
-		void draw_text(const glm::mat4& orthographic_projection_matrix);
+		void draw_text();
 
 		/////////////////////////////////////////////////////////////////////////
 
