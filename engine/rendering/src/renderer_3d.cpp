@@ -9,6 +9,10 @@
 #include "State.hpp"
 #include "Transform.hpp"
 
+#include <algorithm>
+#include <execution>
+#include <vector>
+
 namespace birb
 {
 	void renderer::draw_3d_entities(const glm::mat4& view_matrix, const glm::mat4& perspective_projection)
@@ -33,19 +37,60 @@ namespace birb
 		std::unordered_set<u32> uniforms_updated;
 
 		const auto view = entity_registry.view<birb::model, birb::shader_ref, birb::transform>();
-		for (const auto& ent : view)
+
+		// Process some data for each entity in parallel with std::transform
+
+		struct model_data
+		{
+			bool is_active = true;
+			birb::model* model = nullptr;
+			glm::mat4 model_matrix;
+			shader_ref* shader = nullptr;
+			birb::material* material = nullptr;
+		};
+
+		std::vector<model_data> model_data_array(std::distance(view.begin(), view.end()));
+
+		{
+			PROFILER_SCOPE_RENDER("Process transform model matrices for 3D models");
+
+			std::transform(std::execution::par, view.begin(), view.end(), model_data_array.begin(),
+				[view, &entity_registry](auto& entity)
+				{
+					model_data data;
+					data.is_active = true;
+
+					birb::state* state = entity_registry.try_get<birb::state>(entity);
+					if (state)
+						data.is_active = state->active;
+
+					// Don't do any unnecessary work if the entity is not active
+					// This makes the assumption that the rendering loop doesn't touch
+					// the rest of the variables if the entity is not active
+					if (!data.is_active)
+						return data;
+
+					data.model = &view.get<birb::model>(entity);
+					data.model_matrix = view.get<birb::transform>(entity).model_matrix();
+					data.shader = &view.get<birb::shader_ref>(entity);
+					data.material = entity_registry.try_get<birb::material>(entity);
+
+					return data;
+				}
+			);
+		}
+
+
+		for (const model_data& data : model_data_array)
 		{
 			// Check if the entity should be skipped because its not active
-			if (!current_scene->is_entity_active(ent))
+			if (!data.is_active)
 				continue;
 
 			// Get the shader we'll be using for drawing the meshes of the model
-			shader_ref& shader_reference = view.get<birb::shader_ref>(ent);
-			std::shared_ptr<shader> shader = shader_collection::get_shader(shader_reference);
+			std::shared_ptr<shader> shader = shader_collection::get_shader(*data.shader);
 
 			ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
-
-			const birb::transform& transform = view.get<birb::transform>(ent);
 
 			// Make sure the lighting is up-to-date
 			if (!uniforms_updated.contains(shader->id))
@@ -55,23 +100,22 @@ namespace birb
 				uniforms_updated.insert(shader->id);
 			}
 
-			shader->set(shader_uniforms::model, transform.model_matrix());
+			shader->set(shader_uniforms::model, data.model_matrix);
 
 			// Apply the material component on the shader if it has any
 			// TODO: Make this work with textures too
 			bool skip_mesh_materials = false;
-			const birb::material* material = entity_registry.try_get<birb::material>(ent);
-			if (material != nullptr)
+			if (data.material != nullptr)
 			{
-				shader->apply_color_material(*material);
+				shader->apply_color_material(*data.material);
 				skip_mesh_materials = true;
 			}
 
 			// Draw the model
-			ensure(view.get<birb::model>(ent).vertex_count() != 0, "Tried to render a model with no vertices");
-			view.get<birb::model>(ent).draw(*shader, render_stats, skip_mesh_materials);
+			ensure(data.model->vertex_count() != 0, "Tried to render a model with no vertices");
+			data.model->draw(*shader, render_stats, skip_mesh_materials);
 			++render_stats.entities_3d;
-			render_stats.vertices_3d += view.get<birb::model>(ent).vertex_count();
+			render_stats.vertices_3d += data.model->vertex_count();
 		}
 	}
 
