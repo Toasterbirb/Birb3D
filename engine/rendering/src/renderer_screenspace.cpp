@@ -91,7 +91,7 @@ namespace birb
 				// Update the VBO
 				constexpr u8 vert_count = 6;
 
-				const vec2<f32>& dim = text.char_dimensions(c).to_float();
+				const vec2<f32>& dim = text.font.char_dimensions(c).to_float();
 
 				const f32 verts[vert_count][4] = {
 					{ 0,		dim.y,	0.0f, 0.0f },

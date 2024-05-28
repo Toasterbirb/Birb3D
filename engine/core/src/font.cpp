@@ -18,4 +18,9 @@ namespace birb
 	{
 		return character_map->at(c);
 	}
+
+	vec2<u32> font::char_dimensions(const char c) const
+	{
+		return character_map->at(c).size;
+	}
 }

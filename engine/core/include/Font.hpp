@@ -18,6 +18,7 @@ namespace birb
 		font(font&) = default;
 
 		character& get_char(const char c) const;
+		vec2<u32> char_dimensions(const char c) const;
 		const u8 size;
 		const u64 uuid;
 

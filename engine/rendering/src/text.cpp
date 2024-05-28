@@ -42,7 +42,6 @@ namespace birb
 	 txt(other.txt),
 	 _chars(other._chars),
 	 _char_positions(other._char_positions),
-	 _char_dimensions(other._char_dimensions),
 	 _char_texture_ids(other._char_texture_ids)
 	{
 		allocate_instance_vbos();
@@ -83,12 +82,6 @@ namespace birb
 				y - (ch.size.y - ch.bearing.y)
 			);
 
-			// Avoid storing duplicated dimension data
-			if (!_char_dimensions.contains(c))
-			{
-				_char_dimensions[c] = { ch.size.x, ch.size.y };
-			}
-
 			_chars.insert(c);
 			_char_positions[c].push_back(pos);
 			_char_texture_ids[c] = ch.texture_id;
@@ -108,7 +101,6 @@ namespace birb
 		// Create instance vbos
 		allocate_instance_vbos();
 
-		ensure(_chars.size() == _char_dimensions.size());
 		ensure(_chars.size() == _char_texture_ids.size());
 		ensure(_chars.size() == instance_vbos.size());
 	}
@@ -125,7 +117,6 @@ namespace birb
 		txt.clear();
 		_chars.clear();
 		_char_positions.clear();
-		_char_dimensions.clear();
 		_char_texture_ids.clear();
 	}
 
@@ -143,12 +134,6 @@ namespace birb
 	{
 		ensure(_char_positions.contains(c));
 		return _char_positions.at(c);
-	}
-
-	vec2<u32> text::char_dimensions(const char c) const
-	{
-		ensure(_char_dimensions.contains(c));
-		return _char_dimensions.at(c);
 	}
 
 	u32 text::char_texture_id(const char c) const
@@ -173,7 +158,6 @@ namespace birb
 		u32 index = 0;
 		for (const char c : _chars)
 		{
-			const vec2<u32>& dim = char_dimensions(c);
 			const u32 vbo = instance_vbo_arr.at(index++);
 
 			instance_vbos[c] = vbo;
