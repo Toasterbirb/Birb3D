@@ -75,6 +75,10 @@ namespace birb
 	void shader::activate()
 	{
 		glUseProgram(this->id);
+
+#ifndef NDEBUG
+		d_currently_active_shader = id;
+#endif
 	}
 
 	void shader::reset_lights()

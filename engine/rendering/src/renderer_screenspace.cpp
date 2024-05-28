@@ -73,6 +73,7 @@ namespace birb
 			const std::shared_ptr<shader> shader = shader_collection::get_shader(text.shader);
 			ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
 
+			shader->activate();
 			shader->set(shader_uniforms::text_color, text.color);
 			shader->set(shader_uniforms::text_position, text.position);
 

@@ -89,6 +89,7 @@ namespace birb
 
 			// Get the shader we'll be using for drawing the meshes of the model
 			std::shared_ptr<shader> shader = shader_collection::get_shader(*data.shader);
+			shader->activate();
 
 			ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
 
