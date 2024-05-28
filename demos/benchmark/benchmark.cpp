@@ -117,8 +117,8 @@ int main(void)
 
 
 	birb::stopwatch stopwatch_init_text("Text entity creation");
-	birb::text text_small_t(gnu_linux, manaspace_small, birb::vec3<f32>(512.0f, window.size().y, 0.0f), 1.0f, 0xb48ead);
-	birb::text text_big_t(gnu_linux, manaspace_big, birb::vec3<f32>(32.0f, window.size().y, 0.0f), 0.99f, 0xa3be8c);
+	birb::text text_small_t(gnu_linux, manaspace_small, birb::vec3<f32>(512.0f, window.size().y, 0.0f), 0xb48ead);
+	birb::text text_big_t(gnu_linux, manaspace_big, birb::vec3<f32>(32.0f, window.size().y, 0.0f), 0xa3be8c);
 
 	std::vector<birb::entity> moving_text_entities;
 	std::vector<birb::entity> changing_text_entities;

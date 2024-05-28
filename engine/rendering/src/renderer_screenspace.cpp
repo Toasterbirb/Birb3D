@@ -65,10 +65,6 @@ namespace birb
 			if (text.empty())
 				continue;
 
-			// Skip the entity if its size makes it invisible
-			if (text.scale == 0.0f)
-				continue;
-
 			// Fetch the shader
 			const std::shared_ptr<shader> shader = shader_collection::get_shader(text.shader);
 			ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
@@ -95,7 +91,7 @@ namespace birb
 				// Update the VBO
 				constexpr u8 vert_count = 6;
 
-				const vec2<f32>& dim = text.char_dimensions(c);
+				const vec2<f32>& dim = text.char_dimensions(c).to_float();
 
 				const f32 verts[vert_count][4] = {
 					{ 0,		dim.y,	0.0f, 0.0f },

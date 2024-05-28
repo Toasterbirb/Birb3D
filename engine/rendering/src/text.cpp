@@ -12,25 +12,19 @@ namespace birb
 	const std::string default_frag_shader = "text";
 
 	text::text(const std::string& text, const birb::font& font, const vec3<f32> position)
-	:font(font), position(position), scale(1.0f), color(0xFFFFFF), shader(default_vert_shader, default_frag_shader)
+	:font(font), position(position), color(0xFFFFFF), shader(default_vert_shader, default_frag_shader)
 	{
 		set_text(text);
 	}
 
-	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale)
-	:font(font), position(position), scale(scale), color(0xFFFFFF), shader(default_vert_shader, default_frag_shader)
+	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color)
+	:font(font), position(position), color(color), shader(default_vert_shader, default_frag_shader)
 	{
 		set_text(text);
 	}
 
-	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color)
-	:font(font), position(position), scale(scale), color(color), shader(default_vert_shader, default_frag_shader)
-	{
-		set_text(text);
-	}
-
-	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color, const shader_ref& shader)
-	:font(font), position(position), scale(scale), color(color), shader(shader)
+	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color, const shader_ref& shader)
+	:font(font), position(position), color(color), shader(shader)
 	{
 		set_text(text);
 	}
@@ -43,7 +37,6 @@ namespace birb
 	text::text(const text& other)
 	:font(other.font),
 	 position(other.position),
-	 scale(other.scale),
 	 color(other.color),
 	 shader(other.shader),
 	 txt(other.txt),
@@ -76,7 +69,7 @@ namespace birb
 				x = 0;
 
 				// Go one line down
-				y -= font.size * scale;
+				y -= font.size;
 
 				// We shouldn't draw the newline char
 				continue;
@@ -86,17 +79,14 @@ namespace birb
 
 			// position
 			const glm::vec2 pos(
-				x + ch.bearing.x * scale,
-				y - (ch.size.y - ch.bearing.y) * scale
+				x + ch.bearing.x,
+				y - (ch.size.y - ch.bearing.y)
 			);
 
 			// Avoid storing duplicated dimension data
 			if (!_char_dimensions.contains(c))
 			{
-				_char_dimensions[c] = {
-					ch.size.x * scale,
-					ch.size.y * scale
-				};
+				_char_dimensions[c] = { ch.size.x, ch.size.y };
 			}
 
 			_chars.insert(c);
@@ -109,7 +99,7 @@ namespace birb
 			// If you want to learn more about this function in general, check
 			// this page where most of this code portion is
 			// adapter from: https://learnopengl.com/In-Practice/Text-Rendering
-			x += (ch.advance >> 6) * scale;
+			x += (ch.advance >> 6);
 		}
 
 		ensure(!_chars.empty(), "This code path shouldn't be reached with an empty string");
@@ -155,7 +145,7 @@ namespace birb
 		return _char_positions.at(c);
 	}
 
-	vec2<f32> text::char_dimensions(const char c) const
+	vec2<u32> text::char_dimensions(const char c) const
 	{
 		ensure(_char_dimensions.contains(c));
 		return _char_dimensions.at(c);
@@ -183,7 +173,7 @@ namespace birb
 		u32 index = 0;
 		for (const char c : _chars)
 		{
-			const vec2<f32>& dim = char_dimensions(c);
+			const vec2<u32>& dim = char_dimensions(c);
 			const u32 vbo = instance_vbo_arr.at(index++);
 
 			instance_vbos[c] = vbo;
