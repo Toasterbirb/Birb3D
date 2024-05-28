@@ -4,6 +4,7 @@
 #include "FontManager.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
+#include "UUID.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
@@ -92,6 +93,6 @@ namespace birb
 		// Free the font face
 		FT_Done_Face(font_face);
 
-		return font(character_map, size);
+		return font(character_map, size, uuid::generate());
 	}
 }
