@@ -76,7 +76,7 @@ namespace birb
 				x = 0;
 
 				// Go one line down
-				y -= font.size() * scale;
+				y -= font.size * scale;
 
 				// We shouldn't draw the newline char
 				continue;
