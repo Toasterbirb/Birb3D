@@ -103,7 +103,7 @@ namespace birb
 	texture::~texture()
 	{
 		ensure(id != 0, "Attempted to destruct a texture that wasn't initialized");
-		ensure(birb::opengl_initialized);
+		ensure(birb::g_opengl_initialized);
 
 		birb::log("Texture destroyed (" + ptr_to_str(this) + ")");
 

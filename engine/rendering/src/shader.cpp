@@ -66,7 +66,7 @@ namespace birb
 	shader::~shader()
 	{
 		ensure(id != 0, "Tried to destroy a shader that wasn't loaded");
-		ensure(birb::opengl_initialized);
+		ensure(birb::g_opengl_initialized);
 
 		birb::log("Shader destroyed [" + vertex_shader_name + ", " + fragment_shader_name + "] (" + birb::ptr_to_str(this) + ")");
 		glDeleteProgram(this->id);
@@ -225,7 +225,7 @@ namespace birb
 
 		birb::log("Clearing shader cache");
 
-		ensure(birb::opengl_initialized);
+		ensure(birb::g_opengl_initialized);
 
 		// Free all of the shaders
 		for (const std::pair<std::string, u32> shader : shader_cache)

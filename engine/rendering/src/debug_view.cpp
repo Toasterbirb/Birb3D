@@ -15,7 +15,7 @@ namespace birb
 
 	void debug_view::draw()
 	{
-		ensure(imgui_initialized, "Debug view requires ImGui to be initialized");
+		ensure(g_imgui_initialized, "Debug view requires ImGui to be initialized");
 
 		if (entity_inspector.get())
 			entity_inspector->draw();

@@ -201,7 +201,7 @@ namespace birb
 
 		ensure(current_scene != nullptr);
 		ensure(scene::scene_count() > 0);
-		ensure(!buffers_flipped, "Tried to draw entities after the buffers were already flipped");
+		ensure(!g_buffers_flipped, "Tried to draw entities after the buffers were already flipped");
 
 		// Bind the post-processing frame buffer and update its dimensions if needed
 		if (post_processing_enabled)
@@ -403,7 +403,7 @@ namespace birb
 
 	void renderer::opt_blend(const bool enabled) const
 	{
-		ensure(opengl_initialized);
+		ensure(g_opengl_initialized);
 
 		if (enabled)
 		{
@@ -418,7 +418,7 @@ namespace birb
 
 	void renderer::opt_gamma_correction(const bool enabled) const
 	{
-		ensure(opengl_initialized);
+		ensure(g_opengl_initialized);
 
 		if (enabled)
 			glEnable(GL_FRAMEBUFFER_SRGB);

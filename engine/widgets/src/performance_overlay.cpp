@@ -52,7 +52,7 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER_FN();
 
-			ensure(imgui_initialized);
+			ensure(g_imgui_initialized);
 			ensure(!ts.frametime_history.empty());
 
 			f32 frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());

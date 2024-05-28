@@ -28,7 +28,7 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER_FN();
 
-			ensure(imgui_initialized);
+			ensure(g_imgui_initialized);
 
 			bool p_open = false;
 

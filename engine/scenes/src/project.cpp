@@ -165,7 +165,7 @@ namespace birb
 
 	void project::load_project()
 	{
-		ensure(birb::opengl_initialized, "OpenGL needs to have been initialized before projects can be loaded");
+		ensure(birb::g_opengl_initialized, "OpenGL needs to have been initialized before projects can be loaded");
 		ensure(project_loaded == false);
 		project_loaded = true;
 
