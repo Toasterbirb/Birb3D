@@ -1,9 +1,13 @@
 #pragma once
 
 #include "Color.hpp"
+#include "EventBus.hpp"
+#include "FBO.hpp"
 #include "Font.hpp"
 #include "ShaderRef.hpp"
 #include "Types.hpp"
+#include "VAO.hpp"
+#include "VBO.hpp"
 #include "Vector.hpp"
 
 #include <unordered_map>
@@ -11,7 +15,7 @@
 
 namespace birb
 {
-	class text
+	class text : public event_obj
 	{
 	public:
 		text(const std::string& text, const birb::font& font, const vec3<f32> position);
@@ -21,6 +25,8 @@ namespace birb
 		~text();
 		text(const text& other);
 		text(text&) = delete;
+
+		void process_event(u16 event_id, const event_data& data) override;
 
 		birb::font font;
 		vec3<f32> position;
@@ -39,6 +45,14 @@ namespace birb
 		u32 char_texture_id(const char c) const;
 		u32 instance_vbo(const char c) const;
 
+		/**
+		 * @brief Returns the texture ID of the text texture atlas
+		 */
+		u32 atlas_id() const;
+
+		vec2<i32> atlas_dimensions() const;
+		birb::fbo fbo;
+
 	private:
 		std::string txt;
 		std::set<char> _chars;
@@ -48,7 +62,10 @@ namespace birb
 
 		std::unordered_map<char, u32> instance_vbos;
 
+		void setup_text(const std::string text);
+
 		void allocate_instance_vbos();
 		void free_instance_vbos();
+		void render_text_texture_atlas();
 	};
 }

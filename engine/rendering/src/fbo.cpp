@@ -122,6 +122,9 @@ namespace birb
 		render_buffer_object.reset();
 
 		setup_rbo(dimensions);
+
+		// Clear the frame buffer
+		clear();
 	}
 
 	void fbo::attach_texture(const texture& texture, const color_format format)

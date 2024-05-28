@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector.hpp"
+
 namespace birb
 {
 	/**
@@ -24,4 +26,9 @@ namespace birb
 	 * flip() and clear() are called
 	 */
 	inline bool buffers_flipped = false;
+
+	/**
+	 * @brief Width and height of the window
+	 */
+	inline vec2<i32> window_dimensions;
 }

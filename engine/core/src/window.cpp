@@ -44,6 +44,9 @@ namespace birb
 		ensure(dimensions.x > 0, "Invalid window width");
 		ensure(dimensions.y > 0, "Invalid window height");
 
+		window_dimensions.x = dimensions.x;
+		window_dimensions.y = dimensions.y;
+
 		window_count++;
 
 		birb::log("Spawning a new window: " + title + " " + dimensions.to_string());
@@ -481,6 +484,9 @@ namespace birb
 	void window::window_size_callback(GLFWwindow* window, i32 width, i32 height)
 	{
 		window::window_size_changed = true;
+
+		window_dimensions.x = width;
+		window_dimensions.y = height;
 
 		event_data data;
 		data._i32[0] = width;

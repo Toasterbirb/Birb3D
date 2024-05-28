@@ -32,6 +32,13 @@ namespace birb
 		void set_data(const std::vector<f32>& data, const bool static_draw = true) const;
 		void set_data(const f32* data, const size_t size, const bool static_draw) const;
 
+		template<size_t N>
+		constexpr void update_data(const std::array<f32, N>& data, const bool static_draw = true)
+		{
+			static_assert(N > 0, "Empty data array");
+			update_data(data.data(), sizeof(f32) * data.size(), static_draw);
+		}
+
 		void update_data(const f32* data, const size_t size, const u32 offset = 0) const;
 
 		void enable_vertex_attrib_array(const u32 index) const;

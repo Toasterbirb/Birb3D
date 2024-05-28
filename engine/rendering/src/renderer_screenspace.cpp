@@ -53,6 +53,36 @@ namespace birb
 
 		const auto view = entity_registry.view<birb::text>();
 
+		shader_ref text_atlas_shader("text_atlas", "text_atlas");
+		std::shared_ptr<birb::shader> shader = shader_collection::get_shader(text_atlas_shader);
+		shader->set(shader_uniforms::text::atlas, 0);
+
+		glActiveTexture(GL_TEXTURE0);
+
+		glDisable(GL_DEPTH_TEST);
+		set_backface_culling(false);
+
+		const f32 fullscreen_verts[6 * 4] = {
+			-1.0f,	 1.0f,	0.0f, 0.0f,
+			-1.0f,	-1.0f,	0.0f, 1.0f,
+			 1.0f, 	-1.0f,	1.0f, 1.0f,
+
+			-1.0f,	 1.0f,	0.0f, 0.0f,
+			 1.0f,	-1.0f,	1.0f, 1.0f,
+			 1.0f,	 1.0f,	1.0f, 0.0f
+		};
+
+		u32 vao, vbo;
+		glGenVertexArrays(1, &vao);
+		glGenBuffers(1, &vbo);
+		glBindVertexArray(vao);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(fullscreen_verts), &fullscreen_verts, GL_STATIC_DRAW);
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), nullptr);
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+
 		for (const auto& entity : view)
 		{
 			// Check if the entity should be skipped because its not active
@@ -65,73 +95,28 @@ namespace birb
 			if (text.empty())
 				continue;
 
-			// Skip the entity if its size makes it invisible
-			if (text.scale == 0.0f)
-				continue;
+			shader->activate();
+			// shader->set(shader_uniforms::text::position, text.position);
 
-			// Fetch the shader
-			const std::shared_ptr<shader> shader = shader_collection::get_shader(text.shader);
-			ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
+			// const vec2<f32> dim = { 4, 4 };
+			glBindVertexArray(vao);
 
-			shader->set(shader_uniforms::text_color, text.color);
-			shader->set(shader_uniforms::text_position, text.position);
-
-			// The same VAO can be used for all characters
-			text_vao.bind();
-
-			// We'll be drawing to TEXTURE0
-			glActiveTexture(GL_TEXTURE0);
-
-			const std::set<char>& chars = text.chars();
-
-			// Set the text vertex attrib pointer
-			text_vbo.bind();
-			text_vbo.set_vertex_attrib_ptr(0, 0, sizeof(f32), 4);
-
-			// Iterate through the text
-			for (const char c : chars)
-			{
-				// Update the VBO
-				constexpr u8 vert_count = 6;
-
-				const vec2<f32>& dim = text.char_dimensions(c);
-
-				const f32 verts[vert_count][4] = {
-					{ 0,		dim.y,	0.0f, 0.0f },
-					{ 0,		0,		0.0f, 1.0f },
-					{ dim.x, 	0,		1.0f, 1.0f },
-
-					{ 0,		dim.y,	0.0f, 0.0f },
-					{ dim.x,	0, 		1.0f, 1.0f },
-					{ dim.x,	dim.y,	1.0f, 0.0f }
-				};
-
-				glBindTexture(GL_TEXTURE_2D, text.char_texture_id(c));
-
-				text_vbo.bind();
-				text_vbo.update_data(*verts, sizeof(verts));
-
-				glBindBuffer(GL_ARRAY_BUFFER, text.instance_vbo(c));
-				glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(f32), nullptr);
-				glEnableVertexAttribArray(1);
-				glVertexAttribDivisor(1, 1);
-
-				glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-
-				// draw_arrays(vert_count);
-				glDrawArraysInstanced(GL_TRIANGLES, 0, 6, text.char_positions(c).size());
-				++render_stats.draw_arrays_instanced;
-
-
-				render_stats.vertices_screenspace += vert_count * text.char_positions(c).size();
-			}
-
-			text_vao.unbind();
+			// Avoid const trouble and do the frame buffer binding manually
+			glBindTexture(GL_TEXTURE_2D, text.atlas_id());
+			draw_arrays(6, gl_primitive::triangles);
 			glBindTexture(GL_TEXTURE_2D, 0);
 
+			// glBindVertexArray(0);
+
 			++render_stats.entities_screenspace;
+			render_stats.vertices_screenspace += 4; // 4 vertices per quad
 		}
 
+		glEnable(GL_DEPTH_TEST);
+
+		glDeleteVertexArrays(1, &vao);
+		glDeleteBuffers(1, &vbo);
+
+		post_processing_vao.unbind();
 	}
 }

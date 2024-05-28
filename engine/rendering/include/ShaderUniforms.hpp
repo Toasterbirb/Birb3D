@@ -51,8 +51,13 @@ namespace birb
 		const static inline uniform view_pos("view_pos", uniform_type::VEC3);
 
 		const static inline uniform color("color", uniform_type::BIRB_COLOR);
-		const static inline uniform text_color("text_color", uniform_type::BIRB_COLOR);
-		const static inline uniform text_position("text_position", uniform_type::BIRB_VEC3_FLOAT);
+
+		namespace text
+		{
+			const static inline uniform color("text_color", uniform_type::BIRB_COLOR);
+			const static inline uniform position("text_position", uniform_type::BIRB_VEC3_FLOAT);
+			const static inline uniform atlas("text_atlas", uniform_type::INT);
+		}
 
 		namespace block
 		{
