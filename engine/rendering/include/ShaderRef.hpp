@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Assert.hpp"
+#include "Math.hpp"
 #include "Types.hpp"
 
 #include <string>
@@ -18,7 +19,7 @@ namespace birb
 			this->fragment = std::hash<std::string>{}(fragment);
 
 			// Some hash combination thing found from cppreference
-			hash = this->vertex ^ (this->fragment << 1);
+			hash = combine_hashes(this->vertex, this->fragment);
 		}
 
 
