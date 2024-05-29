@@ -1,5 +1,7 @@
 #include "Assert.hpp"
 
+#include <iostream>
+
 #ifndef NDEBUG
 #include <cpptrace/cpptrace.hpp>
 #endif

@@ -3,7 +3,7 @@
 #include "Profiling.hpp"
 #include "Text.hpp"
 
-#include <GL/gl.h>
+#include <glad/gl.h>
 #include <string>
 
 namespace birb

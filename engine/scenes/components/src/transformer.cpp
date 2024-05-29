@@ -5,6 +5,7 @@
 #include "Types.hpp"
 
 #include <cstdlib>
+#include <glad/gl.h>
 
 namespace birb
 {

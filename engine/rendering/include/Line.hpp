@@ -1,7 +1,9 @@
 #pragma once
 
+#include "Color.hpp"
 #include "VAO.hpp"
 #include "VBO.hpp"
+#include "Vector.hpp"
 
 #include <array>
 #include <memory>

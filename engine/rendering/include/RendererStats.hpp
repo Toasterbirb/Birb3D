@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Types.hpp"
+
 namespace birb
 {
 	struct renderer_stats

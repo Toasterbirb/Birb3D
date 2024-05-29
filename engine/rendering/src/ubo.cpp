@@ -1,3 +1,4 @@
+#include "Assert.hpp"
 #include "UBO.hpp"
 
 #include <glad/gl.h>

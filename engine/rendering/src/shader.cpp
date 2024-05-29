@@ -1,6 +1,7 @@
 #include "Assert.hpp"
 #include "Color.hpp"
 #include "Globals.hpp"
+#include "IO.hpp"
 #include "Logger.hpp"
 #include "Material.hpp"
 #include "Profiling.hpp"

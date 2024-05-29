@@ -1,4 +1,5 @@
 #include "ColorFormat.hpp"
+#include "Types.hpp"
 
 #include <glad/gl.h>
 

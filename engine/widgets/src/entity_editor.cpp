@@ -1,5 +1,6 @@
 #include "EntityEditor.hpp"
 #include "Info.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 #include "Scene.hpp"
 

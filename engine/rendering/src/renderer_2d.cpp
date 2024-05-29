@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <execution>
+#include <glad/gl.h>
 
 namespace birb
 {

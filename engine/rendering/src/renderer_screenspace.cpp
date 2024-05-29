@@ -6,6 +6,8 @@
 #include "State.hpp"
 #include "Text.hpp"
 
+#include <glad/gl.h>
+
 namespace birb
 {
 	void renderer::draw_screenspace_entities()

@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Types.hpp"
+#include "Vector.hpp"
+
 namespace birb
 {
 	struct character
