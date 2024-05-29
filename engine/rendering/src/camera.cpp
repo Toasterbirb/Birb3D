@@ -219,8 +219,8 @@ namespace birb
 
 		cached_projection_matrix_perspective = glm::perspective(glm::radians(fov), static_cast<f32>(window_size.x) / static_cast<f32>(window_size.y), near_clip, far_clip);
 
-		f32 width = static_cast<f32>(window_size.x) * orthographic_scale;
-		f32 height = static_cast<f32>(window_size.y) * orthographic_scale;
+		const f32 width = (static_cast<f32>(window_size.x) / static_cast<f32>(window_size.y)) * orthographic_scale;
+		const f32 height = orthographic_scale;
 
 		cached_projection_matrix_ortho = glm::ortho(0.0f, width, 0.0f, height, near_clip, far_clip);
 		cached_projection_matrix_ortho_no_clipping = glm::ortho(0.0f, width, 0.0f, height, 0.0f, far_clip);
