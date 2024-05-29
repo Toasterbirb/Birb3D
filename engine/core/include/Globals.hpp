@@ -25,7 +25,7 @@ namespace birb
 	 * This variable gets set in birb::window when its methods
 	 * flip() and clear() are called
 	 */
-	inline bool buffers_flipped = false;
+	inline bool g_buffers_flipped = false;
 
 	/**
 	 * @brief Width and height of the window

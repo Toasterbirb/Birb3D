@@ -55,6 +55,7 @@ namespace birb
 
 		shader_ref text_atlas_shader("text_atlas", "text_atlas");
 		std::shared_ptr<birb::shader> shader = shader_collection::get_shader(text_atlas_shader);
+		shader->activate();
 		shader->set(shader_uniforms::text::atlas, 0);
 
 		glActiveTexture(GL_TEXTURE0);

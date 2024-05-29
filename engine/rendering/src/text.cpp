@@ -17,25 +17,19 @@ namespace birb
 	const std::string default_frag_shader = "text";
 
 	text::text(const std::string& text, const birb::font& font, const vec3<f32> position)
-	:font(font), position(position), scale(1.0f), color(0xFFFFFF), shader(default_vert_shader, default_frag_shader), fbo({1, 1}, color_format::RGBA)
+	:font(font), position(position), color(0xFFFFFF), shader(default_vert_shader, default_frag_shader), fbo({1, 1}, color_format::RGBA)
 	{
 		setup_text(text);
 	}
 
-	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale)
-	:font(font), position(position), scale(scale), color(0xFFFFFF), shader(default_vert_shader, default_frag_shader), fbo({1, 1}, color_format::RGBA)
+	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color)
+	:font(font), position(position), color(color), shader(default_vert_shader, default_frag_shader), fbo({1, 1}, color_format::RGBA)
 	{
 		setup_text(text);
 	}
 
-	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color)
-	:font(font), position(position), scale(scale), color(color), shader(default_vert_shader, default_frag_shader), fbo({1, 1}, color_format::RGBA)
-	{
-		setup_text(text);
-	}
-
-	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const f32 scale, const birb::color color, const shader_ref& shader)
-	:font(font), position(position), scale(scale), color(color), shader(shader), fbo({1, 1}, color_format::RGBA)
+	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color, const shader_ref& shader)
+	:font(font), position(position), color(color), shader(shader), fbo({1, 1}, color_format::RGBA)
 	{
 		setup_text(text);
 	}
@@ -136,15 +130,12 @@ namespace birb
 			x += (ch.advance >> 6);
 		}
 
-		// Find the character with the largest height value
-		float char_max_height = 0;
-		for (const auto& dim : _char_dimensions)
-			if (dim.second.y > char_max_height)
-				char_max_height = dim.second.y;
+		// Assume the font height is the maximum "height" of a character
+		const float char_max_height = font.size;
 
 		// Calculate the final dimensions
 		ensure(max_x_c != 0 && max_x_c != '\n');
-		text_block_width += _char_dimensions.at(max_x_c).x;
+		text_block_width +=  font.char_dimensions(max_x_c).x;
 		text_block_height += std::abs(y + char_max_height); // The y value is negative
 
 		ensure(text_block_width > 1);
@@ -167,7 +158,6 @@ namespace birb
 		// Create the texture atlas
 		render_text_texture_atlas();
 
-		ensure(_chars.size() == _char_dimensions.size());
 		ensure(_chars.size() == _char_texture_ids.size());
 		ensure(_chars.size() == instance_vbos.size());
 	}
@@ -283,6 +273,7 @@ namespace birb
 		const std::shared_ptr<birb::shader> shader = shader_collection::get_shader(this->shader);
 		ensure(shader->id != 0, "Tried to use an invalid shader for rendering");
 
+		shader->activate();
 		shader->set(shader_uniforms::text::color, color);
 		shader->set(shader_uniforms::text::position, position);
 
@@ -292,7 +283,6 @@ namespace birb
 		glActiveTexture(GL_TEXTURE0);
 
 		fbo.bind();
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		fbo.clear();
 
 		// Iterate through the text
@@ -301,7 +291,7 @@ namespace birb
 			// Update the VBO
 			constexpr u8 vert_count = 6;
 
-			const vec2<f32>& dim = char_dimensions(c);
+			const vec2<f32>& dim = font.char_dimensions(c).to_float();
 
 			const f32 verts[vert_count][4] = {
 				{ 0,		dim.y,	0.0f, 0.0f },
