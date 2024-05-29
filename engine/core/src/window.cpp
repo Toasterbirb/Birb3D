@@ -89,13 +89,15 @@ namespace birb
 		// Setup glad
 		gladLoadGL((GLADloadfunc)glfwGetProcAddress);
 		glViewport(0, 0, dimensions.x, dimensions.y);
-		opengl_initialized = true;
+		g_opengl_initialized = true;
 
 		// Set static variables
 		window::window_size_changed = false;
 
 		// Set the default background color to something other than black
-		set_background_color(0x1F1F28);
+		color background_color = 0x1F1F28;
+		background_color.a = 0.0f;
+		set_background_color(background_color);
 
 		// Enable depth testing
 		glEnable(GL_DEPTH_TEST);
@@ -111,7 +113,7 @@ namespace birb
 		event_bus::unregister_event_id(event::set_window_background_clear_color, this);
 
 		// If ImGui was initialize, quit it gracefully
-		if (imgui_initialized)
+		if (g_imgui_initialized)
 		{
 			ImGui_ImplOpenGL3_Shutdown();
 			ImGui_ImplGlfw_Shutdown();
@@ -129,7 +131,7 @@ namespace birb
 		birb::log("Terminating GLFW");
 		glfwTerminate();
 
-		opengl_initialized = false;
+		g_opengl_initialized = false;
 	}
 
 	void window::process_event(u16 event_id, const event_data& data)
@@ -157,7 +159,7 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN();
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		buffers_flipped = false;
+		g_buffers_flipped = false;
 	}
 
 	void window::flip()
@@ -165,7 +167,7 @@ namespace birb
 		PROFILER_SCOPE_RENDER_FN();
 		/* If ImGui has been initialized, let it draw its
 		 * stuff before swapping the buffers */
-		if (imgui_initialized)
+		if (g_imgui_initialized)
 		{
 			PROFILER_SCOPE_RENDER("ImGui render");
 			ImGui::Render();
@@ -179,10 +181,10 @@ namespace birb
 #endif
 
 		// If ImGui was initialized, start a new frame
-		if (imgui_initialized)
+		if (g_imgui_initialized)
 			new_imgui_frame();
 
-		buffers_flipped = true;
+		g_buffers_flipped = true;
 	}
 
 	void window::poll()
@@ -315,7 +317,7 @@ namespace birb
 		ImGui_ImplGlfw_InitForOpenGL(glfw_window, true);
 		ImGui_ImplOpenGL3_Init();
 
-		imgui_initialized = true;
+		g_imgui_initialized = true;
 
 		// Change some colors following the kanagawa.nvim colorscheme
 		const ImVec4 focus_color(0.329412f, 0.329412f, 0.427451f, 1.0f);

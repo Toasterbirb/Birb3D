@@ -24,7 +24,7 @@ namespace birb
 	{
 		birb::log("Destroying mesh (" + birb::ptr_to_str(this) + ")");
 
-		ensure(birb::opengl_initialized);
+		ensure(birb::g_opengl_initialized);
 
 		ensure(vao != 0);
 		ensure(vbo != 0);

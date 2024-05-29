@@ -34,7 +34,7 @@ namespace birb
 	fbo::~fbo()
 	{
 		ensure(id != 0);
-		ensure(birb::opengl_initialized);
+		ensure(birb::g_opengl_initialized);
 		glDeleteBuffers(1, &id);
 
 		render_buffer_object.reset();
@@ -105,7 +105,7 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		ensure(birb::opengl_initialized);
+		ensure(birb::g_opengl_initialized);
 		ensure(d_currently_bound_fbo == id, "Remember to bind the FBO before modifying it");
 
 		// Texture

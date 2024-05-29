@@ -117,16 +117,32 @@ int main(void)
 
 
 	birb::stopwatch stopwatch_init_text("Text entity creation");
-	birb::text text_small_t(gnu_linux, manaspace_small, birb::vec3<f32>(512.0f, window.size().y, 0.0f), 1.0f, 0xb48ead);
-	birb::text text_big_t(gnu_linux, manaspace_big, birb::vec3<f32>(32.0f, window.size().y, 0.0f), 0.99f, 0xa3be8c);
+	birb::text text_small_t(gnu_linux, manaspace_small, birb::vec3<f32>(512.0f, window.size().y, 0.0f), 0xb48ead);
+	birb::text text_big_t(gnu_linux, manaspace_big, birb::vec3<f32>(32.0f, window.size().y, 0.0f), 0xa3be8c);
+
+	std::vector<birb::entity> moving_text_entities;
+	std::vector<birb::entity> changing_text_entities;
 
 	for (i32 i = 0; i < text_entity_count; ++i)
 	{
 		birb::entity text_small = scene.create_entity();
 		text_small.add_component(text_small_t);
+		moving_text_entities.push_back(text_small);
 
 		birb::entity text_big = scene.create_entity();
 		text_big.add_component(text_big_t);
+		moving_text_entities.push_back(text_big);
+
+		birb::entity text_stationary_not_changing = scene.create_entity();
+		text_stationary_not_changing.add_component(text_big_t);
+		text_stationary_not_changing.get_component<birb::text>().set_text("Stationary text");
+		text_stationary_not_changing.get_component<birb::text>().position = { 1000.0f, window.size().y - (32.0f * (i + 1)), 0.0f };
+
+		birb::entity text_stationary_changing = scene.create_entity();
+		text_stationary_changing.add_component(text_big_t);
+		text_stationary_changing.get_component<birb::text>().set_text("Stationary changing text");
+		text_stationary_changing.get_component<birb::text>().position = { 1200.0f, window.size().y - (32.0f * (i + 1)), 0.0f };
+		changing_text_entities.push_back(text_stationary_changing);
 	}
 
 	f64 text_init_time = stopwatch_init_text.stop();
@@ -215,11 +231,20 @@ int main(void)
 		// Move the text entities down with a constant speeds
 		{
 			f32 text_fall_speed_multiplier = 1.0f;
-			const auto text_view = scene.registry.view<birb::text>();
-			for (auto text : text_view)
+			for (birb::entity text : moving_text_entities)
 			{
-				text_view.get<birb::text>(text).position.y -= timestep.deltatime() * text_scroll_speed * text_fall_speed_multiplier;
+				text.get_component<birb::text>().position.y -= timestep.deltatime() * text_scroll_speed * text_fall_speed_multiplier;
 				text_fall_speed_multiplier += 0.1f;
+			}
+		}
+
+		// Update the changing text entities
+		{
+			u32 counter = frame_counter;
+			for (birb::entity text : changing_text_entities)
+			{
+				text.get_component<birb::text>().set_text("Stationary changing text " + std::to_string(counter % 128));
+				counter += 7;
 			}
 		}
 

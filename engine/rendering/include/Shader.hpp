@@ -115,6 +115,7 @@ namespace birb
 
 	private:
 		static inline const std::string editor_header_name = "Shader";
+		static inline u32 d_currently_active_shader = 0;
 
 		// Material helper functions and variables
 		void set_diffuse_color(const color& color);

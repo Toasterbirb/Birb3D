@@ -17,7 +17,7 @@ namespace birb
 
 	ebo::~ebo()
 	{
-		ensure(birb::opengl_initialized);
+		ensure(birb::g_opengl_initialized);
 		glDeleteBuffers(1, &id);
 	}
 

@@ -7,8 +7,8 @@
 
 namespace birb
 {
-	font::font(const std::shared_ptr<std::map<char, character>> character_map, const u8 size)
-	:character_map(character_map), _size(size)
+	font::font(const std::shared_ptr<std::map<char, character>> character_map, const u8 size, const u64 uuid)
+	:size(size), uuid(uuid), character_map(character_map)
 	{
 		ensure(character_map.get(), "Unallocated character map");
 		ensure(!character_map->empty(), "Empty character map");
@@ -19,8 +19,8 @@ namespace birb
 		return character_map->at(c);
 	}
 
-	u8 font::size() const
+	vec2<u32> font::char_dimensions(const char c) const
 	{
-		return _size;
+		return character_map->at(c).size;
 	}
 }

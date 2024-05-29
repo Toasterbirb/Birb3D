@@ -62,7 +62,6 @@ namespace birb
 	text::text(const text& other)
 	:font(other.font),
 	 position(other.position),
-	 scale(other.scale),
 	 color(other.color),
 	 shader(other.shader),
 	 fbo({1, 1}, color_format::RGBA),
@@ -103,7 +102,7 @@ namespace birb
 				x = 0;
 
 				// Go one line down
-				y -= font.size() * scale;
+				y -= font.size;
 
 				// We shouldn't draw the newline char
 				continue;
@@ -113,18 +112,9 @@ namespace birb
 
 			// position
 			const glm::vec2 pos(
-				x + ch.bearing.x * scale,
-				y - (ch.size.y - ch.bearing.y) * scale
+				x + ch.bearing.x,
+				y - (ch.size.y - ch.bearing.y)
 			);
-
-			// Avoid storing duplicated dimension data
-			if (!_char_dimensions.contains(c))
-			{
-				_char_dimensions[c] = {
-					ch.size.x * scale,
-					ch.size.y * scale
-				};
-			}
 
 			_chars.insert(c);
 			_char_positions[c].push_back(pos);
@@ -143,7 +133,7 @@ namespace birb
 			// If you want to learn more about this function in general, check
 			// this page where most of this code portion is
 			// adapter from: https://learnopengl.com/In-Practice/Text-Rendering
-			x += (ch.advance >> 6) * scale;
+			x += (ch.advance >> 6);
 		}
 
 		// Find the character with the largest height value
@@ -194,7 +184,6 @@ namespace birb
 		// txt.clear();
 		_chars.clear();
 		_char_positions.clear();
-		_char_dimensions.clear();
 		_char_texture_ids.clear();
 	}
 
@@ -212,12 +201,6 @@ namespace birb
 	{
 		ensure(_char_positions.contains(c));
 		return _char_positions.at(c);
-	}
-
-	vec2<f32> text::char_dimensions(const char c) const
-	{
-		ensure(_char_dimensions.contains(c));
-		return _char_dimensions.at(c);
 	}
 
 	u32 text::char_texture_id(const char c) const
@@ -259,7 +242,6 @@ namespace birb
 		u32 index = 0;
 		for (const char c : _chars)
 		{
-			const vec2<f32>& dim = char_dimensions(c);
 			const u32 vbo = instance_vbo_arr.at(index++);
 
 			instance_vbos[c] = vbo;

@@ -22,7 +22,7 @@ namespace birb
 
 	vbo::~vbo()
 	{
-		ensure(birb::opengl_initialized);
+		ensure(birb::g_opengl_initialized);
 		ensure(id != 0);
 		glDeleteBuffers(1, &id);
 	}

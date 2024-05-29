@@ -24,6 +24,13 @@ namespace birb
 		return (variable & (1 << position)) != 0;
 	}
 
+	template<typename T>
+	constexpr T combine_hashes(const T a, const T b)
+	{
+		static_assert(!std::is_same<T, f32>::value && !std::is_same<T, f64>::value, "Floating point values cannot be used as hashes");
+		return a ^ (b << 1);
+	}
+
 	/**
 	 * @brief Round a value down to a given accuracy
 	 *

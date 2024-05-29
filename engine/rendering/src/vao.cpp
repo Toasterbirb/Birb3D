@@ -16,7 +16,7 @@ namespace birb
 
 	vao::~vao()
 	{
-		ensure(birb::opengl_initialized);
+		ensure(birb::g_opengl_initialized);
 		glDeleteVertexArrays(1, &id);
 	}
 
