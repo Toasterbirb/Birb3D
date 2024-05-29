@@ -24,7 +24,8 @@ int main(void)
 	birb::camera camera(window.size());
 	camera.movement_speed = 100;
 	camera.position.z = 45; // Move the camera back to make orthographics rendering work
-	camera.orthographic_scale = 0.5f;
+	// camera.orthographic_scale = 512.0f;
+	// camera.update_projection_matrices(window.size());
 
 	birb::scene scene;
 	birb::renderer renderer;
@@ -112,15 +113,15 @@ int main(void)
 		while (!window.should_close())
 		{
 			// Cool zoom thing
-			if (camera.orthographic_scale > 0.2f && !zoom_done)
-			{
-				camera.orthographic_scale = std::lerp(camera.orthographic_scale, 0.2f, timer);
-				timer += timestep.deltatime();
-			}
-			else
-			{
-				zoom_done = true;
-			}
+			// if (camera.orthographic_scale > 0.2f && !zoom_done)
+			// {
+			// 	camera.orthographic_scale = std::lerp(camera.orthographic_scale, 0.2f, timer);
+			// 	timer += timestep.deltatime();
+			// }
+			// else
+			// {
+			// 	zoom_done = true;
+			// }
 
 			while (window.inputs_available())
 			{
@@ -129,8 +130,8 @@ int main(void)
 				switch (input.key)
 				{
 					case (birb::input::keycode::scrolling):
-						camera.orthographic_scale -= input.offset.y * 0.02;
-						camera.orthographic_scale = std::clamp(camera.orthographic_scale, 0.001f, 4096.0f);
+						// camera.orthographic_scale -= input.offset.y * 0.02;
+						// camera.orthographic_scale = std::clamp(camera.orthographic_scale, 0.001f, 4096.0f);
 						break;
 
 					default:

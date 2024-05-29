@@ -63,7 +63,7 @@ namespace birb
 
 		f32 near_clip = 0.1f;
 		f32 far_clip = 100.0f;
-		f32 orthographic_scale = 1.0f;
+		f32 orthographic_scale = 1080.0f;
 
 		bool editor_mode = false;
 		void zoom(f32 delta);

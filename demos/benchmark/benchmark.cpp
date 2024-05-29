@@ -111,14 +111,14 @@ int main(void)
 
 	birb::stopwatch stopwatch_init_font("Font loading");
 	birb::font_manager font_manager;
-	birb::font manaspace_small = font_manager.load_font(manaspace_ttf_font_name, 8);
-	birb::font manaspace_big = font_manager.load_font(manaspace_ttf_font_name, 12);
+	birb::font manaspace_small = font_manager.load_font(manaspace_ttf_font_name, 12);
+	birb::font manaspace_big = font_manager.load_font(manaspace_ttf_font_name, 24);
 	stopwatch_init_font.stop();
 
 
 	birb::stopwatch stopwatch_init_text("Text entity creation");
-	birb::text text_small_t(gnu_linux, manaspace_small, birb::vec3<f32>(512.0f, window.size().y, 0.0f), 0xb48ead);
-	birb::text text_big_t(gnu_linux, manaspace_big, birb::vec3<f32>(32.0f, window.size().y, 0.0f), 0xa3be8c);
+	birb::text text_small_t(gnu_linux, manaspace_small, birb::vec3<f32>(512.0f, 1024.0f, 0.0f), 0xb48ead);
+	birb::text text_big_t(gnu_linux, manaspace_big, birb::vec3<f32>(32.0f, 1024.0f, 0.0f), 0xa3be8c);
 
 	std::vector<birb::entity> moving_text_entities;
 	std::vector<birb::entity> changing_text_entities;
@@ -136,12 +136,12 @@ int main(void)
 		birb::entity text_stationary_not_changing = scene.create_entity();
 		text_stationary_not_changing.add_component(text_big_t);
 		text_stationary_not_changing.get_component<birb::text>().set_text("Stationary text");
-		text_stationary_not_changing.get_component<birb::text>().position = { 1000.0f, window.size().y - (32.0f * (i + 1)), 0.0f };
+		text_stationary_not_changing.get_component<birb::text>().position = { 1500.0f, 1024 - (32.0f * (i + 1)), 0.0f };
 
 		birb::entity text_stationary_changing = scene.create_entity();
 		text_stationary_changing.add_component(text_big_t);
 		text_stationary_changing.get_component<birb::text>().set_text("Stationary changing text");
-		text_stationary_changing.get_component<birb::text>().position = { 1200.0f, window.size().y - (32.0f * (i + 1)), 0.0f };
+		text_stationary_changing.get_component<birb::text>().position = { 1900.0f, 1024 - (32.0f * (i + 1)), 0.0f };
 		changing_text_entities.push_back(text_stationary_changing);
 	}
 
@@ -160,7 +160,7 @@ int main(void)
 		sprite.add_component(sprite_s);
 
 		sprite.get_component<birb::transform>().position = { -10.0f * sprite_position_offset * i, 150.0f, static_cast<f32>(i) };
-		sprite.get_component<birb::transform>().local_scale = { 200.0f, 200.0f + (i * 5.0f), 1.0f };
+		sprite.get_component<birb::transform>().local_scale = { 200.0f, 200.0f + (i * 1.2f), 1.0f };
 	}
 
 	birb::entity transformer_sprite = scene.create_entity(birb::component::transformer);
