@@ -55,8 +55,8 @@ namespace birb
 			ensure(g_imgui_initialized);
 			ensure(!ts.frametime_history.empty());
 
-			f32 frametime_min = *std::min_element(ts.frametime_history.begin(), ts.frametime_history.end());
-			f32 frametime_max = *std::max_element(ts.frametime_history.begin(), ts.frametime_history.end());
+			f32 frametime_min = birb::min_element(ts.frametime_history);
+			f32 frametime_max = birb::max_element(ts.frametime_history);
 			f32 average_frametime = birb::average(ts.frametime_history);
 
 			ensure(frametime_min != 0, "Zero division");

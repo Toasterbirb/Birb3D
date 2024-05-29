@@ -125,6 +125,34 @@ namespace birb
 		return total / data.size();
 	}
 
+	template<typename T, size_t N>
+	constexpr T min_element(std::array<T, N> array)
+	{
+		static_assert(N > 0, "The array can't be empty");
+		return *std::min_element(array.begin(), array.end());
+	}
+
+	template<typename T>
+	constexpr T min_element(std::vector<T> vector)
+	{
+		ensure(!vector.empty(), "The vector can't be empty");
+		return *std::min_element(vector.begin(), vector.end());
+	}
+
+	template<typename T, size_t N>
+	constexpr T max_element(std::array<T, N> array)
+	{
+		static_assert(N > 0, "The array can't be empty");
+		return *std::max_element(array.begin(), array.end());
+	}
+
+	template<typename T>
+	constexpr T max_element(std::vector<T> vector)
+	{
+		ensure(!vector.empty(), "The vector can't be empty");
+		return *std::max_element(vector.begin(), vector.end());
+	}
+
 	/**
 	 * @brief Calculate the centerpoint between two 3D vectors
 	 */

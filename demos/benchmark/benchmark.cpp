@@ -320,8 +320,8 @@ int main(void)
 
 
 			f64 average_frametime = birb::average(deltatimes);
-			f64 min_frametime = *std::min_element(deltatimes.begin(), deltatimes.end());
-			f64 max_frametime = *std::max_element(deltatimes.begin(), deltatimes.end());
+			f64 min_frametime = birb::min_element(deltatimes);
+			f64 max_frametime = birb::max_element(deltatimes);
 
 			f64 average_fps = 1.0 / average_frametime;
 			f64 min_fps = 1.0f / max_frametime;
