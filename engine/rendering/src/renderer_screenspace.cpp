@@ -55,6 +55,9 @@ namespace birb
 
 		const auto view = entity_registry.view<birb::text>();
 
+		// We'll be drawing to TEXTURE0
+		glActiveTexture(GL_TEXTURE0);
+
 		for (const auto& entity : view)
 		{
 			// Check if the entity should be skipped because its not active
@@ -77,9 +80,6 @@ namespace birb
 
 			// The same VAO can be used for all characters
 			text_vao.bind();
-
-			// We'll be drawing to TEXTURE0
-			glActiveTexture(GL_TEXTURE0);
 
 			const std::set<char>& chars = text.chars();
 
