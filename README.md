@@ -21,6 +21,9 @@ make -j$(nproc)
 For more information about the build process and dependencies, check the [wiki](http://birbgitfh224rep6tmdofmr6qlo6wx43umqzt3hjubnncr55sdlfmtad.onion/toasterbirb/Birb3D/wiki).
 
 
+## Credits
+- [Quartzi](https://github.com/realQuartzi), the creator of the fancy logo
+
 ## Resources
 Awesome websites/people/resources etc. etc. that notably helped with the creation of this project
 
