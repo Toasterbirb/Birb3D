@@ -15,7 +15,7 @@
 
 namespace birb
 {
-	void renderer::draw_3d_entities(const glm::mat4& view_matrix, const glm::mat4& perspective_projection)
+	void renderer::draw_3d_entities()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
@@ -23,7 +23,7 @@ namespace birb
 
 		// Box collider visualization
 		if (debug_view_enabled)
-			draw_box_collider_view(view_matrix, perspective_projection);
+			draw_box_collider_view();
 	}
 
 	void renderer::draw_models()
@@ -120,7 +120,7 @@ namespace birb
 		}
 	}
 
-	void renderer::draw_box_collider_view(const glm::mat4& view_matrix, const glm::mat4& perspective_projection)
+	void renderer::draw_box_collider_view()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 

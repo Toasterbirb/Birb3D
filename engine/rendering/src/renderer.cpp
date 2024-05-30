@@ -231,7 +231,7 @@ namespace birb
 		render_stats.draw_2d_duration = render_stopwatch.stop(true);
 
 		render_stopwatch.reset();
-		draw_3d_entities(view_matrix, camera.perspective_projection_matrix());
+		draw_3d_entities();
 		render_stats.draw_3d_duration = render_stopwatch.stop(true);
 
 		render_stopwatch.reset();

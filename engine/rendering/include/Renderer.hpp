@@ -133,7 +133,7 @@ namespace birb
 		//   3d				renderer_3d.cpp
 		//   screenspace	renderer_screenspace.cpp
 
-		void draw_3d_entities(const glm::mat4& view_matrix, const glm::mat4& perspective_projection);
+		void draw_3d_entities();
 		void draw_2d_entities();
 		void draw_screenspace_entities();
 
@@ -157,7 +157,7 @@ namespace birb
 
 		// 3D drawing funcs
 		void draw_models();
-		void draw_box_collider_view(const glm::mat4& view_matrix, const glm::mat4& perspective_projection);
+		void draw_box_collider_view();
 
 		// screenspace drawing funcs
 		void draw_lines();
