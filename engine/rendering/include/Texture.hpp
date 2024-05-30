@@ -35,8 +35,21 @@ namespace birb
 		void load(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension = 2);
 
 		void tex_unit(birb::shader& shader, const char* uniform = "tex0", const u32 unit = 0);
+
+		/**
+		 * @brief Bind the texture
+		 */
 		void bind();
-		void unbind();
+
+		/**
+		 * @brief Bind the 2D texture that the id points to
+		 */
+		static void bind(const u32 texture_id);
+
+		/**
+		 * @brief Unbind the 2D texture that is bound currently
+		 */
+		static void unbind();
 
 		/**
 		 * @brief Get the width and height of the texture

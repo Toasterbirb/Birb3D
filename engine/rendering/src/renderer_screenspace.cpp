@@ -105,7 +105,7 @@ namespace birb
 					{ dim.x,	dim.y,	1.0f, 0.0f }
 				};
 
-				glBindTexture(GL_TEXTURE_2D, text.char_texture_id(c));
+				texture::bind(text.char_texture_id(c));
 
 				text_vbo.bind();
 				text_vbo.update_data(*verts, sizeof(verts));
@@ -127,7 +127,7 @@ namespace birb
 			}
 
 			text_vao.unbind();
-			glBindTexture(GL_TEXTURE_2D, 0);
+			texture::unbind();
 
 			++render_stats.entities_screenspace;
 		}

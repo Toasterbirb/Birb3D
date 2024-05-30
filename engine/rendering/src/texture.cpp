@@ -126,11 +126,16 @@ namespace birb
 		glBindTexture(tex_type, id);
 	}
 
+	void texture::bind(const u32 texture_id)
+	{
+		ensure(texture_id != 0, "Use the unbind() function if you need to unbind a texture");
+
+		glBindTexture(GL_TEXTURE_2D, texture_id);
+	}
+
 	void texture::unbind()
 	{
-		ensure(id != 0, "Texture needs to be initialized at this point");
-
-		glBindTexture(tex_type, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	u32 texture::texture_from_file(const std::string& path)
