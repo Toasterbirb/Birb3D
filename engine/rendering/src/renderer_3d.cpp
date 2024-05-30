@@ -137,8 +137,7 @@ namespace birb
 			set_backface_culling(false);
 
 		const std::shared_ptr<shader> debug_shader = shader_collection::get_shader(debug_shader_ref);
-		debug_shader->set(shader_uniforms::view, view_matrix);
-		debug_shader->set(shader_uniforms::projection, perspective_projection);
+		debug_shader->activate();
 		debug_shader->set(shader_uniforms::color, collider_debug_color);
 
 		for (const auto& entity : view)
