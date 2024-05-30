@@ -1,6 +1,7 @@
 #pragma once
 
 #include "AspectRatioLock.hpp"
+#include "Color.hpp"
 #include "ColorFormat.hpp"
 
 #include <memory>
@@ -18,6 +19,7 @@ namespace birb
 		sprite(sprite& other) = default;
 
 		std::shared_ptr<birb::texture> texture;
+		birb::color color;
 		bool ignore_aspect_ratio = false;
 		bool orthographic_projection = true;
 

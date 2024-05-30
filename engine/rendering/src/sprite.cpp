@@ -5,6 +5,7 @@
 namespace birb
 {
 	sprite::sprite(const std::string& file_path, color_format format)
+	:color(1.0f, 1.0f, 1.0f, 1.0f)
 	{
 		PROFILER_SCOPE_RENDER_FN();
 

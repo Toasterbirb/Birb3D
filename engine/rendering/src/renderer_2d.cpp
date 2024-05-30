@@ -99,6 +99,7 @@ namespace birb
 
 			texture_shader->set(shader_uniforms::model, data.model_matrix);
 			texture_shader->set(shader_uniforms::texture::orthographic, data.sprite->orthographic_projection);
+			texture_shader->set(shader_uniforms::color, data.sprite->color);
 			set_sprite_aspect_ratio_uniforms(*data.sprite, *texture_shader);
 
 			data.sprite->texture->bind();
