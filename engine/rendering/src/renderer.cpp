@@ -251,9 +251,9 @@ namespace birb
 			std::shared_ptr<shader> post_shader = shader_collection::get_shader(post_processing_shader_ref);
 			post_shader->activate();
 			post_processing_fbo->bind_frame_buffer();
-			glDisable(GL_DEPTH_TEST);
+			opt_depth_test(false);
 			draw_elements(post_processing_vao, quad_indices.size());
-			glEnable(GL_DEPTH_TEST);
+			opt_depth_test(true);
 			post_processing_fbo->unbind_frame_buffer();
 		}
 
@@ -414,6 +414,16 @@ namespace birb
 		{
 			glDisable(GL_BLEND);
 		}
+	}
+
+	void renderer::opt_depth_test(const bool enabled) const
+	{
+		ensure(g_opengl_initialized);
+
+		if (enabled)
+			glEnable(GL_DEPTH_TEST);
+		else
+			glDisable(GL_DEPTH_TEST);
 	}
 
 	void renderer::opt_gamma_correction(const bool enabled) const

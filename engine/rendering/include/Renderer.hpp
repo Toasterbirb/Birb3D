@@ -116,6 +116,11 @@ namespace birb
 		void opt_blend(const bool enabled) const;
 
 		/**
+		 * @brief OpenGL depth test
+		 */
+		void opt_depth_test(const bool enabled) const;
+
+		/**
 		 * @brief OpenGL gamma correction
 		 */
 		void opt_gamma_correction(const bool enabled) const;
