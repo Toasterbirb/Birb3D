@@ -28,9 +28,8 @@ int main(void)
 	birb::renderer renderer;
 	renderer.opt_blend(true);
 	renderer.set_scene(scene);
-
-	birb::overlay::performance performance_overlay(timestep);
-	birb::overlay::renderer_overlay renderer_overlay(renderer);
+	renderer.debug.alloc_performance_stats(timestep);
+	renderer.debug.alloc_render_stats(renderer);
 
 	birb::font_manager font_manager;
 	birb::font manaspace = font_manager.load_font("manaspc.ttf", 42);
@@ -59,9 +58,6 @@ int main(void)
 
 		// Draw here
 		renderer.draw_entities(camera, window.size());
-
-		performance_overlay.draw();
-		renderer_overlay.draw();
 
 		window.flip();
 

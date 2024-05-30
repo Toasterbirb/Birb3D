@@ -32,16 +32,15 @@ int main(void)
 
 	window.init_imgui();
 
-	birb::overlay::performance perf_overlay(timestep);
-	birb::overlay::camera_info cam_info(camera);
-	birb::overlay::renderer_overlay renderer_overlay(renderer);
-
 	birb::scene scene;
 	renderer.set_scene(scene);
 
 	// Allocate debug windows
 	renderer.debug.alloc_world(window);
 	renderer.debug.alloc_entity_editor(scene);
+	renderer.debug.alloc_performance_stats(timestep);
+	renderer.debug.alloc_render_stats(renderer);
+	renderer.debug.alloc_camera_info(camera);
 
 	birb::entity suzanne = scene.create_entity();
 
@@ -100,10 +99,6 @@ int main(void)
 
 		// Render all models
 		renderer.draw_entities(camera, window.size());
-
-		perf_overlay.draw();
-		cam_info.draw();
-		renderer_overlay.draw();
 
 		window.flip();
 		window.poll();

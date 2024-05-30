@@ -1,13 +1,19 @@
 #pragma once
 
-#include "World.hpp"
+#include "CameraInfoOverlay.hpp"
 #include "EntityEditor.hpp"
+#include "PerformanceOverlay.hpp"
+#include "RendererOverlay.hpp"
+#include "World.hpp"
 
 #include <memory>
 
 namespace birb
 {
+	class camera;
+	class renderer;
 	class scene;
+	class timestep;
 	class window;
 
 	class debug_view
@@ -24,8 +30,19 @@ namespace birb
 		void alloc_entity_editor(scene& scene);
 		void alloc_world(window& window);
 
+		// Overlay allocators
+		void alloc_render_stats(renderer& renderer);
+		void alloc_performance_stats(timestep& timestep);
+		void alloc_camera_info(camera& camera);
+
 	private:
+		// Widgets
 		std::unique_ptr<birb::world> world;
 		std::unique_ptr<birb::entity_editor> entity_inspector;
+
+		// Overlays
+		std::unique_ptr<birb::overlay::performance> performance_stats;
+		std::unique_ptr<birb::overlay::renderer_overlay> render_stats;
+		std::unique_ptr<birb::overlay::camera_info> camera_info;
 	};
 }

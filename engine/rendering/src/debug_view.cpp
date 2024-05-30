@@ -17,11 +17,22 @@ namespace birb
 	{
 		ensure(g_imgui_initialized, "Debug view requires ImGui to be initialized");
 
+		// Widgets
 		if (entity_inspector.get())
 			entity_inspector->draw();
 
 		if (world.get())
 			world->draw();
+
+		// Overlays
+		if (performance_stats.get())
+			performance_stats->draw();
+
+		if (render_stats.get())
+			render_stats->draw();
+
+		if (camera_info.get())
+			camera_info->draw();
 	}
 
 	void debug_view::alloc_entity_editor(scene& scene)
@@ -34,5 +45,23 @@ namespace birb
 	{
 		ensure(!world.get(), "World widget has already been allocated");
 		world = std::make_unique<birb::world>(window);
+	}
+
+	void debug_view::alloc_render_stats(renderer& renderer)
+	{
+		ensure(!render_stats.get(), "Render stats has already been allocated");
+		render_stats = std::make_unique<birb::overlay::renderer_overlay>(renderer);
+	}
+
+	void debug_view::alloc_performance_stats(timestep& timestep)
+	{
+		ensure(!performance_stats.get(), "Performance stats has already been allocated");
+		performance_stats = std::make_unique<birb::overlay::performance>(timestep);
+	}
+
+	void debug_view::alloc_camera_info(camera& camera)
+	{
+		ensure(!camera_info.get(), "Camera info has already been allocated");
+		camera_info = std::make_unique<birb::overlay::camera_info>(camera);
 	}
 }
