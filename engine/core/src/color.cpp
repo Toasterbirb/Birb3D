@@ -7,4 +7,9 @@ namespace birb
 	{
 		return vec3<f32>(r, g, b);
 	}
+
+	glm::vec4 color::to_vec4() const
+	{
+		return glm::vec4(r, g, b, a);
+	}
 }

@@ -4,6 +4,7 @@
 #include "Types.hpp"
 
 #include <array>
+#include <glm/glm.hpp>
 #include <iostream>
 #include <string>
 
@@ -115,6 +116,7 @@ namespace birb
 		}
 
 		vec3<f32> to_vec3();
+		glm::vec4 to_vec4() const;
 
 		constexpr bool operator==(const color& other) const
 		{
