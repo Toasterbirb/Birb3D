@@ -6,9 +6,8 @@
 
 namespace birb
 {
-	class shader_ref
+	struct shader_ref
 	{
-	public:
 		shader_ref(const std::string& shader_name);
 		shader_ref(const std::string& vertex, const std::string& fragment);
 
@@ -27,7 +26,12 @@ namespace birb
 		 */
 		u64 fragment;
 
-	private:
-		void calculate_hashes(const std::string& vertex, const std::string& fragment);
+		/**
+		 * @brief Recalculate hashes with new vertex and fragment shader names
+		 *
+		 * @param vertex	Name of the vertex shader
+		 * @param fragment 	Name of the fragment shader
+		 */
+		void update_hashes(const std::string& vertex, const std::string& fragment);
 	};
 }

@@ -6,15 +6,15 @@ namespace birb
 {
 	shader_ref::shader_ref(const std::string& shader_name)
 	{
-		calculate_hashes(shader_name, shader_name);
+		update_hashes(shader_name, shader_name);
 	}
 
 	shader_ref::shader_ref(const std::string& vertex, const std::string& fragment)
 	{
-		calculate_hashes(vertex, fragment);
+		update_hashes(vertex, fragment);
 	}
 
-	void shader_ref::calculate_hashes(const std::string& vertex, const std::string& fragment)
+	void shader_ref::update_hashes(const std::string& vertex, const std::string& fragment)
 	{
 		ensure(!vertex.empty());
 		ensure(!fragment.empty());
