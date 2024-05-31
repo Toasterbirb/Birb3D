@@ -190,6 +190,16 @@ namespace birb
 		current_scene = &scene;
 	}
 
+	void renderer::set_canvas(ui::canvas& canvas)
+	{
+		current_canvas = &canvas;
+	}
+
+	void renderer::clear_canvas()
+	{
+		current_canvas = nullptr;
+	}
+
 	void renderer::set_window(birb::window& window)
 	{
 		this->window = &window;

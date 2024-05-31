@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Canvas.hpp"
 #include "Color.hpp"
 #include "DebugView.hpp"
 #include "EventBus.hpp"
@@ -24,6 +25,11 @@ namespace birb
 	class scene;
 	class window;
 
+	namespace ui
+	{
+		class canvas;
+	}
+
 	class renderer : public event_obj
 	{
 	public:
@@ -45,6 +51,14 @@ namespace birb
 		void process_event(u16 event_id, const event_data& data) override;
 
 		void set_scene(scene& scene);
+		void set_canvas(ui::canvas& canvas);
+
+		/**
+		 * @brief Sets the current canvas to nullptr
+		 *
+		 * Use this function when you want to disable all screenspace UI
+		 */
+		void clear_canvas();
 
 		/**
 		 * @brief Set the window for post-processing purposes
@@ -165,6 +179,7 @@ namespace birb
 		void draw_box_collider_view();
 
 		// screenspace drawing funcs
+		void draw_canvas();
 		void draw_lines();
 		void draw_text();
 
@@ -172,6 +187,7 @@ namespace birb
 
 
 		scene* current_scene = nullptr;
+		ui::canvas* current_canvas = nullptr;
 		static inline bool wireframe_mode = false;
 		static inline bool backface_culling_enabled = false;
 		bool debug_view_enabled = false;

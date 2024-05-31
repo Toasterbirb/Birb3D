@@ -62,7 +62,7 @@ add_custom_command(
 	WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/engine/assets/primitive
 )
 
-file(GLOB RENDER_SRC rendering/src/*.cpp)
+file(GLOB RENDER_SRC rendering/src/*.cpp rendering/src/ui/*)
 target_sources(birb PRIVATE ${RENDER_SRC})
 target_include_directories(birb PUBLIC assets/primitive)
 

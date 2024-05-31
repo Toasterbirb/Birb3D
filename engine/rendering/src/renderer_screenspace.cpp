@@ -14,8 +14,28 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
+		draw_canvas();
 		draw_lines();
 		draw_text();
+	}
+
+	void renderer::draw_canvas()
+	{
+		// Skip drawing the canvas if one has not been set
+		// There might be a game that has no "UI"
+
+		if (current_canvas != nullptr)
+		{
+			// Drawing 2D things usually doesn't work too well with backface culling
+			bool backface_culling_enabled = is_backface_culling_enabled();
+			if (backface_culling_enabled)
+				set_backface_culling(false);
+
+			current_canvas->draw();
+
+			if (backface_culling_enabled)
+				set_backface_culling(true);
+		}
 	}
 
 	void renderer::draw_lines()

@@ -14,6 +14,7 @@ option(BIRB_DEMO_SUZANNE_BENCHMARK "Enable the suzanne benchmark demo" OFF)
 option(BIRB_DEMO_TEXT "Enable the text rendering program" OFF)
 option(BIRB_DEMO_TEXTURE "Enable the texture rendering demo" OFF)
 option(BIRB_DEMO_TRIANGLE "Enable the hello world triangle demo" OFF)
+option(BIRB_DEMO_UI "Enable the UI demo" OFF)
 
 if (BIRB_DEMO_ALL OR BIRB_DEMO_AUDIOPLAYER)
 	add_subdirectory(audio_player)
@@ -69,4 +70,8 @@ endif()
 
 if (BIRB_DEMO_ALL OR BIRB_DEMO_TRIANGLE)
 	add_subdirectory(triangle)
+endif()
+
+if (BIRB_DEMO_ALL OR BIRB_DEMO_UI)
+	add_subdirectory(ui)
 endif()
