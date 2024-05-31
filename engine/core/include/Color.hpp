@@ -115,7 +115,7 @@ namespace birb
 			return { &r, &g, &b, &a };
 		}
 
-		vec3<f32> to_vec3();
+		vec3<f32> to_vec3() const;
 		glm::vec4 to_vec4() const;
 
 		constexpr bool operator==(const color& other) const

@@ -3,7 +3,7 @@
 
 namespace birb
 {
-	vec3<f32> color::to_vec3()
+	vec3<f32> color::to_vec3() const
 	{
 		return vec3<f32>(r, g, b);
 	}
