@@ -6,8 +6,9 @@
 #include "Types.hpp"
 #include "Vector.hpp"
 
-#include <unordered_map>
 #include <set>
+#include <unordered_map>
+#include <vector>
 
 namespace birb
 {
