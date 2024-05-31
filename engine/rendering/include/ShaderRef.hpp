@@ -1,27 +1,16 @@
 #pragma once
 
-#include "Assert.hpp"
-#include "Math.hpp"
 #include "Types.hpp"
 
 #include <string>
 
 namespace birb
 {
-	struct shader_ref
+	class shader_ref
 	{
-		shader_ref(const std::string& vertex, const std::string& fragment)
-		{
-			ensure(!vertex.empty());
-			ensure(!fragment.empty());
-
-			this->vertex = std::hash<std::string>{}(vertex);
-			this->fragment = std::hash<std::string>{}(fragment);
-
-			// Some hash combination thing found from cppreference
-			hash = combine_hashes(this->vertex, this->fragment);
-		}
-
+	public:
+		shader_ref(const std::string& shader_name);
+		shader_ref(const std::string& vertex, const std::string& fragment);
 
 		/**
 		 * @brief A hash generated from the vertex and fragment shader names
@@ -37,5 +26,8 @@ namespace birb
 		 * @brief A hash for identifying the fragment
 		 */
 		u64 fragment;
+
+	private:
+		void calculate_hashes(const std::string& vertex, const std::string& fragment);
 	};
 }
