@@ -69,7 +69,6 @@ int main(void)
 
 				birb::entity suzanne = scene.create_entity();
 
-				suzanne.add_component(suzanne_model);
 
 				birb::transform transform;
 				transform.position.x = i * position_offset;
@@ -78,12 +77,10 @@ int main(void)
 				transform.position.z = -4.0f;
 				transform.rotation.y = 45.0f;
 				transform.lock();
-				suzanne.add_component(transform);
 
 				birb::collider::box box_collider(transform);
-				suzanne.add_component(box_collider);
 
-				suzanne.add_component(shader_reference);
+				suzanne.add_components(suzanne_model, transform, box_collider, shader_reference);
 
 				suzanne_entity_construction_duration_arr[i][j] = construction_timer.stop(true);
 			}

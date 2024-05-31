@@ -22,6 +22,12 @@ namespace birb
 			parent_scene->add_component(entt_entity, component);
 		}
 
+		template<class... component>
+		constexpr void add_components(component... components)
+		{
+			(add_component(components), ...);
+		}
+
 		template<typename T>
 		constexpr T& get_component()
 		{

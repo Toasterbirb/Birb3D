@@ -43,18 +43,16 @@ int main(void)
 		birb::transform transform;
 		transform.position = { 128.0f, 256.0f, 0.0f };
 		transform.local_scale = { 32.0f, 32.0f, 1.0f };
-		cube.add_component(transform);
 
 		birb::rigidbody rigidbody(transform);
 		rigidbody.set_mass(10);
-		cube.add_component(rigidbody);
 
 		birb::physics_forces::gravity gravity;
-		cube.add_component(gravity);
 
 		birb::collider::box box;
 		box.set_position_and_size(transform);
-		cube.add_component(box);
+
+		cube.add_components(transform, rigidbody, gravity, box);
 	}
 
 	birb::entity floor = scene.create_entity();
