@@ -63,11 +63,11 @@ static_assert(static_cast<GLenum>(birb::renderer::gl_type::unsigned_int) == GL_U
 namespace birb
 {
 	renderer::renderer()
-	 :line_shader("line", "line"),
+	 :line_shader("line"),
 	 view_matrix_ubo(shader_uniforms::block::view_matrices),
-	 debug_shader_ref("color", "color"),
-	 texture_shader_ref("texture", "texture"),
-	 post_processing_shader_ref("post_process", "post_process")
+	 debug_shader_ref("color"),
+	 texture_shader_ref("texture"),
+	 post_processing_shader_ref("post_process")
 	{
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::register_event_id(event::toggle_debug_view, this);
