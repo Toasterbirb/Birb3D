@@ -23,7 +23,10 @@ int main(void)
 	renderer.set_canvas(canvas);
 
 	birb::ui::rectangle rectangle({ 32, 32, 0 }, { 128, 64 }, 0xFF0011);
+	birb::ui::rectangle rectangle2({ 128, 128, 0 }, { 256, 64 }, 0xFFFF00);
+
 	canvas.add_ui_element(rectangle);
+	canvas.add_ui_element(rectangle2);
 
 	while (!window.should_close())
 	{

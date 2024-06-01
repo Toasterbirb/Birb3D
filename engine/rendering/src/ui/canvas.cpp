@@ -18,6 +18,24 @@ namespace birb
 
 		void canvas::add_ui_element(ui_base& ui_element)
 		{
+#ifndef NDEBUG
+			// Make sure that the same UI-element doesn't get added multiple times
+			// This needs to be prevented because they would just get drawn over eachother
+			{
+				bool match_found = false;
+				for (size_t i = 0; i < ui_elements.size(); ++i)
+				{
+					if (ui_elements.at(i) == &ui_element)
+					{
+						match_found = true;
+						break;
+					}
+				}
+
+				ensure(match_found == false, "Tried to add a duplicate UI-element into the canvas");
+			}
+#endif
+
 			ui_elements.push_back(&ui_element);
 		}
 
