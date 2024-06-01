@@ -33,6 +33,8 @@ namespace birb
 #endif
 
 	private:
+		static inline u32 d_current_bound_vao = 0;
+
 		// Has EBO been linked to this VAO
 		bool has_ebo = false;
 	};

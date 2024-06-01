@@ -24,6 +24,8 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
+		ensure(d_current_bound_vao == id, "Remember to bind the VAO before modifying it");
+
 		ensure(vbo.id != 0);
 		ensure(num_components != 0, "Invalid amount of components");
 		ensure(stride != 0 && stride >= num_components, "Invalid stride");
@@ -38,6 +40,7 @@ namespace birb
 
 	void vao::link_ebo(birb::ebo& ebo)
 	{
+		ensure(d_current_bound_vao == id, "Remember to bind the VAO before modifying it");
 		ensure(!has_ebo, "There's already an EBO linked to this VAO");
 
 		ebo.bind();
@@ -47,11 +50,19 @@ namespace birb
 	void vao::bind()
 	{
 		glBindVertexArray(id);
+
+#ifndef NDEBUG
+		d_current_bound_vao = id;
+#endif
 	}
 
 	void vao::unbind()
 	{
 		glBindVertexArray(0);
+
+#ifndef NDEBUG
+		d_current_bound_vao = 0;
+#endif
 	}
 
 	bool vao::contains_ebo() const
