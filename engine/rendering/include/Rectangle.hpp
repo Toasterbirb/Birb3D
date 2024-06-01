@@ -20,12 +20,12 @@ namespace birb
 			rectangle(const rectangle&) = default;
 			rectangle(rectangle&) = default;
 
-			glm::vec4 color() const;
+			glm::vec4 color() const override;
 			std::vector<f32> vertex_data() const override;
 
 			const ui_primitive type;
 
-		private:
+		protected:
 			std::vector<f32> vertices;
 			glm::vec4 _color;
 

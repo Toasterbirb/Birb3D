@@ -28,8 +28,7 @@ namespace birb
 		{
 			// Drawing 2D things usually doesn't work too well with backface culling
 			bool backface_culling_enabled = is_backface_culling_enabled();
-			if (backface_culling_enabled)
-				set_backface_culling(false);
+			set_backface_culling(false);
 
 			current_canvas->draw();
 

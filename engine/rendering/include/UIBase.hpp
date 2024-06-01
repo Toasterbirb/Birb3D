@@ -4,6 +4,7 @@
 #include "Types.hpp"
 #include "Vector.hpp"
 
+#include <glm/glm.hpp>
 #include <vector>
 
 namespace birb
@@ -20,11 +21,7 @@ namespace birb
 			 * vec3 position | vec4 color */
 
 			const u64 uuid;
-			vec3<f32> position;
-			birb::color color;
-
-		private:
-
+			virtual glm::vec4 color() const = 0;
 		};
 	}
 }
