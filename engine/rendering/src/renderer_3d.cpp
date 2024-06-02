@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <execution>
+#include <glad/gl.h>
 #include <vector>
 
 namespace birb
@@ -82,6 +83,8 @@ namespace birb
 			);
 		}
 
+		if (gamma_correction_enabled)
+			glEnable(GL_FRAMEBUFFER_SRGB);
 
 		for (const model_data& data : model_data_array)
 		{
@@ -120,6 +123,8 @@ namespace birb
 			++render_stats.entities_3d;
 			render_stats.vertices_3d += data.model->vertex_count();
 		}
+
+		glDisable(GL_FRAMEBUFFER_SRGB);
 	}
 
 	void renderer::draw_box_collider_view()

@@ -174,6 +174,7 @@ namespace birb
 		scene* current_scene = nullptr;
 		static inline bool wireframe_mode = false;
 		static inline bool backface_culling_enabled = false;
+		static inline bool gamma_correction_enabled = true;
 		bool debug_view_enabled = false;
 		bool shadows_enabled = true;
 		shader_ref line_shader;

@@ -32,7 +32,6 @@ int main(void)
 	renderer.set_scene(scene);
 	renderer.set_window(window);
 	renderer.opt_post_process(true);
-	renderer.opt_gamma_correction(false);
 
 	birb::overlay::performance performance_overlay(timestep);
 	birb::overlay::renderer_overlay render_overlay(renderer);

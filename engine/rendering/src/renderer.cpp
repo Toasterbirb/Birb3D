@@ -434,12 +434,7 @@ namespace birb
 
 	void renderer::opt_gamma_correction(const bool enabled) const
 	{
-		ensure(g_opengl_initialized);
-
-		if (enabled)
-			glEnable(GL_FRAMEBUFFER_SRGB);
-		else
-			glDisable(GL_FRAMEBUFFER_SRGB);
+		gamma_correction_enabled = enabled;
 	}
 
 	void renderer::opt_post_process(const bool enabled)
