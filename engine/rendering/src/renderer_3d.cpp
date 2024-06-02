@@ -21,9 +21,11 @@ namespace birb
 
 		draw_models();
 
+#ifndef BIRB_RELEASE
 		// Box collider visualization
 		if (debug_view_enabled)
 			draw_box_collider_view();
+#endif
 	}
 
 	void renderer::draw_models()
