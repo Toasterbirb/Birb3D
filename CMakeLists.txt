@@ -32,6 +32,10 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 	set(GAME_PROJECT OFF)
 endif()
 
+if (BIRB_RELEASE)
+	add_definitions(-DBIRB_RELEASE)
+endif()
+
 if (BIRB_WINDOWS)
 	message("> Windows compatibility mode enabled")
 	add_definitions(-DBIRB_PLATFORM_WINDOWS)

@@ -273,6 +273,8 @@ namespace birb
 		/* Nothing will be rendered after this point if debug drawing is not enabled */
 		/*****************************************************************************/
 
+#ifndef BIRB_RELEASE
+
 		// If debug drawing is not enabled, we can stop drawing stuff here
 		if (!debug_view_enabled)
 			return;
@@ -283,6 +285,8 @@ namespace birb
 
 		// Draw the debug view
 		debug.draw();
+
+#endif
 	}
 
 	void renderer::draw_elements(size_t index_count, gl_primitive primitive)
@@ -393,12 +397,14 @@ namespace birb
 
 	void renderer::toggle_debug_view()
 	{
+#ifndef BIRB_RELEASE
 		debug_view_enabled = !debug_view_enabled;
 
 		if (!debug_view_enabled)
 			birb::log("Toggling debug view off");
 		else
 			birb::log("Toggling debug view on");
+#endif
 	}
 
    	renderer_stats renderer::rendering_statistics() const
