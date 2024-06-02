@@ -14,4 +14,4 @@ mkdir -p "$BUILD_DIR"
 cd "$BUILD_DIR" || exit 1
 cmake .. -G Ninja
 
-find "$PROJECT_ROOT/engine" "$PROJECT_ROOT/demos" "$PROJECT_ROOT/tests" | entr -sc "ninja -j $JOB_COUNT"
+find "$PROJECT_ROOT/engine" "$PROJECT_ROOT/demos" "$PROJECT_ROOT/tests" "$PROJECT_ROOT/playground" | entr -sc "ninja -j $JOB_COUNT"
