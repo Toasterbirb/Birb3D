@@ -34,7 +34,7 @@ namespace birb
 		ensure(offset <= this->size);
 
 		bind();
-		glBufferSubData(GL_UNIFORM_BUFFER, offset, size, data);
+		buffer.update_data(size, data, offset);
 		unbind();
 	}
 
@@ -46,9 +46,9 @@ namespace birb
 		buffer.bind();
 
 		if (static_draw)
-			glBufferData(GL_UNIFORM_BUFFER, size_in_bytes, NULL, GL_STATIC_DRAW);
+			buffer.set_data(size_in_bytes, NULL, gl_usage::static_draw);
 		else
-			glBufferData(GL_UNIFORM_BUFFER, size_in_bytes, NULL, GL_DYNAMIC_DRAW);
+			buffer.set_data(size_in_bytes, NULL, gl_usage::dynamic_draw);
 
 		buffer.unbind();
 

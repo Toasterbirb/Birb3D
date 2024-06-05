@@ -20,7 +20,7 @@ namespace birb
 		ensure(size > 0);
 
 		buffer.bind();
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(f32) * size, indices, GL_STATIC_DRAW);
+		buffer.set_data(sizeof(f32) * size, indices, gl_usage::static_draw);
 	}
 
 	u32 ebo::id() const

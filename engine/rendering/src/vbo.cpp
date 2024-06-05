@@ -37,9 +37,9 @@ namespace birb
 		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 
 		if (static_draw)
-			glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * size, data, GL_STATIC_DRAW);
+			buffer.set_data(sizeof(f32) * size, data, gl_usage::static_draw);
 		else
-			glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * size, data, GL_DYNAMIC_DRAW);
+			buffer.set_data(sizeof(f32) * size, data, gl_usage::dynamic_draw);
 	}
 
 	void vbo::update_data(const f32* data, const size_t size, const u32 offset) const
@@ -47,7 +47,7 @@ namespace birb
 		ensure(size > 0);
 		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 
-		glBufferSubData(GL_ARRAY_BUFFER, size * offset, size, data);
+		buffer.update_data(size, data, offset);
 	}
 
 	void vbo::enable_vertex_attrib_array(const u32 index) const
