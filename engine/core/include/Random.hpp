@@ -23,6 +23,16 @@ namespace birb
 		 */
 		random();
 
+		~random() = default;
+
+		// Copying the random engine might cause trouble, since
+		// the state of it and the seed would also get copied
+		random(random&) = delete;
+		random(const random&) = delete;
+
+		// Moving is okay though
+		random(random&&) = default;
+
 		/**
 		 * @brief Construct a random number generator with a set seed
 		 */
