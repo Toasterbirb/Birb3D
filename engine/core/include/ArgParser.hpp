@@ -15,13 +15,32 @@ namespace birb
 		arg_parser(const arg_parser&) = default;
 		arg_parser(arg_parser&) = default;
 
+		/**
+		 * @brief The description text show in the help output
+		 */
 		std::string description;
+
+		/**
+		 * @brief argv[0] value, path to the executable
+		 */
 		std::string executable_path() const;
 
 		void add_option(const std::string& key, const bool is_boolean, const std::string& help);
 		void process_arguments(const int argc, char** argv);
 
+		/**
+		 * @brief Check if an option was defined in the argument list
+		 *
+		 * @param key Name of the option
+		 * @return True if the option was defined
+		 */
 		bool is_defined(const std::string& key) const;
+
+		/**
+		 * @brief Get the value of an argument option
+		 *
+		 * @param key Name of the option
+		 */
 		std::string get_value(const std::string& key) const;
 
 	private:
