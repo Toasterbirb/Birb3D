@@ -96,7 +96,7 @@ namespace birb
 			// the bitshifting thing gets the value in pixels (2^6 = 64)
 			// If you want to learn more about this function in general, check
 			// this page where most of this code portion is
-			// adapter from: https://learnopengl.com/In-Practice/Text-Rendering
+			// adapted from: https://learnopengl.com/In-Practice/Text-Rendering
 			x += (ch.advance >> 6);
 		}
 
