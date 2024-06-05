@@ -1,6 +1,9 @@
 #pragma once
 
+#include "Types.hpp"
+
 #include <glm/glm.hpp>
+#include <vector>
 
 namespace birb
 {
