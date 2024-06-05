@@ -20,7 +20,9 @@ namespace birb
 		:buffer(gl_buffer_type::array)
 		{
 			static_assert(N != 0, "Empty data array");
+			bind();
 			set_data(data.data(), data.size(), static_draw);
+			unbind();
 		}
 
 		~vbo() = default;

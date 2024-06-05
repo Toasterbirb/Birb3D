@@ -15,7 +15,9 @@ namespace birb
 	:buffer(gl_buffer_type::array)
 	{
 		ensure(!vertices.empty(), "Empty data array");
+		bind();
 		set_data(vertices.data(), vertices.size(), static_draw);
+		unbind();
 	}
 
 	u32 vbo::id() const
@@ -32,8 +34,7 @@ namespace birb
 	void vbo::set_data(const f32* data, const size_t size, const bool static_draw) const
 	{
 		ensure(size > 0);
-
-		buffer.bind();
+		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 
 		if (static_draw)
 			glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * size, data, GL_STATIC_DRAW);
@@ -44,6 +45,7 @@ namespace birb
 	void vbo::update_data(const f32* data, const size_t size, const u32 offset) const
 	{
 		ensure(size > 0);
+		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 
 		glBufferSubData(GL_ARRAY_BUFFER, size * offset, size, data);
 	}
