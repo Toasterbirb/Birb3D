@@ -11,6 +11,7 @@ namespace birb
 		~uuid() = delete;
 		uuid(const uuid&) = delete;
 		uuid(uuid&) = delete;
+		uuid(uuid&&) = delete;
 
 		/**
 		 * @brief Returns a random 64bit unsigned integer
