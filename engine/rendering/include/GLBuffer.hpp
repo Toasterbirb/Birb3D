@@ -40,7 +40,7 @@ namespace birb
 		 * @param data Pointer to the new data
 		 * @param usage Expected usage pattern
 		 */
-		void set_data(const std::size_t size, const void* data, const gl_usage usage) const;
+		void set_data(const intptr_t size, const void* data, const gl_usage usage) const;
 
 		/**
 		 * @brief Update a portion of the buffer
@@ -50,7 +50,7 @@ namespace birb
 		 * @param offset Offset from the beginning of the buffer to the data region
 		 *               that will be modified
 		 */
-		void update_data(const std::size_t size, const void* data, const u32 offset) const;
+		void update_data(const intptr_t size, const void* data, const u32 offset) const;
 
 		constexpr operator u32()
 		{

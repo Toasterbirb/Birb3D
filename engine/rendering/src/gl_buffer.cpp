@@ -70,13 +70,13 @@ namespace birb
 		glBindBuffer(static_cast<int>(type), 0);
 	}
 
-	void gl_buffer::set_data(const std::size_t size, const void* data, const gl_usage usage) const
+	void gl_buffer::set_data(const intptr_t size, const void* data, const gl_usage usage) const
 	{
 		ensure(d_currently_bound_buffers.at(type) == _id, "Bind the buffer before modifying it");
 		glBufferData(static_cast<int>(type), size, data, static_cast<int>(usage));
 	}
 
-	void gl_buffer::update_data(const std::size_t size, const void* data, const u32 offset) const
+	void gl_buffer::update_data(const intptr_t size, const void* data, const u32 offset) const
 	{
 		ensure(d_currently_bound_buffers.at(type) == _id, "Bind the buffer before modifying it");
 		glBufferSubData(static_cast<int>(type), offset, size, data);
