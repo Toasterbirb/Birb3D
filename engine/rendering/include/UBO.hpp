@@ -14,6 +14,7 @@ namespace birb
 		~ubo();
 		ubo(const ubo&) = delete;
 		ubo(ubo&) = delete;
+		ubo(ubo&& other);
 
 		void bind() const;
 		static void unbind();

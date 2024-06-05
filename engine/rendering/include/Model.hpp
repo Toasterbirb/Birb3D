@@ -22,7 +22,10 @@ namespace birb
 	public:
 		model();
 		explicit model(const std::string& path);
-		~model();
+		~model() = default;
+		model(model&) = default;
+		model(const model&) = default;
+		model(model&&) = default;
 
 		void draw(shader& shader, renderer_stats& render_stats, const bool skip_materials = false);
 		void draw_editor_ui() override;

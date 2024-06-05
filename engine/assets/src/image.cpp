@@ -28,5 +28,16 @@ namespace birb
 		{
 			stbi_image_free(data);
 		}
+
+		image::image(image&& other)
+		{
+			std::swap(data, other.data);
+
+			dimensions = other.dimensions;
+			other.dimensions = { 0, 0 };
+
+			color_channels = other.color_channels;
+			other.color_channels = 0;
+		}
 	}
 }

@@ -27,8 +27,15 @@ namespace birb
 
 	rbo::~rbo()
 	{
-		ensure(id != 0);
 		ensure(birb::g_opengl_initialized);
-		glDeleteRenderbuffers(1, &id);
+
+		if (id != 0)
+			glDeleteRenderbuffers(1, &id);
+	}
+
+	rbo::rbo(rbo&& other)
+	{
+		id = other.id;
+		other.id = 0;
 	}
 }

@@ -19,9 +19,10 @@ namespace birb
 		camera(vec2<i32> window_size);
 		explicit camera(vec3<f32> position, vec2<i32> window_size);
 		camera(vec3<f32> position, f32 yaw, f32 pitch, vec2<i32> window_size);
-		camera(const camera&) = delete;
-		camera(camera&) = delete;
 		~camera();
+		camera(camera&) = delete;
+		camera(const camera&) = delete;
+		camera(camera&&) = default;
 
 		void process_event(u16 event_id, const event_data& data) override;
 

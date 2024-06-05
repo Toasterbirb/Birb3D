@@ -18,7 +18,15 @@ namespace birb
 	ebo::~ebo()
 	{
 		ensure(birb::g_opengl_initialized);
-		glDeleteBuffers(1, &id);
+
+		if (id != 0)
+			glDeleteBuffers(1, &id);
+	}
+
+	ebo::ebo(ebo&& other)
+	{
+		id = other.id;
+		other.id = 0;
 	}
 
 	void ebo::load(const u32* indices, const size_t size)

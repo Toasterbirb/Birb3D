@@ -21,6 +21,7 @@ namespace birb
 		~text();
 		text(const text& other);
 		text(text&) = delete;
+		text(text&&) = default;
 
 		birb::font font;
 		vec3<f32> position;

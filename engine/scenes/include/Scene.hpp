@@ -28,6 +28,9 @@ namespace birb
 	public:
 		scene();
 		~scene();
+		scene(scene&) = delete;
+		scene(const scene&) = delete;
+		scene(const scene&&) = delete;
 
 		entt::registry registry;
 

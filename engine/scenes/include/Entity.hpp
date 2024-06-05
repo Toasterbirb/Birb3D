@@ -13,6 +13,9 @@ namespace birb
 	public:
 		explicit entity(scene* scene, const entt::entity& entity);
 		~entity();
+		entity(entity&) = default;
+		entity(const entity&) = default;
+		entity(entity&&) = default;
 
 		template<typename T>
 		constexpr void add_component(const T& component)

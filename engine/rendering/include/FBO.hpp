@@ -14,8 +14,10 @@ namespace birb
 	{
 	public:
 		explicit fbo(const birb::vec2<i32>& dimensions, const color_format format, const u8 frame_buffer_texture_slot = 0);
-		fbo(const fbo&) = delete;
 		~fbo();
+		fbo(fbo&) = delete;
+		fbo(const fbo&) = delete;
+		fbo(fbo&&) = delete; // TODO: Maybe define this at some point if needed
 
 		// Reference to the frame buffer object
 		u32 id;

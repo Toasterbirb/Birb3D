@@ -20,6 +20,10 @@ namespace birb
 			explicit performance(const timestep& ts);
 			performance(timestep& ts, const char* collapsing_menu);
 			~performance();
+			performance(performance&) = delete;
+			performance(const performance&) = delete;
+			performance(performance&&) = default;
+
 			void draw() override;
 
 		private:

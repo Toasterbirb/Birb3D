@@ -11,9 +11,10 @@ namespace birb
 	{
 	public:
 		explicit rbo(const vec2<i32>& dimensions);
+		~rbo();
 		rbo(rbo&) = delete;
 		rbo(const rbo&) = delete;
-		~rbo();
+		rbo(rbo&& other);
 
 	private:
 		u32 id = 0;

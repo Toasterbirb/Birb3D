@@ -33,7 +33,9 @@ namespace birb
 		shader();
 		explicit shader(const std::string& shader_name);
 		shader(const std::string& vertex, const std::string& fragment);
+		shader(shader& other);
 		shader(const shader& other);
+		shader(shader&&) = default;
 		~shader();
 
 		// Reference to the shader program

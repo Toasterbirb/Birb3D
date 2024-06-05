@@ -47,6 +47,24 @@ namespace birb
 		ensure(id != 0);
 	}
 
+	shader::shader(shader& other)
+	{
+		// TODO: Get rid of the duplicated copy constructor code
+		PROFILER_SCOPE_MISC("Shader copy");
+
+		birb::log("Shader copy causing a recompile (" + birb::ptr_to_str(&other) + " -> " + birb::ptr_to_str(this) + ")");
+
+		id = 0;
+		vertex_shader_name		= other.vertex_shader_name;
+		fragment_shader_name	= other.fragment_shader_name;
+
+		compile_shader(other.vertex_shader_name, other.fragment_shader_name);
+
+		reset_lights();
+
+		ensure(id != 0);
+	}
+
 	shader::shader(const shader& other)
 	{
 		PROFILER_SCOPE_MISC("Shader copy");

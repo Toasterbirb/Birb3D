@@ -22,8 +22,10 @@ namespace birb
 			load(indices.data(), indices.size());
 		}
 
-		ebo(const ebo&) = delete;
 		~ebo();
+		ebo(ebo&) = delete;
+		ebo(const ebo&) = delete;
+		ebo(ebo&& other);
 
 		// Reference to the element array buffer
 		u32 id = 0;

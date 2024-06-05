@@ -17,9 +17,11 @@ namespace birb
 	{
 	public:
 		texture() = default;
-		texture(const texture&) = delete;
 		texture(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension = 2);
 		~texture();
+		texture(texture&) = delete;
+		texture(const texture&) = delete;
+		texture(texture&&) = default; // TODO: Make sure this is okay
 
 		u32 id = 0;
 

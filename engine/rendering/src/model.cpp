@@ -32,10 +32,6 @@ namespace birb
 		load_model(path);
 	}
 
-	model::~model()
-	{
-	}
-
 	void model::draw(shader& shader, renderer_stats& render_stats, const bool skip_materials)
 	{
 		ensure(!meshes->empty(), "Attempted to draw a model with no meshes");

@@ -16,6 +16,7 @@ namespace birb
 		~transformer();
 		transformer(const transformer&) = default;
 		transformer(transformer&) = default;
+		transformer(transformer&&) = default;
 
 		std::vector<transform> transforms;
 

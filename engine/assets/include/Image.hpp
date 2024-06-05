@@ -10,6 +10,9 @@ namespace birb
 		{
 			explicit image(const char* path, bool flip_vertically = false);
 			~image();
+			image(image&) = delete;
+			image(const image&) = delete;
+			image(image&& other);
 
 			unsigned char* data;
 			vec2<i32> dimensions;

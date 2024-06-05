@@ -19,8 +19,17 @@ namespace birb
 
 	ubo::~ubo()
 	{
-		ensure(id != 0);
-		glDeleteBuffers(1, &id);
+		if (id != 0)
+			glDeleteBuffers(1, &id);
+	}
+
+	ubo::ubo(ubo&& other)
+	{
+		id = other.id;
+		size = other.size;
+
+		other.id = 0;
+		other.size = 0;
 	}
 
 	void ubo::bind() const

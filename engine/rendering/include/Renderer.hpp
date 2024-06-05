@@ -28,8 +28,10 @@ namespace birb
 	{
 	public:
 		renderer();
-		renderer(const renderer&) = delete;
 		~renderer();
+		renderer(renderer&) = delete;
+		renderer(const renderer&) = delete;
+		renderer(renderer&&) = delete;
 
 		enum class gl_primitive
 		{

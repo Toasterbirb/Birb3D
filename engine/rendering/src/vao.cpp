@@ -17,7 +17,18 @@ namespace birb
 	vao::~vao()
 	{
 		ensure(birb::g_opengl_initialized);
-		glDeleteVertexArrays(1, &id);
+
+		if (id != 0)
+			glDeleteVertexArrays(1, &id);
+	}
+
+	vao::vao(vao&& other)
+	{
+		id = other.id;
+		other.id = 0;
+
+		has_ebo = other.has_ebo;
+		other.has_ebo = false;
 	}
 
 	void vao::link_vbo(birb::vbo& vbo, u32 layout, u32 num_components, std::size_t stride, u32 offset)

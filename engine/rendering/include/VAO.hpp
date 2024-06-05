@@ -12,8 +12,10 @@ namespace birb
 	{
 	public:
 		vao();
-		vao(const vao&) = delete;
 		~vao();
+		vao(vao&) = delete;
+		vao(const vao&) = delete;
+		vao(vao&& other);
 
 		// Reference to the vertex array object
 		u32 id = 0;
