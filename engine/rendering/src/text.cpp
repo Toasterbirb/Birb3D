@@ -14,24 +14,28 @@ namespace birb
 	text::text(const std::string& text, const birb::font& font, const vec3<f32> position)
 	:font(font), position(position), color(0xFFFFFF), shader(default_vert_shader, default_frag_shader)
 	{
+		allocate_instance_vbos();
 		set_text(text);
 	}
 
 	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color)
 	:font(font), position(position), color(color), shader(default_vert_shader, default_frag_shader)
 	{
+		allocate_instance_vbos();
 		set_text(text);
 	}
 
 	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color, const shader_ref& shader)
 	:font(font), position(position), color(color), shader(shader)
 	{
+		allocate_instance_vbos();
 		set_text(text);
 	}
 
 	text::~text()
 	{
-		free_instance_vbos();
+		for (const std::pair<char, u32> vbo : instance_vbos)
+			glDeleteBuffers(1, &vbo.second);
 	}
 
 	text::text(const text& other)
@@ -45,6 +49,7 @@ namespace birb
 	 _char_texture_ids(other._char_texture_ids)
 	{
 		allocate_instance_vbos();
+		update_instance_vbos();
 	}
 
 	void text::set_text(const std::string& text)
@@ -98,11 +103,10 @@ namespace birb
 		ensure(!_chars.empty(), "This code path shouldn't be reached with an empty string");
 		ensure(_char_positions.size() <= txt.size());
 
-		// Create instance vbos
-		allocate_instance_vbos();
+		// Update instance vbos
+		update_instance_vbos();
 
 		ensure(_chars.size() == _char_texture_ids.size());
-		ensure(_chars.size() == instance_vbos.size());
 	}
 
 	std::string text::get_text() const
@@ -112,8 +116,6 @@ namespace birb
 
 	void text::clear()
 	{
-		free_instance_vbos();
-
 		txt.clear();
 		_chars.clear();
 		_char_positions.clear();
@@ -151,14 +153,21 @@ namespace birb
 	void text::allocate_instance_vbos()
 	{
 		ensure(instance_vbos.empty());
+		ensure(instance_vbo_ids.empty());
 
-		std::vector<u32> instance_vbo_arr(_chars.size());
-		glGenBuffers(_chars.size(), instance_vbo_arr.data());
+		constexpr u8 max_char_count = 128;
+		instance_vbo_ids.resize(max_char_count);
+		glGenBuffers(max_char_count, instance_vbo_ids.data());
+	}
+
+	void text::update_instance_vbos()
+	{
+		ensure(!instance_vbo_ids.empty());
 
 		u32 index = 0;
 		for (const char c : _chars)
 		{
-			const u32 vbo = instance_vbo_arr.at(index++);
+			const u32 vbo = instance_vbo_ids.at(index++);
 
 			instance_vbos[c] = vbo;
 
@@ -170,13 +179,5 @@ namespace birb
 		}
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-	}
-
-	void text::free_instance_vbos()
-	{
-		for (const std::pair<char, u32> vbo : instance_vbos)
-			glDeleteBuffers(1, &vbo.second);
-
-		instance_vbos.clear();
 	}
 }

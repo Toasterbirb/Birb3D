@@ -44,9 +44,10 @@ namespace birb
 		std::unordered_map<char, std::vector<glm::vec2>> _char_positions;
 		std::unordered_map<char, u32> _char_texture_ids;
 
+		std::vector<u32> instance_vbo_ids;
 		std::unordered_map<char, u32> instance_vbos;
 
 		void allocate_instance_vbos();
-		void free_instance_vbos();
+		void update_instance_vbos();
 	};
 }
