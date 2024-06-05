@@ -122,7 +122,7 @@ namespace birb
 	void texture::bind()
 	{
 		ensure(id != 0, "Texture needs to be initialized at this point");
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(tex_type, id);
@@ -131,7 +131,7 @@ namespace birb
 	void texture::bind(const u32 texture_id)
 	{
 		ensure(texture_id != 0, "Use the unbind() function if you need to unbind a texture");
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 
 		glBindTexture(GL_TEXTURE_2D, texture_id);
 	}

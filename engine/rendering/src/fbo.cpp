@@ -34,7 +34,7 @@ namespace birb
 
 	fbo::~fbo()
 	{
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 		ensure(id != 0);
 		ensure(birb::g_opengl_initialized);
 		glDeleteBuffers(1, &id);
@@ -68,7 +68,7 @@ namespace birb
 
 	void fbo::bind_frame_buffer()
 	{
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 		ensure(frame_buffer.id != 0);
 		ensure(frame_buffer.size().x > 0);
 		ensure(frame_buffer.size().y > 0);

@@ -2,13 +2,6 @@
 
 #include "GLSupervisor.hpp"
 
-// Some fancy macros from https://stackoverflow.com/a/17624752
-// for generating unique_variable names
-#define CONCAT(a, b) CONCAT_INNER(a, b)
-#define CONCAT_INNER(a, b) a ## b
-#define UNIQUE_NAME(base) CONCAT(base, __COUNTER__)
-#define GL_SUPERVISOR_SCOPE() birb::gl_supervisor UNIQUE_NAME(scoped_gl_error_supervisor);
-
 #if MICROPROFILE_ENABLED == 1
 #include <microprofile.h>
 

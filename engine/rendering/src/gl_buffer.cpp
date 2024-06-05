@@ -18,7 +18,7 @@ namespace birb
 	gl_buffer::gl_buffer(const gl_buffer_type type)
 	:type(type)
 	{
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 
 		// Make sure that the d_currently_bound_buffers debug variable is up-to-date
 		ensure(d_currently_bound_buffers.contains(type), "The d_currently_bound_buffers hash map is missing a gl_buffer_type enum member");
@@ -30,7 +30,7 @@ namespace birb
 
 	gl_buffer::~gl_buffer()
 	{
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 
 		ensure(birb::g_opengl_initialized);
 		if (_id != 0)
@@ -51,7 +51,7 @@ namespace birb
 
 	void gl_buffer::bind() const
 	{
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 
 #ifndef NDEBUG
 		d_currently_bound_buffers.at(type) = _id;
@@ -80,7 +80,7 @@ namespace birb
 
 	void gl_buffer::set_data(const intptr_t size, const void* data, const gl_usage usage) const
 	{
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 
 		ensure(d_currently_bound_buffers.at(type) == _id, "Bind the buffer before modifying it");
 		glBufferData(static_cast<int>(type), size, data, static_cast<int>(usage));
@@ -88,7 +88,7 @@ namespace birb
 
 	void gl_buffer::update_data(const intptr_t size, const void* data, const u32 offset) const
 	{
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 
 		ensure(d_currently_bound_buffers.at(type) == _id, "Bind the buffer before modifying it");
 		glBufferSubData(static_cast<int>(type), offset, size, data);

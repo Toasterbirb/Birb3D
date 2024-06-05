@@ -155,7 +155,6 @@ namespace birb
 	void text::allocate_instance_vbos()
 	{
 		PROFILER_SCOPE_RENDER_FN();
-		gl_supervisor gls;
 
 		ensure(instance_vbos.empty());
 		ensure(instance_vbo_ids.empty());
@@ -168,7 +167,6 @@ namespace birb
 	void text::update_instance_vbos()
 	{
 		PROFILER_SCOPE_RENDER_FN();
-		gl_supervisor gls;
 
 		ensure(!instance_vbo_ids.empty());
 

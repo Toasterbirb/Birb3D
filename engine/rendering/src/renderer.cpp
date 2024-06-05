@@ -70,7 +70,7 @@ namespace birb
 	 texture_shader_ref("texture"),
 	 post_processing_shader_ref("post_process")
 	{
-		gl_supervisor gls;
+		GL_SUPERVISOR_SCOPE();
 
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::register_event_id(event::toggle_debug_view, this);

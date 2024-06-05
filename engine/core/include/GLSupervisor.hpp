@@ -1,5 +1,13 @@
 #pragma once
 
+#include "Macros.hpp"
+
+#ifndef NDEBUG
+#define GL_SUPERVISOR_SCOPE() birb::gl_supervisor UNIQUE_NAME(scoped_gl_error_supervisor);
+#else
+#define GL_SUPERVISOR_SCOPE()
+#endif
+
 namespace birb
 {
 	/**
