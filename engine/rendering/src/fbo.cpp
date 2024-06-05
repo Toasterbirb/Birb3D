@@ -21,6 +21,17 @@ namespace birb
 
 		texture_slot = frame_buffer_texture_slot;
 
+#ifndef NDEBUG
+		// FBOs cannot be constructed if there's an FBO bound
+		i32 previously_bound_fbo_draw = -1;
+		glGetIntegerv(GL_FRAMEBUFFER_BINDING, &previously_bound_fbo_draw);
+		ensure(previously_bound_fbo_draw == 0, "FBOs cannot be constructed if there's an FBO that is bound already");
+
+		i32 previously_bound_fbo_read = -1;
+		glGetIntegerv(GL_FRAMEBUFFER_BINDING, &previously_bound_fbo_read);
+		ensure(previously_bound_fbo_read == 0, "FBOs cannot be constructed if there's an FBO that is bound already");
+#endif
+
 		glGenFramebuffers(1, &id);
 
 		bind();
