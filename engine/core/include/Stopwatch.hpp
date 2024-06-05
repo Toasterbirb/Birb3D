@@ -11,8 +11,9 @@ namespace birb
 	public:
 		explicit stopwatch(const std::string& name = "Stopwatch");
 		~stopwatch();
-		stopwatch(const stopwatch&) = default;
-		stopwatch(stopwatch&) = default;
+		stopwatch(const stopwatch&) = delete;
+		stopwatch(stopwatch&) = delete;
+		stopwatch(stopwatch&&) = delete;
 
 		void reset();
 		f64 stop(const bool quiet = false);
