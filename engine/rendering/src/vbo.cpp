@@ -20,11 +20,26 @@ namespace birb
 		set_data(vertices.data(), vertices.size(), static_draw);
 	}
 
+	vbo::vbo(vbo&& other)
+	{
+		this->id = other.id;
+		other.id = 0;
+	}
+
+	vbo& vbo::operator=(vbo&& other) noexcept
+	{
+		this->id = other.id;
+		other.id = 0;
+		return *this;
+	}
+
 	vbo::~vbo()
 	{
 		ensure(birb::g_opengl_initialized);
-		ensure(id != 0);
-		glDeleteBuffers(1, &id);
+
+		// Only free the VBO if it is still allocated
+		if (id != 0)
+			glDeleteBuffers(1, &id);
 	}
 
 	void vbo::set_data(const std::vector<f32>& data, const bool static_draw) const

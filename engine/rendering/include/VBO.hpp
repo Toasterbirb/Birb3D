@@ -23,8 +23,12 @@ namespace birb
 			set_data(data.data(), data.size(), static_draw);
 		}
 
-		vbo(const vbo&) = delete;
 		~vbo();
+
+		vbo(vbo&) = delete;
+		vbo(const vbo&) = delete;
+		vbo(vbo&& other);
+		vbo& operator=(vbo&& other) noexcept;
 
 		// Reference to the vertex buffer object
 		u32 id = 0;
