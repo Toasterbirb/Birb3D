@@ -2,6 +2,8 @@
 
 #include "Types.hpp"
 
+#include <unordered_map>
+
 namespace birb
 {
 	enum class gl_buffer_type
@@ -58,5 +60,11 @@ namespace birb
 	private:
 		u32 _id;
 		const gl_buffer_type type;
+
+		static inline std::unordered_map<gl_buffer_type, u32> d_currently_bound_buffers = {
+			{ gl_buffer_type::array, 0 },
+			{ gl_buffer_type::element_array, 0 },
+			{ gl_buffer_type::uniform, 0},
+		};
 	};
 }
