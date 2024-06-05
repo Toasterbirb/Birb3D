@@ -97,6 +97,7 @@ namespace birb
 
 		glBindTexture(tex_type, 0);
 
+		process_gl_errors();
 		birb::log("Texture loaded [", image_path, "] (", ptr_to_str(this), ")");
 	}
 
@@ -109,6 +110,7 @@ namespace birb
 
 		glDeleteTextures(1, &id);
 		id = 0;
+		process_gl_errors();
 	}
 
 	void texture::tex_unit(birb::shader& shader, const char* uniform, const u32 unit)
@@ -124,6 +126,7 @@ namespace birb
 
 		glActiveTexture(GL_TEXTURE0 + slot);
 		glBindTexture(tex_type, id);
+		process_gl_errors();
 	}
 
 	void texture::bind(const u32 texture_id)
@@ -131,6 +134,7 @@ namespace birb
 		ensure(texture_id != 0, "Use the unbind() function if you need to unbind a texture");
 
 		glBindTexture(GL_TEXTURE_2D, texture_id);
+		process_gl_errors();
 	}
 
 	void texture::unbind()
@@ -165,6 +169,8 @@ namespace birb
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+		process_gl_errors();
 
 		return id;
 	}

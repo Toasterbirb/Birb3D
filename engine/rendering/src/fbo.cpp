@@ -29,6 +29,8 @@ namespace birb
 		// Make sure that the dimensions are correct
 		ensure(frame_buffer.size().x == dimensions.x);
 		ensure(frame_buffer.size().y == dimensions.y);
+
+		process_gl_errors();
 	}
 
 	fbo::~fbo()
@@ -122,6 +124,7 @@ namespace birb
 		render_buffer_object.reset();
 
 		setup_rbo(dimensions);
+		process_gl_errors();
 	}
 
 	void fbo::attach_texture(const texture& texture, const color_format format)
@@ -144,6 +147,8 @@ namespace birb
 		{
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.id, 0);
 		}
+
+		process_gl_errors();
 	}
 
 	void fbo::setup_rbo(vec2<i32> dimensions)

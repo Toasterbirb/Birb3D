@@ -102,6 +102,7 @@ namespace birb
 		// Make sure that antialiasing is enabled
 		glEnable(GL_MULTISAMPLE);
 
+		process_gl_errors();
 		birb::log("window created successfully!");
 	}
 

@@ -1,6 +1,7 @@
 #include "Assert.hpp"
 #include "GLBuffer.hpp"
 #include "Globals.hpp"
+#include "Logger.hpp"
 
 #include <glad/gl.h>
 
@@ -22,6 +23,7 @@ namespace birb
 		ensure(birb::g_opengl_initialized);
 		glGenBuffers(1, &_id);
 		ensure(_id != 0);
+		process_gl_errors();
 	}
 
 	gl_buffer::~gl_buffer()
@@ -29,6 +31,8 @@ namespace birb
 		ensure(birb::g_opengl_initialized);
 		if (_id != 0)
 			glDeleteBuffers(1, &_id);
+
+		process_gl_errors();
 	}
 
 	gl_buffer::gl_buffer(gl_buffer&& other)
@@ -50,6 +54,7 @@ namespace birb
 #endif
 
 		glBindBuffer(static_cast<int>(type), _id);
+		process_gl_errors();
 	}
 
 	void gl_buffer::unbind() const
@@ -74,11 +79,13 @@ namespace birb
 	{
 		ensure(d_currently_bound_buffers.at(type) == _id, "Bind the buffer before modifying it");
 		glBufferData(static_cast<int>(type), size, data, static_cast<int>(usage));
+		process_gl_errors();
 	}
 
 	void gl_buffer::update_data(const intptr_t size, const void* data, const u32 offset) const
 	{
 		ensure(d_currently_bound_buffers.at(type) == _id, "Bind the buffer before modifying it");
 		glBufferSubData(static_cast<int>(type), offset, size, data);
+		process_gl_errors();
 	}
 }

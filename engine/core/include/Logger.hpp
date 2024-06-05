@@ -58,6 +58,18 @@ namespace birb
 	}
 
 	/**
+	 * @brief Print a red error message without stacktrace
+	 *
+	 * @param args Error text to print
+	 */
+	template<class... Args>
+	void log_error_no_trace(Args... args)
+	{
+		std::cerr << "\033[31m[E] ";
+		(std::cerr << ... << args) << "\033[0m\n";
+	}
+
+	/**
 	 * @brief Print a fatal error and crash the program
 	 *
 	 * @param exit_code Exit code that will be used when quitting the program
@@ -78,4 +90,6 @@ namespace birb
 	 * @brief Helper function for converting 64-bit pointers to a string
 	 */
 	std::string ptr_to_str(const void* ptr);
+
+	void process_gl_errors();
 }

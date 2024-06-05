@@ -69,6 +69,10 @@ namespace birb
 	 texture_shader_ref("texture"),
 	 post_processing_shader_ref("post_process")
 	{
+		// Clear the OpenGL error queue before setting up anything rendering related
+		// This should catch any errors coming from the variables initialize above
+		process_gl_errors();
+
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::register_event_id(event::toggle_debug_view, this);
 		event_bus::register_event_id(event::reload_models, this);
@@ -156,6 +160,8 @@ namespace birb
 #else
 		birb::log_warn("Shader precompiling is disabled in debug builds");
 #endif
+
+		process_gl_errors();
 	}
 
 	renderer::~renderer()
@@ -199,6 +205,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
+		// Empty the error queue before doing anything that might cause more errors
+		process_gl_errors();
+
 		ensure(current_scene != nullptr);
 		ensure(scene::scene_count() > 0);
 		ensure(!g_buffers_flipped, "Tried to draw entities after the buffers were already flipped");
@@ -229,14 +238,17 @@ namespace birb
 		birb::stopwatch render_stopwatch;
 		draw_2d_entities();
 		render_stats.draw_2d_duration = render_stopwatch.stop(true);
+		process_gl_errors();
 
 		render_stopwatch.reset();
 		draw_3d_entities();
 		render_stats.draw_3d_duration = render_stopwatch.stop(true);
+		process_gl_errors();
 
 		render_stopwatch.reset();
 		draw_screenspace_entities();
 		render_stats.draw_screenspace_duration = render_stopwatch.stop(true);
+		process_gl_errors();
 
 
 		/////////////////////

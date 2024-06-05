@@ -1,5 +1,6 @@
 #include "Assert.hpp"
 #include "Character.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 #include "Text.hpp"
 
@@ -183,5 +184,6 @@ namespace birb
 		}
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		process_gl_errors();
 	}
 }

@@ -1,5 +1,5 @@
 #include "Assert.hpp"
-#include "Globals.hpp"
+#include "Logger.hpp"
 #include "VBO.hpp"
 
 #include <glad/gl.h>
@@ -9,7 +9,9 @@ namespace birb
 {
 	vbo::vbo()
 	:buffer(gl_buffer_type::array)
-	{}
+	{
+		process_gl_errors();
+	}
 
 	vbo::vbo(const std::vector<f32>& vertices, const bool static_draw)
 	:buffer(gl_buffer_type::array)
@@ -18,6 +20,7 @@ namespace birb
 		bind();
 		set_data(vertices.data(), vertices.size(), static_draw);
 		unbind();
+		process_gl_errors();
 	}
 
 	u32 vbo::id() const
@@ -54,12 +57,14 @@ namespace birb
 	{
 		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 		glEnableVertexAttribArray(index);
+		process_gl_errors();
 	}
 
 	void vbo::disable_vertex_attrib_array(const u32 index) const
 	{
 		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 		glDisableVertexAttribArray(index);
+		process_gl_errors();
 	}
 
 	void vbo::set_vertex_attrib_ptr(const u32 layout_index,
@@ -73,6 +78,8 @@ namespace birb
 				GL_FLOAT, GL_FALSE,
 				components_per_vert * component_size,
 				reinterpret_cast<void*>(component_index * component_size));
+
+		process_gl_errors();
 	}
 
 	void vbo::bind() const
