@@ -1,6 +1,5 @@
 #include "Assert.hpp"
 #include "EBO.hpp"
-#include "Globals.hpp"
 
 #include <glad/gl.h>
 #include <vector>
@@ -8,6 +7,7 @@
 namespace birb
 {
 	ebo::ebo(const std::vector<u32>& indices)
+	:buffer(gl_buffer_type::element_array)
 	{
 		ensure(!indices.empty(), "Empty index array");
 		ensure(indices.size() < 33000, "You might wanna check the index count on that model");
@@ -15,37 +15,26 @@ namespace birb
 		load(indices.data(), indices.size());
 	}
 
-	ebo::~ebo()
-	{
-		ensure(birb::g_opengl_initialized);
-
-		if (id != 0)
-			glDeleteBuffers(1, &id);
-	}
-
-	ebo::ebo(ebo&& other)
-	{
-		id = other.id;
-		other.id = 0;
-	}
-
 	void ebo::load(const u32* indices, const size_t size)
 	{
-		ensure(id == 0);
 		ensure(size > 0);
 
-		glGenBuffers(1, &id);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
+		buffer.bind();
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(f32) * size, indices, GL_STATIC_DRAW);
+	}
+
+	u32 ebo::id() const
+	{
+		return buffer.id();
 	}
 
 	void ebo::bind()
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id);
+		buffer.bind();
 	}
 
 	void ebo::unbind()
 	{
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		buffer.unbind();
 	}
 }

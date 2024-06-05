@@ -1,7 +1,9 @@
 #pragma once
 
+#include "GLBuffer.hpp"
 #include "ShaderUniforms.hpp"
 #include "Types.hpp"
+
 #include <cstdint>
 
 namespace birb
@@ -11,10 +13,10 @@ namespace birb
 	public:
 		ubo(const uniform_block& block);
 		ubo(const u32 bind_point, const u32 size_in_bytes, const bool static_draw);
-		~ubo();
+		~ubo() = default;
 		ubo(const ubo&) = delete;
 		ubo(ubo&) = delete;
-		ubo(ubo&& other);
+		ubo(ubo&&) = default;
 
 		void bind() const;
 		static void unbind();
@@ -23,7 +25,7 @@ namespace birb
 	private:
 		void create_ubo(const u32 bind_point, const u32 size_in_bytes, const bool static_draw);
 
-		u32 id = 0;
+		gl_buffer buffer;
 		u32 size = 0;
 	};
 }

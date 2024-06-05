@@ -14,7 +14,7 @@
 namespace birb
 {
 	mesh::mesh(const std::vector<vertex>& vertices, const std::vector<u32>& indices, const std::vector<mesh_texture>& textures, const birb::material& material, const std::string& material_name, const std::string& name)
-	:vertices(vertices), indices(indices), textures(textures), material_name(material_name), material(material), name(name)
+	:vertices(vertices), indices(indices), textures(textures), material_name(material_name), material(material), name(name), vbo(gl_buffer_type::array), ebo(gl_buffer_type::element_array)
 	{
 		setup_mesh();
 		birb::log("Mesh constructed: ", name, " (mat: ", material_name, ", addr: ", birb::ptr_to_str(this), ")");
@@ -25,14 +25,9 @@ namespace birb
 		birb::log("Destroying mesh (" + birb::ptr_to_str(this) + ")");
 
 		ensure(birb::g_opengl_initialized);
-
 		ensure(vao != 0);
-		ensure(vbo != 0);
-		ensure(ebo != 0);
 
 		glDeleteVertexArrays(1, &vao);
-		glDeleteBuffers(1, &vbo);
-		glDeleteBuffers(1, &ebo);
 	}
 
 	void mesh::draw(shader& shader, renderer_stats& render_stats, const bool skip_materials)
@@ -84,16 +79,14 @@ namespace birb
 
 		// Create the buffers
 		glGenVertexArrays(1, &vao);
-		glGenBuffers(1, &vbo);
-		glGenBuffers(1, &ebo);
 
 		// Bind the VAO and setup the VBO with the vertex data
 		glBindVertexArray(vao);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		vbo.bind();
 		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vertex), &vertices[0], GL_STATIC_DRAW);
 
 		// Bind the EBO and setup the indices
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+		ebo.bind();
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(u32), &indices[0], GL_STATIC_DRAW);
 
 		// -- Load data into the currently bound VBO, I think ... --

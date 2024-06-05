@@ -37,7 +37,7 @@ namespace birb
 
 		ensure(d_current_bound_vao == id, "Remember to bind the VAO before modifying it");
 
-		ensure(vbo.id != 0);
+		ensure(vbo.id() != 0);
 		ensure(num_components != 0, "Invalid amount of components");
 		ensure(stride != 0 && stride >= num_components, "Invalid stride");
 

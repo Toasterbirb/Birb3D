@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GLBuffer.hpp"
 #include "Material.hpp"
 
 #include <glm/glm.hpp>
@@ -47,6 +48,7 @@ namespace birb
 	private:
 		void setup_mesh();
 
-		u32 vao, vbo, ebo;
+		gl_buffer vbo, ebo;
+		u32 vao;
 	};
 }

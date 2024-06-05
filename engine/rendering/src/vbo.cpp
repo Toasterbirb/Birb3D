@@ -8,38 +8,19 @@
 namespace birb
 {
 	vbo::vbo()
-	{
-		allocate_buffer();
-	}
+	:buffer(gl_buffer_type::array)
+	{}
 
 	vbo::vbo(const std::vector<f32>& vertices, const bool static_draw)
+	:buffer(gl_buffer_type::array)
 	{
 		ensure(!vertices.empty(), "Empty data array");
-
-		allocate_buffer();
 		set_data(vertices.data(), vertices.size(), static_draw);
 	}
 
-	vbo::vbo(vbo&& other)
+	u32 vbo::id() const
 	{
-		this->id = other.id;
-		other.id = 0;
-	}
-
-	vbo& vbo::operator=(vbo&& other) noexcept
-	{
-		this->id = other.id;
-		other.id = 0;
-		return *this;
-	}
-
-	vbo::~vbo()
-	{
-		ensure(birb::g_opengl_initialized);
-
-		// Only free the VBO if it is still allocated
-		if (id != 0)
-			glDeleteBuffers(1, &id);
+		return buffer.id();
 	}
 
 	void vbo::set_data(const std::vector<f32>& data, const bool static_draw) const
@@ -50,10 +31,9 @@ namespace birb
 
 	void vbo::set_data(const f32* data, const size_t size, const bool static_draw) const
 	{
-		ensure(id != 0);
 		ensure(size > 0);
 
-		glBindBuffer(GL_ARRAY_BUFFER, id);
+		buffer.bind();
 
 		if (static_draw)
 			glBufferData(GL_ARRAY_BUFFER, sizeof(f32) * size, data, GL_STATIC_DRAW);
@@ -63,7 +43,6 @@ namespace birb
 
 	void vbo::update_data(const f32* data, const size_t size, const u32 offset) const
 	{
-		ensure(id != 0);
 		ensure(size > 0);
 
 		glBufferSubData(GL_ARRAY_BUFFER, size * offset, size, data);
@@ -71,13 +50,13 @@ namespace birb
 
 	void vbo::enable_vertex_attrib_array(const u32 index) const
 	{
-		ensure(d_currently_bound_vbo == id, "Remember to bind the VBO before modifying it");
+		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 		glEnableVertexAttribArray(index);
 	}
 
 	void vbo::disable_vertex_attrib_array(const u32 index) const
 	{
-		ensure(d_currently_bound_vbo == id, "Remember to bind the VBO before modifying it");
+		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 		glDisableVertexAttribArray(index);
 	}
 
@@ -86,7 +65,7 @@ namespace birb
 				const size_t component_size,
 				const u32 components_per_vert) const
 	{
-		ensure(d_currently_bound_vbo == id, "Remember to bind the VBO before modifying it");
+		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 		glVertexAttribPointer(layout_index + component_index,
 				components_per_vert,
 				GL_FLOAT, GL_FALSE,
@@ -94,24 +73,18 @@ namespace birb
 				reinterpret_cast<void*>(component_index * component_size));
 	}
 
-	void vbo::allocate_buffer()
-	{
-		ensure(id == 0);
-		glGenBuffers(1, &id);
-	}
-
 	void vbo::bind() const
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, id);
+		buffer.bind();
 
 #ifndef NDEBUG
-		d_currently_bound_vbo = id;
+		d_currently_bound_vbo = buffer.id();
 #endif
 	}
 
 	void vbo::unbind()
 	{
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		gl_buffer::unbind(gl_buffer_type::array);
 
 #ifndef NDEBUG
 		d_currently_bound_vbo = 0;

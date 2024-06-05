@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GLBuffer.hpp"
 #include "Types.hpp"
 
 #include <array>
@@ -16,22 +17,19 @@ namespace birb
 
 		template<size_t N>
 		explicit vbo(const std::array<f32, N>& data, const bool static_draw = true)
+		:buffer(gl_buffer_type::array)
 		{
 			static_assert(N != 0, "Empty data array");
-
-			allocate_buffer();
 			set_data(data.data(), data.size(), static_draw);
 		}
 
-		~vbo();
-
+		~vbo() = default;
 		vbo(vbo&) = delete;
 		vbo(const vbo&) = delete;
-		vbo(vbo&& other);
-		vbo& operator=(vbo&& other) noexcept;
+		vbo(vbo&&) = default;
 
 		// Reference to the vertex buffer object
-		u32 id = 0;
+		u32 id() const;
 
 		void set_data(const std::vector<f32>& data, const bool static_draw = true) const;
 		void set_data(const f32* data, const size_t size, const bool static_draw) const;
@@ -55,6 +53,6 @@ namespace birb
 
 	private:
 		static inline u32 d_currently_bound_vbo = 0;
-		void allocate_buffer();
+		gl_buffer buffer;
 	};
 }
