@@ -1,5 +1,6 @@
 #include "Assert.hpp"
 #include "GLBuffer.hpp"
+#include "GLSupervisor.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
 
@@ -17,22 +18,23 @@ namespace birb
 	gl_buffer::gl_buffer(const gl_buffer_type type)
 	:type(type)
 	{
+		gl_supervisor gls;
+
 		// Make sure that the d_currently_bound_buffers debug variable is up-to-date
 		ensure(d_currently_bound_buffers.contains(type), "The d_currently_bound_buffers hash map is missing a gl_buffer_type enum member");
 
 		ensure(birb::g_opengl_initialized);
 		glGenBuffers(1, &_id);
 		ensure(_id != 0);
-		process_gl_errors();
 	}
 
 	gl_buffer::~gl_buffer()
 	{
+		gl_supervisor gls;
+
 		ensure(birb::g_opengl_initialized);
 		if (_id != 0)
 			glDeleteBuffers(1, &_id);
-
-		process_gl_errors();
 	}
 
 	gl_buffer::gl_buffer(gl_buffer&& other)
@@ -49,12 +51,13 @@ namespace birb
 
 	void gl_buffer::bind() const
 	{
+		gl_supervisor gls;
+
 #ifndef NDEBUG
 		d_currently_bound_buffers.at(type) = _id;
 #endif
 
 		glBindBuffer(static_cast<int>(type), _id);
-		process_gl_errors();
 	}
 
 	void gl_buffer::unbind() const
@@ -77,15 +80,17 @@ namespace birb
 
 	void gl_buffer::set_data(const intptr_t size, const void* data, const gl_usage usage) const
 	{
+		gl_supervisor gls;
+
 		ensure(d_currently_bound_buffers.at(type) == _id, "Bind the buffer before modifying it");
 		glBufferData(static_cast<int>(type), size, data, static_cast<int>(usage));
-		process_gl_errors();
 	}
 
 	void gl_buffer::update_data(const intptr_t size, const void* data, const u32 offset) const
 	{
+		gl_supervisor gls;
+
 		ensure(d_currently_bound_buffers.at(type) == _id, "Bind the buffer before modifying it");
 		glBufferSubData(static_cast<int>(type), offset, size, data);
-		process_gl_errors();
 	}
 }

@@ -3,6 +3,7 @@
 #include "Assert.hpp"
 #include "Camera.hpp"
 #include "EBO.hpp"
+#include "GLSupervisor.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
@@ -69,9 +70,7 @@ namespace birb
 	 texture_shader_ref("texture"),
 	 post_processing_shader_ref("post_process")
 	{
-		// Clear the OpenGL error queue before setting up anything rendering related
-		// This should catch any errors coming from the variables initialize above
-		process_gl_errors();
+		gl_supervisor gls;
 
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::register_event_id(event::toggle_debug_view, this);
@@ -160,8 +159,6 @@ namespace birb
 #else
 		birb::log_warn("Shader precompiling is disabled in debug builds");
 #endif
-
-		process_gl_errors();
 	}
 
 	renderer::~renderer()
@@ -204,9 +201,6 @@ namespace birb
 	void renderer::draw_entities(const camera& camera, vec2<i32> window_size)
 	{
 		PROFILER_SCOPE_RENDER_FN();
-
-		// Empty the error queue before doing anything that might cause more errors
-		process_gl_errors();
 
 		ensure(current_scene != nullptr);
 		ensure(scene::scene_count() > 0);

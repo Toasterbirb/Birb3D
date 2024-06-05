@@ -1,5 +1,6 @@
 #include "Assert.hpp"
 #include "Character.hpp"
+#include "GLSupervisor.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
 #include "Text.hpp"
@@ -154,6 +155,7 @@ namespace birb
 	void text::allocate_instance_vbos()
 	{
 		PROFILER_SCOPE_RENDER_FN();
+		gl_supervisor gls;
 
 		ensure(instance_vbos.empty());
 		ensure(instance_vbo_ids.empty());
@@ -166,6 +168,7 @@ namespace birb
 	void text::update_instance_vbos()
 	{
 		PROFILER_SCOPE_RENDER_FN();
+		gl_supervisor gls;
 
 		ensure(!instance_vbo_ids.empty());
 
@@ -184,6 +187,5 @@ namespace birb
 		}
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		process_gl_errors();
 	}
 }

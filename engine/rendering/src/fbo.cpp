@@ -1,5 +1,6 @@
 #include "Assert.hpp"
 #include "FBO.hpp"
+#include "GLSupervisor.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
@@ -29,12 +30,11 @@ namespace birb
 		// Make sure that the dimensions are correct
 		ensure(frame_buffer.size().x == dimensions.x);
 		ensure(frame_buffer.size().y == dimensions.y);
-
-		process_gl_errors();
 	}
 
 	fbo::~fbo()
 	{
+		gl_supervisor gls;
 		ensure(id != 0);
 		ensure(birb::g_opengl_initialized);
 		glDeleteBuffers(1, &id);
@@ -68,6 +68,7 @@ namespace birb
 
 	void fbo::bind_frame_buffer()
 	{
+		gl_supervisor gls;
 		ensure(frame_buffer.id != 0);
 		ensure(frame_buffer.size().x > 0);
 		ensure(frame_buffer.size().y > 0);
@@ -124,7 +125,6 @@ namespace birb
 		render_buffer_object.reset();
 
 		setup_rbo(dimensions);
-		process_gl_errors();
 	}
 
 	void fbo::attach_texture(const texture& texture, const color_format format)
@@ -147,8 +147,6 @@ namespace birb
 		{
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture.id, 0);
 		}
-
-		process_gl_errors();
 	}
 
 	void fbo::setup_rbo(vec2<i32> dimensions)

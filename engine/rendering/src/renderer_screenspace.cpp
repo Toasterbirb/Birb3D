@@ -88,8 +88,6 @@ namespace birb
 			text_vbo.bind();
 			text_vbo.set_vertex_attrib_ptr(0, 0, sizeof(f32), 4);
 
-			process_gl_errors();
-
 			// Iterate through the text
 			for (const char c : chars)
 			{
@@ -133,7 +131,6 @@ namespace birb
 			texture::unbind();
 
 			++render_stats.entities_screenspace;
-			process_gl_errors();
 		}
 
 	}

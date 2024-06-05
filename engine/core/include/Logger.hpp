@@ -91,5 +91,5 @@ namespace birb
 	 */
 	std::string ptr_to_str(const void* ptr);
 
-	void process_gl_errors();
+	void process_gl_errors(const u32 stacktrace_scope_skip_amount = 0);
 }

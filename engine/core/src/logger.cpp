@@ -15,7 +15,7 @@ namespace birb
 		return "0x" + std::string(buf);
 	}
 
-	void process_gl_errors()
+	void process_gl_errors(const u32 stacktrace_scope_skip_amount)
 	{
 		ensure(g_opengl_initialized);
 
@@ -61,7 +61,7 @@ namespace birb
 					break;
 			}
 
-			cpptrace::generate_trace(1).print_with_snippets();
+			cpptrace::generate_trace(1 + stacktrace_scope_skip_amount).print_with_snippets();
 		}
 #endif
 	}
