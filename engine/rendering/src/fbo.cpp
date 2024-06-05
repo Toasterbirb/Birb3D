@@ -32,6 +32,7 @@ namespace birb
 		// Make sure that the dimensions are correct
 		ensure(frame_buffer.size().x == dimensions.x);
 		ensure(frame_buffer.size().y == dimensions.y);
+		ensure(d_currently_bound_fbo == 0);
 	}
 
 	fbo::~fbo()
