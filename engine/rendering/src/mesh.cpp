@@ -83,11 +83,11 @@ namespace birb
 		// Bind the VAO and setup the VBO with the vertex data
 		glBindVertexArray(vao);
 		vbo.bind();
-		vbo.set_data(vertices.size() * sizeof(vertices), &vertices[0], gl_usage::static_draw);
+		vbo.set_data(vertices.size() * sizeof(vertex), &vertices[0], gl_usage::static_draw);
 
 		// Bind the EBO and setup the indices
 		ebo.bind();
-		ebo.set_data(indices.size() * sizeof(f32), &indices[0], gl_usage::static_draw);
+		ebo.set_data(indices.size() * sizeof(u32), &indices[0], gl_usage::static_draw);
 
 		// -- Load data into the currently bound VBO, I think ... --
 
