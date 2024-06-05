@@ -17,6 +17,7 @@ namespace birb
 		~font() = default;
 		font(const font&) = default;
 		font(font&) = default;
+		font(font&&) = default;
 
 		character& get_char(const char c) const;
 		vec2<u32> char_dimensions(const char c) const;
