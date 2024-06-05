@@ -152,6 +152,8 @@ namespace birb
 
 	void text::allocate_instance_vbos()
 	{
+		PROFILER_SCOPE_RENDER_FN();
+
 		ensure(instance_vbos.empty());
 		ensure(instance_vbo_ids.empty());
 
@@ -162,6 +164,8 @@ namespace birb
 
 	void text::update_instance_vbos()
 	{
+		PROFILER_SCOPE_RENDER_FN();
+
 		ensure(!instance_vbo_ids.empty());
 
 		u32 index = 0;
