@@ -380,6 +380,14 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
+#ifndef NDEBUG
+		// Dear ImGui will cause the application to crash if
+		// there's some custom framebuffer bound when it renders
+		i32 previously_bound_fbo_draw = -1;
+		glGetIntegerv(GL_FRAMEBUFFER_BINDING, &previously_bound_fbo_draw);
+		ensure(previously_bound_fbo_draw == 0, "Remember to unbind all FBOs before flipping the buffers");
+#endif
+
 		{
 			PROFILER_SCOPE_RENDER("ImGui_ImplOpenGL3_NewFrame");
 			ImGui_ImplOpenGL3_NewFrame();
