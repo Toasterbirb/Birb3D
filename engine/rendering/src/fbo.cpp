@@ -12,8 +12,10 @@ namespace birb
 {
 	fbo::fbo(const vec2<i32>& dimensions, const color_format format, const u8 frame_buffer_texture_slot)
 	{
+		GL_SUPERVISOR_SCOPE();
 		ensure(dimensions.x > 0);
 		ensure(dimensions.y > 0);
+		ensure(g_opengl_initialized);
 
 		texture_slot = frame_buffer_texture_slot;
 
