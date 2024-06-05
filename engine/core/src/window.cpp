@@ -171,7 +171,10 @@ namespace birb
 			ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 		}
 
-		glfwSwapBuffers(glfw_window);
+		{
+			PROFILER_SCOPE_RENDER("Swap glfw buffers");
+			glfwSwapBuffers(glfw_window);
+		}
 
 #if MICROPROFILE_ENABLED == 1
 		MicroProfileFlip(nullptr);
