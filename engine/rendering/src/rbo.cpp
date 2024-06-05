@@ -1,4 +1,5 @@
 #include "Assert.hpp"
+#include "GLSupervisor.hpp"
 #include "Globals.hpp"
 #include "Profiling.hpp"
 #include "RBO.hpp"
@@ -21,12 +22,13 @@ namespace birb
 
 		glBindRenderbuffer(GL_RENDERBUFFER, id);
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, dimensions.x, dimensions.y);
-		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, id);
+		glBindRenderbuffer(GL_RENDERBUFFER, 0);
 	}
 
 	rbo::~rbo()
 	{
+		GL_SUPERVISOR_SCOPE();
 		ensure(birb::g_opengl_initialized);
 
 		if (id != 0)
