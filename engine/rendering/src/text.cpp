@@ -1,5 +1,7 @@
 #include "Assert.hpp"
 #include "Character.hpp"
+#include "GLSupervisor.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 #include "Text.hpp"
 

@@ -3,6 +3,7 @@
 #include "Assert.hpp"
 #include "Camera.hpp"
 #include "EBO.hpp"
+#include "GLSupervisor.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
@@ -69,6 +70,8 @@ namespace birb
 	 texture_shader_ref("texture"),
 	 post_processing_shader_ref("post_process")
 	{
+		GL_SUPERVISOR_SCOPE();
+
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
 		event_bus::register_event_id(event::toggle_debug_view, this);
 		event_bus::register_event_id(event::reload_models, this);
@@ -229,14 +232,17 @@ namespace birb
 		birb::stopwatch render_stopwatch;
 		draw_2d_entities();
 		render_stats.draw_2d_duration = render_stopwatch.stop(true);
+		process_gl_errors();
 
 		render_stopwatch.reset();
 		draw_3d_entities();
 		render_stats.draw_3d_duration = render_stopwatch.stop(true);
+		process_gl_errors();
 
 		render_stopwatch.reset();
 		draw_screenspace_entities();
 		render_stats.draw_screenspace_duration = render_stopwatch.stop(true);
+		process_gl_errors();
 
 
 		/////////////////////

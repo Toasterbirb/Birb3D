@@ -1,5 +1,5 @@
 #include "Assert.hpp"
-#include "Globals.hpp"
+#include "Logger.hpp"
 #include "VBO.hpp"
 
 #include <glad/gl.h>

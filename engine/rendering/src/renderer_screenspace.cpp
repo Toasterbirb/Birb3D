@@ -1,4 +1,5 @@
 #include "Line.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 #include "Renderer.hpp"
 #include "ShaderCollection.hpp"

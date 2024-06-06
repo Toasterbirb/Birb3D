@@ -426,7 +426,7 @@ namespace birb
 		}
 
 		// Handle errors for shader program linking
-		glGetProgramiv(shader, GL_COMPILE_STATUS, &has_compiled);
+		glGetProgramiv(shader, GL_LINK_STATUS, &has_compiled);
 		if (has_compiled == false)
 		{
 			glGetProgramInfoLog(shader, LOG_BUFFER_SIZE, NULL, info_log);
