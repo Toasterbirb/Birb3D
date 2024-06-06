@@ -12,11 +12,13 @@ namespace birb
 {
 	fbo::fbo(const vec2<i32>& dimensions, const color_format format, const u8 frame_buffer_texture_slot)
 	{
+		frame_buffer = std::make_unique<texture>();
+
 		GL_SUPERVISOR_SCOPE();
 		ensure(dimensions.x > 0);
 		ensure(dimensions.y > 0);
 		ensure(g_opengl_initialized);
-		ensure(frame_buffer.id == 0); // The framebuffer texture should be empty
+		ensure(frame_buffer->id == 0); // The framebuffer texture should be empty
 									  // at the beginning of construction
 
 		texture_slot = frame_buffer_texture_slot;
@@ -36,7 +38,7 @@ namespace birb
 
 		bind();
 		reload_frame_buffer_texture(dimensions, format);
-		ensure(frame_buffer.id != 0);
+		ensure(frame_buffer->id != 0);
 
 		// Test the framebuffer
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -44,8 +46,8 @@ namespace birb
 		unbind();
 
 		// Make sure that the dimensions are correct
-		ensure(frame_buffer.size().x == dimensions.x);
-		ensure(frame_buffer.size().y == dimensions.y);
+		ensure(frame_buffer->size().x == dimensions.x);
+		ensure(frame_buffer->size().y == dimensions.y);
 		ensure(d_currently_bound_fbo != id);
 	}
 
@@ -95,30 +97,30 @@ namespace birb
 	void fbo::bind_frame_buffer()
 	{
 		GL_SUPERVISOR_SCOPE();
-		ensure(frame_buffer.id != 0);
-		ensure(frame_buffer.size().x > 0);
-		ensure(frame_buffer.size().y > 0);
-		frame_buffer.bind();
+		ensure(frame_buffer->id != 0);
+		ensure(frame_buffer->size().x > 0);
+		ensure(frame_buffer->size().y > 0);
+		frame_buffer->bind();
 	}
 
 	void fbo::unbind_frame_buffer()
 	{
-		frame_buffer.unbind();
+		frame_buffer->unbind();
 	}
 
 	vec2<i32> fbo::frame_buffer_dimensions() const
 	{
-		return frame_buffer.size();
+		return frame_buffer->size();
 	}
 
 	u32 fbo::frame_buffer_id() const
 	{
-		return frame_buffer.id;
+		return frame_buffer->id;
 	}
 
 	texture* fbo::frame_buffer_ptr()
 	{
-		return &frame_buffer;
+		return frame_buffer.get();
 	}
 
 	void fbo::clear()
@@ -138,14 +140,14 @@ namespace birb
 		ensure(d_currently_bound_fbo == id, "Remember to bind the FBO before modifying it");
 
 		// Texture
-		if (frame_buffer.id != 0)
+		if (frame_buffer->id != 0)
 		{
-			glDeleteTextures(1, &frame_buffer.id);
-			frame_buffer.id = 0;
+			glDeleteTextures(1, &frame_buffer->id);
+			frame_buffer->id = 0;
 		}
 
-		frame_buffer.create_empty(dimensions, format, texture_slot);
-		attach_texture(frame_buffer, format);
+		frame_buffer->create_empty(dimensions, format, texture_slot);
+		attach_texture(*frame_buffer, format);
 
 		// Render buffer object
 		render_buffer_object.reset();

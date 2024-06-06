@@ -2,14 +2,21 @@
 #include "Character.hpp"
 #include "Font.hpp"
 #include "FontManager.hpp"
+#include "GLSupervisor.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
+#include "ShaderCollection.hpp"
+#include "ShaderUniforms.hpp"
 #include "UUID.hpp"
+#include "VAO.hpp"
+#include "VBO.hpp"
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
 #include <glad/gl.h>
+#include <glm/ext.hpp>
+#include <glm/glm.hpp>
 #include <map>
 
 static u8 counter = 0;
@@ -17,6 +24,7 @@ static u8 counter = 0;
 namespace birb
 {
 	font_manager::font_manager()
+	:glyph_shader_ref("text_bitmap"), bitmap_fbo(vec2<i32>(bitmap_atlas_size, bitmap_atlas_size), color_format::RGBA)
 	{
 		ensure(counter == 0, "There should be only a singular font_manager at any time");
 		counter++;
@@ -53,8 +61,46 @@ namespace birb
 		std::array<u32, glyph_count> glyph_texture_ids;
 		glGenTextures(glyph_count, glyph_texture_ids.data());
 
+		// Start rendering the glyphs into the bitmap fbo
+		constexpr u8 characters_per_row = 16;
+		const glm::vec2 glyph_atlas_dimensions(size, size);
+		glm::vec2 glyph_atlas_position(0.0f, 0.0f);
+		glm::mat4 orthographic_projection = glm::ortho(0.0f, bitmap_atlas_size, 0.0f, bitmap_atlas_size);
+
+		vao glyph_vao;
+		vbo glyph_vbo;
+
+		glyph_vao.bind();
+		glyph_vbo.bind();
+
+		const f32 glyph_quad_verts[6][4] = {
+			{ 0,							glyph_atlas_dimensions.y,	0.0f, 0.0f },
+			{ 0,							0,							0.0f, 1.0f },
+			{ glyph_atlas_dimensions.x, 	0,							1.0f, 1.0f },
+
+			{ 0,							glyph_atlas_dimensions.y,	0.0f, 0.0f },
+			{ glyph_atlas_dimensions.x,		0, 							1.0f, 1.0f },
+			{ glyph_atlas_dimensions.x,		glyph_atlas_dimensions.y,	1.0f, 0.0f }
+		};
+		glyph_vbo.set_data(*glyph_quad_verts, sizeof(glyph_quad_verts), true);
+		glyph_vao.link_vbo(glyph_vbo, 0, 4, 4, 0);
+
+		glyph_vao.unbind();
+		glyph_vbo.unbind();
+
+		std::shared_ptr<shader> glyph_shader = shader_collection::get_shader(glyph_shader_ref);
+		glyph_shader->activate();
+		glyph_shader->set(shader_uniforms::glyph, 0);
+		glyph_shader->set(shader_uniforms::custom_projection, orthographic_projection);
+		glActiveTexture(GL_TEXTURE0);
+
+		bitmap_fbo.bind();
+		glyph_vao.bind();
+
 		for (u8 i = 0; i < glyph_count; ++i)
 		{
+			GL_SUPERVISOR_SCOPE();
+
 			// Load the glyph
 			if (FT_Load_Char(font_face, i, FT_LOAD_RENDER))
 				log_fatal(1, "Failed to load glyph: ", static_cast<char>(i));
@@ -88,11 +134,28 @@ namespace birb
 			};
 
 			character_map->insert(std::pair<char, birb::character>(i, character));
+
+			// Draw the texture into the bitmap atlas
+			// Each character will use up size * size worth of space
+			glyph_shader->set(shader_uniforms::glyph_position, glyph_atlas_position);
+			glBindTexture(GL_TEXTURE_2D, glyph_texture_ids[i]);
+			glyph_vao.bind();
+			glDrawArrays(GL_TRIANGLES, 0, 6);
+
+			// Draw up-to x amount of characters per row
+			if (glyph_atlas_position.x >= glyph_atlas_dimensions.x * characters_per_row)
+			{
+				glyph_atlas_position.x = 0.0f;
+				glyph_atlas_position.y += glyph_atlas_dimensions.y;
+			}
 		}
+
+		glyph_vao.unbind();
+		bitmap_fbo.unbind();
 
 		// Free the font face
 		FT_Done_Face(font_face);
 
-		return font(character_map, size, uuid::generate());
+		return font(character_map, size, uuid::generate(), std::move(bitmap_fbo.frame_buffer));
 	}
 }

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "FBO.hpp"
+#include "ShaderRef.hpp"
 #include "Types.hpp"
 #include "Vector.hpp"
 
@@ -30,5 +32,13 @@ namespace birb
 
 	private:
 		FT_Library ft;
+
+		/**
+		 * @brief Bitmap atlas width and height in pixels
+		 */
+		static constexpr f32 bitmap_atlas_size = 2048.0f;
+
+		shader_ref glyph_shader_ref;
+		fbo bitmap_fbo;
 	};
 }

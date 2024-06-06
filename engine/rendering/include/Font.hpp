@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Texture.hpp"
 #include "Types.hpp"
 #include "Vector.hpp"
 
@@ -13,7 +14,7 @@ namespace birb
 	class font
 	{
 	public:
-		explicit font(const std::shared_ptr<std::map<char, character>> character_map, const u8 size, const u64 uuid);
+		explicit font(const std::shared_ptr<std::map<char, character>> character_map, const u8 size, const u64 uuid, std::shared_ptr<texture> bitmap);
 		~font() = default;
 		font(const font&) = default;
 		font(font&) = default;
@@ -23,6 +24,8 @@ namespace birb
 		vec2<u32> char_dimensions(const char c) const;
 		const u8 size;
 		const u64 uuid;
+
+		const std::shared_ptr<texture> bitmap;
 
 	private:
 		std::shared_ptr<std::map<char, character>> character_map;

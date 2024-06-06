@@ -48,11 +48,15 @@ namespace birb
 		const static inline uniform model("model", uniform_type::MAT4);
 		const static inline uniform view("view", uniform_type::MAT4);
 		const static inline uniform projection("projection", uniform_type::MAT4);
+		const static inline uniform custom_projection("custom_projection", uniform_type::MAT4);
 		const static inline uniform view_pos("view_pos", uniform_type::VEC3);
 
 		const static inline uniform color("color", uniform_type::BIRB_COLOR);
 		const static inline uniform text_color("text_color", uniform_type::BIRB_COLOR);
 		const static inline uniform text_position("text_position", uniform_type::BIRB_VEC3_FLOAT);
+
+		const static inline uniform glyph("glyph", uniform_type::INT);
+		const static inline uniform glyph_position("glyph_position", uniform_type::VEC2);
 
 		namespace block
 		{

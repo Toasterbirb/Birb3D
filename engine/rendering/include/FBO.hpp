@@ -58,9 +58,13 @@ namespace birb
 
 		void reload_frame_buffer_texture(const vec2<i32>& dimensions, const color_format format = color_format::RGB);
 
+		/**
+		 * @brief Raw access to the frame_buffer, only look, no touching
+		 */
+		std::unique_ptr<texture> frame_buffer;
+
 	private:
 		u8 texture_slot;
-		texture frame_buffer;
 		static inline u32 d_currently_bound_fbo = 0;
 
 		void attach_texture(const texture& texture, const color_format format);
