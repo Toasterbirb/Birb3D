@@ -17,7 +17,10 @@ namespace birb
 
 	void process_gl_errors(const u32 stacktrace_scope_skip_amount)
 	{
-		ensure(g_opengl_initialized);
+		// Don't attempt to look for OpenGL errors if OpenGL has not been
+		// initialized yet or is not initialized anymore
+		if (!g_opengl_initialized)
+			return;
 
 #ifndef NDEBUG
 		static constexpr char opengl_error_text[] = "OpenGL error: ";
