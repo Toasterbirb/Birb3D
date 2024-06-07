@@ -22,8 +22,19 @@ namespace birb
 
 		glm::mat4 model_matrix() const;
 
+		/**
+		 * @brief Move the transform position with the given delta values
+		 */
 		void translate(f32 x, f32 y, f32 z);
+
+		/**
+		 * @brief Rotate the transform with the given delta values
+		 */
 		void rotate(f32 x, f32 y, f32 z);
+
+		/**
+		 * @brief Multiply the scale of the transform with the given values
+		 */
 		void scale(f32 x, f32 y, f32 z);
 
 		/**
