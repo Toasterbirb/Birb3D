@@ -46,6 +46,27 @@ namespace birb
 		return model_matrix;
 	}
 
+	void transform::translate(f32 x, f32 y, f32 z)
+	{
+		position.x += x;
+		position.y += y;
+		position.z += z;
+	}
+
+	void transform::rotate(f32 x, f32 y, f32 z)
+	{
+		rotation.x += x;
+		rotation.y += y;
+		rotation.z += z;
+	}
+
+	void transform::scale(f32 x, f32 y, f32 z)
+	{
+		local_scale.x += x;
+		local_scale.y += y;
+		local_scale.z += z;
+	}
+
 	void transform::lock()
 	{
 		cached_model_matrix = model_matrix();

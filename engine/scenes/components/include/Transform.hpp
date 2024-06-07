@@ -22,6 +22,10 @@ namespace birb
 
 		glm::mat4 model_matrix() const;
 
+		void translate(f32 x, f32 y, f32 z);
+		void rotate(f32 x, f32 y, f32 z);
+		void scale(f32 x, f32 y, f32 z);
+
 		/**
 		 * @brief Lock the model matrix to the current value
 		 *
