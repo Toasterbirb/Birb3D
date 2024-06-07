@@ -32,8 +32,8 @@ namespace birb
 	// Input queue for engine reserved key inputs
 	static std::queue<input> engine_input_queue;
 
-	window::window(const std::string& title, const vec2<i32> dimensions, const bool resizable, const u8 msaa_level)
-	:msaa_level(msaa_level), dimensions(dimensions)
+	window::window(const std::string& title, const vec2<i32> dimensions, const u32 window_options)
+	:dimensions(dimensions)
 	{
 		event_bus::register_event_id(event::set_window_background_clear_color, this); // Set window background clear color | f32[3]
 
@@ -57,10 +57,22 @@ namespace birb
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-		glfwWindowHint(GLFW_RESIZABLE, resizable);
+		glfwWindowHint(GLFW_RESIZABLE, window_options & opt::resizable);
+		glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, window_options & opt::transparent);
 
 		// Enable antialiasing
-		glfwWindowHint(GLFW_SAMPLES, msaa_level);
+		if (window_options & opt::msaa_0)
+			_msaa_level = 0;
+		else if (window_options & opt::msaa_2)
+			_msaa_level = 2;
+		else if (window_options & opt::msaa_4)
+			_msaa_level = 4;
+		else if (window_options & opt::msaa_8)
+			_msaa_level = 8;
+		else
+			_msaa_level = 4; // Default to 4x MSAA
+
+		glfwWindowHint(GLFW_SAMPLES, _msaa_level);
 
 		// Create the window
 		birb::log("Creating the window");
@@ -81,7 +93,7 @@ namespace birb
 		glfwSetWindowFocusCallback(glfw_window, window_focus_callback);
 
 		// Disable vsync
-		glfwSwapInterval(0);
+		glfwSwapInterval(window_options & opt::vsync);
 
 		// Setup glad
 		gladLoadGL((GLADloadfunc)glfwGetProcAddress);
@@ -101,6 +113,10 @@ namespace birb
 
 		// Make sure that antialiasing is enabled
 		glEnable(GL_MULTISAMPLE);
+
+		// Lock the cursor to the window if needed
+		if (window_options & opt::lock_cursor_to_window)
+			lock_cursor_to_window();
 
 		process_gl_errors();
 		birb::log("window created successfully!");
@@ -374,6 +390,11 @@ namespace birb
 	color window::background_color() const
 	{
 		return current_background_color;
+	}
+
+	u8 window::msaa_level() const
+	{
+		return _msaa_level;
 	}
 
 	void window::new_imgui_frame()

@@ -58,7 +58,7 @@ int main(void)
 	birb::stopwatch stopwatch_benchmark("Benchmark");
 
 	birb::stopwatch stopwatch_window_creation("Window creation");
-	birb::window window("Benchmark", birb::vec2<i32>(1920, 822), false);
+	birb::window window("Benchmark", birb::vec2<i32>(1920, 822));
 	f64 window_creation_time = stopwatch_window_creation.stop();
 
 	window.init_imgui();

@@ -23,12 +23,29 @@ namespace birb
 	{
 	public:
 		/**
+		 * @class opt
+		 * @brief Window options
+		 *
+		 */
+		struct opt
+		{
+			constexpr static inline u32 msaa_0					= 1 << 0;
+			constexpr static inline u32 msaa_2					= 1 << 1;
+			constexpr static inline u32 msaa_4					= 1 << 2;
+			constexpr static inline u32 msaa_8					= 1 << 3;
+			constexpr static inline u32 resizable				= 1 << 4;
+			constexpr static inline u32 transparent 			= 1 << 5;
+			constexpr static inline u32 vsync					= 1 << 6;
+			constexpr static inline u32 lock_cursor_to_window	= 1 << 7;
+		};
+
+		/**
 		 * @brief Create a new window and initialize graphics related things
 		 *
 		 * @param title Window title
 		 * @param dimensions Size of the window
 		 */
-		window(const std::string& title, const vec2<i32> dimensions, const bool resizable = true, const u8 msaa_level = 4);
+		window(const std::string& title, const vec2<i32> dimensions, const u32 window_options = 0);
 		~window();
 		window(window&) = delete;
 		window(const window&) = delete;
@@ -163,13 +180,14 @@ namespace birb
 		/**
 		 * @brief MSAA sample count
 		 */
-		const u8 msaa_level;
+		u8 msaa_level() const;
 
 		static inline bool hot_reload_assets_on_focus_change = false;
 
 	private:
 		GLFWwindow* glfw_window;
 		color current_background_color;
+		u8 _msaa_level{};
 
 		/**
 		 * @brief Current size of the window
