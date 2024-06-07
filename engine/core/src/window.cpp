@@ -146,6 +146,7 @@ namespace birb
 		glfwTerminate();
 
 		g_opengl_initialized = false;
+		window_count--;
 	}
 
 	void window::process_event(u16 event_id, const event_data& data)
