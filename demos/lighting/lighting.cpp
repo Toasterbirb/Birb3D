@@ -137,7 +137,6 @@ int main(void)
 	}
 
 	birb::shader default_shader("default");
-	default_shader.reset_lights();
 
 	// Point light
 	for (size_t i = 0; i < light_positions.size(); ++i)

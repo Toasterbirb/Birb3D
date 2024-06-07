@@ -60,8 +60,6 @@ namespace birb
 
 		compile_shader(other.vertex_shader_name, other.fragment_shader_name);
 
-		reset_lights();
-
 		ensure(id != 0);
 	}
 
@@ -76,8 +74,6 @@ namespace birb
 		fragment_shader_name	= other.fragment_shader_name;
 
 		compile_shader(other.vertex_shader_name, other.fragment_shader_name);
-
-		reset_lights();
 
 		ensure(id != 0);
 	}
@@ -98,30 +94,6 @@ namespace birb
 #ifndef NDEBUG
 		d_currently_active_shader = id;
 #endif
-	}
-
-	void shader::reset_lights()
-	{
-		PROFILER_SCOPE_RENDER_FN();
-
-		// Point lights
-		for (u16 i = 0; i < point_light_count; ++i)
-		{
-			// Set the lights to black
-			set(shader_uniforms::point_lights::ambient,  vec3<f32>( 0.0f, 0.0f, 0.0f ), i);
-			set(shader_uniforms::point_lights::diffuse,  vec3<f32>( 0.0f, 0.0f, 0.0f ), i);
-			set(shader_uniforms::point_lights::specular, vec3<f32>( 0.0f, 0.0f, 0.0f ), i);
-
-			// Set the position to zero
-			set(shader_uniforms::point_lights::position, vec3<f32>(0.0f, 0.0f, 0.0f), i);
-
-			// Keep the attenuation values
-			set(shader_uniforms::point_lights::constant, 1.0f, i);
-			set(shader_uniforms::point_lights::linear, 0.09f, i);
-			set(shader_uniforms::point_lights::quadratic, 0.032f, i);
-		}
-
-		update_directional_light();
 	}
 
 	void shader::update_directional_light()

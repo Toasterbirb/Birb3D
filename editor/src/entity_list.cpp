@@ -124,7 +124,6 @@ namespace editor
 							std::string fragment_shader = birb::shader::fragment_shader_name_list().at(selected_frag_index);
 
 							birb::shader shader(vertex_shader, fragment_shader);
-							shader.reset_lights();
 							scene.add_component(entity, shader);
 
 							birb::color diffuse(rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f), rng.range_float(0.0f, 1.0f));

@@ -56,11 +56,6 @@ namespace birb
 		// Activate the shader program
 		void activate();
 
-		/**
-		 * @brief Set all directional and point lights to black
-		 */
-		void reset_lights();
-
 		void update_directional_light();
 		void update_point_lights();
 
