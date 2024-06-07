@@ -1,4 +1,3 @@
-#include "Assert.hpp"
 #include "Globals.hpp"
 #include "Logger.hpp"
 
