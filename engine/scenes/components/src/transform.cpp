@@ -62,9 +62,9 @@ namespace birb
 
 	void transform::scale(f32 x, f32 y, f32 z)
 	{
-		local_scale.x += x;
-		local_scale.y += y;
-		local_scale.z += z;
+		local_scale.x *= x;
+		local_scale.y *= y;
+		local_scale.z *= z;
 	}
 
 	void transform::lock()
