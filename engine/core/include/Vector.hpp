@@ -5,11 +5,11 @@
 
 #include <array>
 #include <cmath>
+#include <concepts>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>
 #include <iostream>
 #include <string>
-#include <type_traits>
 
 namespace birb
 {
@@ -169,19 +169,13 @@ namespace birb
 
         static constexpr birb::vec2<T> down()
 		{
-			static_assert(!std::is_same<T, u8>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u16>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u32>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u64>::value, "Integer underflow");
+			static_assert(!std::unsigned_integral<T>, "Integer underflow");
 			return birb::vec2<T>(0,-1);
 		}
 
         static constexpr birb::vec2<T> left()
 		{
-			static_assert(!std::is_same<T, u8>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u16>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u32>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u64>::value, "Integer underflow");
+			static_assert(!std::unsigned_integral<T>, "Integer underflow");
 			return birb::vec2<T>(-1,0);
 		}
 
@@ -355,10 +349,7 @@ namespace birb
 
         static constexpr birb::vec3<T> back()
 		{
-			static_assert(!std::is_same<T, u8>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u16>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u32>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u64>::value, "Integer underflow");
+			static_assert(!std::unsigned_integral<T>, "Integer underflow");
 			return birb::vec3<T>(0,0,-1);
 		}
 
@@ -369,19 +360,13 @@ namespace birb
 
         static constexpr birb::vec3<T> down()
 		{
-			static_assert(!std::is_same<T, u8>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u16>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u32>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u64>::value, "Integer underflow");
+			static_assert(!std::unsigned_integral<T>, "Integer underflow");
 			return birb::vec3<T>(0,-1,0);
 		}
 
         static constexpr birb::vec3<T> left()
 		{
-			static_assert(!std::is_same<T, u8>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u16>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u32>::value, "Integer underflow");
-			static_assert(!std::is_same<T, u64>::value, "Integer underflow");
+			static_assert(!std::unsigned_integral<T>, "Integer underflow");
 			return birb::vec3<T>(-1,0,0);
 		}
 

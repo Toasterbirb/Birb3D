@@ -5,9 +5,9 @@
 #include "Vector.hpp"
 
 #include <algorithm>
+#include <concepts>
 #include <mutex>
 #include <random>
-#include <type_traits>
 
 namespace birb
 {
@@ -56,7 +56,7 @@ namespace birb
 		template<typename T>
 		T range(T min, T max)
 		{
-			static_assert(!std::is_same<T, f32>::value && !std::is_same<T, f64>::value, "Random integers can't be generated with a floating point range");
+			static_assert(!std::floating_point<T>, "Random integers can't be generated with a floating point range");
 			ensure(min <= max);
 
 			T value = rng_engine() % (max + 1 - min) + min;
@@ -73,7 +73,7 @@ namespace birb
 		template<typename T>
 		T range_float(T min, T max)
 		{
-			static_assert(std::is_same<T, f32>::value || std::is_same<T, f64>::value, "range_float() only works with floating point ranges");
+			static_assert(std::floating_point<T>, "range_float() only works with floating point ranges");
 			ensure(min <= max);
 
 			T multiplier = (static_cast<T>(rng_engine())) / rng_engine.max();

@@ -4,11 +4,11 @@
 #include "Vector.hpp"
 
 #include <cmath>
+#include <concepts>
 #include <deque>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <numeric>
-#include <type_traits>
 #include <vector>
 
 static constexpr f32 PI = 3.1415927;
@@ -18,16 +18,14 @@ namespace birb
 	template<typename T>
 	constexpr bool is_bit_set(T variable, u8 position)
 	{
-		static_assert(!std::is_same<T, bool>::value);
-		static_assert(!std::is_same<T, f32>::value);
-		static_assert(!std::is_same<T, f64>::value);
+		static_assert(std::integral<T>);
 		return (variable & (1 << position)) != 0;
 	}
 
 	template<typename T>
 	constexpr T combine_hashes(const T a, const T b)
 	{
-		static_assert(!std::is_same<T, f32>::value && !std::is_same<T, f64>::value, "Floating point values cannot be used as hashes");
+		static_assert(!std::floating_point<T>, "Floating point values cannot be used as hashes");
 		return a ^ (b << 1);
 	}
 
