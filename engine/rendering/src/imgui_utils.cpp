@@ -22,5 +22,53 @@ namespace birb
 			}
 			ImGui::End();
 		}
+
+		bool draw_vec2i_slider(const std::string& window_name, const std::string& label, vec2<i32>& vec, const i32 min, const i32 max)
+		{
+			ensure(!window_name.empty());
+			ensure(!label.empty());
+
+			ImGui::Begin(window_name.c_str());
+			const bool value_changed = ImGui::SliderInt2(label.c_str(), *vec.to_ptr_array().data(), min, max);
+			ImGui::End();
+
+			return value_changed;
+		}
+
+		bool draw_vec3i_slider(const std::string& window_name, const std::string& label, vec3<i32>& vec, const i32 min, const i32 max)
+		{
+			ensure(!window_name.empty());
+			ensure(!label.empty());
+
+			ImGui::Begin(window_name.c_str());
+			const bool value_changed = ImGui::SliderInt3(label.c_str(), *vec.to_ptr_array().data(), min, max);
+			ImGui::End();
+
+			return value_changed;
+		}
+
+		bool draw_vec2f_slider(const std::string& window_name, const std::string& label, vec2<f32>& vec, const f32 min, const f32 max)
+		{
+			ensure(!window_name.empty());
+			ensure(!label.empty());
+
+			ImGui::Begin(window_name.c_str());
+			const bool value_changed = ImGui::SliderFloat2(label.c_str(), *vec.to_ptr_array().data(), min, max);
+			ImGui::End();
+
+			return value_changed;
+		}
+
+		bool draw_vec3f_slider(const std::string& window_name, const std::string& label, vec3<f32>& vec, const f32 min, const f32 max)
+		{
+			ensure(!window_name.empty());
+			ensure(!label.empty());
+
+			ImGui::Begin(window_name.c_str());
+			const bool value_changed = ImGui::SliderFloat3(label.c_str(), *vec.to_ptr_array().data(), min, max);
+			ImGui::End();
+
+			return value_changed;
+		}
 	}
 }
