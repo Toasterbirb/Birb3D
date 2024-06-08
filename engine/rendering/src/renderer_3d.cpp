@@ -1,4 +1,5 @@
 #include "BoxCollider.hpp"
+#include "Invisible.hpp"
 #include "Material.hpp"
 #include "Model.hpp"
 #include "Profiling.hpp"
@@ -66,6 +67,10 @@ namespace birb
 					birb::state* state = entity_registry.try_get<birb::state>(entity);
 					if (state)
 						data.is_active = state->active;
+
+					birb::invisible* invisible = entity_registry.try_get<birb::invisible>(entity);
+					if (invisible)
+						data.is_active = false;
 
 					// Don't do any unnecessary work if the entity is not active
 					// This makes the assumption that the rendering loop doesn't touch
