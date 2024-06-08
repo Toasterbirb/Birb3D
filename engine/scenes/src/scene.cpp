@@ -108,6 +108,15 @@ namespace birb
 		return true;
 	}
 
+	bool scene::is_entity_renderable(const entt::entity& entity) const
+	{
+		const birb::state* state = registry.try_get<birb::state>(entity);
+		if (state)
+			return state->should_be_rendered();
+
+		return true;
+	}
+
 	void scene::reload_models()
 	{
 		const auto view = registry.view<birb::model>();

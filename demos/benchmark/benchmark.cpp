@@ -216,11 +216,12 @@ int main(void)
 			suzanne_right.get_component<birb::transform>().position = { i * suzanne_side_movemewnt, j * 2.5f - suzanne_row_height_offset, i * 2.0f };
 			suzanne_right.get_component<birb::transform>().rotation.y = -i * suzanne_rotation;
 
-			// Make some of the suzannes on the left side invisible with the birb::invisible component
+			// Make some of the suzannes on the left side invisible with the birb::state component
 			if (i == j)
 			{
-				birb::invisible inv;
-				suzanne_left.add_component<birb::invisible>(inv);
+				birb::state state;
+				state.invisible = true;
+				suzanne_left.add_component<birb::state>(state);
 			}
 
 			// Lock the transforms in suzanne entities on the left side

@@ -44,6 +44,7 @@ namespace birb
 		void destroy_entity(const entt::entity& entity);
 		bool is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity = entt::null);
 		bool is_entity_active(const entt::entity& entity) const;
+		bool is_entity_renderable(const entt::entity& entity) const;
 
 		template<typename T>
 		void add_component(entt::entity& entity, const T& component)

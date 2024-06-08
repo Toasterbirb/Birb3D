@@ -1,4 +1,3 @@
-#include "Invisible.hpp"
 #include "Line.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
@@ -62,12 +61,8 @@ namespace birb
 
 		for (const auto& entity : view)
 		{
-			// Check if the entity should be skipped because its not active
-			if (!current_scene->is_entity_active(entity))
-				continue;
-
-			// Check if the entity should be skipped because its invisible
-			if (entity_registry.try_get<birb::invisible>(entity))
+			// Check if the entity should be skipped because its not active or visible
+			if (!current_scene->is_entity_renderable(entity))
 				continue;
 
 			const birb::text& text = view.get<birb::text>(entity);

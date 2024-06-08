@@ -1,5 +1,4 @@
 #include "Box2DCollider.hpp"
-#include "Invisible.hpp"
 #include "MimicSprite.hpp"
 #include "Profiling.hpp"
 #include "Renderer.hpp"
@@ -75,11 +74,7 @@ namespace birb
 
 					birb::state* state = entity_registry.try_get<birb::state>(entity);
 					if (state)
-						data.is_active = state->active;
-
-					birb::invisible* invisible = entity_registry.try_get<birb::invisible>(entity);
-					if (invisible)
-						data.is_active = false;
+						data.is_active = state->should_be_rendered();
 
 					// Avoid unnecessary work if the entity is disabled
 					// This expects that the rendering loop won't touch any of the missing variables
@@ -145,12 +140,8 @@ namespace birb
 
 		for (const auto& entity : view)
 		{
-			// Don't render entities that are inactive
-			if (!current_scene->is_entity_active(entity))
-				continue;
-
-			// Don't render invisible entities
-			if (entity_registry.try_get<birb::invisible>(entity))
+			// Don't render entities that are inactive or invisible
+			if (!current_scene->is_entity_renderable(entity))
 				continue;
 
 			const sprite& sprite = view.get<birb::sprite>(entity);
@@ -189,12 +180,8 @@ namespace birb
 
 		for (const auto& entity : view)
 		{
-			// Don't render entities that are inactive
-			if (!current_scene->is_entity_active(entity))
-				continue;
-
-			// Don't render entities that are invisible
-			if (entity_registry.try_get<birb::invisible>(entity))
+			// Don't render entities that are inactive or invisible
+			if (!current_scene->is_entity_renderable(entity))
 				continue;
 
 			const mimic_sprite& entity_sprite = view.get<birb::mimic_sprite>(entity);
