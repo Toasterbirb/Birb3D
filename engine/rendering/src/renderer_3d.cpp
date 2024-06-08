@@ -57,7 +57,7 @@ namespace birb
 		{
 			PROFILER_SCOPE_RENDER("Process transform model matrices for 3D models");
 
-			std::transform(std::execution::par, view.begin(), view.end(), model_data_array.begin(),
+			std::transform(std::execution::par_unseq, view.begin(), view.end(), model_data_array.begin(),
 				[view, &entity_registry](auto& entity)
 				{
 					model_data data;
