@@ -5,9 +5,9 @@
 
 namespace birb
 {
-	namespace imgui_utils
+	namespace imgui
 	{
-		void draw_texture(const std::string& window_name, const u32 texture_id, const vec2<i32> texture_dimensions)
+		void texture(const std::string& window_name, const u32 texture_id, const vec2<i32> texture_dimensions)
 		{
 			ensure(!window_name.empty());
 			ensure(texture_id != 0);
@@ -23,7 +23,7 @@ namespace birb
 			ImGui::End();
 		}
 
-		bool draw_vec2i_slider(const std::string& window_name, const std::string& label, vec2<i32>& vec, const i32 min, const i32 max)
+		bool vec2i_slider(const std::string& window_name, const std::string& label, vec2<i32>& vec, const i32 min, const i32 max)
 		{
 			ensure(!window_name.empty());
 			ensure(!label.empty());
@@ -35,7 +35,7 @@ namespace birb
 			return value_changed;
 		}
 
-		bool draw_vec3i_slider(const std::string& window_name, const std::string& label, vec3<i32>& vec, const i32 min, const i32 max)
+		bool vec3i_slider(const std::string& window_name, const std::string& label, vec3<i32>& vec, const i32 min, const i32 max)
 		{
 			ensure(!window_name.empty());
 			ensure(!label.empty());
@@ -47,7 +47,7 @@ namespace birb
 			return value_changed;
 		}
 
-		bool draw_vec2f_slider(const std::string& window_name, const std::string& label, vec2<f32>& vec, const f32 min, const f32 max)
+		bool vec2f_slider(const std::string& window_name, const std::string& label, vec2<f32>& vec, const f32 min, const f32 max)
 		{
 			ensure(!window_name.empty());
 			ensure(!label.empty());
@@ -59,7 +59,7 @@ namespace birb
 			return value_changed;
 		}
 
-		bool draw_vec3f_slider(const std::string& window_name, const std::string& label, vec3<f32>& vec, const f32 min, const f32 max)
+		bool vec3f_slider(const std::string& window_name, const std::string& label, vec3<f32>& vec, const f32 min, const f32 max)
 		{
 			ensure(!window_name.empty());
 			ensure(!label.empty());
