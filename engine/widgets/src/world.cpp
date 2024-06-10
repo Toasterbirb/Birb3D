@@ -41,7 +41,7 @@ namespace birb
 			{
 				for (u16 i = 0; i < birb::shader::point_light_count; ++i)
 				{
-					std::string light_name = std::to_string(i) + " " + birb::shader::point_lights[i].name;
+					std::string light_name = std::to_string(static_cast<unsigned int>(i)) + " " + birb::shader::point_lights[i].name;
 
 					if (ImGui::TreeNode(light_name.c_str()))
 					{

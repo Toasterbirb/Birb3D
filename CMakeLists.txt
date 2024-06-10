@@ -208,9 +208,10 @@ include_directories(vendor/libsndfile/include)
 # Build with all kinds of warnings enabled because programmers usually don't
 # know what they are doing
 add_compile_options(-pedantic -Wall -Wextra -Wcast-align
-	-Wdisabled-optimization -Wformat=2
-	-Winit-self -Wlogical-op -Wmissing-declarations
-	-Werror -Wno-unused)
+	-Wdisabled-optimization -Wformat=2 -Wdisabled-optimization
+	-Winit-self -Wlogical-op -Wmissing-declarations -Woverloaded-virtual
+	-Werror -Wno-unused -Wredundant-decls -Wsign-promo -Wstrict-null-sentinel
+	-Wstrict-overflow -Winline -Wmissing-format-attribute)
 
 # Build the engine library
 add_subdirectory(engine)
