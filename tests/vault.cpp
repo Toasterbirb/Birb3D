@@ -1,5 +1,6 @@
 #include "Types.hpp"
 #include "Vault.hpp"
+#include "Vector.hpp"
 
 #include <doctest/doctest.h>
 #include <vector>
@@ -26,6 +27,34 @@ TEST_CASE("Vault")
 
 		CHECK(vault.contains(key, category));
 		CHECK(vault.get<i32>(key, category) == value);
+	}
+
+	SUBCASE("Set and get a vec2")
+	{
+		const std::string key = "vec2";
+		const std::string category = "values";
+		const birb::vec2<u16> vec(21, 94);
+
+		CHECK_FALSE(vault.contains(key, category));
+
+		vault.set_vec2(vec, key, category);
+
+		CHECK(vault.contains(key, category));
+		CHECK(vault.get_vec2<u16>(key, category) == vec);
+	}
+
+	SUBCASE("Set and get a vec3")
+	{
+		const std::string key = "vec3";
+		const std::string category = "values";
+		const birb::vec3<u16> vec(21, 94, 35);
+
+		CHECK_FALSE(vault.contains(key, category));
+
+		vault.set_vec3(vec, key, category);
+
+		CHECK(vault.contains(key, category));
+		CHECK(vault.get_vec3<u16>(key, category) == vec);
 	}
 
 	SUBCASE("Set and get a vector of integers")
@@ -60,14 +89,14 @@ TEST_CASE("Vault saving and loading")
 {
 	const std::string& key = "key";
 	const std::string& category = "category";
-	const i32 reset_value = 0;
-	const i32 new_value = 42;
+	const birb::vec2<i32> reset_value(0, 0);
+	const birb::vec2<i32> new_value(42, 24);
 
 	// Reset the value
 	{
 		birb::vault vault(vault_name);
-		vault.set<i32>(reset_value, key, category);
-		CHECK(vault.get<i32>(key, category) == reset_value);
+		vault.set_vec2<i32>(reset_value, key, category);
+		CHECK(vault.get_vec2<i32>(key, category) == reset_value);
 		vault.save();
 	}
 
@@ -75,15 +104,15 @@ TEST_CASE("Vault saving and loading")
 	{
 		birb::vault vault(vault_name);
 		CHECK_FALSE(vault.is_new());
-		CHECK(vault.get<i32>(key, category) == reset_value);
+		CHECK(vault.get_vec2<i32>(key, category) == reset_value);
 	}
 
 	// Change the reset value to a new value
 	{
 		birb::vault vault(vault_name);
 		CHECK_FALSE(vault.is_new());
-		vault.set<i32>(new_value, key, category);
-		CHECK(vault.get<i32>(key, category) == new_value);
+		vault.set_vec2<i32>(new_value, key, category);
+		CHECK(vault.get_vec2<i32>(key, category) == new_value);
 		vault.save();
 	}
 
@@ -91,6 +120,6 @@ TEST_CASE("Vault saving and loading")
 	{
 		birb::vault vault(vault_name);
 		CHECK_FALSE(vault.is_new());
-		CHECK(vault.get<i32>(key, category) == new_value);
+		CHECK(vault.get_vec2<i32>(key, category) == new_value);
 	}
 }
