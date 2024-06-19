@@ -57,7 +57,6 @@ namespace birb
 			}
 
 			file << text;
-			file.close();
 			return true;
 		}
 
@@ -80,7 +79,6 @@ namespace birb
 			}
 
 			file << std::setw(4) << json << std::endl;
-			file.close();
 			return true;
 		}
 
@@ -102,7 +100,6 @@ namespace birb
 			for (u8 byte : bson)
 				file << byte << std::endl;
 
-			file.close();
 			return true;
 		}
 	}
