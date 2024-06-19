@@ -72,7 +72,7 @@ namespace birb
 		 * @param json The json object that'll be written to the file
 		 * @return False if the file couldn't be opened for writing
 		 */
-		bool write_json_file(const std::string& path, nlohmann::json json);
+		bool write_json_file(const std::string& path, const nlohmann::json& json);
 
 		/**
 		 * @brief Write a bson file to disk
@@ -81,6 +81,6 @@ namespace birb
 		 * @param json The json object that'll be converted to bson and written to the file
 		 * @return False if the file couldn't be opened for writing
 		 */
-		bool write_bson_file(const std::string& path, nlohmann::json json);
+		bool write_bson_file(const std::string& path, const nlohmann::json& json);
 	}
 }

@@ -65,7 +65,7 @@ namespace birb
 			return std::async(std::launch::async, write_file, path, text);
 		}
 
-		bool write_json_file(const std::string& path, nlohmann::json json)
+		bool write_json_file(const std::string& path, const nlohmann::json& json)
 		{
 			PROFILER_SCOPE_IO_FN();
 			ensure(!path.empty(), "Can't write to an empty filepath");
@@ -82,7 +82,7 @@ namespace birb
 			return true;
 		}
 
-		bool write_bson_file(const std::string& path, nlohmann::json json)
+		bool write_bson_file(const std::string& path, const nlohmann::json& json)
 		{
 			PROFILER_SCOPE_IO_FN();
 			ensure(!path.empty(), "Can't write to an empty filepath");
