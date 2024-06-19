@@ -64,9 +64,9 @@ namespace birb
 		json.clear();
 	}
 
-	void vault::save()
+	void vault::save(const bool obfuscate)
 	{
-		io::write_json_file(file_path, json);
+		io::write_json_file(file_path, json, obfuscate);
 	}
 
 	bool vault::is_new() const

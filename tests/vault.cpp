@@ -13,7 +13,7 @@ TEST_CASE("Vault")
 
 	// Clear the vault
 	vault.clear();
-	vault.save();
+	vault.save(true);
 
 	SUBCASE("Set and get an integer")
 	{
@@ -82,7 +82,7 @@ TEST_CASE("Vault")
 	}
 
 	// Save the changes to make sure that the reading / clearing works
-	vault.save();
+	vault.save(true);
 }
 
 TEST_CASE("Vault saving and loading")
@@ -91,13 +91,14 @@ TEST_CASE("Vault saving and loading")
 	const std::string& category = "category";
 	const birb::vec2<i32> reset_value(0, 0);
 	const birb::vec2<i32> new_value(42, 24);
+	const bool obfuscation_enabled = true;
 
 	// Reset the value
 	{
 		birb::vault vault(vault_name);
 		vault.set_vec2<i32>(reset_value, key, category);
 		CHECK(vault.get_vec2<i32>(key, category) == reset_value);
-		vault.save();
+		vault.save(obfuscation_enabled);
 	}
 
 	// Attempt to read the reset value
@@ -113,7 +114,7 @@ TEST_CASE("Vault saving and loading")
 		CHECK_FALSE(vault.is_new());
 		vault.set_vec2<i32>(new_value, key, category);
 		CHECK(vault.get_vec2<i32>(key, category) == new_value);
-		vault.save();
+		vault.save(obfuscation_enabled);
 	}
 
 	// Make sure that the value changed

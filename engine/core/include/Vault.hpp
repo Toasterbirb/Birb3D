@@ -21,8 +21,10 @@ namespace birb
 
 		/**
 		 * @brief Save the vault to disk
+		 *
+		 * @param obfuscate Obfuscate the save data
 		 */
-		void save();
+		void save(const bool obfuscate = false);
 
 		/**
 		 * @brief Check if the vault is newly created

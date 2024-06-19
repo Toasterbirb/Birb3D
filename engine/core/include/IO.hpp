@@ -45,18 +45,20 @@ namespace birb
 		 *
 		 * @param path Path to the file to be written into
 		 * @param text Text content that will be written into the file
+		 * @param obfuscate Obfuscate the text contents before writing to disk
 		 * @return False if the file couldn't be opened for writing
 		 */
-		bool write_file(const std::string& path, const std::string& text);
+		bool write_file(const std::string& path, const std::string& text, const bool obfuscate = false);
 
 		/**
 		 * @brief Write to a text file asynchronously
 		 *
 		 * @param path Path to the file to be written into
 		 * @param text Text content that will be written into the file
+		 * @param obfuscate Obfuscate the text contents before writing to disk
 		 * @return A future to a boolean value that tells if the file writing was successful
 		 */
-		std::future<bool> write_file_async(const std::string& path, const std::string& text);
+		std::future<bool> write_file_async(const std::string& path, const std::string& text, const bool obfuscate = false);
 
 		/**
 		 * @brief Read binary bson data from a file and convert that to json
@@ -72,7 +74,7 @@ namespace birb
 		 * @param json The json object that'll be written to the file
 		 * @return False if the file couldn't be opened for writing
 		 */
-		bool write_json_file(const std::string& path, const nlohmann::json& json);
+		bool write_json_file(const std::string& path, const nlohmann::json& json, const bool obfuscate = false);
 
 		/**
 		 * @brief Write a bson file to disk
