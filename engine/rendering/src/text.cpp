@@ -10,23 +10,6 @@
 
 namespace birb
 {
-	const std::string default_vert_shader = "text";
-	const std::string default_frag_shader = "text";
-
-	text::text(const std::string& text, const birb::font& font, const vec3<f32> position)
-	:font(font), position(position), color(0xFFFFFF), shader(default_vert_shader, default_frag_shader)
-	{
-		allocate_instance_vbos();
-		set_text(text);
-	}
-
-	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color)
-	:font(font), position(position), color(color), shader(default_vert_shader, default_frag_shader)
-	{
-		allocate_instance_vbos();
-		set_text(text);
-	}
-
 	text::text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color, const shader_ref& shader)
 	:font(font), position(position), color(color), shader(shader)
 	{

@@ -15,9 +15,7 @@ namespace birb
 	class text
 	{
 	public:
-		text(const std::string& text, const birb::font& font, const vec3<f32> position);
-		text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color);
-		text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color color, const shader_ref& shader);
+		text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color = 0xFFFFFF, const shader_ref& = {"text", "text"});
 		~text();
 		text(const text& other);
 		text(text&) = delete;
