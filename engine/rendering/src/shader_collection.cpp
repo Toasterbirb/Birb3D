@@ -60,6 +60,12 @@ namespace birb
 		return ref;
 	}
 
+	bool shader_collection::is_shader_registered(const shader_ref& shader)
+	{
+		return vertex_shader_hashes.contains(shader.vertex())
+			&& fragment_shader_hashes.contains(shader.fragment());
+	}
+
 	std::shared_ptr<shader> shader_collection::get_shader(const shader_ref& ref)
 	{
 		ensure(ref.hash() != 0);

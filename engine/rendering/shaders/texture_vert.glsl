@@ -4,6 +4,8 @@ layout (location = 1) in vec2 aTex;
 layout (location = 5) in mat4 instanceMatrix;
 
 out vec2 texCoord;
+out vec3 FragPos;
+
 
 #include "include/matrices.glsl"
 
@@ -28,4 +30,5 @@ void main()
 		gl_Position = projection_matrix * view * model * vec4(aPos.x / aspect_ratio.y, aPos.y / aspect_ratio.x, aPos.z, 1.0f);
 
 	texCoord = aTex;
+	FragPos = vec3(model * vec4(aPos, 1.0));
 }

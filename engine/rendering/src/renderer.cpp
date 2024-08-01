@@ -230,13 +230,16 @@ namespace birb
 		render_stats.reset_counters();
 
 		birb::stopwatch render_stopwatch;
-		draw_2d_entities();
-		render_stats.draw_2d_duration = render_stopwatch.stop(true);
-		process_gl_errors();
 
 		render_stopwatch.reset();
 		draw_3d_entities();
 		render_stats.draw_3d_duration = render_stopwatch.stop(true);
+		process_gl_errors();
+
+		// Draw 2D entities after 3D entities because shader_sprites might contain
+		// transparent stuff and that breaks the order
+		draw_2d_entities();
+		render_stats.draw_2d_duration = render_stopwatch.stop(true);
 		process_gl_errors();
 
 		render_stopwatch.reset();

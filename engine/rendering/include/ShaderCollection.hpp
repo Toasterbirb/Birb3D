@@ -33,6 +33,11 @@ namespace birb
 		static shader_ref register_shader(const std::string& vertex, const std::string& fragment);
 
 		/**
+		 * @brief Check if a custom shader has been registered already
+		 */
+		static bool is_shader_registered(const shader_ref& shader);
+
+		/**
 		 * @brief Get a reference to a shader built from the given shader source names
 		 *
 		 * If the shader hasn't been compiled yet when its requested for,

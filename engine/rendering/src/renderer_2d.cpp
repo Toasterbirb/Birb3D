@@ -3,6 +3,7 @@
 #include "Profiling.hpp"
 #include "Renderer.hpp"
 #include "ShaderCollection.hpp"
+#include "ShaderSprite.hpp"
 #include "ShaderUniforms.hpp"
 #include "Sprite.hpp"
 #include "State.hpp"
@@ -34,6 +35,11 @@ namespace birb
 
 		texture_shader->set(shader_uniforms::texture::instanced, 1);
 		draw_sprites_instanced(texture_shader);
+
+		// Shader sprites use custom fragment shaders
+		texture_shader->set(shader_uniforms::texture::instanced, 0);
+
+		draw_shader_sprites();
 
 		sprite_vao.unbind();
 	}
@@ -193,6 +199,38 @@ namespace birb
 
 			entity_sprite.texture->bind();
 
+			draw_elements(quad_indices.size());
+
+			// We can probably assume that each rectangle shaped sprite is
+			// equal to 4 vertices
+			render_stats.vertices_2d += 4;
+			++render_stats.entities_2d;
+		}
+	}
+
+	void renderer::draw_shader_sprites()
+	{
+		PROFILER_SCOPE_RENDER_FN();
+
+		entt::registry& entity_registry = current_scene->registry;
+
+		const auto view = entity_registry.view<shader_sprite, transform>();
+
+		for (const auto& entity : view)
+		{
+			// Don't render entities that are inactive or invisible
+			if (!current_scene->is_entity_renderable(entity))
+				continue;
+
+			const shader_sprite& entity_sprite = view.get<shader_sprite>(entity);
+			const birb::transform& transform = view.get<birb::transform>(entity);
+
+			std::shared_ptr<birb::shader> shader = shader_collection::get_shader(entity_sprite.shader_reference);
+
+			shader->activate();
+			shader->set(shader_uniforms::model, transform.model_matrix());
+			shader->set(shader_uniforms::texture::orthographic, entity_sprite.orthographic_projection);
+			shader->set(shader_uniforms::texture::aspect_ratio, { 1.0f, 1.0f });
 			draw_elements(quad_indices.size());
 
 			// We can probably assume that each rectangle shaped sprite is

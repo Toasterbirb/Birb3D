@@ -1,8 +1,8 @@
 #include "BoxCollider.hpp"
-#include "GravityForce.hpp"
 #include "Camera.hpp"
 #include "Components.hpp"
 #include "Entity.hpp"
+#include "GravityForce.hpp"
 #include "Model.hpp"
 #include "PerformanceOverlay.hpp"
 #include "PhysicsWorld.hpp"
@@ -11,7 +11,9 @@
 #include "RendererOverlay.hpp"
 #include "Rigidbody.hpp"
 #include "Scene.hpp"
+#include "ShaderCollection.hpp"
 #include "ShaderRef.hpp"
+#include "ShaderSprite.hpp"
 #include "Stopwatch.hpp"
 #include "Timestep.hpp"
 #include "Vector.hpp"
@@ -28,6 +30,7 @@ int main(void)
 	birb::scene scene;
 
 	birb::renderer renderer;
+	renderer.opt_blend(true);
 	renderer.set_scene(scene);
 	renderer.debug.alloc_world(window);
 
@@ -104,9 +107,29 @@ int main(void)
 	world.add_component(transform);
 	world.add_component(default_color_shader);
 
+	birb::shader::shader_src_search_paths.push_back("shaders");
+	birb::entity shader_sprite = scene.create_entity(birb::component::transform);
+
+	shader_sprite.get_component<birb::transform>().position = floor.get_component<birb::transform>().position;
+	shader_sprite.get_component<birb::transform>().position.y += floor.get_component<birb::transform>().local_scale.y / 2.0 + 0.01;
+
+	shader_sprite.get_component<birb::transform>().rotation = { -90, 0, 0 };
+	const f32 floor_width = floor.get_component<birb::transform>().local_scale.x;
+	shader_sprite.get_component<birb::transform>().local_scale = { floor_width, floor_width, floor_width};
+	// shader_sprite.get_component<birb::transform>().position = { 0, 4, 16 };
+	// shader_sprite.get_component<birb::transform>().local_scale = { 8, 8, 1 };
+	// shader_sprite.get_component<birb::transform>().rotation.y = 180;
+	birb::shader_sprite sprite_s("fancy_effect");
+	sprite_s.orthographic_projection = false;
+	shader_sprite.add_component(sprite_s);
+
+	f32 time{};
+	birb::color shader_color = 0xDC6D6D;
 
 	while (!window.should_close())
 	{
+		time += timestep.deltatime();
+
 		camera.process_input(window, timestep);
 
 		player.get_component<birb::rigidbody>().position = { camera.position.x, camera.position.y - 4, camera.position.z };
@@ -125,6 +148,14 @@ int main(void)
 			// birb::log("Collision!");
 			player.get_component<birb::rigidbody>().position.y = 0.0f;
 			player.get_component<birb::rigidbody>().add_force({ 0.0f, 98.1, 0.0f });
+		}
+
+		// Update the shader sprite
+		{
+			std::shared_ptr<birb::shader> shader = birb::shader_collection::get_shader(shader_sprite.get_component<birb::shader_sprite>().shader_reference);
+			shader->activate();
+			shader->set("time", time);
+			shader->set("color", shader_color);
 		}
 
 		window.clear();

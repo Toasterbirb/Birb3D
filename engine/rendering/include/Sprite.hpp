@@ -3,6 +3,7 @@
 #include "AspectRatioLock.hpp"
 #include "Color.hpp"
 #include "ColorFormat.hpp"
+#include "SpriteBase.hpp"
 
 #include <memory>
 #include <string>
@@ -11,7 +12,7 @@ namespace birb
 {
 	class texture;
 
-	struct sprite
+	struct sprite : public sprite_base
 	{
 		explicit sprite(const std::string& file_path, color_format format = color_format::RGBA);
 		~sprite() = default;
@@ -20,9 +21,5 @@ namespace birb
 
 		std::shared_ptr<birb::texture> texture;
 		birb::color color;
-		bool ignore_aspect_ratio = false;
-		bool orthographic_projection = true;
-
-		birb::aspect_ratio_lock aspect_ratio_lock = aspect_ratio_lock::height;
 	};
 }

@@ -71,6 +71,9 @@ namespace birb
 		void set(const uniform& uniform, const birb::vec3<f32> value, i32 index = -1);
 		void set(const uniform& uniform, const glm::mat4 value, i32 index = -1);
 		void set(const uniform& uniform, const color value, i32 index = -1);
+		void set(const std::string& uniform, const f32 value);
+		void set(const std::string& uniform, const glm::vec2 value);
+		void set(const std::string& uniform, const color value);
 
 		void set_int(const std::string& name, const i32 value);
 

@@ -161,6 +161,7 @@ namespace birb
 		void draw_sprites(std::shared_ptr<shader> texture_shader);
 		void draw_sprites_instanced(std::shared_ptr<shader> texture_shader);
 		void draw_mimic_sprites(std::shared_ptr<shader> texture_shader);
+		void draw_shader_sprites();
 
 		// 3D drawing funcs
 		void draw_models();

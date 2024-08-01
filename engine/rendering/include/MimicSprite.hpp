@@ -1,12 +1,13 @@
 #pragma once
 
 #include "AspectRatioLock.hpp"
+#include "SpriteBase.hpp"
 
 namespace birb
 {
 	class texture;
 
-	struct mimic_sprite
+	struct mimic_sprite : public sprite_base
 	{
 		mimic_sprite(birb::texture* texture);
 		~mimic_sprite() = default;
@@ -14,9 +15,5 @@ namespace birb
 		mimic_sprite(mimic_sprite&) = default;
 
 		birb::texture* texture;
-		bool orthographic_projection = true;
-
-		bool ignore_aspect_ratio = false;
-		birb::aspect_ratio_lock aspect_ratio_lock = aspect_ratio_lock::height;
 	};
 }

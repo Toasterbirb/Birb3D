@@ -7,14 +7,14 @@
 #include "Renderer.hpp"
 #include "RendererOverlay.hpp"
 #include "Scene.hpp"
+#include "ShaderCollection.hpp"
+#include "ShaderSprite.hpp"
 #include "Sprite.hpp"
 #include "Timestep.hpp"
 #include "Transform.hpp"
 #include "Transformer.hpp"
 #include "Types.hpp"
 #include "Window.hpp"
-
-#include <algorithm>
 
 int main(void)
 {
@@ -23,9 +23,12 @@ int main(void)
 	birb::timestep timestep(120);
 	birb::camera camera(window.size());
 	camera.movement_speed = 100;
+	camera.position.x = -640;
+	camera.position.y = -640;
 	camera.position.z = 45; // Move the camera back to make orthographics rendering work
 	// camera.orthographic_scale = 512.0f;
 	// camera.update_projection_matrices(window.size());
+	camera.update_camera_vectors();
 
 	birb::scene scene;
 	birb::renderer renderer;
@@ -48,6 +51,10 @@ int main(void)
 
 		birb::entity mimic = scene.create_entity(birb::component::transform);
 		birb::mimic_sprite mimic_s(texture_sprite.texture.get());
+
+		birb::shader::shader_src_search_paths.push_back("shaders");
+		birb::entity shader_sprite = scene.create_entity(birb::component::transform);
+		birb::shader_sprite shader_s("fancy_effect");
 
 		// Setup the first entity
 		{
@@ -72,6 +79,14 @@ int main(void)
 			mimic.get_component<birb::transform>().position.x = -100;
 			mimic.get_component<birb::transform>().local_scale = { 50.0f, 50.0f, 1.0f };
 			mimic.add_component(mimic_s);
+		}
+
+		// Shader sprite
+		{
+			shader_sprite.get_component<birb::transform>().position = { -100, 200, 0 };
+			shader_sprite.get_component<birb::transform>().local_scale = { 300.0f, 300.0f, 1.0f };
+			shader_s.orthographic_projection = true;
+			shader_sprite.add_component(shader_s);
 		}
 
 		// Copy pasted entities
@@ -109,6 +124,15 @@ int main(void)
 		f32 timer = 0.0f;
 		bool zoom_done = false;
 
+		auto get_shader_ptr = [](birb::entity entity) -> std::shared_ptr<birb::shader>
+		{
+			return birb::shader_collection::get_shader(entity.get_component<birb::shader_sprite>().shader_reference);
+		};
+
+		// Shader sprite
+		f32 time{};
+		birb::color shader_color(0.5, 0.1, 0.2);
+
 		while (!window.should_close())
 		{
 			// Cool zoom thing
@@ -136,6 +160,16 @@ int main(void)
 					default:
 						break;
 				}
+			}
+
+			{
+				time += timestep.deltatime() * 10;
+
+				std::shared_ptr<birb::shader> shader = get_shader_ptr(shader_sprite);
+				shader->activate();
+				shader->set("resolution", window.size().to_glm_vec());
+				// shader->set(birb::shader_uniforms::color, shader_color);
+				// shader->set("time", time);
 			}
 
 			birb::transformer& transformer = transformer_entity.get_component<birb::transformer>();

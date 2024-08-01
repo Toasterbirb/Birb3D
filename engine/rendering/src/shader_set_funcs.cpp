@@ -111,4 +111,22 @@ namespace birb
 		activate();
 		glUniform3f(uniform_location(uniform.str(index)), value.r, value.g, value.b);
 	}
+
+	void shader::set(const std::string& uniform, const f32 value)
+	{
+		activate();
+		glUniform1f(uniform_location(uniform), value);
+	}
+
+	void shader::set(const std::string& uniform, const glm::vec2 value)
+	{
+		activate();
+		glUniform2f(uniform_location(uniform), value.x, value.y);
+	}
+
+	void shader::set(const std::string& uniform, const color value)
+	{
+		activate();
+		glUniform3f(uniform_location(uniform), value.r, value.g, value.b);
+	}
 }
