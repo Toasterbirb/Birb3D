@@ -42,7 +42,7 @@ namespace birb
 		 * @param event_id Identifier for the event
 		 * @param obj Pointer to the object that will receive the event
 		 */
-		void register_event_id(u16 event_id, event_obj* obj);
+		void register_event_id(const u16 event_id, event_obj* obj);
 
 		/**
 		 * @brief Unregister an object from an event ID
@@ -50,17 +50,17 @@ namespace birb
 		 * @param event_id Identifier for the event
 		 * @param obj Pointer to the object that will be removed from the event ID registry
 		 */
-		void unregister_event_id(u16 event_id, event_obj* obj);
+		void unregister_event_id(const u16 event_id, const event_obj* obj);
 
 		/**
 		 * @brief Send an event to all event objects that have subscribed to the given ID
 		 */
-		void send_event(u16 event_id);
+		void send_event(const u16 event_id);
 
 		/**
 		 * @brief Send an event and data to all event objects that have subscribed to the given ID
 		 */
-		void send_event(u16 event_id, const event_data& data);
+		void send_event(const u16 event_id, const event_data& data);
 
 		/**
 		 * @brief Clear the registry of all event ids and object pointers

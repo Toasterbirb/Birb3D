@@ -13,7 +13,7 @@
 
 namespace birb
 {
-	camera::camera(vec2<i32> window_size)
+	camera::camera(const vec2<i32> window_size)
 	:projection_matrix_ubo(shader_uniforms::block::projection_matrices)
 	{
 		event_bus::register_event_id(event::window_resized, this);
@@ -24,7 +24,7 @@ namespace birb
 		update_projection_matrices(window_size);
 	}
 
-	camera::camera(vec3<f32> position, vec2<i32> window_size)
+	camera::camera(const vec3<f32> position, const vec2<i32> window_size)
 	:position(position.to_glm_vec()), projection_matrix_ubo(shader_uniforms::block::projection_matrices)
 	{
 		event_bus::register_event_id(event::window_resized, this);
@@ -35,7 +35,7 @@ namespace birb
 		update_projection_matrices(window_size);
 	}
 
-	camera::camera(vec3<f32> position, f32 yaw, f32 pitch, vec2<i32> window_size)
+	camera::camera(const vec3<f32> position, const f32 yaw, const f32 pitch, const vec2<i32> window_size)
 	:position(position.to_glm_vec()), yaw(yaw), pitch(pitch),
 	 projection_matrix_ubo(shader_uniforms::block::projection_matrices)
 	{

@@ -21,7 +21,7 @@ namespace birb
 		setup_history_arrays();
 	}
 
-	timestep::timestep(f64 target_fps)
+	timestep::timestep(const f64 target_fps)
 	{
 		frame_end = glfwGetTime();
 		frame_start = glfwGetTime();
@@ -97,7 +97,7 @@ namespace birb
 		return birb::average_deque(framebudget_history);
 	}
 
-	void timestep::set_target_fps(f64 target_fps)
+	void timestep::set_target_fps(const f64 target_fps)
 	{
 		ensure(target_fps != 0, "Zero division");
 		ensure(target_fps > 0, "Target FPS below zero is not valid");

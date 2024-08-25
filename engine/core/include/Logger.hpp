@@ -25,7 +25,7 @@ namespace birb
 	 * @param args Text to print
 	 */
 	template<class... Args>
-	void log(Args... args)
+	void log(const Args&... args)
 	{
 		std::cout << "[L] ";
 		(std::cout << ... << args) << "\n";
@@ -37,7 +37,7 @@ namespace birb
 	 * @param args Warning text to print
 	 */
 	template<class... Args>
-	void log_warn(Args... args)
+	void log_warn(const Args&... args)
 	{
 		std::cout << "\033[33m[W] ";
 		(std::cout << ... << args) << "\033[0m\n";
@@ -49,7 +49,7 @@ namespace birb
 	 * @param args Error text to print
 	 */
 	template<class... Args>
-	void log_error(Args... args)
+	void log_error(const Args&... args)
 	{
 		std::cerr << "\033[31m[E] ";
 		(std::cerr << ... << args) << "\033[0m\n";
@@ -63,7 +63,7 @@ namespace birb
 	 * @param args Error text to print
 	 */
 	template<class... Args>
-	void log_error_no_trace(Args... args)
+	void log_error_no_trace(const Args&... args)
 	{
 		std::cerr << "\033[31m[E] ";
 		(std::cerr << ... << args) << "\033[0m\n";
@@ -76,7 +76,7 @@ namespace birb
 	 * @param args Error text to print
 	 */
 	template<class... Args>
-	void log_fatal(const u8 exit_code, Args... args)
+	void log_fatal(const u8 exit_code, const Args&... args)
 	{
 		std::cerr << "\033[31mFATAL ERROR: ";
 		(std::cerr << ... << args) << "\033[0m\n";

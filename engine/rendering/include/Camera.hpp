@@ -16,9 +16,9 @@ namespace birb
 	class camera : editor_component, public event_obj
 	{
 	public:
-		camera(vec2<i32> window_size);
-		explicit camera(vec3<f32> position, vec2<i32> window_size);
-		camera(vec3<f32> position, f32 yaw, f32 pitch, vec2<i32> window_size);
+		camera(const vec2<i32> window_size);
+		explicit camera(const vec3<f32> position, const vec2<i32> window_size);
+		camera(const vec3<f32> position, const f32 yaw, const f32 pitch, const vec2<i32> window_size);
 		~camera();
 		camera(camera&) = delete;
 		camera(const camera&) = delete;

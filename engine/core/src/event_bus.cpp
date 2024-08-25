@@ -12,7 +12,7 @@ namespace birb
 	{
 		static std::unordered_map<u16, std::vector<event_obj*>> event_bus_registry;
 
-		void register_event_id(u16 event_id, event_obj* obj)
+		void register_event_id(const u16 event_id, event_obj* obj)
 		{
 			ensure(obj != nullptr, "Can register event_id for a null pointer");
 
@@ -21,7 +21,7 @@ namespace birb
 			event_bus_registry[event_id].push_back(obj);
 		}
 
-		void unregister_event_id(u16 event_id, event_obj* obj)
+		void unregister_event_id(const u16 event_id, const event_obj* obj)
 		{
 			ensure(obj != nullptr, "Can unregister event_id for a null pointer");
 
@@ -35,14 +35,14 @@ namespace birb
 				}));
 		}
 
-		void send_event(u16 event_id)
+		void send_event(const u16 event_id)
 		{
 			event_data empty_data;
 			empty_data._bool.fill(false);
 			send_event(event_id, empty_data);
 		}
 
-		void send_event(u16 event_id, const event_data& data)
+		void send_event(const u16 event_id, const event_data& data)
 		{
 			// Drop events that have no subscribers
 			if (!event_bus_registry.contains(event_id))

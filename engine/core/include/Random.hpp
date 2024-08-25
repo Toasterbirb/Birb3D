@@ -54,12 +54,12 @@ namespace birb
 		 * @brief Generate a random integer value between min and max (inclusive)
 		 */
 		template<typename T>
-		T range(T min, T max)
+		T range(const T min, const T max)
 		{
 			static_assert(!std::floating_point<T>, "Random integers can't be generated with a floating point range");
 			ensure(min <= max);
 
-			T value = rng_engine() % (max + 1 - min) + min;
+			const T value = rng_engine() % (max + 1 - min) + min;
 			ensure(value >= min);
 			ensure(value <= max);
 			return value;
@@ -71,36 +71,36 @@ namespace birb
 		 * @warning Using this method with integer values will return non-random values. Only use this method with floating point ranges
 		 */
 		template<typename T>
-		T range_float(T min, T max)
+		T range_float(const T min, const T max)
 		{
 			static_assert(std::floating_point<T>, "range_float() only works with floating point ranges");
 			ensure(min <= max);
 
-			T multiplier = (static_cast<T>(rng_engine())) / rng_engine.max();
-			T value = (multiplier * (max - min)) + min;
+			const T multiplier = (static_cast<T>(rng_engine())) / rng_engine.max();
+			const T value = (multiplier * (max - min)) + min;
 			ensure(value >= min);
 			ensure(value <= max);
 			return value;
 		}
 
-		vec2<i32> range_vec2_int(i32 min, i32 max)
+		vec2<i32> range_vec2_int(const i32 min, const i32 max)
 		{
 			return vec2<i32>(range(min, max), range(min, max));
 		}
 
 		template<typename T>
-		vec2<T> range_vec2_float(T min, T max)
+		vec2<T> range_vec2_float(const T min, const T max)
 		{
 			return vec2<T>(range_float(min, max), range_float(min, max));
 		}
 
-		vec3<i32> range_vec3_int(i32 min, i32 max)
+		vec3<i32> range_vec3_int(const i32 min, const i32 max)
 		{
 			return vec3<i32>(range(min, max), range(min, max), range(min, max));
 		}
 
 		template<typename T>
-		vec3<T> range_vec3_float(T min, T max)
+		vec3<T> range_vec3_float(const T min, const T max)
 		{
 			return vec3<T>(range_float(min, max), range_float(min, max), range_float(min, max));
 		}

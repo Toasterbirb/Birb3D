@@ -21,7 +21,7 @@ namespace birb
 		 *
 		 * @param target_fps The amount of frames per second that the game tries to maintain
 		 */
-		explicit timestep(f64 target_fps);
+		explicit timestep(const f64 target_fps);
 
 		/**
 		 * @brief End a gameloop iteration and start a new one
@@ -84,7 +84,7 @@ namespace birb
 		 *
 		 * @param target_fps New target framerate as frames per second
 		 */
-		void set_target_fps(f64 target_fps);
+		void set_target_fps(const f64 target_fps);
 
 		/**
 		 * @brief If set to true, the target FPS will be ignored
