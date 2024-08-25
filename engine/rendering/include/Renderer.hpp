@@ -99,7 +99,8 @@ namespace birb
 		static bool is_backface_culling_enabled();
 
 		debug_view debug;
-		void toggle_debug_view();
+		void toggle_debug_widgets();
+		void toggle_debug_overlays();
 
 		renderer_stats rendering_statistics() const;
 
@@ -178,7 +179,8 @@ namespace birb
 		static inline bool wireframe_mode = false;
 		static inline bool backface_culling_enabled = false;
 		static inline bool gamma_correction_enabled = true;
-		bool debug_view_enabled = false;
+		bool debug_widgets_enabled = false;
+		bool debug_overlays_enabled = false;
 		bool shadows_enabled = true;
 		shader_ref line_shader;
 

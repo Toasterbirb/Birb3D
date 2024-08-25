@@ -239,10 +239,14 @@ namespace birb
 					break;
 
 				case birb::input::keycode::f3:
-					event_bus::send_event(event::toggle_debug_view);
+					event_bus::send_event(event::toggle_debug_widgets);
 					break;
 
 				case birb::input::keycode::f4:
+					event_bus::send_event(event::toggle_debug_overlays);
+					break;
+
+				case birb::input::keycode::f5:
 					event_bus::send_event(event::reload_models);
 					break;
 

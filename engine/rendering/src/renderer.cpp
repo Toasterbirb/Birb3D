@@ -73,7 +73,8 @@ namespace birb
 		GL_SUPERVISOR_SCOPE();
 
 		event_bus::register_event_id(event::toggle_wireframe_rendering_mode, this);
-		event_bus::register_event_id(event::toggle_debug_view, this);
+		event_bus::register_event_id(event::toggle_debug_widgets, this);
+		event_bus::register_event_id(event::toggle_debug_overlays, this);
 		event_bus::register_event_id(event::reload_models, this);
 
 		// Enable blending by default
@@ -165,7 +166,8 @@ namespace birb
 	{
 		birb::log("Crushing the renderer");
 		event_bus::unregister_event_id(event::toggle_wireframe_rendering_mode, this);
-		event_bus::unregister_event_id(event::toggle_debug_view, this);
+		event_bus::unregister_event_id(event::toggle_debug_widgets, this);
+		event_bus::unregister_event_id(event::toggle_debug_overlays, this);
 		event_bus::unregister_event_id(event::reload_models, this);
 	}
 
@@ -177,8 +179,12 @@ namespace birb
 				toggle_wireframe();
 				break;
 
-			case event::toggle_debug_view:
-				toggle_debug_view();
+			case event::toggle_debug_widgets:
+				toggle_debug_widgets();
+				break;
+
+			case event::toggle_debug_overlays:
+				toggle_debug_overlays();
 				break;
 
 			case event::reload_models:
@@ -275,16 +281,16 @@ namespace birb
 #ifndef BIRB_RELEASE
 
 		// If debug drawing is not enabled, we can stop drawing stuff here
-		if (!debug_view_enabled)
-			return;
 
 		///////////////////
 		// Debug drawing //
 		///////////////////
 
-		// Draw the debug view
-		debug.draw();
+		if (debug_widgets_enabled)
+			debug.draw_widgets();
 
+		if (debug_overlays_enabled)
+			debug.draw_overlays();
 #endif
 	}
 
@@ -394,15 +400,27 @@ namespace birb
 		return backface_culling_enabled;
 	}
 
-	void renderer::toggle_debug_view()
+	void renderer::toggle_debug_widgets()
 	{
 #ifndef BIRB_RELEASE
-		debug_view_enabled = !debug_view_enabled;
+		debug_widgets_enabled = !debug_widgets_enabled;
 
-		if (!debug_view_enabled)
-			birb::log("Toggling debug view off");
+		if (!debug_widgets_enabled)
+			birb::log("Toggling debug widgets off");
 		else
-			birb::log("Toggling debug view on");
+			birb::log("Toggling debug widgets on");
+#endif
+	}
+
+	void renderer::toggle_debug_overlays()
+	{
+#ifndef BIRB_RELEASE
+		debug_overlays_enabled = !debug_overlays_enabled;
+
+		if (!debug_overlays_enabled)
+			birb::log("Toggling debug overlays off");
+		else
+			birb::log("Toggling debug overlays on");
 #endif
 	}
 

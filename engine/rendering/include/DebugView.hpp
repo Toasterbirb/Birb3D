@@ -24,7 +24,8 @@ namespace birb
 		debug_view(const debug_view&) = delete;
 		debug_view(debug_view&) = delete;
 
-		void draw();
+		void draw_widgets();
+		void draw_overlays();
 
 		// Widget allocators
 		void alloc_entity_editor(scene& scene);

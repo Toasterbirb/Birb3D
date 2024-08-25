@@ -24,7 +24,7 @@ namespace birb
 
 #ifndef BIRB_RELEASE
 		// Box collider visualization
-		if (debug_view_enabled)
+		if (debug_overlays_enabled)
 			draw_box_collider_view();
 #endif
 	}

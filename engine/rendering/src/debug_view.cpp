@@ -13,7 +13,7 @@ namespace birb
 	{
 	}
 
-	void debug_view::draw()
+	void debug_view::draw_widgets()
 	{
 #ifndef BIRB_RELEASE
 		ensure(g_imgui_initialized, "Debug view requires ImGui to be initialized");
@@ -24,6 +24,13 @@ namespace birb
 
 		if (world.get())
 			world->draw();
+#endif
+	}
+
+	void debug_view::draw_overlays()
+	{
+#ifndef BIRB_RELEASE
+		ensure(g_imgui_initialized, "Debug view requires ImGui to be initialized");
 
 		// Overlays
 		if (performance_stats.get())
