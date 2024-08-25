@@ -9,14 +9,15 @@
 
 namespace birb
 {
-	debug_view::debug_view()
-	{
-	}
+	debug_view::debug_view() {}
 
 	void debug_view::draw_widgets()
 	{
 #ifndef BIRB_RELEASE
 		ensure(g_imgui_initialized, "Debug view requires ImGui to be initialized");
+
+		if (!is_docking_setup)
+			setup_docking();
 
 		// Widgets
 		if (entity_inspector.get())
@@ -82,5 +83,30 @@ namespace birb
 		ensure(!camera_info.get(), "Camera info has already been allocated");
 		camera_info = std::make_unique<birb::overlay::camera_info>(camera);
 #endif
+	}
+
+	void debug_view::setup_docking()
+	{
+		ensure(g_imgui_initialized, "Debug view requires ImGui to be initialized");
+		is_docking_setup = true;
+
+		// Setup docking
+		this->dockspace_id = ImGui::GetID("dockspace");
+		ImGui::DockBuilderAddNode(dockspace_id);
+
+		ImGuiID entity_list_node;
+		ImGuiID entity_inspector_node;
+		ImGuiID world_node;
+
+		ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Up, 0.5f, &entity_list_node, &world_node);
+		ImGui::DockBuilderSplitNode(entity_list_node, ImGuiDir_Left, 0.3f, &entity_list_node, &entity_inspector_node);
+
+		ImGui::DockBuilderDockWindow(world->window_name, world_node);
+		ImGui::DockBuilderDockWindow(entity_inspector->window_name, entity_list_node);;
+		ImGui::DockBuilderDockWindow(entity_inspector->inspector.window_name, entity_inspector_node);
+
+		ImVec2 win_size = ImGui::GetMainViewport()->Size;
+		ImVec2 dock_win_size = ImGui::GetWindowSize();
+		ImGui::DockBuilderSetNodeSize(dockspace_id, ImVec2(400, win_size.y));
 	}
 }

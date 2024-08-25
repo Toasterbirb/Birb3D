@@ -9,14 +9,16 @@
 namespace birb
 {
 	entity_editor::entity_editor(birb::scene& scene)
-	:scene(scene), inspector(scene)
+	:inspector(scene), scene(scene)
 	{}
 
 	void entity_editor::draw()
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		ImGui::Begin("Entity editor");
+		ImGui::SetNextWindowSize(ImVec2(256, 128), ImGuiCond_FirstUseEver);
+
+		ImGui::Begin(window_name);
 		{
 			const auto view = scene.registry.view<birb::info>();
 

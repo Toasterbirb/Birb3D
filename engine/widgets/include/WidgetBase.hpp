@@ -14,6 +14,9 @@ namespace birb
 		f32 padding = 5.0f;
 		f32 bg_alpha = 0.85f;
 
+		// Set this to create a separate window for a widget
+		const char* window_name = "Widget";
+
 	protected:
 		const static inline ImVec4 green = ImVec4(0.49f, 0.72f, 0.34f, 1.0f);
 		const static inline ImVec4 red = ImVec4(0.80f, 0.27f, 0.27f, 1.0f);

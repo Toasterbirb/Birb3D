@@ -17,7 +17,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		ImGui::Begin("World");
+		// ImGui::SetNextWindowSize(ImVec2(256, 128), ImGuiCond_FirstUseEver);
+
+		ImGui::Begin(window_name, NULL, ImGuiWindowFlags_AlwaysAutoResize);
 		{
 			if (ImGui::CollapsingHeader("Directional light"))
 			{

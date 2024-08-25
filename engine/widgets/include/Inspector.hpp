@@ -22,6 +22,8 @@ namespace birb
 
 		void draw() override;
 
+		const char* window_name = "Inspector";
+
 	private:
 		birb::scene& scene;
 		entt::entity selected_entity;

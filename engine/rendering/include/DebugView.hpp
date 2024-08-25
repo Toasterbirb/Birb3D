@@ -45,5 +45,9 @@ namespace birb
 		std::unique_ptr<birb::overlay::performance> performance_stats;
 		std::unique_ptr<birb::overlay::renderer_overlay> render_stats;
 		std::unique_ptr<birb::overlay::camera_info> camera_info;
+
+		ImGuiID dockspace_id;
+		void setup_docking();
+		bool is_docking_setup{false};
 	};
 }

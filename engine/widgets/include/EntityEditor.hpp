@@ -19,10 +19,11 @@ namespace birb
 
 		void draw() override;
 
+		const char* window_name = "Entity editor";
+		birb::inspector inspector;
+
 	private:
 		birb::scene& scene;
 		entt::entity selected_entity = entt::null;
-
-		birb::inspector inspector;
 	};
 }

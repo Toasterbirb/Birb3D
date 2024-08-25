@@ -13,6 +13,8 @@ namespace birb
 
 		void draw() override;
 
+		const char* window_name = "World";
+
 	private:
 		birb::window& window;
 	};

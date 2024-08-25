@@ -31,7 +31,9 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		ImGui::Begin("Inspector");
+		ImGui::SetNextWindowSize(ImVec2(256, 128), ImGuiCond_FirstUseEver);
+
+		ImGui::Begin(window_name);
 		{
 			if (selected_entity != entt::null)
 			{
