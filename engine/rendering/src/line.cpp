@@ -27,7 +27,7 @@ namespace birb
 		vertices[5] = point_b.z;
 
 		vbo->bind();
-		vbo->set_data(vertices.data(), vertices.size(), false);
+		vbo->set_data(vertices.data(), vertices.size(), gl_usage::dynamic_draw);
 		vao->unbind();
 		vbo->unbind();
 	}

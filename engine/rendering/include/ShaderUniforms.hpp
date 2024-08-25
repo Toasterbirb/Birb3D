@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GLBuffer.hpp"
 #include "Types.hpp"
 
 #include <glm/glm.hpp>
@@ -36,11 +37,11 @@ namespace birb
 
 	struct uniform_block
 	{
-		uniform_block(const u32 bind_point, const char* block_name, const size_t size, const bool static_draw);
+		uniform_block(const u32 bind_point, const char* block_name, const size_t size, const gl_usage usage);
 		const u32 bind_point;
 		const char* block_name;
 		const size_t size;
-		const bool static_draw;
+		const gl_usage usage;
 	};
 
 	namespace shader_uniforms
@@ -56,8 +57,8 @@ namespace birb
 
 		namespace block
 		{
-			const static inline uniform_block view_matrices(0, "view_matrices", sizeof(glm::mat4), true);
-			const static inline uniform_block projection_matrices(1, "projection_matrices", sizeof(glm::mat4) * 3, true);
+			const static inline uniform_block view_matrices(0, "view_matrices", sizeof(glm::mat4), gl_usage::static_draw);
+			const static inline uniform_block projection_matrices(1, "projection_matrices", sizeof(glm::mat4) * 3, gl_usage::static_draw);
 		}
 
 		namespace lights

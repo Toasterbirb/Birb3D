@@ -8,13 +8,13 @@ namespace birb
 	ubo::ubo(const uniform_block& block)
 	:buffer(gl_buffer_type::uniform), size(block.size)
 	{
-		create_ubo(block.bind_point, block.size, block.static_draw);
+		create_ubo(block.bind_point, block.size, block.usage);
 	}
 
-	ubo::ubo(const u32 bind_point, const u32 size_in_bytes, const bool static_draw)
+	ubo::ubo(const u32 bind_point, const u32 size_in_bytes, const gl_usage usage)
 	:buffer(gl_buffer_type::uniform), size(size_in_bytes)
 	{
-		create_ubo(bind_point, size_in_bytes, static_draw);
+		create_ubo(bind_point, size_in_bytes, usage);
 	}
 
 	void ubo::bind() const
@@ -38,18 +38,13 @@ namespace birb
 		unbind();
 	}
 
-	void ubo::create_ubo(const u32 bind_point, const u32 size_in_bytes, const bool static_draw)
+	void ubo::create_ubo(const u32 bind_point, const u32 size_in_bytes, const gl_usage usage)
 	{
 		ensure(size_in_bytes > 0);
 
 		// Create and allocate the uniform buffer
 		buffer.bind();
-
-		if (static_draw)
-			buffer.set_data(size_in_bytes, NULL, gl_usage::static_draw);
-		else
-			buffer.set_data(size_in_bytes, NULL, gl_usage::dynamic_draw);
-
+		buffer.set_data(size_in_bytes, NULL, usage);
 		buffer.unbind();
 
 		glBindBufferRange(GL_UNIFORM_BUFFER, bind_point, buffer, 0, size_in_bytes);

@@ -13,15 +13,15 @@ namespace birb
 	{
 	public:
 		vbo();
-		explicit vbo(const std::vector<f32>& data, const bool static_draw = true);
+		explicit vbo(const std::vector<f32>& data, const gl_usage usage = gl_usage::static_draw);
 
 		template<size_t N>
-		explicit vbo(const std::array<f32, N>& data, const bool static_draw = true)
+		explicit vbo(const std::array<f32, N>& data, const gl_usage usage = gl_usage::static_draw)
 		:buffer(gl_buffer_type::array)
 		{
 			static_assert(N != 0, "Empty data array");
 			bind();
-			set_data(data.data(), data.size(), static_draw);
+			set_data(data.data(), data.size(), usage);
 			unbind();
 		}
 
@@ -33,8 +33,8 @@ namespace birb
 		// Reference to the vertex buffer object
 		u32 id() const;
 
-		void set_data(const std::vector<f32>& data, const bool static_draw = true) const;
-		void set_data(const f32* data, const size_t size, const bool static_draw) const;
+		void set_data(const std::vector<f32>& data, const gl_usage usage = gl_usage::static_draw) const;
+		void set_data(const f32* data, const size_t size, const gl_usage usage) const;
 
 		void update_data(const f32* data, const size_t size, const u32 offset = 0) const;
 

@@ -123,7 +123,7 @@ namespace birb
 		text_vao.bind();
 
 		text_vbo.bind();
-		text_vbo.set_data(NULL, sizeof(f32) * 6 * 4, false); // 6 verts, 4 floats per vert
+		text_vbo.set_data(NULL, sizeof(f32) * 6 * 4, gl_usage::dynamic_draw); // 6 verts, 4 floats per vert
 		text_vbo.enable_vertex_attrib_array(0);
 		text_vbo.set_vertex_attrib_ptr(0, 0, sizeof(f32), 4);
 

@@ -11,12 +11,12 @@ namespace birb
 	:buffer(gl_buffer_type::array)
 	{}
 
-	vbo::vbo(const std::vector<f32>& vertices, const bool static_draw)
+	vbo::vbo(const std::vector<f32>& vertices, const gl_usage usage)
 	:buffer(gl_buffer_type::array)
 	{
 		ensure(!vertices.empty(), "Empty data array");
 		bind();
-		set_data(vertices.data(), vertices.size(), static_draw);
+		set_data(vertices.data(), vertices.size(), usage);
 		unbind();
 	}
 
@@ -25,21 +25,18 @@ namespace birb
 		return buffer.id();
 	}
 
-	void vbo::set_data(const std::vector<f32>& data, const bool static_draw) const
+	void vbo::set_data(const std::vector<f32>& data, const gl_usage usage) const
 	{
 		ensure(!data.empty());
-		set_data(data.data(), data.size(), static_draw);
+		set_data(data.data(), data.size(), usage);
 	}
 
-	void vbo::set_data(const f32* data, const size_t size, const bool static_draw) const
+	void vbo::set_data(const f32* data, const size_t size, const gl_usage usage) const
 	{
 		ensure(size > 0);
 		ensure(d_currently_bound_vbo == buffer.id(), "Remember to bind the VBO before modifying it");
 
-		if (static_draw)
-			buffer.set_data(sizeof(f32) * size, data, gl_usage::static_draw);
-		else
-			buffer.set_data(sizeof(f32) * size, data, gl_usage::dynamic_draw);
+		buffer.set_data(sizeof(f32) * size, data, usage);
 	}
 
 	void vbo::update_data(const f32* data, const size_t size, const u32 offset) const
