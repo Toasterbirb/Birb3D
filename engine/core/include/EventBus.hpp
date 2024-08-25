@@ -11,7 +11,7 @@ namespace birb
 
 	union event_data
 	{
-		std::array<i8,		event_data_size / sizeof(i8)>	_i8;
+		std::array<i8,		event_data_size / sizeof(i8)>	_i8 = {};
 		std::array<i16,		event_data_size / sizeof(i16)>	_i16;
 		std::array<i32,		event_data_size / sizeof(i32)>	_i32;
 		std::array<i64,		event_data_size / sizeof(i64)>	_i64;
