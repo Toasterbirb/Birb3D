@@ -53,7 +53,7 @@ int main(void)
 	birb::physics_world physics_world;
 	physics_world.set_scene(scene);
 
-	birb::shader::directional_direction = { 0.76, -1.54, 0.96 };
+	birb::shader::directional_light.direction = { 0.76, -1.54, 0.96 };
 
 	birb::entity player = scene.create_entity(birb::component::transform | birb::component::box | birb::component::rigidbody);
 	player.get_component<birb::transform>().local_scale = { 1.0f, 1.0f, 1.0f };

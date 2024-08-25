@@ -27,6 +27,14 @@ namespace birb
 		f32 attenuation_quadratic = 0.032f;
 	};
 
+	struct directional_light
+	{
+		vec3<f32> direction = { 0.2f, 0.2f, -0.7f };
+		vec3<f32> ambient = { 0.2f, 0.2f, 0.2f };
+		vec3<f32> diffuse = { 1.0f, 1.0f, 1.0f };
+		vec3<f32> specular = { 1.0f, 1.0f, 1.0f };
+	};
+
 	class shader : editor_component
 	{
 	public:
@@ -45,10 +53,7 @@ namespace birb
 		const static u16 point_light_count = 4;
 
 		// Directional lighting
-		static inline vec3<f32> directional_direction = { 0.2f, 0.2f, -0.7f };
-		static inline vec3<f32> directional_ambient = { 0.2f, 0.2f, 0.2f };
-		static inline vec3<f32> directional_diffuse = { 1.0f, 1.0f, 1.0f };
-		static inline vec3<f32> directional_specular = { 1.0f, 1.0f, 1.0f };
+		static inline struct directional_light directional_light;
 
 		// Point lights
 		static inline std::array<point_light, point_light_count> point_lights;

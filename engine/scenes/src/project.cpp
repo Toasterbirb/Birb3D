@@ -89,10 +89,10 @@ namespace birb
 		nlohmann::json& point_light_json = lighting_json["point"];
 
 		// Directional lighting
-		directional_light_json["direction"]	= vec3_to_json(shader::directional_direction);
-		directional_light_json["ambient"]	= vec3_to_json(shader::directional_ambient);
-		directional_light_json["diffuse"]	= vec3_to_json(shader::directional_diffuse);
-		directional_light_json["specular"]	= vec3_to_json(shader::directional_specular);
+		directional_light_json["direction"]	= vec3_to_json(shader::directional_light.direction);
+		directional_light_json["ambient"]	= vec3_to_json(shader::directional_light.ambient);
+		directional_light_json["diffuse"]	= vec3_to_json(shader::directional_light.diffuse);
+		directional_light_json["specular"]	= vec3_to_json(shader::directional_light.specular);
 
 		// Point lights
 		nlohmann::json point_lights;
@@ -217,10 +217,10 @@ namespace birb
 			nlohmann::json& directional_light_json = lighting_json["directional"];
 			nlohmann::json& point_light_json = lighting_json["point"];
 
-			shader::directional_direction	= json_to_vec3<f32>(directional_light_json["direction"]);
-			shader::directional_ambient		= json_to_vec3<f32>(directional_light_json["ambient"]);
-			shader::directional_diffuse		= json_to_vec3<f32>(directional_light_json["diffuse"]);
-			shader::directional_specular	= json_to_vec3<f32>(directional_light_json["specular"]);
+			shader::directional_light.direction	= json_to_vec3<f32>(directional_light_json["direction"]);
+			shader::directional_light.ambient	= json_to_vec3<f32>(directional_light_json["ambient"]);
+			shader::directional_light.diffuse	= json_to_vec3<f32>(directional_light_json["diffuse"]);
+			shader::directional_light.specular	= json_to_vec3<f32>(directional_light_json["specular"]);
 
 			for (u16 i = 0; i < shader::point_light_count; ++i)
 			{

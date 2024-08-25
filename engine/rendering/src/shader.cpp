@@ -100,10 +100,10 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		set(shader_uniforms::directional_light::direction, directional_direction);
-		set(shader_uniforms::directional_light::ambient, directional_ambient);
-		set(shader_uniforms::directional_light::diffuse, directional_diffuse);
-		set(shader_uniforms::directional_light::specular, directional_specular);
+		set(shader_uniforms::directional_light::direction, directional_light.direction);
+		set(shader_uniforms::directional_light::ambient, directional_light.ambient);
+		set(shader_uniforms::directional_light::diffuse, directional_light.diffuse);
+		set(shader_uniforms::directional_light::specular, directional_light.specular);
 	}
 
 	void shader::update_point_lights()
