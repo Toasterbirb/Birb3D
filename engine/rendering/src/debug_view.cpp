@@ -101,9 +101,14 @@ namespace birb
 		ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Up, 0.5f, &entity_list_node, &world_node);
 		ImGui::DockBuilderSplitNode(entity_list_node, ImGuiDir_Left, 0.3f, &entity_list_node, &entity_inspector_node);
 
-		ImGui::DockBuilderDockWindow(world->window_name, world_node);
-		ImGui::DockBuilderDockWindow(entity_inspector->window_name, entity_list_node);;
-		ImGui::DockBuilderDockWindow(entity_inspector->inspector.window_name, entity_inspector_node);
+		if (entity_inspector.get())
+		{
+			ImGui::DockBuilderDockWindow(entity_inspector->window_name, entity_list_node);;
+			ImGui::DockBuilderDockWindow(entity_inspector->inspector.window_name, entity_inspector_node);
+		}
+
+		if (world.get())
+			ImGui::DockBuilderDockWindow(world->window_name, world_node);
 
 		ImVec2 win_size = ImGui::GetMainViewport()->Size;
 		ImVec2 dock_win_size = ImGui::GetWindowSize();
