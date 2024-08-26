@@ -9,6 +9,6 @@ namespace birb
 	{
 		PROFILER_SCOPE_RENDER_FN();
 
-		texture = std::make_shared<birb::texture>(file_path.c_str(), 0, format, 2);
+		texture = std::make_shared<birb::texture>(file_path.c_str(), 0, format, texture_type::TEX_2D);
 	}
 }

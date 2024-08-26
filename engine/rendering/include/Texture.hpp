@@ -17,7 +17,7 @@ namespace birb
 	{
 	public:
 		texture() = default;
-		texture(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension = 2);
+		texture(const char* image_path, const u32 slot, const color_format format, const texture_type type = texture_type::TEX_2D);
 		~texture();
 		texture(texture&) = delete;
 		texture(const texture&) = delete;
@@ -34,7 +34,7 @@ namespace birb
 		 */
 		void create_empty(const vec2<i32> dimensions, const color_format format, const u8 slot = 0);
 
-		void load(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension = 2);
+		void load(const char* image_path, const u32 slot, const color_format format, const texture_type type = texture_type::TEX_2D);
 
 		void tex_unit(birb::shader& shader, const char* uniform = "tex0", const u32 unit = 0);
 
@@ -64,7 +64,7 @@ namespace birb
 		static u32 texture_from_file(const std::string& path);
 
 	private:
-		i32 tex_type = static_cast<i32>(texture_type::TEX_2D);
+		texture_type type = texture_type::TEX_2D;
 		u32 slot = 0;
 
 		vec2<i32> dimensions; // Width and height of the texture

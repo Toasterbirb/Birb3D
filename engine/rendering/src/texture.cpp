@@ -17,10 +17,10 @@ static_assert(GL_TEXTURE_3D == 32879);
 
 namespace birb
 {
-	texture::texture(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension)
-	:slot(slot)
+	texture::texture(const char* image_path, const u32 slot, const color_format format, const texture_type type)
+	:type(type), slot(slot)
 	{
-		this->load(image_path, slot, format, texture_dimension);
+		this->load(image_path, slot, format, type);
 	}
 
 	void texture::create_empty(const vec2<i32> dimensions, const color_format format, const u8 slot)
@@ -31,6 +31,7 @@ namespace birb
 
 		this->dimensions = dimensions;
 		this->slot = slot;
+		this->type = texture_type::TEX_2D;
 
 		glGenTextures(1, &id);
 		ensure(id != 0);
@@ -54,7 +55,7 @@ namespace birb
 		}
 	}
 
-	void texture::load(const char* image_path, const u32 slot, const color_format format, const u16 texture_dimension)
+	void texture::load(const char* image_path, const u32 slot, const color_format format, const texture_type type)
 	{
 		PROFILER_SCOPE_IO("Texture loading");
 
@@ -62,29 +63,15 @@ namespace birb
 
 		this->slot = slot;
 
-		tex_type = 0;
-		switch (texture_dimension)
-		{
-			case (1):
-				tex_type = GL_TEXTURE_1D;
-				break;
-
-			case (2):
-				tex_type = GL_TEXTURE_2D;
-				break;
-
-			case (3):
-				tex_type = GL_TEXTURE_3D;
-				break;
-		}
-		ensure(tex_type != 0, "Invalid texture type");
-
 		birb::asset::image texture(image_path, true);
 		this->dimensions = texture.dimensions;
 
 		// Calculate the aspect ratio from the texture size
 		_aspect_ratio = static_cast<f32>(dimensions.x) / static_cast<f32>(dimensions.y);
 		_aspect_ratio_reverse = static_cast<f32>(dimensions.y) / static_cast<f32>(dimensions.x);
+
+		// Convert the texture type to a GLenum
+		GLenum tex_type = static_cast<GLenum>(type);
 
 		glGenTextures(1, &id);
 		glActiveTexture(GL_TEXTURE0 + slot);
@@ -125,7 +112,7 @@ namespace birb
 		GL_SUPERVISOR_SCOPE();
 
 		glActiveTexture(GL_TEXTURE0 + slot);
-		glBindTexture(tex_type, id);
+		glBindTexture(static_cast<GLenum>(type), id);
 	}
 
 	void texture::bind(const u32 texture_id)
