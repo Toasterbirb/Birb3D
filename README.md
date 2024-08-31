@@ -9,6 +9,11 @@ Visit the [wiki](http://birbgitfh224rep6tmdofmr6qlo6wx43umqzt3hjubnncr55sdlfmtad
 > **Note**
 > To access the wiki, you may need to use the [Tor browser](https://www.torproject.org/) or some other alternative way to browse .onion sites
 
+## Screenshots
+![ttr](./media/ttr.png)
+
+![suzanne](./media/suzanne_dark.png)
+
 ## Building
 Build the project with cmake by running the following commands
 ```sh
