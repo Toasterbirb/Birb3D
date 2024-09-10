@@ -39,6 +39,15 @@ namespace birb
 			// -----------------------------------------------------------------
 			// --- Linux specific stuff, should be ignored in Windows builds ---
 			// -----------------------------------------------------------------
+
+			// !! NOTE !!
+			// This way of blocking out variables in the header file has caused crashes
+			// in the past in weird ways. This is left here on purpose to see if that problem
+			// is not a thing anymore in gcc14 onwards.
+			//
+			// If this causes a crash, there's a chance that there's some bug in the compiler
+			// that needs fixing
+#ifdef BIRB_PLATFORM_LINUX
 			i32 pid; // Our process ID
 
 			// Fill the memory history array with zeroes and get the PID
@@ -48,6 +57,7 @@ namespace birb
 			i64 resident_memory_usage() const;
 
 			std::array<f32, 16> memory_history;
+#endif
 			// -----------------------------------------------------------------
 		};
 	}
