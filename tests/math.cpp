@@ -100,3 +100,51 @@ TEST_CASE("Distance calculation with 3D vectors")
 	CHECK(std::roundf(birb::vec_distance(point_a, point_b)) == std::roundf(7.3484792283495));
 	CHECK(std::roundf(birb::vec_distance(point_a_int, point_b_int)) == std::roundf(7.3484692283495));
 }
+
+TEST_CASE("Color lerping")
+{
+	const birb::color color_a(0.0f, 0.0f, 0.0f, 0.0f);
+	const birb::color color_b(1.0f, 1.0f, 1.0f, 1.0f);
+
+	const birb::color color_c = birb::lerp(color_a, color_b, 0.5f);
+	CHECK(color_c.r == 0.5f);
+	CHECK(color_c.g == 0.5f);
+	CHECK(color_c.b == 0.5f);
+	CHECK(color_c.a == 0.5f);
+
+	const birb::color color_d = birb::lerp(color_a, color_b, 0.25f);
+	CHECK(color_d.r == 0.25f);
+	CHECK(color_d.g == 0.25f);
+	CHECK(color_d.b == 0.25f);
+	CHECK(color_d.a == 0.25f);
+}
+
+TEST_CASE("Vec2 lerping")
+{
+	const birb::vec2<i32> a(0, 0);
+	const birb::vec2<i32> b(10, 10);
+
+	const birb::vec2<i32> c = birb::lerp(a, b, 0.5f);
+	CHECK(c.x == 5);
+	CHECK(c.y == 5);
+
+	const birb::vec2<i32> d = birb::lerp(a, b, 0.25f);
+	CHECK(d.x == 2);
+	CHECK(d.y == 2);
+}
+
+TEST_CASE("Vec3 lerping")
+{
+	const birb::vec3<i32> a(0, 0, 0);
+	const birb::vec3<i32> b(10, 10, 10);
+
+	const birb::vec3<i32> c = birb::lerp(a, b, 0.5f);
+	CHECK(c.x == 5);
+	CHECK(c.y == 5);
+	CHECK(c.z == 5);
+
+	const birb::vec3<i32> d = birb::lerp(a, b, 0.25f);
+	CHECK(d.x == 2);
+	CHECK(d.y == 2);
+	CHECK(d.z == 2);
+}

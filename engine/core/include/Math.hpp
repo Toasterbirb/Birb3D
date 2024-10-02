@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Color.hpp"
 #include "Transform.hpp"
 #include "Vector.hpp"
 
@@ -175,6 +176,38 @@ namespace birb
 				std::pow(b.y - a.y, 2) +
 				std::pow(b.z - a.z, 2)
 			);
+	}
+
+	/**
+	 * @brief Lerp between two colors
+	 */
+	constexpr color lerp(const color a, const color b, const f32 t)
+	{
+		return color(
+			std::lerp(a.r, b.r, t),
+			std::lerp(a.g, b.g, t),
+			std::lerp(a.b, b.b, t),
+			std::lerp(a.a, b.a, t)
+		);
+	}
+
+	template<typename T>
+	constexpr vec2<T> lerp(const vec2<T> a, const vec2<T> b, const f32 t)
+	{
+		return vec2<T>(
+			std::lerp(a.x, b.x, t),
+			std::lerp(a.y, b.y, t)
+		);
+	}
+
+	template<typename T>
+	constexpr vec3<T> lerp(const vec3<T> a, const vec3<T> b, const f32 t)
+	{
+		return vec3<T>(
+			std::lerp(a.x, b.x, t),
+			std::lerp(a.y, b.y, t),
+			std::lerp(a.z, b.z, t)
+		);
 	}
 
 	namespace noise
