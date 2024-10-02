@@ -7,6 +7,8 @@
 #include "Model.hpp"
 #include "Profiling.hpp"
 #include "Shader.hpp"
+#include "ShaderCollection.hpp"
+#include "ShaderRef.hpp"
 #include "Transform.hpp"
 
 #include <imgui.h>
@@ -56,6 +58,18 @@ namespace birb
 				birb::editor_component::try_draw_ui<material>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::model>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::camera>(reg, selected_entity);
+
+				// shader references need special treatment since the class is difficult
+				// to inherit from the editor_component class
+				if (shader_ref* ref = reg.try_get<shader_ref>(selected_entity))
+				{
+					if (ImGui::CollapsingHeader("Shader (r)"))
+					{
+						const std::shared_ptr<shader> shader = shader_collection::get_shader(*ref);
+						shader->draw_editor_ui();
+					}
+				}
+
 
 				// Draw only editor specific stuff after this point
 #ifdef BIRB_EDITOR
