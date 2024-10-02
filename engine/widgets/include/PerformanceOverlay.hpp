@@ -47,7 +47,7 @@ namespace birb
 			//
 			// If this causes a crash, there's a chance that there's some bug in the compiler
 			// that needs fixing
-#ifdef BIRB_PLATFORM_LINUX
+//#ifdef BIRB_PLATFORM_LINUX
 			i32 pid; // Our process ID
 
 			// Fill the memory history array with zeroes and get the PID
@@ -57,7 +57,7 @@ namespace birb
 			i64 resident_memory_usage() const;
 
 			std::array<f32, 16> memory_history;
-#endif
+//#endif
 			// -----------------------------------------------------------------
 		};
 	}

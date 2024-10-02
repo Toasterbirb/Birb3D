@@ -144,21 +144,21 @@ namespace birb
 			ImGui::End();
 		}
 
-#ifdef BIRB_PLATFORM_LINUX
 		void performance::setup_memory_history()
 		{
+#ifdef BIRB_PLATFORM_LINUX
 			this->pid = RUSAGE_SELF;
 			std::fill(memory_history.begin(), memory_history.end(), 0);
-		}
 #endif
+		}
 
-#ifdef BIRB_PLATFORM_LINUX
 		i64 performance::resident_memory_usage() const
 		{
+#ifdef BIRB_PLATFORM_LINUX
 			struct rusage mem;
 			getrusage(pid, &mem);
 			return mem.ru_maxrss / 1024;
-		}
 #endif
+		}
 	}
 }
