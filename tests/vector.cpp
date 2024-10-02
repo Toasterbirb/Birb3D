@@ -190,7 +190,9 @@ TEST_CASE("vec2 operator overloads")
 	CHECK(vec_a * vec_b == birb::vec2<int>(8, 6));
 	CHECK(vec_a / vec_b == birb::vec2<int>(2, 0));
 
-	CHECK(vec_d * 2  == birb::vec2<int>(4, 4));
+	CHECK(vec_d + 2 == birb::vec2<int>(4, 4));
+	CHECK(vec_d - 2 == birb::vec2<int>(0, 0));
+	CHECK(vec_d * 2 == birb::vec2<int>(4, 4));
 	CHECK(vec_d / 2.0f  == birb::vec2<int>(1, 1));
 
 	CHECK(vec_a == vec_a);
@@ -225,6 +227,8 @@ TEST_CASE("vec3 operator overloads")
 	CHECK(vec_a * vec_b == birb::vec3<int>(8, 18, 10));
 	CHECK(vec_a / vec_b == birb::vec3<int>(2, 2, 2));
 
+	CHECK(vec_d + 2  == birb::vec3<int>(4, 4, 4));
+	CHECK(vec_d - 2  == birb::vec3<int>(0, 0, 0));
 	CHECK(vec_d * 2  == birb::vec3<int>(4, 4, 4));
 	CHECK(vec_d / 2  == birb::vec3<int>(1, 1, 1));
 
