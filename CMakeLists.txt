@@ -211,11 +211,7 @@ add_compile_options(-pedantic -Wall -Wextra -Wcast-align
 	-Wdisabled-optimization -Wformat=2 -Wdisabled-optimization
 	-Winit-self -Wlogical-op -Wmissing-declarations -Woverloaded-virtual
 	-Werror -Wno-unused -Wredundant-decls -Wsign-promo -Wstrict-null-sentinel
-	-Wstrict-overflow -Winline -Wmissing-format-attribute
-
-	# get rid of false positive misleading columns errors in some cases
-	-flarge-source-files
-)
+	-Wstrict-overflow -Winline -Wmissing-format-attribute)
 
 # Build the engine library
 add_subdirectory(engine)
