@@ -263,7 +263,7 @@ namespace birb
 					break;
 
 				case birb::input::keycode::escape:
-					unlock_cursor_from_window();
+					is_cursor_locked_to_window() ? unlock_cursor_from_window() : lock_cursor_to_window();
 					break;
 
 				default:
