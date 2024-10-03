@@ -1,6 +1,5 @@
 #pragma once
 
-#include "AspectRatioLock.hpp"
 #include "Color.hpp"
 #include "ColorFormat.hpp"
 #include "EditorComponent.hpp"
