@@ -40,6 +40,7 @@ int main(void)
 
 	birb::camera camera(window.size());
 	camera.far_clip = 100;
+	renderer.debug.alloc_camera_info(camera);
 
 	/////////////
 	// Shaders //
