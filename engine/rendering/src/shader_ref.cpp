@@ -1,5 +1,7 @@
 #include "Assert.hpp"
 #include "Math.hpp"
+#include "Shader.hpp"
+#include "ShaderCollection.hpp"
 #include "ShaderRef.hpp"
 
 namespace birb
@@ -12,6 +14,23 @@ namespace birb
 	shader_ref::shader_ref(const std::string& vertex, const std::string& fragment)
 	{
 		update_hashes(vertex, fragment);
+	}
+
+	void shader_ref::draw_editor_ui()
+	{
+		const std::shared_ptr<shader> shader = shader_collection::get_shader(*this);
+		shader->draw_editor_ui();
+		ImGui::Spacing();
+		ImGui::Text("Hash: %lu", combined_hash);
+		ImGui::SetItemTooltip("The combination of the vertex and fragment hashes");
+
+		ImGui::Text("Small hash: %lu", combined_hash % 4096);
+		ImGui::SetItemTooltip("Modulo 4096 of the full hash. Can collide with other small hashes.");
+	}
+
+	std::string shader_ref::collapsing_header_name() const
+	{
+		return editor_header_name;
 	}
 
 	u64 shader_ref::hash() const

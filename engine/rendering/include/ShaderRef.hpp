@@ -1,16 +1,20 @@
 #pragma once
 
+#include "EditorComponent.hpp"
 #include "Types.hpp"
 
 #include <string>
 
 namespace birb
 {
-	class shader_ref
+	class shader_ref : editor_component
 	{
 	public:
 		shader_ref(const std::string& shader_name);
 		shader_ref(const std::string& vertex, const std::string& fragment);
+
+		void draw_editor_ui() override;
+		std::string collapsing_header_name() const override;
 
 		/**
 		 * @brief A hash generated from the vertex and fragment shader names
@@ -36,6 +40,7 @@ namespace birb
 		void update_hashes(const std::string& vertex, const std::string& fragment);
 
 	private:
+		static inline const std::string editor_header_name = "Shader (r)";
 		u64 combined_hash = 0;
 		u64 vertex_hash = 0;
 		u64 fragment_hash = 0;

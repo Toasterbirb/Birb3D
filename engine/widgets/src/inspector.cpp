@@ -11,6 +11,8 @@
 #include "Shader.hpp"
 #include "ShaderCollection.hpp"
 #include "ShaderRef.hpp"
+#include "ShaderSprite.hpp"
+#include "Sprite.hpp"
 #include "Transform.hpp"
 
 #include <imgui.h>
@@ -61,21 +63,13 @@ namespace birb
 				cmp_ui(transform);
 				cmp_ui(rigidbody);
 				cmp_ui(collider::box);
+				cmp_ui(shader_ref);
 				cmp_ui(shader);
 				cmp_ui(material);
+				cmp_ui(sprite);
+				cmp_ui(shader_sprite);
 				cmp_ui(model);
 				cmp_ui(camera);
-
-				// shader references need special treatment since the class is difficult
-				// to inherit from the editor_component class
-				if (shader_ref* ref = reg.try_get<shader_ref>(selected_entity))
-				{
-					if (ImGui::CollapsingHeader("Shader (r)"))
-					{
-						const std::shared_ptr<shader> shader = shader_collection::get_shader(*ref);
-						shader->draw_editor_ui();
-					}
-				}
 
 
 				// Draw only editor specific stuff after this point

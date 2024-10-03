@@ -222,10 +222,10 @@ namespace birb
 			if (!current_scene->is_entity_renderable(entity))
 				continue;
 
-			const shader_sprite& entity_sprite = view.get<shader_sprite>(entity);
+			shader_sprite& entity_sprite = view.get<shader_sprite>(entity);
 			const birb::transform& transform = view.get<birb::transform>(entity);
 
-			std::shared_ptr<birb::shader> shader = shader_collection::get_shader(entity_sprite.shader_reference);
+			std::shared_ptr<birb::shader> shader = shader_collection::get_shader(entity_sprite.shader_reference());
 
 			shader->activate();
 			shader->set(shader_uniforms::model, transform.model_matrix());

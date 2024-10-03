@@ -109,7 +109,7 @@ int main(void)
 	world.add_component(default_color_shader);
 
 	birb::shader::shader_src_search_paths.push_back("shaders");
-	birb::entity shader_sprite = scene.create_entity(birb::component::transform);
+	birb::entity shader_sprite = scene.create_entity("Shader sprite", birb::component::transform);
 
 	shader_sprite.get_component<birb::transform>().position = floor.get_component<birb::transform>().position;
 	shader_sprite.get_component<birb::transform>().position.y += floor.get_component<birb::transform>().local_scale.y / 2.0 + 0.01;
@@ -153,7 +153,7 @@ int main(void)
 
 		// Update the shader sprite
 		{
-			std::shared_ptr<birb::shader> shader = birb::shader_collection::get_shader(shader_sprite.get_component<birb::shader_sprite>().shader_reference);
+			std::shared_ptr<birb::shader> shader = birb::shader_collection::get_shader(shader_sprite.get_component<birb::shader_sprite>().shader_reference());
 			shader->activate();
 			shader->set("time", time);
 			shader->set("color", shader_color);
