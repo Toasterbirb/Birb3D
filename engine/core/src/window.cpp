@@ -36,6 +36,8 @@ namespace birb
 	:dimensions(dimensions)
 	{
 		event_bus::register_event_id(event::set_window_background_clear_color, this); // Set window background clear color | f32[3]
+		event_bus::register_event_id(event::window_lock_cursor, this);
+		event_bus::register_event_id(event::window_unlock_cursor, this);
 
 		if (window_count != 0)
 			birb::log_fatal(1, "There can only be one window at any given time");
@@ -125,6 +127,8 @@ namespace birb
 	window::~window()
 	{
 		event_bus::unregister_event_id(event::set_window_background_clear_color, this);
+		event_bus::unregister_event_id(event::window_lock_cursor, this);
+		event_bus::unregister_event_id(event::window_unlock_cursor, this);
 
 		// If ImGui was initialize, quit it gracefully
 		if (g_imgui_initialized)
@@ -153,8 +157,16 @@ namespace birb
 	{
 		switch (event_id)
 		{
-			case 2:
+			case event::set_window_background_clear_color:
 				set_background_color({data._f32[0], data._f32[1], data._f32[2]});
+				break;
+
+			case event::window_lock_cursor:
+				lock_cursor_to_window();
+				break;
+
+			case event::window_unlock_cursor:
+				unlock_cursor_from_window();
 				break;
 		}
 	}

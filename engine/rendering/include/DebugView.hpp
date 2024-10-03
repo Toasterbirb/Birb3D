@@ -46,6 +46,9 @@ namespace birb
 		std::unique_ptr<birb::overlay::renderer_overlay> render_stats;
 		std::unique_ptr<birb::overlay::camera_info> camera_info;
 
+		// References to things shared between widgets and overlays
+		camera* camera_ptr{nullptr};
+
 		ImGuiID dockspace_id;
 		void setup_docking();
 		bool is_docking_setup{false};

@@ -44,6 +44,20 @@ namespace birb
 		constexpr u16 window_resized = 5;
 
 		/**
+		 * @brief Lock the cursor to the window
+		 *
+		 * data: none
+		 */
+		constexpr u16 window_lock_cursor = 6;
+
+		/**
+		 * @brief Unlock the cursor from the window
+		 *
+		 * data: none
+		 */
+		constexpr u16 window_unlock_cursor = 7;
+
+		/**
 		 * @brief Hot reload all models in the currently active scene
 		 *
 		 * data: none

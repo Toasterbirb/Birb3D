@@ -1,4 +1,5 @@
 #include "Assert.hpp"
+#include "Camera.hpp"
 #include "DebugView.hpp"
 #include "Globals.hpp"
 #include "Scene.hpp"
@@ -25,6 +26,15 @@ namespace birb
 
 		if (world.get())
 			world->draw();
+
+		if (camera_ptr != nullptr)
+		{
+			ImGui::Begin("Camera");
+			{
+				camera_ptr->draw_editor_ui();
+			}
+			ImGui::End();
+		}
 #endif
 	}
 
@@ -82,6 +92,7 @@ namespace birb
 #ifndef BIRB_RELEASE
 		ensure(!camera_info.get(), "Camera info has already been allocated");
 		camera_info = std::make_unique<birb::overlay::camera_info>(camera);
+		camera_ptr = &camera;
 #endif
 	}
 
@@ -98,7 +109,7 @@ namespace birb
 		ImGuiID entity_inspector_node;
 		ImGuiID world_node;
 
-		ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Up, 0.5f, &entity_list_node, &world_node);
+		ImGui::DockBuilderSplitNode(dockspace_id, ImGuiDir_Up, 0.3f, &entity_list_node, &world_node);
 		ImGui::DockBuilderSplitNode(entity_list_node, ImGuiDir_Left, 0.3f, &entity_list_node, &entity_inspector_node);
 
 		if (entity_inspector.get())
@@ -109,6 +120,9 @@ namespace birb
 
 		if (world.get())
 			ImGui::DockBuilderDockWindow(world->window_name, world_node);
+
+		if (camera_ptr != nullptr)
+			ImGui::DockBuilderDockWindow("Camera", world_node);
 
 		ImVec2 win_size = ImGui::GetMainViewport()->Size;
 		ImVec2 dock_win_size = ImGui::GetWindowSize();

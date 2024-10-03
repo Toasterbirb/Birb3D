@@ -64,7 +64,56 @@ namespace birb
 
 	void camera::draw_editor_ui()
 	{
+		static i32 current_mode = 0;
+		if (ImGui::Combo("Camera type", &current_mode, "Flying\0FPS\0Editor\0"))
+		{
+			editor_mode = false;
+			switch (current_mode)
+			{
+				case 0: mode = mode::flying; break;
+				case 1: mode = mode::fps; break;
+				case 2: mode = mode::flying; editor_mode = true; break;
+			}
+		}
+
+		ImGui::Checkbox("Keyboard control", &keyboard_controls_enabled);
+		ImGui::Checkbox("Mouse control", &mouse_controls_enabled);
+
+		if (ImGui::Button("Lock cursor to window"))
+			event_bus::send_event(event::window_lock_cursor);
+
+		ImGui::Separator();
+		ImGui::Spacing();
+
 		ImGui::DragFloat3("Position", &position[0], 0.25f);
+		ImGui::Spacing();
+		ImGui::DragFloat("Yaw", &yaw, 0.25f);
+		ImGui::DragFloat("Pitch", &pitch, 0.25f);
+		ImGui::Spacing();
+		ImGui::Checkbox("Lock yaw", &lock_yaw);
+		ImGui::Checkbox("Lock pitch", &lock_pitch);
+		ImGui::Spacing();
+		ImGui::DragFloat("Movement speed", &movement_speed, 0.25f);
+		ImGui::DragFloat("Mouse sensitivity", &mouse_sensitivity, 0.25f);
+
+		ImGui::Spacing();
+		ImGui::Separator();
+		ImGui::Spacing();
+
+		ImGui::Text("FOV: %.2f", fov);
+		ImGui::Text("Orthographic scale: %.2f", orthographic_scale);
+		ImGui::Text("Near clip: %.2f", near_clip);
+		ImGui::Text("Far clip: %.2f", far_clip);
+		ImGui::Text("Previous cursor position: [%d, %d]", static_cast<int>(prev_cursor_pos.x), static_cast<int>(prev_cursor_pos.y));
+
+		if (ImGui::CollapsingHeader("Vectors"))
+		{
+			ImGui::Text("Front:     [%.2f, %.2f, %.2f]", front.x, front.y, front.z);
+			ImGui::Text("Front FPS: [%.2f, %.2f, %.2f]", front_fps.x, front_fps.y, front_fps.z);
+			ImGui::Text("Right:     [%.2f, %.2f, %.2f]", right.x, right.y, right.z);
+			ImGui::Text("Up:        [%.2f, %.2f, %.2f]", up.x, up.y, up.z);
+			ImGui::Text("World up:  [%.2f, %.2f, %.2f]", world_up.x, world_up.y, world_up.z);
+		}
 	}
 
 	std::string camera::collapsing_header_name() const
