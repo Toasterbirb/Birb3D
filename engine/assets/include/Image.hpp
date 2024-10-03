@@ -14,7 +14,7 @@ namespace birb
 			image(const image&) = delete;
 			image(image&& other);
 
-			unsigned char* data;
+			unsigned char* data = nullptr;
 			vec2<i32> dimensions;
 			i32 color_channels;
 		};
