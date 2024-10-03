@@ -67,7 +67,7 @@ int main(void)
 	camera.fov = 75;
 	camera.mode = birb::camera::mode::fps;
 
-	birb::entity floor = scene.create_entity(birb::component::transform | birb::component::box);
+	birb::entity floor = scene.create_entity("Floor", birb::component::transform | birb::component::box);
 	floor.get_component<birb::transform>().position.y = -0.5f;
 	floor.get_component<birb::transform>().local_scale = { 40.0f, 0.5f, 40.0f };
 	floor.get_component<birb::collider::box>().set_position_and_size(floor.get_component<birb::transform>());
