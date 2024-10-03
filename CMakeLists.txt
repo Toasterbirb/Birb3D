@@ -211,7 +211,11 @@ add_compile_options(-pedantic -Wall -Wextra -Wcast-align
 	-Wdisabled-optimization -Wformat=2 -Wdisabled-optimization
 	-Winit-self -Wlogical-op -Wmissing-declarations -Woverloaded-virtual
 	-Werror -Wno-unused -Wredundant-decls -Wsign-promo -Wstrict-null-sentinel
-	-Wstrict-overflow -Winline -Wmissing-format-attribute)
+	-Wstrict-overflow -Wmissing-format-attribute
+
+	# These warnings are disabled due to them causing issues with stb libs
+	# -Winline
+)
 
 # Build the engine library
 add_subdirectory(engine)
