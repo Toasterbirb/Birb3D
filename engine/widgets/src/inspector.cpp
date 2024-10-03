@@ -14,6 +14,9 @@
 
 #include <imgui.h>
 
+// macro for drawing component UIs into the inspector
+#define cmp_ui(cmp_type) birb::editor_component::try_draw_ui<cmp_type>(reg, selected_entity)
+
 namespace birb
 {
 	inspector::inspector(birb::scene& scene) : scene(scene)
@@ -54,12 +57,12 @@ namespace birb
 				// 	reg.get<info>(selected_entity).name += '_';
 
 				// Draw UI components for entities in a specific order
-				birb::editor_component::try_draw_ui<transform>(reg, selected_entity);
-				birb::editor_component::try_draw_ui<rigidbody>(reg, selected_entity);
-				birb::editor_component::try_draw_ui<birb::shader>(reg, selected_entity);
-				birb::editor_component::try_draw_ui<material>(reg, selected_entity);
-				birb::editor_component::try_draw_ui<birb::model>(reg, selected_entity);
-				birb::editor_component::try_draw_ui<birb::camera>(reg, selected_entity);
+				cmp_ui(transform);
+				cmp_ui(rigidbody);
+				cmp_ui(shader);
+				cmp_ui(material);
+				cmp_ui(model);
+				cmp_ui(camera);
 
 				// shader references need special treatment since the class is difficult
 				// to inherit from the editor_component class
