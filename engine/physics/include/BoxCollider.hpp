@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BaseCollider.hpp"
+#include "EditorComponent.hpp"
 #include "Vector.hpp"
 
 namespace birb
@@ -9,7 +10,7 @@ namespace birb
 
 	namespace collider
 	{
-		class box : public base_collider
+		class box : public base_collider, editor_component
 		{
 		public:
 			box();
@@ -17,6 +18,9 @@ namespace birb
 			~box() = default;
 			box(const box&) = default;
 			box(box&) = default;
+
+			void draw_editor_ui() override;
+			std::string collapsing_header_name() const override;
 
 			bool collides_with(const box& box) const override;
 
@@ -33,6 +37,7 @@ namespace birb
 			vec3<f32> max() const;
 
 		private:
+			static inline const std::string editor_header_name = "Box collider";
 			void update_min_max_values();
 
 			vec3<f32> _size;

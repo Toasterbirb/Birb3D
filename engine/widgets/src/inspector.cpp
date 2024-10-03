@@ -1,4 +1,5 @@
 #include "Assert.hpp"
+#include "BoxCollider.hpp"
 #include "Camera.hpp"
 #include "EntityEditor.hpp"
 #include "Info.hpp"
@@ -59,6 +60,7 @@ namespace birb
 				// Draw UI components for entities in a specific order
 				cmp_ui(transform);
 				cmp_ui(rigidbody);
+				cmp_ui(collider::box);
 				cmp_ui(shader);
 				cmp_ui(material);
 				cmp_ui(model);

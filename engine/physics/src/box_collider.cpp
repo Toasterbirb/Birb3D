@@ -1,6 +1,8 @@
 #include "BoxCollider.hpp"
 #include "Transform.hpp"
 
+#include <imgui.h>
+
 namespace birb
 {
 	namespace collider
@@ -11,6 +13,38 @@ namespace birb
 		:_size(transform.local_scale), _position(transform.position)
 		{
 			update_min_max_values();
+		}
+
+		void box::draw_editor_ui()
+		{
+			static vec3<f32> new_size = _size;
+			ImGui::Text("Size: [%.2f, %.2f, %.2f]", _size.x, _size.y, _size.z);
+			ImGui::InputFloat3("Size", *new_size.to_ptr_array().data());
+			if (ImGui::Button("Set"))
+				set_size(new_size);
+
+			ImGui::Spacing();
+			ImGui::Separator();
+			ImGui::Spacing();
+
+			static vec3<f32> new_position = _position;
+			ImGui::Text("Position: [%.2f, %.2f, %.2f]", _position.x, _position.y, _position.z);
+			ImGui::InputFloat3("Position", *new_position.to_ptr_array().data());
+			if (ImGui::Button("Set"))
+				set_position(new_position);
+
+			ImGui::Spacing();
+			ImGui::Separator();
+			if (ImGui::Button("Update input fields"))
+			{
+				new_size = _size;
+				new_position = _position;
+			}
+		}
+
+		std::string box::collapsing_header_name() const
+		{
+			return editor_header_name;
 		}
 
 		bool box::collides_with(const box& box) const
