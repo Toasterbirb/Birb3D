@@ -3,6 +3,7 @@
 #include "DebugView.hpp"
 #include "Globals.hpp"
 #include "Scene.hpp"
+#include "ShaderCollection.hpp"
 
 #include <imgui.h>
 #include <imgui_stdlib.h>
@@ -26,6 +27,13 @@ namespace birb
 
 		if (world.get())
 			world->draw();
+
+		// the shader collection should always be there
+		ImGui::Begin("Shader collection");
+		{
+			shader_collection::draw_editor_ui();
+		}
+		ImGui::End();
 
 		if (camera_ptr != nullptr)
 		{
@@ -120,6 +128,8 @@ namespace birb
 
 		if (world.get())
 			ImGui::DockBuilderDockWindow(world->window_name, world_node);
+
+		ImGui::DockBuilderDockWindow("Shader collection", world_node);
 
 		if (camera_ptr != nullptr)
 			ImGui::DockBuilderDockWindow("Camera", world_node);

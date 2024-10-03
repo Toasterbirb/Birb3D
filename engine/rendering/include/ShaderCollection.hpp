@@ -16,6 +16,15 @@ namespace birb
 		~shader_collection();
 
 		/**
+		 * @brief Called by the debug view. Shows misc. information about the state
+		 * of the shader collection
+		 *
+		 * This class doesn't inherit the component ui class and is handled
+		 * manually in the debug view
+		 */
+		static void draw_editor_ui();
+
+		/**
 		 * @brief Compile often used shaders
 		 */
 		static void precompile_basic_shaders();

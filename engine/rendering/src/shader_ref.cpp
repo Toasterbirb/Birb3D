@@ -24,8 +24,8 @@ namespace birb
 		ImGui::Text("Hash: %lu", combined_hash);
 		ImGui::SetItemTooltip("The combination of the vertex and fragment hashes");
 
-		ImGui::Text("Small hash: %lu", combined_hash % 4096);
-		ImGui::SetItemTooltip("Modulo 4096 of the full hash. Can collide with other small hashes.");
+		ImGui::Text("Small hash: %lu", combined_hash % small_hash_modulo);
+		ImGui::SetItemTooltip("Modulo %d of the full hash. Can collide with other small hashes.", small_hash_modulo);
 	}
 
 	std::string shader_ref::collapsing_header_name() const

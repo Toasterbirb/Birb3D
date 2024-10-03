@@ -20,6 +20,37 @@ namespace birb
 		ensure(shader_storage.empty(), "The shader collection needs to be wiped manually before it runs out of scope");
 	}
 
+	void shader_collection::draw_editor_ui()
+	{
+		static const ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg;
+
+		const auto list_shaders = [&](const std::string& name, const auto shader_map)
+		{
+			if (ImGui::CollapsingHeader(name.c_str()))
+			{
+				ImGui::BeginTable(name.c_str(), 2, flags);
+				{
+					ImGui::TableSetupColumn("Name");
+					ImGui::TableSetupColumn("Hash");
+					ImGui::TableHeadersRow();
+
+					for (const auto& [hash, name] : shader_map)
+					{
+						ImGui::TableNextRow();
+						ImGui::TableNextColumn();
+						ImGui::Text("%s", name.c_str());
+						ImGui::TableNextColumn();
+						ImGui::Text("%lu", hash);
+					}
+				}
+				ImGui::EndTable();
+			}
+		};
+
+		list_shaders("Vertex shaders", vertex_shader_hashes);
+		list_shaders("Fragment shaders", fragment_shader_hashes);
+	}
+
 	void shader_collection::precompile_basic_shaders()
 	{
 		// Make sure, that the shader source names have been hashed

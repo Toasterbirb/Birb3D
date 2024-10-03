@@ -39,6 +39,8 @@ namespace birb
 		 */
 		void update_hashes(const std::string& vertex, const std::string& fragment);
 
+		static constexpr i32 small_hash_modulo = 4096;
+
 	private:
 		static inline const std::string editor_header_name = "Shader (r)";
 		u64 combined_hash = 0;
