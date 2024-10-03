@@ -24,7 +24,7 @@ namespace birb
 	{
 		static const ImGuiTableFlags flags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg;
 
-		const auto list_shaders = [&](const std::string& name, const auto shader_map)
+		const auto list_shaders = [](const std::string& name, const auto shader_map)
 		{
 			if (ImGui::CollapsingHeader(name.c_str()))
 			{
