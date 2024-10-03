@@ -6,6 +6,7 @@
 #include "Material.hpp"
 #include "Model.hpp"
 #include "Profiling.hpp"
+#include "Rigidbody.hpp"
 #include "Shader.hpp"
 #include "ShaderCollection.hpp"
 #include "ShaderRef.hpp"
@@ -54,6 +55,7 @@ namespace birb
 
 				// Draw UI components for entities in a specific order
 				birb::editor_component::try_draw_ui<transform>(reg, selected_entity);
+				birb::editor_component::try_draw_ui<rigidbody>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::shader>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<material>(reg, selected_entity);
 				birb::editor_component::try_draw_ui<birb::model>(reg, selected_entity);

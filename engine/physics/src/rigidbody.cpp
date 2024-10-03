@@ -2,12 +2,35 @@
 #include "Transform.hpp"
 
 #include <cmath>
+#include <imgui.h>
 
 namespace birb
 {
 	rigidbody::rigidbody(const transform& transform)
 	:position(transform.position)
 	{}
+
+	void rigidbody::draw_editor_ui()
+	{
+		ImGui::Text("Position:     [%.2f, %.2f, %.2f]", position.x, position.y, position.z);
+		ImGui::Text("Velocity:     [%.2f, %.2f, %.2f]", velocity.x, velocity.y, velocity.z);
+		ImGui::Text("Acceleration: [%.2f, %.2f, %.2f]", acceleration.x, acceleration.y, acceleration.z);
+		ImGui::Spacing();
+
+		static f32 new_mass = 1.0 / inverse_mass;
+
+		ImGui::PushItemWidth(ImGui::CalcItemWidth() / 2);
+		ImGui::InputFloat("Mass", &new_mass);
+		ImGui::SameLine();
+		if (ImGui::Button("Update"))
+			set_mass(new_mass);
+		ImGui::PopItemWidth();
+	}
+
+	std::string rigidbody::collapsing_header_name() const
+	{
+		return editor_header_name;
+	}
 
 	f32 rigidbody::mass() const
 	{
