@@ -36,6 +36,13 @@ namespace birb
 		return birb::entity(this, entt_entity);
 	}
 
+	birb::entity scene::create_entity(const std::string& name)
+	{
+		birb::entity new_entity(this, registry.create());
+		new_entity.add_component(info(name));
+		return new_entity;
+	}
+
 	birb::entity scene::create_entity(const u32 components)
 	{
 		ensure(components != 0, "Use the create_entity() function that takes no arguments if you don't need any components");
@@ -67,6 +74,13 @@ namespace birb
 			add_component(entt_entity, shader_ref("default", "default"));
 
 		return birb::entity(this, entt_entity);
+	}
+
+	birb::entity scene::create_entity(const std::string& name, const u32 components)
+	{
+		birb::entity new_entity = create_entity(components);
+		new_entity.add_component(info(name));
+		return new_entity;
 	}
 
 	void scene::destroy_entity(const entt::entity& entity)

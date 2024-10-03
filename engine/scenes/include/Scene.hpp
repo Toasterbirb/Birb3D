@@ -40,7 +40,9 @@ namespace birb
 		std::string name = "Scene";
 
 		birb::entity create_entity();
+		birb::entity create_entity(const std::string& name);
 		birb::entity create_entity(const u32 components);
+		birb::entity create_entity(const std::string& name, const u32 components);
 		void destroy_entity(const entt::entity& entity);
 		bool is_duplicate_entity_info_name(const std::string& name, const entt::entity& ignored_entity = entt::null);
 		bool is_entity_active(const entt::entity& entity) const;
