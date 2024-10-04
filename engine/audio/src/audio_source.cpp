@@ -37,7 +37,18 @@ namespace birb
 
 		alSourcei(source, AL_BUFFER, static_cast<ALint>(sound_file.buffer()));
 		alSourcePlay(source);
+		attached_audio_buffers.emplace_back(sound_file.buffer());
 		check_al_errors();
+	}
+
+	void audio_source::unqueue_buffers()
+	{
+		// don't do anything if the source is playing audio
+		// otherwise we might risk unqueueing something that is still playing
+		if (is_playing())
+			return;
+
+		alSourceUnqueueBuffers(source, attached_audio_buffers.size(), attached_audio_buffers.data());
 	}
 
 	bool audio_source::is_playing() const

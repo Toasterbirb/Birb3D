@@ -12,7 +12,7 @@ namespace birb
 	{
 	public:
 		audio_player();
-		~audio_player() = default;
+		~audio_player();
 		audio_player(const audio_player&) = default;
 		audio_player(audio_player&) = default;
 
@@ -23,6 +23,8 @@ namespace birb
 		 * If non can be found, a new one will be allocated.
 		 */
 		void play_sound(sound_file& sound_file);
+		void unqueue_buffers();
+		void free_sources();
 
 	private:
 		std::vector<std::shared_ptr<audio_source>> audio_sources;

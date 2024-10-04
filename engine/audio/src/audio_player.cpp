@@ -11,6 +11,11 @@ namespace birb
 		audio_sources.push_back(std::make_shared<audio_source>());
 	}
 
+	audio_player::~audio_player()
+	{
+		unqueue_buffers();
+	}
+
 	void audio_player::play_sound(sound_file& sound_file)
 	{
 		PROFILER_SCOPE_AUDIO_FN();
@@ -35,5 +40,16 @@ namespace birb
 		audio_sources.at(audio_sources.size() - 1)->play_sound(sound_file);
 
 		check_al_errors();
+	}
+
+	void audio_player::unqueue_buffers()
+	{
+		for (auto source : audio_sources)
+			source->unqueue_buffers();
+	}
+
+	void audio_player::free_sources()
+	{
+		audio_sources.clear();
 	}
 }
