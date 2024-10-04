@@ -1,8 +1,10 @@
+#include "ALErrorHandler.hpp"
 #include "Assert.hpp"
 #include "Logger.hpp"
 #include "Profiling.hpp"
 #include "SoundFile.hpp"
 
+#include <AL/al.h>
 #include <AL/alext.h>
 #include <climits>
 #include <memory>
@@ -28,8 +30,28 @@ namespace birb
 
 	sound_file::~sound_file()
 	{
+		ensure(alGetError() == AL_NO_ERROR);
 		ensure(audio_buffer != 0);
 		alDeleteBuffers(1, &audio_buffer);
+
+		const ALenum error = alGetError();
+		if (error != AL_NO_ERROR)
+		{
+			switch (error)
+			{
+				case AL_INVALID_OPERATION:
+					birb::log_error("Audio buffer is still in use and can't be deleted");
+					break;
+
+				case AL_INVALID_NAME:
+					birb::log_error("Audio buffer name is invalid");
+					break;
+
+				case AL_INVALID_VALUE:
+					birb::log_error("The requested number of audio buffers cannot be deleted");
+					break;
+			}
+		}
 	}
 
 	// !! Most of the code here is "borrowed" from the OpenAL examples !!

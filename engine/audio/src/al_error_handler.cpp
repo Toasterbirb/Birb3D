@@ -5,6 +5,12 @@ namespace birb
 {
 	static constexpr char al_error_msg[] = "AL error: ";
 
+	void check_al_errors()
+	{
+		auto error = alGetError();
+		log_al_error_message(error);
+	}
+
 	void log_al_error_message(const ALenum error)
 	{
 		switch (error)

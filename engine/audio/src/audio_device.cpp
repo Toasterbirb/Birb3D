@@ -1,3 +1,4 @@
+#include "ALErrorHandler.hpp"
 #include "Assert.hpp"
 #include "AudioDevice.hpp"
 #include "Logger.hpp"
@@ -34,10 +35,12 @@ namespace birb
 		}
 
 		// TODO: Check for EAX 2.0 support
+		check_al_errors();
 	}
 
 	audio_device::~audio_device()
 	{
+		check_al_errors();
 		alcMakeContextCurrent(NULL);
 		alcDestroyContext(context);
 		alcCloseDevice(device);

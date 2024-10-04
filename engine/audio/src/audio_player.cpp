@@ -1,3 +1,4 @@
+#include "ALErrorHandler.hpp"
 #include "Assert.hpp"
 #include "AudioPlayer.hpp"
 #include "Profiling.hpp"
@@ -13,6 +14,8 @@ namespace birb
 	void audio_player::play_sound(sound_file& sound_file)
 	{
 		PROFILER_SCOPE_AUDIO_FN();
+
+		check_al_errors();
 
 		// Find an audio source that isn't playing anything at the moment
 		// If a free source is found, reuse it
@@ -30,5 +33,7 @@ namespace birb
 		// No free source was found, so we'll need to allocate a new one
 		audio_sources.push_back(std::make_shared<audio_source>());
 		audio_sources.at(audio_sources.size() - 1)->play_sound(sound_file);
+
+		check_al_errors();
 	}
 }
