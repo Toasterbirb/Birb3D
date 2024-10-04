@@ -104,6 +104,14 @@ namespace birb
 #endif
 	}
 
+	void debug_view::dealloc_entity_editor()
+	{
+#ifndef BIRB_RELEASE
+		ensure(entity_inspector.get(), "Entity editor has not been allocated");
+		entity_inspector.reset();
+#endif
+	}
+
 	void debug_view::setup_docking()
 	{
 		ensure(g_imgui_initialized, "Debug view requires ImGui to be initialized");

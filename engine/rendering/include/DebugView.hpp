@@ -36,6 +36,9 @@ namespace birb
 		void alloc_performance_stats(timestep& timestep);
 		void alloc_camera_info(camera& camera);
 
+		// Deallocators for things that might need it
+		void dealloc_entity_editor();
+
 	private:
 		// Widgets
 		std::unique_ptr<birb::world> world;
