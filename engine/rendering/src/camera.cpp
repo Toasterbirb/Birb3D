@@ -82,6 +82,13 @@ namespace birb
 		if (ImGui::Button("Lock cursor to window"))
 			event_bus::send_event(event::window_lock_cursor);
 
+		if (ImGui::Button("Log position and rotation"))
+		{
+			log("Position: ", position.x, ", ", position.y, ", ", position.z);
+			log("Pitch: ", pitch);
+			log("Yaw: ", yaw);
+		}
+
 		ImGui::Separator();
 		ImGui::Spacing();
 
