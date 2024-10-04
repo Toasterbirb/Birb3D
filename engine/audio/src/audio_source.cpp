@@ -1,5 +1,7 @@
+#include "ALErrorHandler.hpp"
 #include "Assert.hpp"
 #include "AudioSource.hpp"
+#include "Logger.hpp"
 #include "Profiling.hpp"
 
 #include <AL/al.h>
@@ -17,7 +19,12 @@ namespace birb
 	audio_source::~audio_source()
 	{
 		alDeleteSources(1, &source);
-		ensure(alGetError() == AL_NO_ERROR, "Failed to delete an audio source");
+		auto al_error = alGetError();
+
+		if (al_error != AL_NO_ERROR)
+			log_al_error_message(al_error);
+
+		// ensure(alGetError() == AL_NO_ERROR, "Failed to delete an audio source");
 	}
 
 	void audio_source::play_sound(sound_file& sound_file)
