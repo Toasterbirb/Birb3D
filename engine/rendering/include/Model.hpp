@@ -37,6 +37,14 @@ namespace birb
 		void load_model_from_memory(const primitive_mesh mesh, const std::string& name = "unknown");
 
 		/**
+		 * @brief Get pointer to a mesh by name
+		 *
+		 * @param mesh_name Name of the mesh to look for
+		 * @return Pointer to the mesh or nullptr if the mesh was not found
+		 */
+		mesh* get_mesh_by_name(const std::string& mesh_name);
+
+		/**
 		 * @brief Reload the model file only if the file has been modified
 		 *
 		 * Note: Only the timestamp of the latest modification is checked.

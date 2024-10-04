@@ -198,6 +198,26 @@ namespace birb
 		birb::log("Model loaded from memory: " + name);
 	}
 
+	mesh* model::get_mesh_by_name(const std::string& mesh_name)
+	{
+		// check for a nullptr
+		ensure(meshes.get());
+
+		auto mesh_it = std::find_if(meshes->begin(), meshes->end(), [mesh_name](birb::mesh& mesh)
+			{
+				if (mesh.name == mesh_name)
+					return true;
+
+				return false;
+			});
+
+		// check if the mesh was found
+		if (mesh_it == meshes->end())
+			return nullptr;
+
+		return mesh_it.base();
+	}
+
 	void model::reload()
 	{
 		// Don't reload the model if the file has not
