@@ -7,6 +7,7 @@
 #include "Material.hpp"
 #include "Model.hpp"
 #include "Profiling.hpp"
+#include "RaycastTarget.hpp"
 #include "Rigidbody.hpp"
 #include "Shader.hpp"
 #include "ShaderCollection.hpp"
@@ -63,6 +64,7 @@ namespace birb
 				cmp_ui(transform);
 				cmp_ui(rigidbody);
 				cmp_ui(collider::box);
+				cmp_ui(raycast_target);
 				cmp_ui(shader_ref);
 				cmp_ui(shader);
 				cmp_ui(material);

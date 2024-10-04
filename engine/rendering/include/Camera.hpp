@@ -34,6 +34,11 @@ namespace birb
 			flying, fps
 		};
 
+		enum class raycast_type
+		{
+			fps, mouse
+		};
+
 		glm::mat4 perspective_projection_matrix() const;
 		glm::mat4 orthographic_projection_matrix() const;
 		glm::mat4 orthographic_no_near_clip_projection_matrix() const;
@@ -45,6 +50,7 @@ namespace birb
 		void process_input_ortho(window& window, const timestep& timestep);
 		void update_camera_vectors();
 		void update_projection_matrices(const vec2<i32> window_size);
+		vec3<f32> raycast(const raycast_type type, window& window);
 
 		bool keyboard_controls_enabled = true;
 		bool mouse_controls_enabled = true;

@@ -289,6 +289,38 @@ namespace birb
 		projection_matrix_ubo.update_data(glm::value_ptr(cached_projection_matrix_ortho_no_clipping), sizeof(glm::mat4), sizeof(glm::mat4) * 2);
 	}
 
+	vec3<f32> camera::raycast(const raycast_type type, window& window)
+	{
+		// Implementation gotten from here: https://antongerdelan.net/opengl/raycasting.html
+
+		const vec2<f64> cursor_pos = window.cursor_pos();
+		const vec2<i32> window_size = window.size();
+
+		vec2<f32> ray_src_coords = type == raycast_type::fps
+			? vec2<f32>( window_size.x / 2.0f, window_size.y / 2.0f )
+			: vec2<f32>(cursor_pos.x, cursor_pos.y);
+
+		// Normalised device coordinates
+		glm::vec3 ray_nds = {
+			(2.0f * ray_src_coords.x) / static_cast<f32>(window_size.x) - 1.0f,
+			1.0f - (2.0f * ray_src_coords.y) / static_cast<f32>(window_size.y),
+			1.0f
+		};
+
+		// Homogeneous clip coordinates
+		glm::vec4 ray_clip(ray_nds.x, ray_nds.y, -1.0, 1.0);
+
+		// 4D eye (camera) coodinates
+		glm::vec4 ray_eye = glm::inverse(cached_projection_matrix_perspective) * ray_clip;
+		ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1.0, 0.0);
+
+		// 4D world coordinates
+		glm::vec3 ray_world = (glm::inverse(view_matrix()) * ray_eye);
+		ray_world = glm::normalize(ray_world);
+
+		return vec3<f32>(ray_world.x, ray_world.y, ray_world.z);
+	}
+
 	void camera::zoom(f32 delta)
 	{
 		position += front * delta;
