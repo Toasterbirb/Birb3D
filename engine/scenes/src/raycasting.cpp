@@ -35,7 +35,6 @@ namespace birb
 			const glm::vec3 p = camera_position + t * ray.to_glm_vec();
 
 			const f32 p2 = squared_distance(p, target.position.to_glm_vec());
-			std::cout << p2 << '\n';
 
 			if (p2 <= target.radius * target.radius)
 			{
