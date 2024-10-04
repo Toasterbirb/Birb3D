@@ -1,4 +1,5 @@
 #include "Camera.hpp"
+#include "Logger.hpp"
 #include "Math.hpp"
 #include "Profiling.hpp"
 #include "ShaderUniforms.hpp"
@@ -84,9 +85,9 @@ namespace birb
 
 		if (ImGui::Button("Log position and rotation"))
 		{
-			log("Position: ", position.x, ", ", position.y, ", ", position.z);
-			log("Pitch: ", pitch);
-			log("Yaw: ", yaw);
+			birb::log("Position: ", position.x, ", ", position.y, ", ", position.z);
+			birb::log("Pitch: ", pitch);
+			birb::log("Yaw: ", yaw);
 		}
 
 		ImGui::Separator();
