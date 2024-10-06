@@ -61,6 +61,7 @@ namespace birb
 		PROFILER_SCOPE_AUDIO_FN();
 
 		ensure(!file_path.empty());
+		ensure(alGetError() == AL_NO_ERROR);
 
 		log("Loading sound file: ", file_path);
 
@@ -85,17 +86,19 @@ namespace birb
 
 		log("Channel count: ", sfinfo.channels);
 		ensure(sfinfo.channels == 2, "Channel count of two required for now");
+		ensure(byteblockalign != 0, "Zero division");
 
 		if(sfinfo.frames / splblockalign > static_cast<sf_count_t>(INT_MAX / byteblockalign))
 		{
 			log_error("Too many samples error");
 			return false;
 		}
+		ensure(alGetError() != AL_NO_ERROR);
 
 		// Allocate a buffer for the sound file
 		std::unique_ptr<f32, free_delete> file_buffer(static_cast<f32*>(malloc(sfinfo.frames / splblockalign * byteblockalign)));
         frame_count = sf_readf_float(sndfile, file_buffer.get(), sfinfo.frames);
-		ensure(alGetError() == AL_NO_ERROR);
+		check_al_errors();
 		log("Frame count: ", frame_count);
 
 		if (frame_count < 1)
