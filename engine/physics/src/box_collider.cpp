@@ -17,21 +17,19 @@ namespace birb
 
 		void box::draw_editor_ui()
 		{
-			static vec3<f32> new_size = _size;
-			ImGui::Text("Size: [%.2f, %.2f, %.2f]", _size.x, _size.y, _size.z);
-			ImGui::InputFloat3("Size", *new_size.to_ptr_array().data());
-			if (ImGui::Button("Set"))
-				set_size(new_size);
+			static vec3<f32> new_position = _position;
+			ImGui::Text("Position: [%.2f, %.2f, %.2f]", _position.x, _position.y, _position.z);
+			if (ImGui::InputFloat3("Position", *new_position.to_ptr_array().data()))
+				set_position(new_position);
 
 			ImGui::Spacing();
 			ImGui::Separator();
 			ImGui::Spacing();
 
-			static vec3<f32> new_position = _position;
-			ImGui::Text("Position: [%.2f, %.2f, %.2f]", _position.x, _position.y, _position.z);
-			ImGui::InputFloat3("Position", *new_position.to_ptr_array().data());
-			if (ImGui::Button("Set"))
-				set_position(new_position);
+			static vec3<f32> new_size = _size;
+			ImGui::Text("Size: [%.2f, %.2f, %.2f]", _size.x, _size.y, _size.z);
+			if (ImGui::InputFloat3("Size", *new_size.to_ptr_array().data()))
+				set_size(new_size);
 
 			ImGui::Spacing();
 			ImGui::Separator();
