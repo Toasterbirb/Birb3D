@@ -6,6 +6,7 @@
 #include "Text.hpp"
 
 #include <glad/gl.h>
+#include <imgui.h>
 #include <string>
 
 namespace birb
@@ -35,6 +36,18 @@ namespace birb
 	{
 		allocate_instance_vbos();
 		update_instance_vbos();
+	}
+
+	void text::draw_editor_ui()
+	{
+		ImGui::Text("Text: '%s'", txt.c_str());
+		ImGui::DragFloat3("Position", *position.to_ptr_array().data());
+		ImGui::ColorEdit3("Color", *color.to_ptr_array().data());
+	}
+
+	std::string text::collapsing_header_name() const
+	{
+		return editor_header_name;
 	}
 
 	void text::set_text(const std::string& text)

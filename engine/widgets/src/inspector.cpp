@@ -14,6 +14,7 @@
 #include "ShaderRef.hpp"
 #include "ShaderSprite.hpp"
 #include "Sprite.hpp"
+#include "Text.hpp"
 #include "Transform.hpp"
 
 #include <imgui.h>
@@ -69,6 +70,7 @@ namespace birb
 				cmp_ui(shader);
 				cmp_ui(material);
 				cmp_ui(sprite);
+				cmp_ui(text);
 				cmp_ui(shader_sprite);
 				cmp_ui(model);
 				cmp_ui(camera);

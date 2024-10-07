@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Color.hpp"
+#include "EditorComponent.hpp"
 #include "Font.hpp"
 #include "ShaderRef.hpp"
 #include "Types.hpp"
@@ -12,7 +13,7 @@
 
 namespace birb
 {
-	class text
+	class text : editor_component
 	{
 	public:
 		text(const std::string& text, const birb::font& font, const vec3<f32> position, const birb::color = 0xFFFFFF, const shader_ref& = {"text", "text"});
@@ -20,6 +21,9 @@ namespace birb
 		text(const text& other);
 		text(text&) = delete;
 		text(text&&) = default;
+
+		void draw_editor_ui() override;
+		std::string collapsing_header_name() const override;
 
 		birb::font font;
 		vec3<f32> position;
@@ -37,6 +41,7 @@ namespace birb
 		u32 instance_vbo(const char c) const;
 
 	private:
+		static inline const std::string editor_header_name = "Text";
 		std::string txt;
 		std::set<char> _chars;
 		std::unordered_map<char, std::vector<glm::vec2>> _char_positions;
