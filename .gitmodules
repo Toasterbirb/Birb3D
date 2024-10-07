@@ -44,3 +44,6 @@
 [submodule "vendor/freetype"]
 	path = vendor/freetype
 	url = https://gitlab.freedesktop.org/freetype/freetype.git
+[submodule "vendor/minizip-ng"]
+	path = vendor/minizip-ng
+	url = https://github.com/zlib-ng/minizip-ng

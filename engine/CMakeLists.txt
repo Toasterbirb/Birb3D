@@ -105,6 +105,7 @@ target_link_libraries(birb
 	imgui
 	freetype
 	sndfile
+	minizip
 )
 
 if (NOT BIRB_WINDOWS)

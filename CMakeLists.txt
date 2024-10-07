@@ -182,6 +182,9 @@ else()
 	add_compile_definitions(MICROPROFILE_ENABLED=0)
 endif()
 
+# Build minizip
+add_subdirectory(vendor/minizip-ng)
+
 # Build OpenAL
 find_package(OpenAL)
 if (NOT OpenAL_FOUND OR BIRB_RELEASE)
