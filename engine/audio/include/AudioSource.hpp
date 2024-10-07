@@ -14,6 +14,7 @@ namespace birb
 		audio_source(const audio_source&) = delete;
 		audio_source(audio_source&) = delete;
 
+		u32 id() const;
 		void play_sound(sound_file& sound_file);
 		void unqueue_buffers();
 		bool is_playing() const;

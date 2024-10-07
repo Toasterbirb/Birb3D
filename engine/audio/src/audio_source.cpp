@@ -29,6 +29,11 @@ namespace birb
 		// ensure(alGetError() == AL_NO_ERROR, "Failed to delete an audio source");
 	}
 
+	u32 audio_source::id() const
+	{
+		return source;
+	}
+
 	void audio_source::play_sound(sound_file& sound_file)
 	{
 		PROFILER_SCOPE_AUDIO_FN();

@@ -37,6 +37,10 @@ namespace birb
 
 		// No free source was found, so we'll need to allocate a new one
 		audio_sources.push_back(std::make_shared<audio_source>());
+
+		// apply the current default volume
+		alSourcef(audio_sources.at(audio_sources.size() - 1)->id(), AL_GAIN, current_default_volume);
+
 		audio_sources.at(audio_sources.size() - 1)->play_sound(sound_file);
 
 		check_al_errors();
@@ -51,5 +55,12 @@ namespace birb
 	void audio_player::free_sources()
 	{
 		audio_sources.clear();
+	}
+
+	void audio_player::set_global_source_volume(const f32 new_volume)
+	{
+		current_default_volume = new_volume;
+		for (auto source : audio_sources)
+			alSourcef(source->id(), AL_GAIN, new_volume);
 	}
 }

@@ -26,7 +26,13 @@ namespace birb
 		void unqueue_buffers();
 		void free_sources();
 
+		/**
+		 * @brief Apply a new volume value to all sources at once
+		 */
+		void set_global_source_volume(const f32 new_volume);
+
 	private:
+		f32 current_default_volume{1.0f};
 		std::vector<std::shared_ptr<audio_source>> audio_sources;
 	};
 }
