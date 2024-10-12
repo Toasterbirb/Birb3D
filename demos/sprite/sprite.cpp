@@ -126,7 +126,7 @@ int main(void)
 
 		auto get_shader_ptr = [](birb::entity entity) -> std::shared_ptr<birb::shader>
 		{
-			return birb::shader_collection::get_shader(entity.get_component<birb::shader_sprite>().shader_reference);
+			return birb::shader_collection::get_shader(entity.get_component<birb::shader_sprite>().shader_reference());
 		};
 
 		// Shader sprite
