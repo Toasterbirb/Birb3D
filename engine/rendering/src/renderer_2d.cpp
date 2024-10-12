@@ -62,8 +62,8 @@ namespace birb
 
 		struct sprite_data
 		{
-			bool is_active;
-			birb::sprite* sprite;
+			bool is_active{true};
+			birb::sprite* sprite{nullptr};
 			glm::mat4 model_matrix;
 		};
 
@@ -76,7 +76,6 @@ namespace birb
 				[view, &entity_registry](auto& entity)
 				{
 					sprite_data data;
-					data.is_active = true;
 
 					birb::state* state = entity_registry.try_get<birb::state>(entity);
 					if (state)
