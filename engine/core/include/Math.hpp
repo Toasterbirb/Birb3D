@@ -166,6 +166,18 @@ namespace birb
 	}
 
 	/**
+	 * @brief Calculate the distancce between two 2D vectors
+	 */
+	template<typename T>
+	constexpr T vec_distance(const vec2<T> a, const vec2<T> b)
+	{
+		return std::sqrt(
+				std::pow(b.x - a.x, 2) +
+				std::pow(b.y - a.y, 2)
+			);
+	}
+
+	/**
 	 * @brief Calculate the distance between two 3D vectors
 	 */
 	template<typename T>

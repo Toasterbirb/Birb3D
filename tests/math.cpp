@@ -89,6 +89,18 @@ TEST_CASE("Calculate the centerpoint between two 3D float vectors")
 	CHECK(result == expected_result);
 }
 
+TEST_CASE("Distance calculation with 2D vectors")
+{
+	birb::vec2<float> point_a(1.0f, 1.0f);
+	birb::vec2<float> point_b(8.3f, 3.0f);
+
+	birb::vec2<int> point_a_int(1, 1);
+	birb::vec2<int> point_b_int(8, 3);
+
+	CHECK(std::roundf(birb::vec_distance(point_a, point_b)) == std::roundf(7.5690157880665));
+	CHECK(std::roundf(birb::vec_distance(point_a_int, point_b_int)) == 7);
+}
+
 TEST_CASE("Distance calculation with 3D vectors")
 {
 	birb::vec3<float> point_a(1.0f, 1.0f, 1.0f);
