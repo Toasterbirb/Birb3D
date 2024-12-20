@@ -21,6 +21,7 @@ namespace birb
 		std::string collapsing_header_name() const override;
 
 		shader_ref shader_reference();
+		void set_shader(const shader_ref shader);
 
 	private:
 		static inline const std::string editor_header_name = "Shader sprite";

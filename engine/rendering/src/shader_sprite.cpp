@@ -34,4 +34,10 @@ namespace birb
 	{
 		return _shader_reference;
 	}
+
+	void shader_sprite::set_shader(const shader_ref shader)
+	{
+		ensure(shader_collection::is_shader_registered(shader), "tried to use a shader that was not registered already");
+		_shader_reference = shader;
+	}
 }
