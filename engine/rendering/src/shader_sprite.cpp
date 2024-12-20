@@ -13,6 +13,10 @@ namespace birb
 			shader_collection::register_shader(texture_vertex_shader_name, fragment_shader_name);
 	}
 
+	shader_sprite::shader_sprite(const shader_ref shader)
+	:_shader_reference(shader)
+	{}
+
 	void shader_sprite::draw_editor_ui()
 	{
 		// draw the ui for the sprite base class

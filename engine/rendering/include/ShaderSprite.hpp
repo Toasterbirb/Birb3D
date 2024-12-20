@@ -12,6 +12,7 @@ namespace birb
 	{
 	public:
 		explicit shader_sprite(const std::string& fragment_shader_name);
+		explicit shader_sprite(const shader_ref shader);
 		~shader_sprite() = default;
 		shader_sprite(const shader_sprite&) = default;
 		shader_sprite(shader_sprite&) = default;
