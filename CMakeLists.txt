@@ -12,7 +12,6 @@ option(BIRB_WINDOWS "Disable Linux specific things" OFF)
 option(BIRB_PROFILER "Enable the profiling with microprofile" ON)
 option(BIRB_STATIC "Use static linking" OFF)
 option(BIRB_EDITOR "Build the editor project" ON)
-option(BIRB_DEMOS "Build demo projects" ON)
 option(BIRB_TESTS "Build unit tests" ON)
 option(BIRB_PLAYGROUND "Build the playground project" OFF)
 option(BIRB_DISTCC "Use distcc and ccache (if available) for compiling. Also
@@ -231,10 +230,10 @@ if (NOT GAME_PROJECT)
 		add_subdirectory(editor)
 	endif()
 
-	if (BIRB_DEMOS)
-		# Build demos
-		add_subdirectory(demos)
-	endif()
+	# Build demos
+	# the demos need to be enabled separately with the options that are
+	# defined in the cmakefile found in the demos directory
+	add_subdirectory(demos)
 
 	if (BIRB_TESTS)
 		# Build tests
