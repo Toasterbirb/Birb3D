@@ -18,7 +18,7 @@ namespace birb
 
 			ImGui::Begin(window_name.c_str());
 			{
-				ImGui::Image(reinterpret_cast<void *>(static_cast<intptr_t>(texture_id)), window_size, ImVec2(0, 1), ImVec2(1, 0));
+				ImGui::Image(static_cast<intptr_t>(texture_id), window_size, ImVec2(0, 1), ImVec2(1, 0));
 			}
 			ImGui::End();
 		}

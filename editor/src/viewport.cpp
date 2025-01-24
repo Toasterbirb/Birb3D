@@ -52,7 +52,7 @@ namespace editor
 			}
 			fbo.unbind();
 
-			ImGui::Image(reinterpret_cast<void *>(static_cast<intptr_t>(fbo.frame_buffer_id())), window_size, ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::Image(static_cast<intptr_t>(fbo.frame_buffer_id()), window_size, ImVec2(0, 1), ImVec2(1, 0));
 			ImGui::EndChild();
 		}
 		ImGui::End();
