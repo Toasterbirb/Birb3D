@@ -417,6 +417,7 @@ namespace birb
 	void window::new_imgui_frame()
 	{
 		PROFILER_SCOPE_RENDER_FN();
+		ensure(g_imgui_initialized, "Tried to render a new imgui frame before initializing imgui");
 
 #ifndef NDEBUG
 		// Dear ImGui will cause the application to crash if
